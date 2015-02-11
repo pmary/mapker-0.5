@@ -1,0 +1,1 @@
+Machines = new Meteor.Collection('machines');

@@ -1,0 +1,1 @@
+Labs = new Meteor.Collection('labs');
