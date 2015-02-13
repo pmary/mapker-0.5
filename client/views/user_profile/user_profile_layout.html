@@ -1,0 +1,14 @@
+<template name="UserProfileLayout">
+	<h1>User profile</h1>
+
+	<nav>
+		<ul>
+			<li><a href="/user/2/bio">Bio</a></li>
+			<li><a href="/user/2/skills">Skills</a></li>
+		</ul>
+	</nav>
+
+	<section>		
+		{{> yield "content"}}
+	</section>
+</template>
