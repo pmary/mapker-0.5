@@ -9,3 +9,6 @@ ewall:foundation
 iron:router
 accounts-password
 email
+mike:mocha
+velocity:nightwatch-framework
+velocity:html-reporter
