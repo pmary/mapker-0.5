@@ -1,0 +1,51 @@
+<template name="UserJoin">
+	<div class="row">
+		<div class="large-4 large-offset-4 columns">
+			<form id="join-form" action="action">
+				<div class="row">
+					<div class="large-6 columns">
+						<label>First name
+							<input type="text" id="join-first-name" name="join-first-name" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+					<div class="large-6 columns">
+						<label>Last name
+							<input type="text" id="join-last-name" name="join-last-name" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Email
+							<input type="email" id="join-email" name="join-email" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Password
+							<input type="password" id="join-password" name="join-password" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Confirm your password
+							<input type="password" id="join-confirm-password" name="join-confirm-password" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<input type="submit" id="join-button" class="button" value="Create an account" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>

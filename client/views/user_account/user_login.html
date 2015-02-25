@@ -1,25 +1,29 @@
 <template name="UserLogin">
-	<form id="login-form" action="action">
-		<div class="row">
-			<div class="large-4 columns">
-				<label>Email
-					<input type="email" id="login-email" name="login-email" />
-				</label>
-				<small class="error">Invalid entry</small>
-			</div>
+	<div class="row">
+		<div class="large-4 large-offset-4 columns">
+			<form id="login-form" action="action">
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Email
+							<input type="email" id="login-email" name="login-email" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Password
+							<input type="password" id="login-password" name="login-password" />
+						</label>
+						<small class="error">Invalid entry</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<input type="submit" id="login-button" class="button" value="Sign in" />
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="row">
-			<div class="large-4 columns">
-				<label>Password
-					<input type="password" id="login-password" name="login-password" />
-				</label>
-				<small class="error">Invalid entry</small>
-			</div>
-		</div>
-		<div class="row">
-			<div class="large-4 columns">
-				<input type="submit" id="login-button" class="button" value="Sign in" />
-			</div>
-		</div>
-	</form> 
+	</div>
 </template>
