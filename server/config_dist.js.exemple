@@ -1,0 +1,32 @@
+// Copy this file, rename it as config.js and add you own configuration
+Meteor.startup(function () {
+	/** 
+	 * Transactional email configuration. You can use MailGun service
+	 * @doc: http://blog.ploki.info/send-email-with-meteor-mailgun/
+	 * @doc: http://docs.meteor.com/#/full/email
+	 */
+	Accounts.emailTemplates.from = 'Mapker <no-reply@mapker.co>';
+	process.env.MAIL_URL = 'smtp://postmaster%40meteorize.mailgun.org:YOURPASSWORD@smtp.mailgun.org:587';
+
+	/**
+	 * AWS SDK configuration (via the meteor-aws-sdk package)
+	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html
+	 * Direct download tuto: https://devcenter.heroku.com/articles/s3-upload-node
+	 */
+	AWS.config.update({
+		accessKeyId: "YourAcessKeyID",
+		secretAccessKey: "YourSecretAccessKey",
+		region: "YouBucketRegion" // Like "eu-central-1"
+	});
+	s3 = new AWS.S3({params: {Bucket: 'YourBucketName'}});
+
+	// Exemple: Put something in the bucket
+	/*var params = {Key: 'myKey', Body: 'Hello!'};
+	s3.upload(params, function(err, data) {
+		if (err) {
+	      console.warn("Error uploading data: ", err);
+		} else {
+	      console.warn("Successfully uploaded data to myBucket/myKey");
+		}
+	});*/
+});
