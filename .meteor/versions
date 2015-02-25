@@ -16,7 +16,7 @@ ddp@1.0.14
 deps@1.0.6
 ejson@1.0.5
 email@1.0.5
-ewall:foundation@5.5.0
+ewall:foundation@5.5.1
 fastclick@1.0.2
 follower-livedata@1.0.3
 geojson-utils@1.0.2
@@ -70,7 +70,7 @@ ui@1.0.5
 underscore@1.0.2
 url@1.0.3
 velocity:core@0.4.5
-velocity:html-reporter@0.3.2
+velocity:html-reporter@0.4.2
 velocity:nightwatch-framework@0.4.0
 velocity:node-soft-mirror@0.3.1
 velocity:shim@0.1.0
