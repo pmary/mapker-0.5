@@ -13,3 +13,4 @@ mike:mocha
 velocity:nightwatch-framework
 velocity:html-reporter
 peerlibrary:aws-sdk
+edgee:slingshot
