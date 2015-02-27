@@ -3,6 +3,7 @@
  */
 uploader = new Slingshot.Upload("myFileUploads");
 
+
 /**
  * Valadation of form fields
  * @param: fields -> A JSON object containing the fields description like [{node: email, type: "email",required: true, message: "Required Field"}, {...}, ...]
