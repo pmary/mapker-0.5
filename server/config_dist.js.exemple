@@ -1,4 +1,11 @@
-// Copy this file, rename it as config.js and add you own configuration
+/**
+ * Copy this file, rename it as config.js and add you own configuration
+ */
+Meteor.settings.AWSAccessKeyId = "YourAWSAccessKeyId";
+Meteor.settings.AWSSecretAccessKey = "YourAWSSecretAccessKey";
+Meteor.settings.bucket = "YourBucket";
+Meteor.settings.region = "YourRegion";
+
 Meteor.startup(function () {
 	/** 
 	 * Transactional email configuration. You can use MailGun service
@@ -20,13 +27,61 @@ Meteor.startup(function () {
 	});
 	s3 = new AWS.S3({params: {Bucket: 'YourBucketName'}});
 
-	// Exemple: Put something in the bucket
-	/*var params = {Key: 'myKey', Body: 'Hello!'};
-	s3.upload(params, function(err, data) {
+	/* 
+	 * Demo: Put something in the bucket
+	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+	 */
+	var params = {Key: 'myKey', Body: 'Hello!'};
+	 s3.upload(params, function(err, data) {
+		 if (err) {
+	       console.warn("Error uploading data: ", err);
+		 } else {
+	       console.warn("Successfully uploaded data to myBucket/myKey");
+		 }
+	 });
+
+	/**
+	 * Demo: Delete an object from the bucket
+	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObject-property
+	 */
+	var params = {
+		Bucket: Meteor.settings.bucket,
+		Key: "test" // The name of the object
+	};
+	s3.deleteObject(params, function(err, data) {
 		if (err) {
-	      console.warn("Error uploading data: ", err);
-		} else {
-	      console.warn("Successfully uploaded data to myBucket/myKey");
+			console.warn(err);
+		}else {
+			console.warn("Object deleted");
+			console.warn(data);
+		};
+	});
+});
+
+/**
+ * A directive that controls upload access rules
+ */
+Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+	bucket: Meteor.settings.bucket,
+	region: Meteor.settings.region,
+	AWSAccessKeyId: Meteor.settings.AWSAccessKeyId,
+	AWSSecretAccessKey: Meteor.settings.AWSSecretAccessKey,
+
+	acl: "public-read",
+
+	authorize: function () {
+		//Deny uploads if user is not logged in.
+		if (!this.userId) {
+			var message = "Please login before posting files";
+			throw new Meteor.Error("Login Required", message);
 		}
-	});*/
+
+		return true;
+	},
+
+	key: function (file) {
+		//Store file into a directory by the user's username.
+		var user = Meteor.users.findOne(this.userId);
+		return user.username + "/" + file.name;
+	}
 });
