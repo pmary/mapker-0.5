@@ -7,6 +7,15 @@ Meteor.settings.bucket = "YourBucket";
 Meteor.settings.region = "YourRegion";
 
 Meteor.startup(function () {
+	/**
+	 * Customize the password reset system
+	 */
+	Accounts.emailTemplates.resetPassword.text = function (user, url) {
+		url = url.replace('#/', ''); // Remove the # from the url.
+		// Customize the email template
+		return "Hello,\n\nTo reset your password, simply click the link below:\n\n"+ url +"\n\nThanks.";
+	};
+	
 	/** 
 	 * Transactional email configuration. You can use MailGun service
 	 * @doc: http://blog.ploki.info/send-email-with-meteor-mailgun/

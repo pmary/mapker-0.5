@@ -42,13 +42,13 @@ Template.UserJoin.events({
 	'submit #join-form' : function(e, t){
 		e.preventDefault();
 
-		// Form validation
 		var firstname = t.find('#join-first-name'),
 		lastname = t.find('#join-last-name'),
 		email = t.find('#join-email'),
 		password = t.find('#join-password'),
-		confirmedPassword = t.find('#join-confirm-password');
+		passwordConfirmation = t.find('#join-confirm-password');
 
+		// Form validation
 		var validate = fieldsValidation([
 			{
 				node: firstname,
@@ -75,7 +75,7 @@ Template.UserJoin.events({
 				message: "Required Field"
 			},
 			{
-				node: confirmedPassword,
+				node: passwordConfirmation,
 				type: "password",
 				required: true,
 				message: "Required Field",
@@ -97,5 +97,78 @@ Template.UserJoin.events({
 		}
 
 		return false;
+	}
+});
+
+
+Template.UserForgotPassword.helpers({
+	// If a resetPassword token is present in the URL, then we will display the new-password form. 
+	// Otherwise, we will display the recovery-email form.
+	resetPassword : function(t) {
+		return Session.get('resetPassword');
+	}
+});
+
+Template.UserForgotPassword.rendered = function(){
+	console.log(this);
+	if (Accounts._resetPasswordToken) {
+		Session.set('resetPassword', Accounts._resetPasswordToken);
+	}
+};
+
+Template.UserForgotPassword.events({
+	'submit #forgot-password-form' : function(e, t){
+		e.preventDefault();
+
+		var email = t.find('#forgot-password-email');
+
+		// Form validation
+		var validate = fieldsValidation([
+			{
+				node: email,
+				type: "email",
+				required: true,
+				message: "Required Field"
+			}
+		]);
+
+		// If the form is valide
+		if (validate) {
+			Accounts.forgotPassword({email: email.value}, function(err){
+				if (err) {
+					console.log(err);
+				}else {
+					console.log("all right");
+				}
+			});
+		};
+
+		return false;
+	},
+	'submit #reset-password-form' : function(e, t){
+		e.preventDefault();
+
+		var password = t.find('#new-password'),
+		passwordConfirmation = t.find('#new-password-confirm');
+
+		// Form validation
+		var validate = fieldsValidation([
+			{
+				node: password,
+				type: "password",
+				required: true
+			},
+			{
+				node: passwordConfirmation,
+				type: "password",
+				required: true,
+				mustBeEqualTo: password
+			}
+		]);
+
+		// If the form is valide
+		if (validate) {
+
+		}
 	}
 });
