@@ -1,7 +1,7 @@
 Template.Home.rendered = function(){
 	//var bucket = new AWS.S3({params: {Bucket: 'la-paillasse'}});
-
-
+	console.log($('body'));
+	jQueryFocuspointHelpertool();
 }
 
 Template.Home.events({
