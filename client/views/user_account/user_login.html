@@ -1,29 +1,43 @@
 <template name="UserLogin">
-	<div class="row">
-		<div class="large-4 large-offset-4 columns">
-			<form id="login-form" action="action">
-				<div class="row">
-					<div class="large-12 columns">
-						<label>Email
-							<input type="email" id="login-email" name="login-email" />
-						</label>
-						<small class="error">Invalid entry</small>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+
+				<!-- Sign Ip pannel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>Sign Up</h3>
 					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 columns">
-						<label>Password <a href="/reset-password">(forgot password ?)</a>
-							<input type="password" id="login-password" name="login-password" />
-						</label>
-						<small class="error">Invalid entry</small>
+					<div class="panel-body">
+						<form id="login-form" action="action">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="login-email">Email</label>
+										<input class="form-control" type="email" id="login-email" name="login-email" />
+										<small class="error">Invalid entry</small>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="login-password">Password <a href="/reset-password">(forgot password ?)</a></label>
+										<input class="form-control" type="password" id="login-password" name="login-password" />
+										<small class="error">Invalid entry</small>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<input type="submit" id="login-button" class="btn btn-default" value="Sign in" />
+								</div>
+							</div>
+						</form>
 					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 columns">
-						<input type="submit" id="login-button" class="button" value="Sign in" />
-					</div>
-				</div>
-			</form>
+				</div><!-- /panel -->
+
+			</div>
 		</div>
 	</div>
 </template>
