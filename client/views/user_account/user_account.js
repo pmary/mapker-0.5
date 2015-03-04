@@ -110,7 +110,7 @@ Template.UserForgotPassword.helpers({
 });
 
 Template.UserForgotPassword.rendered = function(){
-	console.log(this);
+	console.log(Accounts);
 	if (Accounts._resetPasswordToken) {
 		Session.set('resetPassword', Accounts._resetPasswordToken);
 	}
@@ -168,7 +168,18 @@ Template.UserForgotPassword.events({
 
 		// If the form is valide
 		if (validate) {
-
+			Accounts.resetPassword(Session.get('resetPassword'), password.value, function(err){
+				if (err) {
+					// If token is expired
+					if (err.error == 403) {
+						Session.set('resetPassword', null);
+					};
+					console.log(err);
+				}
+				else {
+					console.log('Password reset');
+				}
+			});
 		}
 	}
 });

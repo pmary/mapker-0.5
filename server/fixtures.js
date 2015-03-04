@@ -1,7 +1,7 @@
 /**
  * Set a default data set for developement purpose
  */
-if (Meteor.users.find().count() === 0) {
+/*if (Meteor.users.find().count() === 0) {
 	// Insert some fake user data
 	Meteor.users.insert({
 		"_id" : "JohnDoe",
@@ -38,7 +38,7 @@ if (Meteor.users.find().count() === 0) {
 		],
 		"profile" : {}
 	});
-};
+};*/
 
 if (Labs.find().count() === 0) {
 	// Insert some fake lab data

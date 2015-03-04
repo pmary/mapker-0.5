@@ -17,7 +17,6 @@ deps@1.0.6
 edgee:slingshot@0.4.1
 ejson@1.0.5
 email@1.0.5
-ewall:foundation@5.5.1
 fastclick@1.0.2
 follower-livedata@1.0.3
 geojson-utils@1.0.2
@@ -53,7 +52,7 @@ observe-sequence@1.0.4
 ordered-dict@1.0.2
 peerlibrary:aws-sdk@2.1.14_2
 peerlibrary:blocking@0.5.2
-pmary:focus-point@0.0.1
+pmary:focuspoint@0.0.1
 practicalmeteor:chai@1.9.2_3
 practicalmeteor:loglevel@1.1.0_3
 random@1.0.2
@@ -70,6 +69,7 @@ spacebars-compiler@1.0.4
 srp@1.0.2
 templating@1.0.11
 tracker@1.0.5
+twbs:bootstrap@3.3.2
 ui@1.0.5
 underscore@1.0.2
 url@1.0.3

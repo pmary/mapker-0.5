@@ -1,7 +1,12 @@
 Template.Home.rendered = function(){
+	if (Accounts._resetPasswordToken) {
+		console.log('has reset token');
+		Router.go('reset-password.token', {resetToken: Accounts._resetPasswordToken});
+	}
+
 	//var bucket = new AWS.S3({params: {Bucket: 'la-paillasse'}});
 	console.log($('body'));
-	jQueryFocuspointHelpertool();
+	$().jQueryFocuspointHelpertool();
 }
 
 Template.Home.events({
