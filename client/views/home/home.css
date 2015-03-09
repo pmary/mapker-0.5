@@ -1,0 +1,21 @@
+#home-page header {
+	background-image: url('/images/share-projects.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 470px;
+	text-align: center;
+	position: relative;
+	height: 470px;
+}
+
+#home-page header>div {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+#home-page header h1 {
+	color: #FFFFFF;
+}
