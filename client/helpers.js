@@ -1,3 +1,5 @@
+// This file is to refactorize and put in the client/helpers folder
+
 /**
  * Slingshot initialization for the client
  */

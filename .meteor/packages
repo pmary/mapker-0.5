@@ -15,3 +15,4 @@ peerlibrary:aws-sdk
 edgee:slingshot
 pmary:focuspoint
 twbs:bootstrap
+pmary:errors

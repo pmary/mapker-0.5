@@ -38,9 +38,20 @@ Template.UserLogin.events({
 	}
 });
 
-Template.UserJoin.events({
+Template.userJoin.events({
 	'submit #join-form' : function(e, t){
 		e.preventDefault();
+
+		var user = {
+			firstname: t.find('#join-first-name').value,
+			lastname: t.find('#join-last-name').value,
+			email: t.find('#join-email').value,
+			password: t.find('#join-password').value,
+			passwordConfirmation: t.find('#join-confirm-password').value
+		}
+
+		var errors = validateUserJoin(user);
+		Session.set('userJoinErrors', errors);
 
 		var firstname = t.find('#join-first-name'),
 		lastname = t.find('#join-last-name'),
@@ -50,12 +61,12 @@ Template.UserJoin.events({
 
 		// Form validation
 		var validate = fieldsValidation([
-			{
+			/*{
 				node: firstname,
 				type: "text",
 				required: true,
 				message: "Required Field"
-			},
+			},*/
 			{
 				node: lastname,
 				type: "text",
