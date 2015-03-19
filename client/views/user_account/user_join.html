@@ -20,37 +20,37 @@
 									</div>
 								</div>
 								<div class="col-md-6">
-									<div class="form-group">
+									<div class="form-group {{errorClass 'lastname'}}">
 										<label for="join-last-name">Last name</label>
 										<input class="form-control" type="text" id="join-last-name" name="join-last-name" />
-										<small class="error">Invalid entry</small>
+										<span class="help-block">{{errorMessage 'lastname'}}</span>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<div class="form-group">
+									<div class="form-group {{errorClass 'email'}}">
 										<label for="join-email">Email</label>
 										<input class="form-control" type="email" id="join-email" name="join-email" />
-										<small class="error">Invalid entry</small>
+										<span class="help-block">{{errorMessage 'email'}}</span>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<div class="form-group">
+									<div class="form-group {{errorClass 'password'}}">
 										<label class="join-password">Password</label>
 										<input class="form-control" type="password" id="join-password" name="join-password" />
-										<small class="error">Invalid entry</small>
+										<span class="help-block">{{errorMessage 'password'}}</span>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<div class="form-group">
-										<label id="join-confirm-password">Confirm your password</label>
-											<input class="form-control" type="password" id="join-confirm-password" name="join-confirm-password" />
-										<small class="error">Invalid entry</small>
+									<div class="form-group  {{errorClass 'passwordConfirmation'}}">
+										<label for="join-confirm-password">Confirm your password</label>
+										<input class="form-control" type="password" id="join-confirm-password" name="join-confirm-password" />
+										<span class="help-block">{{errorMessage 'passwordConfirmation'}}</span>
 									</div>
 								</div>
 							</div>
