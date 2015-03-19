@@ -5,6 +5,14 @@
  */
 uploader = new Slingshot.Upload("myFileUploads");
 
+isFilledValidation = function(value) {
+	if (!value) {
+		return "Required field";
+	}else {
+		return false;
+	};
+}
+
 nameValidation = function(value) {
 	if (!value) {
 		return "Required field";
