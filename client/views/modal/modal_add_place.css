@@ -1,0 +1,42 @@
+/**
+ * 00 - Popover
+ * 00 - Static map
+ */
+
+.modal-add-place #submit-place {
+	display: none;
+}
+
+/**
+ * 00 - Static map
+ */
+.modal-add-place .static-map-container {
+	text-align: center;
+}
+
+.modal-add-place .static-map-container .loader {
+	position: relative;
+	margin-right: auto;
+	margin-left: auto;
+	left: -32px;
+	top: 0px;
+}
+
+.modal-add-place .static-map-container .static-map {
+	width: 100%;
+}
+
+/**
+ * 00 - Popover
+ */
+.modal-add-place .glyphicon-question-sign{
+	margin-top: 10px;
+}
+
+.modal-add-place .glyphicon-question-sign:hover {
+	cursor: pointer;
+}
+
+.modal-add-place .popover {
+	width: 200px;
+}

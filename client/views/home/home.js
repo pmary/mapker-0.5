@@ -5,12 +5,16 @@ Template.Home.rendered = function(){
 	}
 
 	//var bucket = new AWS.S3({params: {Bucket: 'la-paillasse'}});
-	$().jQueryFocuspointHelpertool();
+	//$().jQueryFocuspointHelpertool();
 }
 
 Template.Home.events({
 	'click #modal-add-place' : function(e, t){
-		console.log("Open modal " + t.$(event.target).data('modal-template'));
+		// Reset the static map url and the form errors
+		Session.set('staticMapUrl', "");
+		Session.set('modalAddPlaceErrors', {});
+		
+		//console.log("Open modal " + t.$(event.target).data('modal-template'));
 		// Open the add place modal
 		var name = t.$(event.target).data('modal-template');
 		Session.set('activeModal', name);

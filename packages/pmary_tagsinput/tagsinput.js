@@ -1,5 +1,5 @@
 // https://github.com/TimSchlechter/bootstrap-tagsinput
-(function ($) {
+;(function ($) {
   "use strict";
 
   var defaultOptions = {

@@ -3,6 +3,7 @@
  * Index
  * 01 - Velocity UI
  * 02 - Form
+ * 03 - Bootstrap tagsinput
  */
 
 /**
@@ -25,4 +26,11 @@
  */
 form small.error {
 	display: none;
+}
+
+/**
+ * 03 - Bootstrap tagsinput
+ */
+.has-error .bootstrap-tagsinput {
+	border-color: #a94442;
 }

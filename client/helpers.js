@@ -6,11 +6,28 @@
 uploader = new Slingshot.Upload("myFileUploads");
 
 isFilledValidation = function(value) {
-	if (!value) {
+	if (value && value.constructor === Array && !value.length) {
 		return "Required field";
-	}else {
+	} else if (!value) {
+		return "Required field";
+	} else {
 		return false;
 	};
+}
+
+isFilledTagsinputValidation = function(value) {
+	if (value.constructor === Array && !value.length) {
+		return "Required field";
+	} else if (value.constructor === Array && value.length) {
+		return false;
+	}
+	if (value.objectItems == undefined) {
+		return "Required field";
+	}
+	if (!value) {
+		return "Required field";
+	}
+	return false;
 }
 
 nameValidation = function(value) {
@@ -65,4 +82,14 @@ matchingValidation = function(value1, value2) {
 	} else {
 		return false;
 	};
+}
+
+numberValidation = function(value) {
+	if (!value) {
+		return "Required field";
+	} else if (value != parseInt(value, 10)) {
+		return "Must be a number"
+	} else {
+		return false;
+	}
 }
