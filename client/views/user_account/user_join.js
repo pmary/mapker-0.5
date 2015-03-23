@@ -29,7 +29,7 @@ Template.userJoin.events({
 			return; // Abort the account creation due to errors
 
 		// If the form is valide
-		Accounts.createUser({email: user.email, password: user.password, profile:{firstname: user.firstname, lastname: user.lastname}}, function(error) {
+		Accounts.createUser({email: user.email, password: user.password, profile:{firstname: user.firstname, lastname: user.lastname}}, function(error, result) {
 			if (error) {
 				// Inform the user that account creation failed
 				Errors.throw(error.reason);
@@ -37,6 +37,7 @@ Template.userJoin.events({
 				// Success. Account has been created and the user
 				// has logged in successfully. 
 				console.log("sucess account creation");
+				Router.go('userProfile', {_id: Meteor.user()._id});
 			}
 		});
 

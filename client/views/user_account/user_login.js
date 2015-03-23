@@ -32,7 +32,8 @@ Template.userLogin.events({
 				// Display the related error message
 				Errors.throw(error.reason);
 			}else {
-				// The user has been logged in
+				// The user has been logged in, redirect him to his profile paga
+				Router.go('userProfile', {_id: Meteor.user()._id});
 			}
 		});
 

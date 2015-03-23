@@ -17,11 +17,10 @@
 				<form class="navbar-form navbar-left" role="search">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search">
-						<button type="submit" class="btn btn-default">Submit</button>
 					</div>
 				</form>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Map <span class="sr-only">(current)</span></a></li>
+				<ul class="nav navbar-nav" id="main-menu">
+					<li><a href="#">Map <span class="sr-only">(current)</span></a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -35,7 +34,8 @@
 							<li><a href="#">Add a new place</a></li>
 						</ul>
 					</li>
-					<li><a href="/logout">Logout</a></li>
+					<li><a href="{{pathFor route='userProfile' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>
+					<li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
 					<li class="active"><a href="/login">Sign in</a></li>
 					<li><a href="/join">Sign up</a></li>

@@ -1,3 +1,40 @@
 #primary-navbar {
 	margin-bottom: 0px;
+	border-radius: 0px;
+	min-height: 75px;
+	border: none;
+	border-bottom: 2px solid #2ebdff;
+	color: #FFFFFF;
+	background: -webkit-linear-gradient(left, #272d47, #454662); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, #272d47, #454662); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #272d47, #454662); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, #272d47, #454662); /* Standard syntax */
+}
+
+#primary-navbar .navbar-brand {
+	color: #FFFFFF;
+	padding-top: 27px;
+	padding-bottom: 26px;
+}
+
+#primary-navbar .navbar-nav > li > a {
+	color: #FFFFFF;
+	padding-top: 27px;
+	padding-bottom: 26px;
+}
+
+#primary-navbar .navbar-form {
+	margin-top: 20px;
+}
+
+#primary-navbar input[type="text"] {
+	border: 1px solid #252833;
+	background-color: #494e63;
+	color: #FFFFFF;
+} 
+
+#primary-navbar #main-menu a {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
 }

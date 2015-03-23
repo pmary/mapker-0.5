@@ -1,0 +1,32 @@
+<template name="modalCreateProfile">
+	<div class="modal-dialog modal-create-profile">
+		<form class="modal-content" id="create-profile-form">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Create your profile</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group {{errorClass 'country'}}">
+					<label for="input-country">Country</label>
+					<select class="form-control" id="select-country">
+						<option value="FR">France</option>
+						<option value="SW">Suisse</option>
+					</select>
+					<span class="help-block">{{errorMessage 'country'}}</span>
+				</div>
+				<div class="form-group {{errorClass 'zipcode'}}">
+					<label for="input-zipcode">Zip code</label>
+					<input class="form-control" type="text" name="zipcode" id="input-zipcode">
+					<span class="help-block">{{errorMessage 'zipcode'}}</span>
+				</div>
+				<div class="form-group {{errorClass 'activity'}}">
+					<label for="input-activity">Your main activity</label>
+					<input class="form-control" type="text" id="input-activity">
+					<span class="help-block">{{errorMessage 'activity'}}</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="submit" class="btn btn-success" value="Create my profile">
+			</div>
+		</form>
+	</div>	
+</template>

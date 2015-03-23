@@ -6,6 +6,11 @@
  * 03 - Bootstrap tagsinput
  */
 
+body {
+	background-color: #fafafc;
+	font-family: 'Montserrat', sans-serif;
+}
+
 /**
  * 01 - Velocity UI
  */
