@@ -9,3 +9,7 @@
 });*/
 // client: start a all-rooms subscription
 /*Meteor.subscribe("all-rooms");*/
+
+Meteor.publish('places', function() {
+	return Places.find();
+});
