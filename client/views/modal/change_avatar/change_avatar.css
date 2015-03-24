@@ -1,0 +1,19 @@
+.modal-change-avatar #input-avatar {
+	display: none;
+}
+
+.modal-change-avatar .image-upload-container,
+.modal-change-avatar .image-update-container {
+	text-align: center;
+}
+
+.modal-change-avatar .helper-tool-target {
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	max-width: 100%;
+}
+
+.modal-change-avatar .image-upload-container .helper-tool {
+	display: none;
+}

@@ -41,9 +41,6 @@ Template.modalCreateProfile.events({
 				console.log(error);
 				return alert(error.reason);
 			}
-			//Router.go('postPage', {_id: result._id});
-			//console.log("Profile successufully created");
-			//console.log(result);
 
 			// Close the modal
 			$('#myModal').modal({

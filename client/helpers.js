@@ -3,7 +3,9 @@
 /**
  * Slingshot initialization for the client
  */
-uploader = new Slingshot.Upload("myFileUploads");
+userCoverUploader = new Slingshot.Upload("userCoverUpload");
+userAvatarUploader = new Slingshot.Upload("userAvatarUpload");
+
 
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {

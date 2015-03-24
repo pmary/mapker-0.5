@@ -1,9 +1,8 @@
 // Gets focus point coordinates from an image - adapt to suit your needs.
 (function($) {
 	$.fn.jQueryFocuspointHelpertool = function() {
-		console.log('focus helper');
-		console.log(this);
-		var defaultImage;
+		var container = $(this);
+		var image = $(this).children('img.helper-tool-img');
 		var $dataAttrInput;
 		var $cssAttrInput;
 		var $focusPointContainers;
@@ -11,21 +10,22 @@
 		var $helperToolImage;
 
 		//This stores focusPoint's data-attribute values
-		var focusPointAttr = {
+		container.data = {
 			x: 0,
 			y: 0,
 			w: 0,
 			h: 0
-		}; 
+		};
 
 		//Initialize Helper Tool
 		(function() {
 
 			//Initialize Variables
-			defaultImage = '../img/city_from_unsplash.jpg';
+			$helperToolImage = $('img.helper-tool-img, img.target-overlay');
+			setImage( $(image).attr("src") );
+			/*defaultImage = '../img/city_from_unsplash.jpg';
 			$dataAttrInput = $('.helper-tool-data-attr');
 			$cssAttrInput = $('.helper-tool-css3-val');
-			$helperToolImage = $('img.helper-tool-img, img.target-overlay');
 
 			//Create Grid Elements
 			for(var i = 1; i < 10; i++) {
@@ -36,7 +36,7 @@
 			$focusPointImages = $('.focuspoint img');
 
 			//Set the default source image
-			setImage( defaultImage );
+			setImage( defaultImage );*/
 
 		})();
 		
@@ -52,14 +52,14 @@
 			$("<img/>") 
 				.attr("src", imgURL)
 				.load(function() {
-					focusPointAttr.w = this.width;  
-					focusPointAttr.h = this.height;
+					container.data.w = this.width;  
+					container.data.h = this.height;
 					
 					//Set src on the thumbnail used in the GUI
-					$helperToolImage.attr('src', imgURL);
+					//$helperToolImage.attr('src', imgURL);
 					
 					//Set src on all .focuspoint images
-					$focusPointImages.attr('src', imgURL);
+					//$focusPointImages.attr('src', imgURL);
 					
 					//Set up initial properties of .focuspoint containers
 
@@ -70,26 +70,26 @@
 					// for users inspecting it. Because of how FocusPoint uses .data()
 					// only the .data() assignments that follow are necessary.
 					/*-----------------------------------------*/
-					$focusPointContainers.attr({
-						'data-focus-x':focusPointAttr.x,
-						'data-focus-y':focusPointAttr.y,
-						'data-image-w': focusPointAttr.w,
-						'data-image-h': focusPointAttr.h
-					});
+					/*$focusPointContainers.attr({
+						'data-focus-x':container.data.x,
+						'data-focus-y':container.data.y,
+						'data-image-w': container.data.w,
+						'data-image-h': container.data.h
+					});*/
 
 					/*-----------------------------------------*/
 					// These assignments using .data() are what counts.
 					/*-----------------------------------------*/
-					$focusPointContainers.data('focusX', focusPointAttr.x);
-					$focusPointContainers.data('focusY', focusPointAttr.y);
-					$focusPointContainers.data('imageW', focusPointAttr.w);
-					$focusPointContainers.data('imageH', focusPointAttr.h);
+					/*$focusPointContainers.data('focusX', container.data.x);
+					$focusPointContainers.data('focusY', container.data.y);
+					$focusPointContainers.data('imageW', container.data.w);
+					$focusPointContainers.data('imageH', container.data.h);*/
 					
 					//Run FocusPoint for the first time.
-					$('.focuspoint').focusPoint();
+					//$('.focuspoint').focusPoint();
 
 					//Update the data attributes shown to the user
-					printDataAttr();
+					//printDataAttr();
 
 				});
 		}
@@ -101,7 +101,7 @@
 		/*-----------------------------------------*/
 		
 		function printDataAttr(){
-			$dataAttrInput.val('data-focus-x="'+focusPointAttr.x.toFixed(2)+'" data-focus-y="'+focusPointAttr.y.toFixed(2)+'" data-focus-w="'+focusPointAttr.w+'" data-focus-h="'+focusPointAttr.h+'"');
+			$dataAttrInput.val('data-focus-x="'+container.data.x.toFixed(2)+'" data-focus-y="'+container.data.y.toFixed(2)+'" data-focus-w="'+container.data.w+'" data-focus-h="'+container.data.h+'"');
 		}
 
 		/*-----------------------------------------*/
@@ -121,21 +121,21 @@
 			var offsetY = e.pageY - $(this).offset().top;
 			var focusX = (offsetX/imageW - .5)*2;
 			var focusY = (offsetY/imageH - .5)*-2;
-			focusPointAttr.x = focusX;
-			focusPointAttr.y = focusY;
+			container.data.x = focusX;
+			container.data.y = focusY;
 
 			//Write values to input
-			printDataAttr();
+			//printDataAttr();
 
 			//Update focus point
-			updateFocusPoint();
+			//updateFocusPoint();
 
 			//Calculate CSS Percentages
 			var percentageX = (offsetX/imageW)*100;
 			var percentageY = (offsetY/imageH)*100;
 			var backgroundPosition = percentageX.toFixed(0) + '% ' + percentageY.toFixed(0) + '%';
 			var backgroundPositionCSS = 'background-position: ' + backgroundPosition + ';';
-			$cssAttrInput.val(backgroundPositionCSS);
+			//$cssAttrInput.val(backgroundPositionCSS);
 
 			//Leave a sweet target reticle at the focus point.
 			$('.reticle').css({ 
@@ -172,15 +172,28 @@
 			//TLDR - You don't need them for this to work.
 			/*-----------------------------------------*/
 			$focusPointContainers.attr({
-				'data-focus-x': focusPointAttr.x,
-				'data-focus-y': focusPointAttr.y
-			});			
+				'data-focus-x': container.data.x,
+				'data-focus-y': container.data.y
+			});
 			/*-----------------------------------------*/
 			// These you DO need :)
 			/*-----------------------------------------*/
-			$focusPointContainers.data('focusX', focusPointAttr.x);
-			$focusPointContainers.data('focusY', focusPointAttr.y);
+			$focusPointContainers.data('focusX', container.data.x);
+			$focusPointContainers.data('focusY', container.data.y);
 			$focusPointContainers.adjustFocus();
 		};
+
+		/*-----------------------------------------*/
+
+		/* Update Helper */
+		// This function is used to get the focuspoint attributes
+
+		/*-----------------------------------------*/
+
+		container.getFocusPointAttr = function(){
+			return this.data;
+		}
+
+		return container;
 	};
 })(jQuery);

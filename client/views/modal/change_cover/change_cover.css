@@ -1,0 +1,19 @@
+.modal-change-cover #input-cover {
+	display: none;
+}
+
+.modal-change-cover .image-upload-container,
+.modal-change-cover .image-update-container {
+	text-align: center;
+}
+
+.modal-change-cover .helper-tool-target {
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+	max-width: 100%;
+}
+
+.modal-change-cover .image-upload-container .helper-tool {
+	display: none;
+}

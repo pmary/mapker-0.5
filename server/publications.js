@@ -13,3 +13,7 @@
 Meteor.publish('places', function() {
 	return Places.find();
 });
+
+Meteor.publish("user", function (userId) {
+    return Meteor.users.find({_id: userId});
+});

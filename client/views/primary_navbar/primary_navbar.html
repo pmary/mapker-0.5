@@ -34,7 +34,7 @@
 							<li><a href="#">Add a new place</a></li>
 						</ul>
 					</li>
-					<li><a href="{{pathFor route='userProfile' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>
+					<li><a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>
 					<li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
 					<li class="active"><a href="/login">Sign in</a></li>
