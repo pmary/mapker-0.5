@@ -1,14 +1,17 @@
+Template.UserProfileLayout.helpers({
+  /*user: function() {
+    return Meteor.users.find({postId: this._id});
+  }*/
+});
+
+Template.UserProfileLayout.rendered = function(){
+};
+
 Template.UserProfileLayout.events({
 	'click #inner-nav a' : function(e, t){
 		$('#inner-nav li').removeClass('active');
 		e.target.parentNode.className = 'active';
-	}
-});
-
-Template.UserProfileLayout.rendered = function(e, t){
-};
-
-Template.UserProfileLayout.events({
+	},
 	'click .upload-cover-btn' : function(e, t){
 		// Open the cover change modal
 		Session.set('modalChangeCoverErrors', {});

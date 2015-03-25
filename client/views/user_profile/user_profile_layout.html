@@ -4,13 +4,13 @@
 			<header class="col-md-12">
 				<section id="cover-avatar">
 					<div class="profile-cover">
-						{{#if currentUser.profile.cover}}
+						{{#if profile.cover}}
 						<div class="focuspoint" id="profile-cover-bg"
-						data-focus-x="{{currentUser.profile.cover.focusX}}"
-						data-focus-y="{{currentUser.profile.cover.focusY}}"
-						data-image-w="{{currentUser.profile.cover.w}}"
-						data-image-h="{{currentUser.profile.cover.h}}">
-							<img class="profile-cover-image" src="{{currentUser.profile.cover.url}}" alt="Cover">
+						data-focus-x="{{profile.cover.focusX}}"
+						data-focus-y="{{profile.cover.focusY}}"
+						data-image-w="{{profile.cover.w}}"
+						data-image-h="{{profile.cover.h}}">
+							<img class="profile-cover-image" src="{{profile.cover.url}}" alt="Cover">
 						</div>
 						{{else}}
 						
@@ -18,15 +18,15 @@
 						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
 					</div>
 
-					{{#if currentUser.profile.avatar}}
+					{{#if profile.avatar}}
 					<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 						<div class="profile-avatar">
 							<div class="focuspoint" id="profile-avatar-bg"
-								data-focus-x="{{currentUser.profile.avatar.focusX}}"
-								data-focus-y="{{currentUser.profile.avatar.focusY}}"
-								data-image-w="{{currentUser.profile.avatar.w}}"
-								data-image-h="{{currentUser.profile.avatar.h}}">
-									<img class="profile-avatar-image" src="{{currentUser.profile.avatar.url}}" alt="Avatar">
+								data-focus-x="{{profile.avatar.focusX}}"
+								data-focus-y="{{profile.avatar.focusY}}"
+								data-image-w="{{profile.avatar.w}}"
+								data-image-h="{{profile.avatar.h}}">
+									<img class="profile-avatar-image" src="{{profile.avatar.url}}" alt="Avatar">
 							</div>
 						</div>
 					</a>
@@ -45,12 +45,12 @@
 			<div class="col-md-8 col-sm-offset-2">
 				<div class="row">
 					<div class="col-sd-12 col-md-6">
-						<h1 class="user-name">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</h1>
-						{{#if currentUser.profile.activity}}
-						<span class="user-activity">- {{currentUser.profile.activity}}</span>
+						<h1 class="user-name">{{profile.firstname}} {{profile.lastname}}</h1>
+						{{#if profile.activity}}
+						<span class="user-activity">- {{profile.activity}}</span>
 						{{/if}}
-						{{#if currentUser.profile.zipcode}}
-						<span class="user-area">{{currentUser.profile.zipcode}}</span>
+						{{#if profile.zipcode}}
+						<span class="user-area">{{profile.zipcode}}</span>
 						{{/if}}
 					</div>
 					<div class="col-sd-12 col-md-6">
@@ -63,10 +63,10 @@
 			<div class="col-md-8 col-sm-offset-2">
 				<ul class="nav nav-pills nav-justified">
 					<li role="presentation" class="active">
-						<a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">Bio</a>
+						<a href="{{pathFor route='userProfileBio' _id=_id}}">Bio</a>
 					</li>
 					<li>
-						<a href="{{pathFor route='userProfileSkills' _id=currentUser._id}}">Skills</a>
+						<a href="{{pathFor route='userProfileSkills' _id=_id}}">Skills</a>
 					</li>
 				</ul>
 			</div>
