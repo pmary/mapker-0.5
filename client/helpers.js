@@ -6,6 +6,32 @@
 userCoverUploader = new Slingshot.Upload("userCoverUpload");
 userAvatarUploader = new Slingshot.Upload("userAvatarUpload");
 
+// Helper to user test equality
+UI.registerHelper('eq', function(v1, v2, options) {
+	var result;
+	if (v1 != null) {
+		if (v2 instanceof Array) {
+			for (var i = 0; i < v2.length; i++) {
+				if(v1.indexOf(v2[i]) > -1){ result = true; }
+				else { result = false; }
+			};
+		}
+		else {
+			if(v1 == v2){ result = true; } 
+			else { result = false; }
+		};
+	};
+
+	return result;
+});
+
+// replace \n and \r bu a <br> tag
+UI.registerHelper('htmlLineBreack', function(text) {
+	if (text!=null){
+		text = text.replace(/\r?\n/g, '<br>');
+	}
+	return text;
+});
 
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {

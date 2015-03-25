@@ -15,27 +15,50 @@
 						{{else}}
 						
 						{{/if}}
+
+						{{#if eq currentUser._id _id}}
 						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
+						{{/if}}
 					</div>
 
-					{{#if profile.avatar}}
-					<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
+					{{#if eq currentUser._id _id}}
+						{{#if profile.avatar}}
+						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
+							<div class="profile-avatar">
+								<div class="focuspoint" id="profile-avatar-bg"
+									data-focus-x="{{profile.avatar.focusX}}"
+									data-focus-y="{{profile.avatar.focusY}}"
+									data-image-w="{{profile.avatar.w}}"
+									data-image-h="{{profile.avatar.h}}">
+										<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
+										<img class="profile-avatar-image" src="{{profile.avatar.url}}" alt="Avatar">
+								</div>
+							</div>
+						</a>
+						{{else}}
+						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
+							<div class="profile-avatar">
+								<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+							</div>
+						</a>
+						{{/if}}
+					{{else}}
+						{{#if profile.avatar}}
 						<div class="profile-avatar">
 							<div class="focuspoint" id="profile-avatar-bg"
 								data-focus-x="{{profile.avatar.focusX}}"
 								data-focus-y="{{profile.avatar.focusY}}"
 								data-image-w="{{profile.avatar.w}}"
 								data-image-h="{{profile.avatar.h}}">
+									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 									<img class="profile-avatar-image" src="{{profile.avatar.url}}" alt="Avatar">
 							</div>
 						</div>
-					</a>
-					{{else}}
-					<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
+						{{else}}
 						<div class="profile-avatar">
 							<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
 						</div>
-					</a>
+						{{/if}}
 					{{/if}}
 				</section>
 			</header>
@@ -45,7 +68,6 @@
 			<div class="col-md-8 col-sm-offset-2">
 				<div class="row">
 					<div class="col-sd-12 col-md-6">
-						{{_id}}
 						<h1 class="user-name">{{profile.firstname}} {{profile.lastname}}</h1>
 						{{#if profile.activity}}
 						<span class="user-activity">- {{profile.activity}}</span>

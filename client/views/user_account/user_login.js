@@ -33,7 +33,7 @@ Template.userLogin.events({
 				Errors.throw(error.reason);
 			}else {
 				// The user has been logged in, redirect him to his profile paga
-				Router.go('userProfile', {_id: Meteor.user()._id});
+				Router.go('userProfileBio', {_id: Meteor.user()._id});
 			}
 		});
 

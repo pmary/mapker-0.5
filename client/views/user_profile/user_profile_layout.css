@@ -108,4 +108,13 @@
 #user-profile-page .profile-avatar .glyphicon {
 	font-size: 41px;
 	top: 55px;
+	z-index: 10;
+}
+
+#user-profile-page .profile-avatar .edit-cover-icon {
+	display: none;
+}
+
+#user-profile-page #upload-avatar-btn:hover .edit-cover-icon {
+	display: inline-block;
 }
