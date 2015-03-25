@@ -1,10 +1,9 @@
 Template.UserProfileLayout.helpers({
-  /*user: function() {
-    return Meteor.users.find({postId: this._id});
-  }*/
 });
 
-Template.UserProfileLayout.rendered = function(){
+Template.UserProfileLayout.onRendered = function(){
+	console.log( this.findAll() );
+	//this.find('#profile-avatar-bg').focusPoint();
 };
 
 Template.UserProfileLayout.events({
