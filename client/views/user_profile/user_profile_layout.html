@@ -4,34 +4,34 @@
 			<header class="col-md-12">
 				<section id="cover-avatar">
 					<div class="profile-cover">
-						{{#if profile.cover}}
+						{{#if user.profile.cover}}
 						<div class="focuspoint" id="profile-cover-bg"
-						data-focus-x="{{profile.cover.focusX}}"
-						data-focus-y="{{profile.cover.focusY}}"
-						data-image-w="{{profile.cover.w}}"
-						data-image-h="{{profile.cover.h}}">
-							<img class="profile-cover-image" src="{{profile.cover.url}}" alt="Cover">
+						data-focus-x="{{user.profile.cover.focusX}}"
+						data-focus-y="{{user.profile.cover.focusY}}"
+						data-image-w="{{user.profile.cover.w}}"
+						data-image-h="{{user.profile.cover.h}}">
+							<img class="profile-cover-image" src="{{user.profile.cover.url}}" alt="Cover">
 						</div>
 						{{else}}
 						
 						{{/if}}
 
-						{{#if eq currentUser._id _id}}
+						{{#if eq currentUser._id user._id}}
 						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
 						{{/if}}
 					</div>
 
-					{{#if eq currentUser._id _id}}
-						{{#if profile.avatar}}
+					{{#if eq currentUser._id user._id}}
+						{{#if user.profile.avatar}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar">
 								<div class="focuspoint" id="profile-avatar-bg"
-									data-focus-x="{{profile.avatar.focusX}}"
-									data-focus-y="{{profile.avatar.focusY}}"
-									data-image-w="{{profile.avatar.w}}"
-									data-image-h="{{profile.avatar.h}}">
+									data-focus-x="{{user.profile.avatar.focusX}}"
+									data-focus-y="{{user.profile.avatar.focusY}}"
+									data-image-w="{{user.profile.avatar.w}}"
+									data-image-h="{{user.profile.avatar.h}}">
 										<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
-										<img class="profile-avatar-image" src="{{profile.avatar.url}}" alt="Avatar">
+										<img class="profile-avatar-image" src="{{user.profile.avatar.url}}" alt="Avatar">
 								</div>
 							</div>
 						</a>
@@ -43,15 +43,15 @@
 						</a>
 						{{/if}}
 					{{else}}
-						{{#if profile.avatar}}
+						{{#if user.profile.avatar}}
 						<div class="profile-avatar">
 							<div class="focuspoint" id="profile-avatar-bg"
-								data-focus-x="{{profile.avatar.focusX}}"
-								data-focus-y="{{profile.avatar.focusY}}"
-								data-image-w="{{profile.avatar.w}}"
-								data-image-h="{{profile.avatar.h}}">
+								data-focus-x="{{user.profile.avatar.focusX}}"
+								data-focus-y="{{user.profile.avatar.focusY}}"
+								data-image-w="{{user.profile.avatar.w}}"
+								data-image-h="{{user.profile.avatar.h}}">
 									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
-									<img class="profile-avatar-image" src="{{profile.avatar.url}}" alt="Avatar">
+									<img class="profile-avatar-image" src="{{user.profile.avatar.url}}" alt="Avatar">
 							</div>
 						</div>
 						{{else}}
@@ -68,12 +68,12 @@
 			<div class="col-md-8 col-sm-offset-2">
 				<div class="row">
 					<div class="col-sd-12 col-md-6">
-						<h1 class="user-name">{{profile.firstname}} {{profile.lastname}}</h1>
-						{{#if profile.activity}}
-						<span class="user-activity">- {{profile.activity}}</span>
+						<h1 class="user-name">{{user.profile.firstname}} {{user.profile.lastname}}</h1>
+						{{#if user.profile.activity}}
+						<span class="user-activity">- {{user.profile.activity}}</span>
 						{{/if}}
-						{{#if profile.zipcode}}
-						<span class="user-area">{{profile.zipcode}}</span>
+						{{#if user.profile.zipcode}}
+						<span class="user-area">{{user.profile.zipcode}}</span>
 						{{/if}}
 					</div>
 					<div class="col-sd-12 col-md-6">
@@ -86,10 +86,13 @@
 			<div class="col-md-8 col-sm-offset-2">
 				<ul class="nav nav-pills">
 					<li role="presentation" class="active">
-						<a href="{{pathFor route='userProfileBio' _id=_id}}">Bio</a>
+						<a href="{{pathFor route='userProfileBio' _id=user._id}}">Bio</a>
 					</li>
 					<li>
-						<a href="{{pathFor route='userProfileSkills' _id=_id}}">Skills</a>
+						<a href="{{pathFor route='userProfileSkills' _id=user._id}}">Skills</a>
+					</li>
+					<li>
+						<a href="{{pathFor route='userProfilePlaces' _id=user._id}}">Places</a>
 					</li>
 				</ul>
 			</div>

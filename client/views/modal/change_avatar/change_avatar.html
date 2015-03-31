@@ -6,6 +6,12 @@
 			</div>
 			<div class="modal-body">
 				<input type="file" id="input-avatar">
+				{{#if errorMessage 'image'}}
+				<div class="alert alert-danger" role="alert">
+				  <strong>{{errorMessage 'image'}}</strong>
+				</div>
+				{{/if}}
+				
 				{{#if currentUser.profile.avatar}}
 				<div class="image-update-container">
 

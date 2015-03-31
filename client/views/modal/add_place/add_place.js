@@ -82,6 +82,10 @@ var checkPlaceData = function(t, step) {
 					//Router.go('postPage', {_id: result._id});
 					console.log("Place successufully added");
 					console.log(result);
+					// Redirect to the user places page
+					Router.go('userProfilePlaces', {_id: Meteor.user()._id});
+					// Close the modal
+					$('#myModal').modal('hide');
 			    });
 			};
 		}

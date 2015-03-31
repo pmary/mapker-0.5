@@ -1,0 +1,16 @@
+<template name="UserProfileSkills">
+	<section class="user-profile-bio">
+		{{#if eq currentUser._id user._id}}
+		<form class="form-inline" id="add-skill-form">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
+			</div>
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+		{{/if}}
+
+		{{#each user.profile.skills}}
+			<div class="user-skill">{{title}}</div>
+		{{/each}}
+	</section>
+</template>

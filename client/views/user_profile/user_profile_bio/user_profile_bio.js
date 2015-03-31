@@ -1,8 +1,13 @@
 Template.UserProfileBio.events({
 	'click #update-user-bio' : function(e, t){
-		t.find('.user-bio-container').style.display = 'none';
-		t.find('.user-bio-edition').style.display = 'block';
-		t.find('#input-user-bio').focus();
+		var bioContainer = t.find('.user-bio-container'),
+		bioEdition = t.find('.user-bio-edition'),
+		bioInput = t.find('#input-user-bio');
+
+		bioInput.style.height = bioContainer.clientHeight + 'px';
+		bioContainer.style.display = 'none';
+		bioEdition.style.display = 'block';
+		bioInput.focus();
 	},
 	'click #cancel-bio-edit' : function(e, t){
 		e.preventDefault();

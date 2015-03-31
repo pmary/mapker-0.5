@@ -1,0 +1,31 @@
+<template name="userProfilePlaces">
+	<section class="user-profile-places">
+		{{#each places}}
+			<div class="col-md-4">
+				<div class="place">
+					<header>
+						{{#if activated}}						
+						{{else}}
+							<div class="validation-in-progess">Validation in progess</div>
+						{{/if}}
+						<div class="logo">
+							{{#if logo}}
+							<img src="{{logo.url}}">
+							{{/if}}
+						</div>
+						<div class="cover">
+							{{#if cover}}
+							<img src="{{cover.url}}">
+							{{/if}}
+						</div>
+					</header>
+					
+					<section>
+						<h1><a href="#">{{name}}</a></h1>
+						<h2>{{activities}}</h2>
+					</section>
+				</div>
+			</div>
+		{{/each}}
+	</section>
+</template>

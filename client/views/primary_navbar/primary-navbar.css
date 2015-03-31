@@ -35,6 +35,32 @@
 	padding-bottom: 26px;
 }
 
+#primary-navbar #action-create-dropdown {
+	padding-top: 15px;
+	padding-bottom: 0px;
+}
+
+#primary-navbar #action-create-dropdown span.glyphicon {
+	background: #2EBDFF;
+	border-radius: 30px;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	padding-top: 13px;
+	font-weight: lighter;
+}
+
+#primary-navbar .open #action-create-dropdown {
+	background-color: transparent;
+}
+
+#primary-navbar #action-create-list {
+	border: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	margin-top: 5px;
+}
+
 #primary-navbar .navbar-nav > li > a {
 	color: #FFFFFF;
 	padding-top: 27px;

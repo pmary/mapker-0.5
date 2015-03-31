@@ -27,8 +27,14 @@ Template.modalChangeAvatar.events({
 	'change #input-avatar': function(e, t) {
 		// Once a file to upload is picked
 		var file = e.target.files[0];
-		// If our file is an image, display it in the avatar
-		if (file && file.type.match('image.*') && file.size <= 2097152) {
+		// If our file is an image, display it in the cover
+		if (file.size >= 2097152)
+			return Session.set('modalChangeAvatarErrors', {image: 'The weight of your image must be less than 2 MB'});
+		if (!file.type.match('image.*') && file.type != "image/jpeg" && file.type != "image/png")
+			return Session.set('modalChangeAvatarErrors', {image: 'Only png and jpg images are authorized'});
+		Session.set('modalChangeAvatarErrors', {});
+
+		if (file) {
 			// Check for the various File API support.
 			if (window.File && window.FileReader && window.FileList && window.Blob) {
 				var reader = new FileReader();

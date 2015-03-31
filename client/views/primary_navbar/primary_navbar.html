@@ -26,12 +26,11 @@
 				<ul class="nav navbar-nav navbar-right">
 					{{#if currentUser}}
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						<a id="action-create-dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							<span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Add a new place</a></li>
+						<ul id="action-create-list" class="dropdown-menu" role="menu">
+							<li><a href="#" id="modal-add-place" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Add a new place</a></li>
 						</ul>
 					</li>
 					<li><a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>

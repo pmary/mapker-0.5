@@ -32,6 +32,7 @@ Template.modalChangeCover.events({
 			return Session.set('modalChangeCoverErrors', {image: 'The weight of your image must be less than 2 MB'});
 		if (!file.type.match('image.*') && file.type != "image/jpeg" && file.type != "image/png")
 			return Session.set('modalChangeCoverErrors', {image: 'Only png and jpg images are authorized'});
+		Session.set('modalChangeCoverErrors', {});
 
 		if (file) {
 			// Check for the various File API support.
