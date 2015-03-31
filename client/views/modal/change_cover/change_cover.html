@@ -6,6 +6,11 @@
 			</div>
 			<div class="modal-body">
 				<input type="file" id="input-cover">
+				{{#if errorMessage 'image'}}
+				<div class="alert alert-danger" role="alert">
+				  <strong>{{errorMessage 'image'}}</strong>
+				</div>
+				{{/if}}
 
 				{{#if currentUser.profile.cover}}
 				<div class="image-update-container">
@@ -32,21 +37,11 @@
 							<img class="reticle" src="http://jonom.github.io/jquery-focuspoint/demos/img/focuspoint-target.png">
 							<img class="target-overlay" id="cover-target-overlay" src="http://jonom.github.io/jquery-focuspoint/demos/img/city_from_unsplash.jpg">
 						</div>
-						<p>
-							<label for="set-src">Paste in a URL to change the image</label>
-							<input name="set-src" id="set-src" class="helper-tool-set-src" type="text">
-						</p>
-						<p>
-							<label for="data-attr">FocusPoint data- attributes:</label>
-							<input class="helper-tool-data-attr" id="data-attr" name="data-attr" type="text" placeholder="data-focus-x=&quot;0&quot; data-focus-y=&quot;0&quot; ">	
-						</p>
-						<p>
-							<label for="css3-val">CSS3 Background Position:</label>
-							<input class="helper-tool-css3-val" id="css3-val" name="css3-val" type="text" placeholder="background-position:">	
-						</p>
+						<em>Click on the image to indicate where this focal point is located. This ensure that this point will be never cropped out</em>
 					</div>
 
-					<button class="btn btn-primary image-upload">Upload an image</button>
+					<div id="first-upload" class="image-upload first-upload">Upload an image</div>
+					<button id="change-image" class="btn btn-primary image-upload first-upload">Upload another image</button>
 				</div>
 				{{/if}}
 

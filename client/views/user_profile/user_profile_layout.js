@@ -17,12 +17,13 @@ Template.UserProfileLayout.events({
 		Session.set('activeModal', 'modalChangeCover');
 
 		// Display the upload btn and hide the helper tool
-		$('.modal-change-cover .image-upload').css('display', 'inline-block');
 		$('.modal-change-cover .image-upload-container .helper-tool').css('display', 'none');
 	},
 	'click #upload-avatar-btn': function(e, t) {
 		// Open the cover change modal
 		Session.set('modalChangeAvatarErrors', {});
 		Session.set('activeModal', 'modalChangeAvatar');
+		// Init focuspoint
+		$('#helper-tool-container').jQueryFocuspointHelpertool();
 	}
 });

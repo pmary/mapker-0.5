@@ -11,6 +11,24 @@
 	background: linear-gradient(to right, #272d47, #454662); /* Standard syntax */
 }
 
+#primary-navbar .navbar-header {
+	  height: 75px;
+}
+
+#primary-navbar .navbar-form {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border: none;
+}
+
+#primary-navbar .navbar-toggle {
+	  margin-top: 20px;
+}
+
+#primary-navbar .collapse.in li{
+	border-top: 1px solid #2A2A2A;
+}
+
 #primary-navbar .navbar-brand {
 	color: #FFFFFF;
 	padding-top: 27px;

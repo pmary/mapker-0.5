@@ -3,12 +3,12 @@
 		<div class="user-bio-container">
 			{{#if eq currentUser._id _id}}
 				{{#if profile.bio}}
-					<div>
-					{{{htmlLineBreack profile.bio}}}
+					<div class="user-bio-content">
+						{{{htmlLineBreack profile.bio}}}
 						<a href="#" id="update-user-bio">Edit</a>
 					</div>
 				{{else}}
-				<div id="update-user-bio">
+				<div id="update-user-bio" class="add-user-bio">
 					Talk about you
 				</div>
 				{{/if}}

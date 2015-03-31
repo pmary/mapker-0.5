@@ -12,8 +12,14 @@
 	margin-right: auto;
 	width: auto;
 	max-width: 100%;
+	display: table;
 }
 
 .modal-change-cover .image-upload-container .helper-tool {
 	display: none;
+}
+
+.modal-change-cover .modal-header {
+	background-color: #20dec2;
+	color: #FFFFFF;
 }

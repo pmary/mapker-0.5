@@ -6,7 +6,6 @@
 			</div>
 			<div class="modal-body">
 				<input type="file" id="input-avatar">
-
 				{{#if currentUser.profile.avatar}}
 				<div class="image-update-container">
 
@@ -35,7 +34,8 @@
 						<em>Click on the image to indicate where this focal point is located. This ensure that this point will be never cropped out</em>
 					</div>
 
-					<button class="btn btn-primary image-upload">Upload an image</button>
+					<div id="first-upload" class="image-upload first-upload">Upload an image</div>
+					<button id="change-image" class="btn btn-primary image-upload first-upload">Upload another image</button>
 				</div>
 				{{/if}}
 

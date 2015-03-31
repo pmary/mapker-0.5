@@ -2,7 +2,25 @@
 
 }
 
-.user-profile-bio #add-user-bio {
+.user-profile-bio .user-bio-content {
+	background: #FFFFFF;
+	border-radius: 3px;
+	border: 1px solid #eaeaec;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: #191919;
+	font-size: 16px;
+}
+
+.user-profile-bio .user-bio-content a {
+	color: #1abda4;
+	text-decoration: underline;
+	display: block;
+}
+
+.user-profile-bio .add-user-bio {
 	cursor: pointer;
 	width: 100%;
 	height: 125px;
@@ -11,21 +29,32 @@
 	text-align: center;
 	font-size: 16px;
 	color: #191919;
-	line-height: 125px
+	line-height: 125px;
+}
+
+.user-profile-bio .add-user-bio:hover {
+	border: 1px dashed #20dec2;
+	color: #20dec2;
 }
 
 .user-profile-bio .user-bio-edition {
 	display: none;
 }
 
-.user-profile-bio .user-bio-edition #input-user-bio {
+.user-profile-bio #input-user-bio {
 	min-height: 125px;
 	width: 100%;
 	border: 1px solid #c9c9c9;
 	border-radius: 3px;
+	color: #191919;
+	font-size: 16px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
-.user-profile-bio .user-bio-edition #input-user-bio:focus {
+.user-profile-bio #input-user-bio:focus {
 	border: 1px solid #20dec2;
 	outline: none;
 	box-shadow: 0px 0px 5px #20dec2;
