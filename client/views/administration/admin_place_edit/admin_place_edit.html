@@ -1,0 +1,32 @@
+<template name="adminPlaceEdit">
+<button id="test">Test</button>
+	<h1>{{name}}</h1>
+
+	<h3>Administrators</h3>
+	{{#each admins}}
+		<div>{{profile.firstname}} {{profile.lastname}} ({{_id}})</div>
+	{{/each}}
+
+	<h3>Details</h3>
+	<form id="place-edition" class="col-md-5">
+		<div class="form-group">
+			<label for="input-name">Name</label>
+			<input type="text" class="form-control" id="input-name" placeholder="The place name" value="{{name}}">
+		</div>
+		<div class="checkbox">
+			<label>
+				{{#if activated}}
+				<!-- <input type="checkbox" id="activated" checked="checked"> Activated -->
+				{{else}}
+				<input type="checkbox" id="activated"> Activated
+				{{/if}}
+			</label>
+		</div>
+		<div class="form-group">
+			{{formattedAddress}}
+			<img class='static-map' alt='{{name}}' src='https://maps.googleapis.com/maps/api/staticmap?center={{formattedAddress}}&zoom=13&size=600x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_png%7C{{loc}}'>
+		</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+
+</template>

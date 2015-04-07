@@ -1,22 +1,19 @@
-Template.UserProfileLayout.helpers({
+Template.placeProfileLayout.helpers({
+	isAdmin: function() {
+		if (this.place.administrators.indexOf(Meteor.user()._id) > -1) {
+			return true;
+		}
+		else {
+			return false;
+		};
+	}
 });
 
-Template.UserProfileLayout.onRendered = function(){
-	console.log( this.findAll() );
-	//this.find('#profile-avatar-bg').focusPoint();
+Template.placeProfileLayout.onRendered = function(){
+
 };
 
-var setModalData = function(t) {
-	var resource = {
-		id: t.data.user._id, // User id
-		cover: t.data.user.profile.cover,
-		logo: t.data.user.profile.avatar,
-		type: 'user'
-	}
-	Session.set('modalResource', resource);
-}
-
-Template.UserProfileLayout.events({
+Template.placeProfileLayout.events({
 	'click #inner-nav a' : function(e, t){
 		$('#inner-nav li').removeClass('active');
 		e.target.parentNode.className = 'active';
@@ -25,7 +22,6 @@ Template.UserProfileLayout.events({
 		// Open the cover change modal
 		Session.set('modalChangeCoverErrors', {});
 		Session.set('activeModal', 'modalChangeCover');
-		setModalData(t);		
 
 		// Display the upload btn and hide the helper tool
 		$('.modal-change-cover .image-upload-container .helper-tool').css('display', 'none');
@@ -34,8 +30,13 @@ Template.UserProfileLayout.events({
 		// Open the cover change modal
 		Session.set('modalChangeAvatarErrors', {});
 		Session.set('activeModal', 'modalChangeAvatar');
-		setModalData(t);
-
+		var resource = {
+			_id: t.data.place._id,
+			cover: t.data.place.cover,
+			logo: t.data.place.avatar,
+			type: 'place'
+		}
+		Session.set('modalAvatarResource', resource);
 		// Init focuspoint
 		$('#helper-tool-container').jQueryFocuspointHelpertool();
 	}

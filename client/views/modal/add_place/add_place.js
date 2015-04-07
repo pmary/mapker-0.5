@@ -102,5 +102,12 @@ Template.modalAddPlace.events({
 	},
 	'click #check-location' : function(e, t){
 		checkPlaceData(t, "check");
+	},
+	'focus .bootstrap-tagsinput input' : function(e, t){
+		e.target.parentNode.className += " focus-input-tag";
+	},
+	'focusout .bootstrap-tagsinput input' : function(e, t){
+		var parrentClass = e.target.parentNode.className;
+		e.target.parentNode.className = parrentClass.replace(" focus-input-tag", "");
 	}
 });

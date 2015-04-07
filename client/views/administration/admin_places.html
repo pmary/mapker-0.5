@@ -1,0 +1,6 @@
+<template name="adminPlaces">
+	<h2>Places waiting for validation</h2>
+	{{#each placesToValidate}}
+		<div><a href="{{pathFor route='adminPlaceEdit' _id=_id}}">{{name}}</a></div>
+	{{/each}}
+</template>

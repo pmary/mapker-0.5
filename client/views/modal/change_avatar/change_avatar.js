@@ -1,12 +1,15 @@
 var avatarHelperContainer;
 
-Template.modalChangeAvatar.rendered = function() {
+Template.modalChangeAvatar.onRendered = function() {
 	$('.modal-change-avatar [data-toggle="popover"]').popover();
 
 	avatarHelperContainer = $('#helper-tool-container').jQueryFocuspointHelpertool();
 }
 
 Template.modalChangeAvatar.helpers({
+	modalResource: function() {
+		return Session.get('modalResource');
+	},
 	errorMessage: function(field) {
 		return Session.get('modalChangeAvatarErrors')[field];
 	},
@@ -59,7 +62,9 @@ Template.modalChangeAvatar.events({
 		}
 	},
 	'click #save-avatar, click #update-avatar': function(e, t) {
+		var resource = Session.get('modalResource');
 		var file = document.getElementById('input-avatar').files[0];
+		var imgFocusAttr = avatarHelperContainer.getFocusPointAttr();
 
 		if (file) {
 			// It's an avatar change
@@ -70,41 +75,29 @@ Template.modalChangeAvatar.events({
 			reader.onloadend = function(e) {
 				// Set the uploaded file object
 				var uploadedFile = {
+					resource: Session.get('modalResource'), // Infos about the currently edited resource
 					data: jic.compress(e.target.result, 60), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
-					role: "avatar" // Can be cover or avatar
+					role: "avatar", // Can be cover or avatar
+					focusX: imgFocusAttr.x,
+					focusY: imgFocusAttr.y,
+					w: imgFocusAttr.w,
+					h: imgFocusAttr.h
 				}
-				Meteor.call('uploadToS3', uploadedFile, function(error, downloadUrl) {
+				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
-					// Update the user profile
-					var imgFocusAttr = avatarHelperContainer.getFocusPointAttr();
-					var avatar = {
-						url: downloadUrl,
-						name: Meteor.user()._id + "/avatar",
-						focusX: imgFocusAttr.x,
-						focusY: imgFocusAttr.y,
-						w: imgFocusAttr.w,
-						h: imgFocusAttr.h
-					};
-					Meteor.call('userInsertAvatar', avatar, function(error, result) {
-						// display the error to the user and abort
-						if (error) {
-							return alert(error.reason);
-						}
+					// If necessary, refresh the avatar image
+					$('.profile-avatar-image').attr('src', imageUrl + '? ' + new Date().getTime());
 
-						// If necessary, refresh the avatar image
-						$('.profile-avatar-image').attr('src', avatar.url + '? ' + new Date().getTime());
+					// Close the modal
+					$('#myModal').modal('hide');
 
-						// Close the modal
-						$('#myModal').modal('hide');
-
-						// Set the data to force the focus adjustement
-						$('#profile-avatar-bg').data('focusY', avatar.focusY);
-						$('#profile-avatar-bg').data('focusX', avatar.focusX);
-						$('#profile-avatar-bg').data('imageW', avatar.w);
-						$('#profile-avatar-bg').data('imageH', avatar.h);
-						$('#profile-avatar-bg').focusPoint();
-				    });
+					// Set the data to force the focus adjustement
+					$('#profile-avatar-bg').data('focusY', uploadedFile.focusY);
+					$('#profile-avatar-bg').data('focusX', uploadedFile.focusX);
+					$('#profile-avatar-bg').data('imageW', uploadedFile.w);
+					$('#profile-avatar-bg').data('imageH', uploadedFile.h);
+					$('#profile-avatar-bg').focusPoint();
 				});
 			}
 		} else {

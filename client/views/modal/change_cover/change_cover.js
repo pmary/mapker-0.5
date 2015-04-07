@@ -7,6 +7,9 @@ Template.modalChangeCover.rendered = function() {
 }
 
 Template.modalChangeCover.helpers({
+	modalResource: function() {
+		return Session.get('modalResource');
+	},
 	errorMessage: function(field) {
 		return Session.get('modalChangeCoverErrors')[field];
 	},
@@ -55,12 +58,13 @@ Template.modalChangeCover.events({
 			}
 		}
 		else {
-			console.log("too big");
-			
+
 		}
 	},
 	'click #save-cover, click #update-cover': function(e, t) {
+		var resource = Session.get('modalResource');
 		var file = document.getElementById('input-cover').files[0];
+		var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
 
 		if (file) {
 			// It's a cover change
@@ -71,41 +75,29 @@ Template.modalChangeCover.events({
 			reader.onloadend = function(e) {
 				// Set the uploaded file object
 				var uploadedFile = {
+					resource: Session.get('modalResource'), // Infos about the currently edited resource
 					data: jic.compress(e.target.result, 60), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
-					role: "cover" // Can be cover or avatar
+					role: "cover", // Can be cover or avatar
+					focusX: imgFocusAttr.x,
+					focusY: imgFocusAttr.y,
+					w: imgFocusAttr.w,
+					h: imgFocusAttr.h
 				}
-				Meteor.call('uploadToS3', uploadedFile, function(error, downloadUrl) {
+				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
-					// Update the user profile
-					var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
-					var cover = {
-						url: downloadUrl,
-						name: Meteor.user()._id + "/cover",
-						focusX: imgFocusAttr.x,
-						focusY: imgFocusAttr.y,
-						w: imgFocusAttr.w,
-						h: imgFocusAttr.h
-					};
-					Meteor.call('userInsertCover', cover, function(error, result) {
-						// display the error to the user and abort
-						if (error) {
-							return alert(error.reason);
-						}
+					// If necessary, refresh the cover image
+					$('.profile-cover-image').attr('src', imageUrl + '? ' + new Date().getTime());
 
-						// If necessary, refresh the cover image
-						$('.profile-cover-image').attr('src', cover.url + '? ' + new Date().getTime());
+					// Close the modal
+					$('#myModal').modal('hide');
 
-						// Close the modal
-						$('#myModal').modal('hide');
-
-						// Set the data to force the focus adjustement
-						$('#profile-cover-bg').data('focusY', cover.focusY);
-						$('#profile-cover-bg').data('focusX', cover.focusX);
-						$('#profile-cover-bg').data('imageW', cover.w);
-						$('#profile-cover-bg').data('imageH', cover.h);
-						$('#profile-cover-bg').focusPoint();
-				    });
+					// Set the data to force the focus adjustement
+					$('#profile-cover-bg').data('focusY', uploadedFile.focusY);
+					$('#profile-cover-bg').data('focusX', uploadedFile.focusX);
+					$('#profile-cover-bg').data('imageW', uploadedFile.w);
+					$('#profile-cover-bg').data('imageH', uploadedFile.h);
+					$('#profile-cover-bg').focusPoint();
 				});
 			}
 		} else {

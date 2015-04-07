@@ -6,6 +6,7 @@
  * 03 - Bootstrap tagsinput
  * 04 - Buttons
  * 05 - Modals
+ * 06 - Profile page
  */
 
 body {
@@ -55,7 +56,7 @@ form small.error {
 .btn {
 	border-radius: 3px;
 	transition: box-shadow 0.3s ease;
-	padding: 6px 25px;
+	padding: 9px 25px;
 }
 .btn:hover {
 	box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.20);
@@ -172,4 +173,150 @@ form small.error {
 	padding-right: 15px;
 	padding-left: 15px;
 	padding-bottom: 25px;
+}
+
+/**
+ * 06 - Profile page
+ */
+.profile-page {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.profile-page > .row,
+.profile-page header .row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.profile-page header {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.profile-page #cover-avatar {
+	height: 420px;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+.profile-page .profile-cover {
+	height: 420px;
+	background-color: #333333;
+	width: 100%;
+	box-shadow: 0px 0px 110px 21px rgba(0, 0, 0, 0.5) inset;
+}
+
+.profile-page .profile-cover-image {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	display: block;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	max-height: none;
+	max-width: none;
+}
+
+.profile-page #profile-cover-bg {
+	height: 420px;
+}
+
+.profile-page .profile-avatar-image {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	display: block;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	max-height: none;
+	max-width: none;
+}
+
+.profile-page #profile-avatar-bg {
+	height: 160px;
+	width: 160px;
+}
+
+.profile-page .upload-cover-btn {
+	position: absolute;
+	display: none;
+	bottom: 10px;
+	text-align: center;
+	font-weight: bold;
+	width: 250px;
+	left: -125px;
+	margin-left: 50%;
+	margin-right: auto;
+}
+
+.profile-page .profile-cover:hover .upload-cover-btn {
+	display: block;
+}
+
+.profile-page .profile-avatar {
+	width: 160px;
+	height: 160px;
+	background-color: #eeeeee;
+	position: absolute;
+	top: 120px;
+	margin-left: 50%;
+	left: -80px;
+	border-radius: 80px;
+	text-align: center;
+	overflow: hidden;
+	text-align: center;
+}
+
+#input-avatar {
+	display: none;
+}
+
+.profile-page .profile-avatar .glyphicon {
+	font-size: 41px;
+	top: 55px;
+	z-index: 10;
+}
+
+.profile-page .profile-avatar .edit-cover-icon {
+	display: none;
+}
+
+.profile-page #upload-avatar-btn:hover .edit-cover-icon {
+	display: inline-block;
+}
+
+
+/* Inner navigation */
+.profile-page #inner-nav .nav-pills {
+	background-color: #FFFFFF;
+	box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
+	margin-bottom: 50px;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 47px;
+}
+
+.profile-page #inner-nav .nav-pills > li > a {
+	color: #1c1c1c;
+	border-radius: 0px;
+	padding: 15px 15px 10px 15px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.profile-page #inner-nav .nav-pills > li > a:hover {
+	background-color: transparent;
+	border-bottom: 2px solid #010101;
+}
+
+.profile-page #inner-nav .nav-pills > li.active > a {
+	background-color: transparent;
+	color: #1c1c1c;
+	border-bottom: 2px solid #010101;
 }

@@ -4,12 +4,7 @@
 	border: 1px solid #eaeaec;
 	background-color: #ffffff;
 	width: 100%;
-}
-
-.user-profile-places .col-md-4:first-child,
-.user-profile-places .col-md-4:last-child {
-	padding-right: 0px;
-	padding-left: 0px;
+	margin-bottom: 30px;
 }
 
 .user-profile-places .place header {

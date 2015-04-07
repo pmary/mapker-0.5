@@ -12,15 +12,15 @@
 				</div>
 				{{/if}}
 				
-				{{#if currentUser.profile.avatar}}
+				{{#if modalResource.logo}}
 				<div class="image-update-container">
 
 					<div class="helper-tool">
 						<!-- <img class="focus-target-reticle" src='../img/focuspoint-target.png' /> -->
 						<div class="helper-tool-target" id="helper-tool-container">
-							<img class="helper-tool-img" id="avatar-helper-tool-img" src="{{currentUser.profile.avatar.url}}">
+							<img class="helper-tool-img" id="avatar-helper-tool-img" src="{{modalResource.logo.url}}">
 							<img class="reticle" src="http://jonom.github.io/jquery-focuspoint/demos/img/focuspoint-target.png">
-							<img class="target-overlay" id="avatar-target-overlay" src="{{currentUser.profile.avatar.url}}">
+							<img class="target-overlay" id="avatar-target-overlay" src="{{modalResource.logo.url}}">
 						</div>
 						<em>Click on the image to indicate where this focal point is located. This ensure that this point will be never cropped out</em>
 					</div>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-default" id="cancel-modal-avatar">Cancel</button>
-				{{#if currentUser.profile.cover}}
+				{{#if modalResource.cover}}
 				<button class="btn btn-success" id="update-avatar">Update</button>
 				{{else}}
 				<button class="btn btn-success" id="save-avatar">Save</button>
