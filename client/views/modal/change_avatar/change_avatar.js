@@ -86,6 +86,7 @@ Template.modalChangeAvatar.events({
 				}
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
+					console.log(imageUrl);
 					// If necessary, refresh the avatar image
 					$('.profile-avatar-image').attr('src', imageUrl + '? ' + new Date().getTime());
 

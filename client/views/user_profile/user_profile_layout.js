@@ -25,7 +25,7 @@ Template.UserProfileLayout.events({
 		// Open the cover change modal
 		Session.set('modalChangeCoverErrors', {});
 		Session.set('activeModal', 'modalChangeCover');
-		setModalData(t);		
+		setModalData(t);
 
 		// Display the upload btn and hide the helper tool
 		$('.modal-change-cover .image-upload-container .helper-tool').css('display', 'none');
