@@ -12,10 +12,15 @@
 }
 
 .user-profile-bio form#add-skill-form button {
+	position: absolute;
 	height: 40px;
 }
 
 .user-profile-bio #input-skill {
+}
+
+.user-profile-bio .user-skills:hover .skill-edit {
+	display: inline-block;
 }
 
 .user-profile-bio .user-skill {
@@ -24,10 +29,48 @@
 	border-radius: 3px;
 	border: 1px solid #d8d8d8;
 	color: #1c1c1c;
-	padding: 15px;
-	padding-top: 10px;
-	padding-bottom: 10px;
 	text-transform: capitalize;
 	height: 40px;
 	margin-right: 15px;
+	margin-bottom: 15px;
+}
+
+.user-profile-bio .user-skill .skill-title {
+	display: inline-block;
+	padding: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.user-profile-bio .user-skill .skill-edit {
+	display: none;
+	border-left: 1px solid #d8d8d8;
+	padding: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.user-profile-bio .user-skill .skill-remove {
+	display: inline-block;
+	border-left: 1px solid #d8d8d8;
+	padding: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.user-profile-bio .user-skill .skill-edit:hover,
+.user-profile-bio .user-skill .skill-remove:hover {
+	cursor: pointer;
+}
+
+.user-profile-bio .user-skill .skill-remove .glyphicon {
+	padding: 0px;
+}
+
+.user-profile-bio .edit-user-skills {
+	display: none;
+}
+
+.user-profile-bio .edit-user-skills input {
+	display: none;
 }

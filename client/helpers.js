@@ -33,6 +33,15 @@ UI.registerHelper('htmlLineBreack', function(text) {
 	return text;
 });
 
+isDuplicateSkillValidation = function(value, array) {
+	var result = false;
+	for (var i = 0; i < array.length; i++) {
+		if (array[i].title.toLowerCase() == value.toLowerCase())
+			result = "You already have this skill";
+	}
+	return result;
+}
+
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {
 		return "Required field";

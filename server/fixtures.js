@@ -4,36 +4,35 @@
 if (Meteor.users.find().count() === 0) {
 	// Insert some fake user data
 	Meteor.users.insert({
-	    "_id" : "aRWQgD69236KGBdpG",
-	    "createdAt" : Date("2014-09-30T23:21:38.724Z"),
-	    "emails" : [ 
-	        {
-	            "address" : "contact@pierre-mary.fr",
-	            "verified" : false
-	        }
-	    ],
-	    "profile" : {
-	        "firstname" : "Pierre",
-	        "lastname" : "Mary"
-	    },
-	    "services" : {
-	        "password" : {
-	            "bcrypt" : "$2a$10$84ZnKfSJYdLRVJZLVRwUJeLHWvACobch484csP7bd9C1RZw3hUwNK",
-	            "reset" : {
-	                "token" : "QYPKWuP-S_Xwu0DWW9VIZMYJxaV6pajt8RTN4ixijtZ",
-	                "email" : "contact@pierre-mary.fr",
-	                "when" : Date("2014-09-30T23:21:38.724Z")
-	            }
-	        },
-	        "resume" : {
-	            "loginTokens" : [ 
-	                {
-	                    "when" : Date("2014-09-30T23:21:38.724Z"),
-	                    "hashedToken" : "xvk8lSswpb/ZgjlyajAWarNlU5LtnDtCgDeD+dKte+k="
-	                }
-	            ]
-	        }
-	    }
+		"_id": "i4FxWHYGyQr3LyN4x",
+		"emails": [
+			{
+				"address": "contact@pierre-mary.fr",
+				"verified": false
+			}
+		],
+		"profile": {
+			"firstname": "Pierre",
+			"lastname": "Mary",
+			"activity": "Développeur",
+			"countryCode": "FR",
+			"zipcode": "75002",
+			"skills": []
+		},
+		"createdAt": "2015-04-07T13:55:07.055Z",
+		"services": {
+			"password": {
+				"bcrypt": "$2a$10$v2TlzgpnE1P0suDat36Ib.2XDusfIHkepa.HIAySCO8DpF1bIigbi"
+			},
+			"resume": {
+				"loginTokens": [
+					{
+						"when": "2015-04-07T13:55:07.061Z",
+						"hashedToken": "2JjDKJqaBqEU8vHq59tIVlBNbMkb/+51OVa1z32u1ms="
+					}
+				]
+			}
+		}
 	});
 };
 

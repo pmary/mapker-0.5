@@ -37,7 +37,7 @@ Template.userJoin.events({
 				// Success. Account has been created and the user
 				// has logged in successfully. 
 				console.log("sucess account creation");
-				Router.go('userProfile', {_id: Meteor.user()._id});
+				Router.go('userProfileBio', {_id: Meteor.user()._id});
 			}
 		});
 
