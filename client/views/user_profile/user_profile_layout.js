@@ -1,9 +1,14 @@
 Template.UserProfileLayout.helpers({
+	errorMessage: function(field) {
+		return Session.get('userUpdateIdentityErrors')[field];
+	},
+	errorClass: function (field) {
+		return !!Session.get('userUpdateIdentityErrors')[field] ? 'has-error' : '';
+	}
 });
 
-Template.UserProfileLayout.onRendered = function(){
-	console.log( this.findAll() );
-	//this.find('#profile-avatar-bg').focusPoint();
+Template.UserProfileLayout.rendered = function(){
+	//$('#identity-edit').popover();
 };
 
 var setModalData = function(t) {
@@ -17,10 +22,16 @@ var setModalData = function(t) {
 }
 
 Template.UserProfileLayout.events({
+	/**
+	 * Inner navigation UI
+	 */
 	'click #inner-nav a' : function(e, t){
 		$('#inner-nav li').removeClass('active');
 		e.target.parentNode.className = 'active';
 	},
+	/**
+	 * Avatar and cover update UI
+	 */
 	'click .upload-cover-btn' : function(e, t){
 		// Open the cover change modal
 		Session.set('modalChangeCoverErrors', {});
@@ -38,5 +49,30 @@ Template.UserProfileLayout.events({
 
 		// Init focuspoint
 		$('#helper-tool-container').jQueryFocuspointHelpertool();
+	},
+	/**
+	 * Identity edition UI
+	 */
+	'click #identity-edit' : function(e,t) {
+		console.log("edit identity");
+	},
+	'submit #identity-form' : function(e,t) {
+		e.preventDefault();
+		var identity = {
+			firstname: t.find('#edit-first-name').value,
+			lastname: t.find('#edit-last-name').value,
+			activity: t.find('#edit-activity').value,
+			countryCode: t.find('#edit-select-country').value,
+			zipcode: t.find('#edit-zipcode').value
+		};
+
+		var errors = validateUserIdentity(identity);
+		console.log(errors);
+		Session.set('userUpdateIdentityErrors', errors);
+		if (Object.keys(errors).length)
+			return; // Abort the account creation due to errors
+	},
+	'click #close-identity-edit-popover' : function(e,t) {
+		$('#identity-edit').popover('hide');
 	}
 });

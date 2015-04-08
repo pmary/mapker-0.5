@@ -7,6 +7,7 @@
  * 04 - Buttons
  * 05 - Modals
  * 06 - Profile page
+ * 07 - Icons
  */
 
 body {
@@ -192,11 +193,13 @@ form small.error {
 .profile-page header {
 	padding-right: 0px;
 	padding-left: 0px;
+	margin-bottom: 20px;
 }
 
 .profile-page #cover-avatar {
 	height: 420px;
 	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+	-webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
 }
 
 .profile-page .profile-cover {
@@ -297,6 +300,7 @@ form small.error {
 	background-color: #FFFFFF;
 	box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
 	margin-bottom: 50px;
+	margin-top: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
 	height: 47px;
@@ -319,4 +323,22 @@ form small.error {
 	background-color: transparent;
 	color: #1c1c1c;
 	border-bottom: 2px solid #010101;
+}
+
+/**
+ * 07 - Icons
+ */
+.icon {
+
+}
+
+.icon-user-dot {
+	position: relative;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	background-color: #20DEC2;
+	border: 3px solid #1ABDA4;
+	border-radius: 20px;
 }
