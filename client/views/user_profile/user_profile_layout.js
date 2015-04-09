@@ -1,12 +1,3 @@
-Template.UserProfileLayout.helpers({
-	errorMessage: function(field) {
-		return Session.get('userUpdateIdentityErrors')[field];
-	},
-	errorClass: function (field) {
-		return !!Session.get('userUpdateIdentityErrors')[field] ? 'has-error' : '';
-	}
-});
-
 Template.UserProfileLayout.rendered = function(){
 	//$('#identity-edit').popover();
 };
@@ -54,7 +45,36 @@ Template.UserProfileLayout.events({
 	 * Identity edition UI
 	 */
 	'click #identity-edit' : function(e,t) {
-		console.log("edit identity");
+		/**
+		 * Render the identity edition template to the popover.
+		 * Be sure to always call Blaze.remove when the View is no longer needed.
+		 * Doc: http://docs.meteor.com/#/full/blaze_renderwithdata
+		 */
+		if (t.find('#user-infos .popover')) {
+			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#user-infos .popover-content'));
+		} else {
+			Session.set('userUpdateIdentityErrors', {}); // Clean the errors and prevent undefined session var
+			$('#identity-edit').popover({html: true, content: " "});
+			$('#identity-edit').popover('show');
+			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#user-infos .popover-content'));
+		}
+	},
+});
+
+Template.userProfileIdentityEdition.helpers({
+	errorMessage: function(field) {
+		return Session.get('userUpdateIdentityErrors')[field];
+	},
+	errorClass: function (field) {
+		return !!Session.get('userUpdateIdentityErrors')[field] ? 'has-error' : '';
+	}
+});
+
+Template.userProfileIdentityEdition.events({
+	'click #close-identity-edit-popover': function (e, t) {
+		// Destroy the view and the popover
+		Blaze.remove(t.view);
+		$('#identity-edit').popover('destroy');
 	},
 	'submit #identity-form' : function(e,t) {
 		e.preventDefault();
@@ -67,12 +87,18 @@ Template.UserProfileLayout.events({
 		};
 
 		var errors = validateUserIdentity(identity);
-		console.log(errors);
 		Session.set('userUpdateIdentityErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
-	},
-	'click #close-identity-edit-popover' : function(e,t) {
-		$('#identity-edit').popover('hide');
+
+		Meteor.call('userUpdateIdentity', identity, function(error, result) {
+			// display the error to the user and abort
+			if (error)
+				console.log(error);
+
+			// Destroy the view and the popover
+			Blaze.remove(t.view);
+			$('#identity-edit').popover('destroy');
+	    });
 	}
 });

@@ -16,6 +16,14 @@
 	max-width: 320px;
 }
 
+#user-profile-page #user-infos .popover {
+	top: 0px;
+}
+
+#user-profile-page #user-infos .popover.right > .arrow {
+	top: 8%;
+}	
+
 #user-profile-page #user-infos #identity,
 #user-profile-page #user-infos #identity-edit {
 	display: inline-block;
