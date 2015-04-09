@@ -51,11 +51,11 @@ Template.UserProfileLayout.events({
 	/* Identity edition UI */
 	/*****************************************************************************/
 	'click #identity-edit' : function(e,t) {		
-		if (t.find('#user-infos-identity .popover')) {
+		if (t.find('#resource-infos-identity .popover')) {
 			// Render the identity edition template to the popover.
 			// Be sure to always call Blaze.remove when the View is no longer needed.
 			// Doc: http://docs.meteor.com/#/full/blaze_renderwithdata
-			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#user-infos-identity .popover-content'));
+			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#resource-infos-identity .popover-content'));
 		} else {
 			// Clean the errors and prevent undefined session var
 			Session.set('userUpdateIdentityErrors', {});
@@ -64,18 +64,18 @@ Template.UserProfileLayout.events({
 			// Show the popover
 			$('#identity-edit').popover('show');
 			// Render the userProfileIdentityEdition template in the popover with the current template data
-			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#user-infos-identity .popover-content'));
+			Blaze.renderWithData(Template.userProfileIdentityEdition, t.data, t.find('#resource-infos-identity .popover-content'));
 		}
 	},
 	/*****************************************************************************/
 	/* Social profiles UI */
 	/*****************************************************************************/
 	'click #add-social-profiles, click #edit-social-profiles' : function(e,t) {
-		if (t.find('#user-infos-social-profiles .popover')) {
+		if (t.find('#resource-infos-social-profiles .popover')) {
 			// Render the social profiles edition template to the popover.
 			// Be sure to always call Blaze.remove when the View is no longer needed.
 			// Doc: http://docs.meteor.com/#/full/blaze_renderwithdata
-			Blaze.renderWithData(Template.userUpdateSocialProfiles, t.data, t.find('#user-infos-social-profiles .popover-content'));
+			Blaze.renderWithData(Template.userUpdateSocialProfiles, t.data, t.find('#resource-infos-social-profiles .popover-content'));
 		} else {
 			// Clean the errors and prevent undefined session var
 			Session.set('userUpdateSocialProfilesErrors', {});
@@ -84,7 +84,7 @@ Template.UserProfileLayout.events({
 			// Show the popover
 			$('#social-profiles').popover('show');
 			// Render the userUpdateSocialProfiles template in the popover with the current template data
-			Blaze.renderWithData(Template.userUpdateSocialProfiles, t.data, t.find('#user-infos-social-profiles .popover-content'));
+			Blaze.renderWithData(Template.userUpdateSocialProfiles, t.data, t.find('#resource-infos-social-profiles .popover-content'));
 		}
 	}
 });

@@ -185,6 +185,7 @@ form small.error {
 	padding-left: 0px;
 }
 
+/* Header (cover and avatar) */
 .profile-page > .row,
 .profile-page header .row {
 	margin-right: 0px;
@@ -228,20 +229,6 @@ form small.error {
 	height: 420px;
 }
 
-.profile-page .profile-avatar-image {
-	position: absolute;
-	left: 0;
-	top: 0;
-	margin: 0;
-	display: block;
-	width: auto;
-	height: auto;
-	min-width: 100%;
-	min-height: 100%;
-	max-height: none;
-	max-width: none;
-}
-
 .profile-page #profile-avatar-bg {
 	height: 160px;
 	width: 160px;
@@ -263,20 +250,6 @@ form small.error {
 	display: block;
 }
 
-.profile-page .profile-avatar {
-	width: 160px;
-	height: 160px;
-	background-color: #eeeeee;
-	position: absolute;
-	top: 120px;
-	margin-left: 50%;
-	left: -80px;
-	border-radius: 80px;
-	text-align: center;
-	overflow: hidden;
-	text-align: center;
-}
-
 #input-avatar {
 	display: none;
 }
@@ -293,6 +266,73 @@ form small.error {
 
 .profile-page #upload-avatar-btn:hover .edit-cover-icon {
 	display: inline-block;
+}
+
+/* Resource infos */
+.profile-page #resource-infos h1 {
+	color: #1c1c1c;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.profile-page #resource-infos-identity .popover {
+	width: 320px;
+	max-width: 320px;
+	top: 0px !important;
+}
+
+.profile-page #resource-infos .popover.right > .arrow {
+	top: 8% !important;
+}	
+
+.profile-page #resource-infos #identity,
+.profile-page #resource-infos #identity-edit {
+	display: inline-block;
+}
+
+.profile-page #resource-infos #identity-edit:hover {
+	cursor: pointer;
+}
+
+.profile-page #resource-infos #identity-edit:hover .glyphicon-pencil {
+	display: inline-block;
+}
+
+.profile-page #resource-infos #identity-edit .glyphicon-pencil {
+	display: none;
+	font-size: 16px;
+}
+
+.profile-page #resource-infos #user-name {
+	text-transform: uppercase;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.profile-page #resource-infos #user-activity {
+	font-size: 19px;
+}
+
+.profile-page #resource-infos #user-area {
+	position: relative;
+	font-size: 16px;
+	color: #7d7d7d;
+	right: -40px;
+}
+
+/* Social profiles */
+.profile-page #resource-infos-social-profiles {
+	padding-top: 15px;
+}
+
+.profile-page #resource-infos-social-profiles .popover {
+	width: 320px;
+	max-width: 320px;
+	top: 0px !important;
+}
+
+.profile-page #resource-infos-social-profiles:hover #edit-social-profiles {
+	display: block;
 }
 
 
@@ -341,6 +381,17 @@ form small.error {
 	display: inline-block;
 	background-color: #20DEC2;
 	border: 3px solid #1ABDA4;
+	border-radius: 20px;
+}
+
+.icon-place-dot {
+	position: relative;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	background-color: #fc3975;
+	border: 3px solid #de3366;
 	border-radius: 20px;
 }
 

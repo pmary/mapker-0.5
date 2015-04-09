@@ -133,11 +133,11 @@
 			</header>
 		</div>
 
-		<section class="row" id="user-infos">
+		<section class="row" id="resource-infos">
 			<div class="col-md-8 col-sm-offset-2">
 				<div class="row">
 
-					<div id="user-infos-identity" class="col-sd-12 col-md-6">
+					<div id="resource-infos-identity" class="col-sd-12 col-md-6">
 						{{#if eq currentUser._id user._id}}
 						<div id="identity-edit" role="button">
 							<div id="identity">
@@ -172,7 +172,7 @@
 						{{/if}}
 					</div>
 
-					<div id="user-infos-social-profiles" class="col-sd-12 col-md-6">
+					<div id="resource-infos-social-profiles" class="col-sd-12 col-md-6">
 						<div id="social-profiles">
 						
 						{{#if user.profile.links}}
@@ -229,4 +229,5 @@
 			</div>
 		</div>
 	</div>
+	{{> footer}}
 </template>

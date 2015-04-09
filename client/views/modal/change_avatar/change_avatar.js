@@ -1,6 +1,6 @@
 var avatarHelperContainer;
 
-Template.modalChangeAvatar.onRendered = function() {
+Template.modalChangeAvatar.rendered = function() {
 	$('.modal-change-avatar [data-toggle="popover"]').popover();
 
 	avatarHelperContainer = $('#helper-tool-container').jQueryFocuspointHelpertool();

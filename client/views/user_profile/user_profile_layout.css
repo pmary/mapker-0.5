@@ -2,78 +2,39 @@
  * 01 - User infos
  * 02 - Social profiles
  */
+#user-profile-page .profile-avatar {
+	width: 160px;
+	height: 160px;
+	background-color: #eeeeee;
+	position: absolute;
+	top: 120px;
+	margin-left: 50%;
+	left: -80px;
+	border-radius: 80px;
+	text-align: center;
+	overflow: hidden;
+	text-align: center;
+	border: 2px solid #FAFAFC;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+}
+
+#user-profile-page .profile-avatar-image {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	display: block;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	max-height: none;
+	max-width: none;
+}
 
 /**
  * 01 - User infos
  */
-#user-profile-page #user-infos h1 {
-	color: #1c1c1c;
-	margin-top: 0px;
-	margin-bottom: 5px;
-}
-
-#user-profile-page #user-infos-identity .popover {
-	width: 320px;
-	max-width: 320px;
-	top: 0px !important;
-}
-
-#user-profile-page #user-infos .popover.right > .arrow {
-	top: 8% !important;
-}	
-
-#user-profile-page #user-infos #identity,
-#user-profile-page #user-infos #identity-edit {
-	display: inline-block;
-}
-
-#user-profile-page #user-infos #identity-edit:hover {
-	cursor: pointer;
-}
-
-#user-profile-page #user-infos #identity-edit:hover .glyphicon-pencil {
-	display: inline-block;
-}
-
-#user-profile-page #user-infos #identity-edit .glyphicon-pencil {
-	display: none;
-	font-size: 16px;
-}
-
-#user-profile-page #user-infos #user-name {
-	text-transform: uppercase;
-	font-size: 22px;
-	font-weight: bold;
-}
-
-#user-profile-page #user-infos #user-activity {
-	font-size: 19px;
-}
-
-#user-profile-page #user-infos #user-area {
-	position: relative;
-	font-size: 16px;
-	color: #7d7d7d;
-	right: -40px;
-}
-
-/**
- * 02 - Social profiles
- */
-#user-profile-page #user-infos-social-profiles {
-	padding-top: 15px;
-}
-
-#user-profile-page #user-infos-social-profiles .popover {
-	width: 320px;
-	max-width: 320px;
-	top: 0px !important;
-}
-
-#user-infos-social-profiles:hover #edit-social-profiles {
-	display: block;
-}
-
 #social-profiles {
 	position: relative;
 	float: right;
