@@ -1,5 +1,6 @@
 /**
  * 01 - User infos
+ * 02 - Social profiles
  */
 
 /**
@@ -11,17 +12,14 @@
 	margin-bottom: 5px;
 }
 
-#user-profile-page #user-infos .popover {
+#user-profile-page #user-infos-identity .popover {
 	width: 320px;
 	max-width: 320px;
-}
-
-#user-profile-page #user-infos .popover {
-	top: 0px;
+	top: 0px !important;
 }
 
 #user-profile-page #user-infos .popover.right > .arrow {
-	top: 8%;
+	top: 8% !important;
 }	
 
 #user-profile-page #user-infos #identity,
@@ -57,4 +55,43 @@
 	font-size: 16px;
 	color: #7d7d7d;
 	right: -40px;
+}
+
+/**
+ * 02 - Social profiles
+ */
+#user-profile-page #user-infos-social-profiles {
+	padding-top: 15px;
+}
+
+#user-profile-page #user-infos-social-profiles .popover {
+	width: 320px;
+	max-width: 320px;
+	top: 0px !important;
+}
+
+#user-infos-social-profiles:hover #edit-social-profiles {
+	display: block;
+}
+
+#social-profiles {
+	position: relative;
+	float: right;
+}
+
+#social-profiles #edit-social-profiles {
+	display: none;
+	color: #1ABDA4;
+	text-decoration: underline;
+}
+
+#social-profiles #add-social-profiles {
+	padding: 10px;
+	border: 1px dashed #C9C9C9;
+}
+
+#social-profiles #add-social-profiles:hover {
+	cursor: pointer;
+	border: 1px dashed #20DEC2;
+	color: #20DEC2;
 }

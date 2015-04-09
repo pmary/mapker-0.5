@@ -40,6 +40,33 @@
 	</form>
 </template>
 
+<template name="userUpdateSocialProfiles">
+	<form id='social-profiles-form'>
+		<div class='form-group {{errorClass "facebook"}}'>
+			<label for='edit-activity'>Facebook</label>
+			<input class='form-control' type='text' id='edit-facebook' value='{{user.profile.links.facebook}}'>
+			<span class='help-block'>{{errorMessage 'facebook'}}</span>
+		</div>
+		<div class='form-group {{errorClass "flickr"}}'>
+			<label for='edit-activity'>Flickr</label>
+			<input class='form-control' type='text' id='edit-flickr' value='{{user.profile.links.flickr}}'>
+			<span class='help-block'>{{errorMessage 'flickr'}}</span>
+		</div>
+		<div class='form-group {{errorClass "twitter"}}'>
+			<label for='edit-activity'>Twitter</label>
+			<input class='form-control' type='text' id='edit-twitter' value='{{user.profile.links.twitter}}'>
+			<span class='help-block'>{{errorMessage 'twitter'}}</span>
+		</div>
+		<div class='form-group {{errorClass "website"}}'>
+			<label for='edit-activity'>Personal website</label>
+			<input class='form-control' type='text' id='edit-website' value='{{user.profile.links.website}}'>
+			<span class='help-block'>{{errorMessage 'website'}}</span>
+		</div>
+		<button type='button' class='btn btn-default' id='close-social-profiles-popover'>Cancel</button>
+		<button type='submit' class='btn btn-success' id='save-identity-btn'>Save</button>
+	</form>
+</template>
+
 <template name="UserProfileLayout">
 	<div class="container-fluid profile-page" id="user-profile-page">
 		<div class="row">
@@ -109,7 +136,8 @@
 		<section class="row" id="user-infos">
 			<div class="col-md-8 col-sm-offset-2">
 				<div class="row">
-					<div class="col-sd-12 col-md-6">
+
+					<div id="user-infos-identity" class="col-sd-12 col-md-6">
 						{{#if eq currentUser._id user._id}}
 						<div id="identity-edit" role="button">
 							<div id="identity">
@@ -128,22 +156,53 @@
 							</div>
 						</div>
 						{{else}}
-						<div>
-							<h1 id="user-name">
-								{{user.profile.firstname}} {{user.profile.lastname}}
+						<div id="identity">
+							<h1>
+								<span class="icon icon-user-dot"></span>
+								<span id="user-name">{{user.profile.firstname}} {{user.profile.lastname}}</span>
 								{{#if user.profile.activity}}
-								<span class="user-activity">- {{user.profile.activity}}</span>
+								<span id="user-activity">- {{user.profile.activity}}</span>
 								{{/if}}
 							</h1>
 							
 							{{#if user.profile.zipcode}}
-							<span class="user-area">{{user.profile.zipcode}}</span>
+							<span id="user-area">{{user.profile.zipcode}}</span>
 							{{/if}}
 						</div>
 						{{/if}}
 					</div>
-					<div class="col-sd-12 col-md-6">
+
+					<div id="user-infos-social-profiles" class="col-sd-12 col-md-6">
+						<div id="social-profiles">
+						
+						{{#if user.profile.links}}
+							{{#if user.profile.links.facebook}}
+							<a href="{{user.profile.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
+							{{/if}}
+							{{#if user.profile.links.twitter}}
+							<a href="{{user.profile.links.twitter}}" target="_blank"><span class="social-icon-25 social-icon-25-twitter"></span></a>
+							{{/if}}
+							{{#if user.profile.links.flickr}}
+							<a href="{{user.profile.links.flickr}}" target="_blank"><span class="social-icon-25 social-icon-25-flickr"></span></a>
+							{{/if}}
+							{{#if user.profile.links.website}}
+							<a href="{{user.profile.links.website}}" target="_blank"><span class="social-icon-25 social-icon-25-website"></span></a>
+							{{/if}}
+
+							{{#if eq currentUser._id user._id}}
+							<a href="#" id="edit-social-profiles">Edit</a>
+							{{/if}}
+						{{else}}
+							{{#if eq currentUser._id user._id}}
+							<div id="add-social-profiles">
+								Add your social profiles
+							</div>
+							{{/if}}
+						{{/if}}
+						
+						</div>
 					</div>
+
 				</div>
 			</div>
 		</section>
