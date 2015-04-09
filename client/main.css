@@ -8,6 +8,7 @@
  * 05 - Modals
  * 06 - Profile page
  * 07 - Icons
+ * 08 - Panels
  */
 
 body {
@@ -365,4 +366,29 @@ form small.error {
 
 .social-icon-25-flickr {
 	background-position: 175px 0px;
+}
+
+/**
+ * 08 - Panels
+ */
+.panel-user {
+	margin-top: 60px;
+	max-width: 355px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.panel-user .panel-heading h3 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 21px;
+	font-weight: normal;
+}
+
+.panel-user .panel-heading {
+	color: #ffffff;
+	background-color: #28baa3;
+	height: 60px;
+	text-align: center;
+	padding: 20px;
 }
