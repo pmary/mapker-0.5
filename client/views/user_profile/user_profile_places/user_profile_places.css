@@ -11,6 +11,7 @@
 	position: relative;
 	height: 140px;
 	overflow: hidden;
+	margin-bottom: 0px;
 }
 
 .user-profile-places .place header .validation-in-progess {
@@ -24,15 +25,18 @@
 	font-size: 12px;
 }
 
-.user-profile-places .place header .logo {
+.user-profile-places .place header .avatar {
+	position: absolute;
 	display: block;
 	width: 140px;
 	height: 140px;
 	background-color: #ffffff;
 	float: left;
+	z-index: 1;
 }
 
 .user-profile-places .place header .cover {
+	position: absolute;
 	display: block;
 	width: 100%;
 	height: 140px;
