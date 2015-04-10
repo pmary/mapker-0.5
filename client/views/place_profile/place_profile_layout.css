@@ -28,3 +28,7 @@
 	max-height: none;
 	max-width: none;
 }
+
+#place-profile-page .popover #submit-identity {
+	display: none;
+}

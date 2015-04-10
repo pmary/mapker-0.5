@@ -5,6 +5,8 @@ Template.modalAddPlace.rendered = function() {
 	$('.modal-add-place [data-toggle="popover"]').popover();
 
 	// Init the tags input
+	$('input#input-activities').tagsinput('destroy');
+	$('input#input-themes').tagsinput('destroy');
 	$("input#input-themes").tagsinput('items');
 	$("input#input-activities").tagsinput('items');
 }
@@ -53,41 +55,38 @@ var checkPlaceData = function(t, step) {
 		if (!error) {
 			//console.log(result);
 			var data = result.data;
-			//console.log(data);
 
-			place.loc = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
-			// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
-			Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=600x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
-			
-			// Display the submit btn
-			t.find('#submit-place').style.display = "inline-block";
-			t.find('#check-location').style.display = "none";
+			if (data.status == "OK") {
+				place.loc = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+				// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
+				Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=600x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
+				
+				// Display the submit btn
+				t.find('#submit-place').style.display = "inline-block";
+				t.find('#check-location').style.display = "none";
 
-			if (step == "submit") {
-				// Insert the place in the db
-				// Set the formated address
-				place.formattedAddress = data.results[0].formatted_address;
+				if (step == "submit") {
+					// Insert the place in the db
+					// Set the formated address
+					place.formattedAddress = data.results[0].formatted_address;
 
-				// Sanitize the place object
-				delete place.address;
+					// Sanitize the place object
+					delete place.address;
 
-				console.log(place);
+					console.log(place);
 
-				Meteor.call('placeInsert', place, function(error, result) {
-					// display the error to the user and abort
-					if (error) {
-						console.log(error);
-						return alert(error.reason);
-					}
-					//Router.go('postPage', {_id: result._id});
-					console.log("Place successufully added");
-					console.log(result);
-					// Redirect to the user places page
-					Router.go('userProfilePlaces', {_id: Meteor.user()._id});
-					// Close the modal
-					$('#myModal').modal('hide');
-			    });
-			};
+					Meteor.call('placeInsert', place, function(error, result) {
+						// Display the error to the user and abort
+						if (error)
+							return alert(error.reason);
+
+						// Redirect to the user places page
+						Router.go('userProfilePlaces', {_id: Meteor.user()._id});
+						// Close the modal
+						$('#myModal').modal('hide');
+					});
+				};
+			}
 		}
 	});
 }

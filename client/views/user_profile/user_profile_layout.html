@@ -36,7 +36,7 @@
 			<span class='help-block'>{{errorMessage 'activity'}}</span>
 		</div>
 		<button type='button' class='btn btn-default' id='close-identity-edit-popover'>Cancel</button>
-		<button type='submit' class='btn btn-success' id='save-identity-btn'>Save</button>
+		<button type='submit' class='btn btn-primary' id='save-identity-btn'>Save</button>
 	</form>
 </template>
 
@@ -44,26 +44,26 @@
 	<form id='social-profiles-form'>
 		<div class='form-group {{errorClass "facebook"}}'>
 			<label for='edit-activity'>Facebook</label>
-			<input class='form-control' type='text' id='edit-facebook' value='{{user.profile.links.facebook}}'>
+			<input class='form-control' type='url' id='edit-facebook' value='{{user.profile.links.facebook}}'>
 			<span class='help-block'>{{errorMessage 'facebook'}}</span>
 		</div>
 		<div class='form-group {{errorClass "flickr"}}'>
 			<label for='edit-activity'>Flickr</label>
-			<input class='form-control' type='text' id='edit-flickr' value='{{user.profile.links.flickr}}'>
+			<input class='form-control' type='url' id='edit-flickr' value='{{user.profile.links.flickr}}'>
 			<span class='help-block'>{{errorMessage 'flickr'}}</span>
 		</div>
 		<div class='form-group {{errorClass "twitter"}}'>
 			<label for='edit-activity'>Twitter</label>
-			<input class='form-control' type='text' id='edit-twitter' value='{{user.profile.links.twitter}}'>
+			<input class='form-control' type='url' id='edit-twitter' value='{{user.profile.links.twitter}}'>
 			<span class='help-block'>{{errorMessage 'twitter'}}</span>
 		</div>
 		<div class='form-group {{errorClass "website"}}'>
 			<label for='edit-activity'>Personal website</label>
-			<input class='form-control' type='text' id='edit-website' value='{{user.profile.links.website}}'>
+			<input class='form-control' type='url' id='edit-website' value='{{user.profile.links.website}}'>
 			<span class='help-block'>{{errorMessage 'website'}}</span>
 		</div>
 		<button type='button' class='btn btn-default' id='close-social-profiles-popover'>Cancel</button>
-		<button type='submit' class='btn btn-success' id='save-identity-btn'>Save</button>
+		<button type='submit' class='btn btn-primary' id='save-identity-btn'>Save</button>
 	</form>
 </template>
 

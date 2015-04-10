@@ -1,10 +1,8 @@
 Template.UserProfileLayout.rendered = function(){
-	//$('#identity-edit').popover();
 };
 
 /**
  * @summary Set the 'modalResource' session variable with the data related to the current resource
- * @locus Client
  * @param {Object} [t] The current template instance object
  */
 var setModalData = function(t) {
@@ -50,7 +48,7 @@ Template.UserProfileLayout.events({
 	/*****************************************************************************/
 	/* Identity edition UI */
 	/*****************************************************************************/
-	'click #identity-edit' : function(e,t) {		
+	'click #identity-edit' : function(e,t) {
 		if (t.find('#resource-infos-identity .popover')) {
 			// Render the identity edition template to the popover.
 			// Be sure to always call Blaze.remove when the View is no longer needed.

@@ -1,3 +1,66 @@
+<template name="placeProfileIdentityEdition">
+	<form id='edit-identity-form'>
+		<div class='form-group {{errorClass "name"}}'>
+			<label for='input-name'>Name</label>
+			<input class='form-control' type="text" value="{{place.name}}" id="input-name">
+			<span class='help-block'>{{errorMessage 'name'}}</span>
+		</div>
+		<div class="form-group {{errorClass 'activities'}}">
+			<label for="input-activities">Activities</label>
+			<input type="text" class="form-control" id="input-activities" value="{{place.activities}}" placeholder="" data-role="tagsinput">
+			<span class="help-block">{{errorMessage 'activities'}}</span>
+		</div>
+		<div class="form-group {{errorClass 'address'}}">
+			<label for="input-street-number">Address</label>
+			<input type="number" class="form-control" id="input-street-number" placeholder="N°" value="{{place.streetNumber}}">
+
+			<input type="text" class="form-control" id="input-street-name" placeholder="Street" value="{{place.streetName}}">
+
+			<input type="text" class="form-control" id="input-zipcode" placeholder="Zipecode" value="{{place.zipcode}}">
+
+			<input type="text" class="form-control" id="input-city" placeholder="City" value="{{place.city}}">
+
+			<select id="select-country" class="form-control">
+				<option value="fr">France</option>
+				<option value="sw">Suisse</option>
+			</select>
+
+			<span class="help-block col-sm-offset-2 col-sm-10">{{errorMessage 'address'}}</span>
+			{{{staticMapUrl}}}
+		</div>		
+		<button type='button' class='btn btn-default' id='close-identity-edit-popover'>Cancel</button>
+		<button type='button' class='btn btn-primary' id="check-location">Check your location</button>
+		<button type='submit' class='btn btn-primary' id="submit-identity">Save</button>
+	</form>
+</template>
+
+<template name="placeUpdateSocialProfiles">
+	<form id='social-profiles-form'>
+		<div class='form-group {{errorClass "facebook"}}'>
+			<label for='edit-activity'>Facebook</label>
+			<input class='form-control' type='url' id='edit-facebook' value='{{place.links.facebook}}'>
+			<span class='help-block'>{{errorMessage 'facebook'}}</span>
+		</div>
+		<div class='form-group {{errorClass "flickr"}}'>
+			<label for='edit-activity'>Flickr</label>
+			<input class='form-control' type='url' id='edit-flickr' value='{{place.links.flickr}}'>
+			<span class='help-block'>{{errorMessage 'flickr'}}</span>
+		</div>
+		<div class='form-group {{errorClass "twitter"}}'>
+			<label for='edit-activity'>Twitter</label>
+			<input class='form-control' type='url' id='edit-twitter' value='{{place.links.twitter}}'>
+			<span class='help-block'>{{errorMessage 'twitter'}}</span>
+		</div>
+		<div class='form-group {{errorClass "website"}}'>
+			<label for='edit-activity'>Personal website</label>
+			<input class='form-control' type='url' id='edit-website' value='{{place.links.website}}'>
+			<span class='help-block'>{{errorMessage 'website'}}</span>
+		</div>
+		<button type='button' class='btn btn-default' id='close-social-profiles-popover'>Cancel</button>
+		<button type='submit' class='btn btn-primary' id='save-identity-btn'>Save</button>
+	</form>
+</template>
+
 <template name="placeProfileLayout">
 	<div class="container-fluid profile-page" id="place-profile-page">
 		<div class="row">
@@ -106,18 +169,18 @@
 					<div id="resource-infos-social-profiles" class="col-sd-12 col-md-6">
 						<div id="social-profiles">
 						
-						{{#if user.profile.links}}
-							{{#if user.profile.links.facebook}}
-							<a href="{{user.profile.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
+						{{#if place.links}}
+							{{#if place.links.facebook}}
+							<a href="{{place.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
 							{{/if}}
-							{{#if user.profile.links.twitter}}
-							<a href="{{user.profile.links.twitter}}" target="_blank"><span class="social-icon-25 social-icon-25-twitter"></span></a>
+							{{#if place.links.twitter}}
+							<a href="{{place.links.twitter}}" target="_blank"><span class="social-icon-25 social-icon-25-twitter"></span></a>
 							{{/if}}
-							{{#if user.profile.links.flickr}}
-							<a href="{{user.profile.links.flickr}}" target="_blank"><span class="social-icon-25 social-icon-25-flickr"></span></a>
+							{{#if place.links.flickr}}
+							<a href="{{place.links.flickr}}" target="_blank"><span class="social-icon-25 social-icon-25-flickr"></span></a>
 							{{/if}}
-							{{#if user.profile.links.website}}
-							<a href="{{user.profile.links.website}}" target="_blank"><span class="social-icon-25 social-icon-25-website"></span></a>
+							{{#if place.links.website}}
+							<a href="{{place.links.website}}" target="_blank"><span class="social-icon-25 social-icon-25-website"></span></a>
 							{{/if}}
 
 							{{#if isAdmin}}
