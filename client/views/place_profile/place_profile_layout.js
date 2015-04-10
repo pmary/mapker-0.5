@@ -11,8 +11,7 @@ Template.placeProfileLayout.helpers({
 	}
 });
 
-Template.placeProfileLayout.onRendered = function(){
-
+Template.placeProfileLayout.rendered = function(){
 };
 
 /**

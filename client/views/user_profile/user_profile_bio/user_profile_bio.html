@@ -13,7 +13,11 @@
 				</div>
 				{{/if}}
 			{{else}}
-				{{{htmlLineBreack user.profile.bio}}}
+				{{#if user.profile.bio}}
+					<div class="user-bio-content">
+					{{{htmlLineBreack user.profile.bio}}}
+					</div>
+				{{/if}}
 			{{/if}}
 		</div>
 		<div class="user-bio-edition">
