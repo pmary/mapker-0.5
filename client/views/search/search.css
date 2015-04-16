@@ -1,0 +1,12 @@
+#search-page {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#search-page #map.mapbox {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 1;
+}

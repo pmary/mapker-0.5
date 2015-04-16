@@ -61,6 +61,7 @@ peerlibrary:aws-sdk@2.1.17_1
 peerlibrary:blocking@0.5.2
 pmary:errors@0.0.1
 pmary:focuspoint@0.0.1
+pmary:mapbox@2.1.5
 pmary:tagsinput@0.5.0
 practicalmeteor:chai@1.9.2_3
 practicalmeteor:loglevel@1.1.0_3
