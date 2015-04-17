@@ -8,5 +8,11 @@ Template.primaryNavbar.events({
 		// Open the add place modal
 		var name = t.$(event.target).data('modal-template');
 		Session.set('activeModal', name);
+	},
+	'submit #navbar-search': function(e,t) {
+		e.preventDefault();
+		Session.set('searchTerms', t.find('#navbar-input-search').value);
+		t.find('#navbar-input-search').value = "";
+		Router.go('search');
 	}
 });

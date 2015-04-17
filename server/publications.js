@@ -14,10 +14,23 @@ Meteor.publish('places', function() {
 	return Places.find();
 });
 
+// Return all places where the given user is admin
+Meteor.publish('userPlaces', function(userId) {
+	check(userId, String);
+	return Places.find({administrators: userId});
+});
+
 Meteor.publish('place', function(placeId) {
 	check(placeId, String);
 	return Places.find({_id: placeId});
 });
+
+// Return all the place that are located in the given bounding box
+Meteor.publish('placesWithinBbox', function(bbox) {
+	check(bbox, Array);
+	return Places.find({ "loc": {$within: {$box: bbox}} });
+});
+
 
 Meteor.publish("user", function (userId) {
 	check(userId, String);

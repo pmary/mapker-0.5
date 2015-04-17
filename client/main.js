@@ -1,4 +1,4 @@
-Meteor.subscribe('places');
+//Meteor.subscribe('places');
 
 // Meteor.startup(function(){
 //     Mapbox.load();
