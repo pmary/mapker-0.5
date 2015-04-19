@@ -43,6 +43,7 @@ less@1.0.14
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
+matteodem:easy-search@1.5.4
 meteor@1.1.6
 meteor-platform@1.2.2
 meteortoys:toykit@0.3.4
@@ -63,6 +64,7 @@ peerlibrary:blocking@0.5.2
 pmary:errors@0.0.1
 pmary:focuspoint@0.0.1
 pmary:mapbox@2.1.5
+pmary:selectize@0.12.1
 pmary:tagsinput@0.5.0
 practicalmeteor:chai@1.9.2_3
 practicalmeteor:loglevel@1.1.0_3

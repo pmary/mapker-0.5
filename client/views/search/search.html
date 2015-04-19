@@ -1,3 +1,13 @@
+<template name="placeNameAutocomplete">
+    <span class="label">{{name}}</span>
+</template>
+
+<template name="placeActivitiesAutocomplete">
+	{{#each activities}}
+    <span class="label">{{this}}</span>
+    {{/each}}
+</template>
+
 <template name="search">
 	<div class="container-fluid search-page" id="search-page">
 		<div class="row">
@@ -40,22 +50,22 @@
 				<section class="row" id="search-results">
 					{{#each places}}
 						<div class="col-md-6">
-							<div class="place">
+							<div class="place" data-id="{{_id}}">
 								<header>
 									<div class="focuspoint avatar" data-focus-x="{{avatar.focusX}}" data-focus-y="{{avatar.focusY}}" data-image-w="{{avatar.w}}" data-image-h="{{avatar.h}}">
 										{{#if avatar}}
-										<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="{{avatar.url}}"></a>
+										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" target="_blank"><img src="{{avatar.url}}"></a>
 										{{/if}}
 									</div>
 									<div class="focuspoint cover" data-focus-x="{{cover.focusX}}" data-focus-y="{{cover.focusY}}" data-image-w="{{cover.w}}" data-image-h="{{cover.h}}">
 										{{#if cover}}
-										<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
+										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" target="_blank"><img src="{{cover.url}}" alt="Place cover"></a>
 										{{/if}}
 									</div>
 								</header>
 								
 								<section>
-									<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
+									<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}" target="_blank">{{name}}</a></h1>
 									<h2>{{activities}}</h2>
 								</section>
 							</div>

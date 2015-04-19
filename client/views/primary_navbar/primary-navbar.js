@@ -1,7 +1,6 @@
 Template.primaryNavbar.helpers({
 	// Check if we are on the search page and if yes, hide the navbar search form
-	hideSearch: function() {		
-		console.log(Router.current().route._path);
+	hideSearch: function() {
 		if (Router.current() && Router.current().route._path == '/search')
 			return true
 		else

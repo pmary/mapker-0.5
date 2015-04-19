@@ -9,6 +9,7 @@
  * 06 - Profile page
  * 07 - Icons
  * 08 - Panels
+ * 09 - Pins
  */
 body, html {
 	height: 100%;
@@ -469,4 +470,22 @@ form small.error {
 	height: 60px;
 	text-align: center;
 	padding: 20px;
+}
+
+/**
+ * 09 - Pins
+ */
+.pin {
+	width: 30px;
+	height: 45px;
+	display: block;
+	background-image: url(/images/map-pins-sprite.png);
+}
+
+.pin.place-pin {
+	background-position: 0px 0px;
+}
+
+.pin.pin-place-hover {
+	background-position: 0px -47px;
 }

@@ -10,8 +10,20 @@
 // client: start a all-rooms subscription
 /*Meteor.subscribe("all-rooms");*/
 
-Meteor.publish('places', function() {
-	return Places.find();
+Meteor.publish('placesByName', function(selector, options) {
+	console.log(selector);
+	check(arguments, Object);
+	check(options, Object);
+	Autocomplete.publishCursor( Places.find(selector, options), this);
+	this.ready();
+});
+
+Meteor.publish('placesByActivities', function(selector, options) {
+	/*console.log(selector);
+	console.log(options);*/
+	//console.log("{ activities: { '$regex': "+selector.activities.$regex+", '$options': 'i' } }, { activities: {$elemMatch: { '$regex': "+selector.activities.$regex+", '$options': 'i' }}, _id:0 }");
+
+	return Places.find( { activities: { '$regex': 'aero', '$options': 'i' } },  { activities: {$elemMatch: { '$regex': 'aero', '$options': 'i' }}, _id:0 } );
 });
 
 // Return all places where the given user is admin
