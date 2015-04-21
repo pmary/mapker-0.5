@@ -85,7 +85,8 @@ Template.modalChangeCover.events({
 					h: imgFocusAttr.h
 				}
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
-					if (error) { console.log(error) }
+					if (error) return console.log(error)
+						
 					// If necessary, refresh the cover image
 					$('.profile-cover-image').attr('src', imageUrl + '? ' + new Date().getTime());
 

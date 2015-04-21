@@ -20,7 +20,7 @@ Template.placeProfileLayout.rendered = function(){
  */
 var setModalData = function(t) {
 	var resource = {
-		id: t.data.place._id, // User id
+		id: t.data.place._id,
 		cover: t.data.place.cover,
 		logo: t.data.place.avatar,
 		type: 'place'
@@ -32,6 +32,11 @@ Template.placeProfileLayout.events({
 	/*****************************************************************************/
 	/* Inner navigation UI */
 	/*****************************************************************************/
+	/**
+	 * @summary Add the 'active' class name to the selected nav item and remove it from others
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'click #inner-nav a' : function(e, t){
 		$('#inner-nav li').removeClass('active');
 		e.target.parentNode.className = 'active';
@@ -39,19 +44,31 @@ Template.placeProfileLayout.events({
 	/*****************************************************************************/
 	/* Avatar and cover update UI */
 	/*****************************************************************************/
+	/**
+	 * @summary Open the upload modal and give it the needed data
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'click .upload-cover-btn' : function(e, t){
 		// Open the cover change modal
 		Session.set('modalChangeCoverErrors', {});
 		Session.set('activeModal', 'modalChangeCover');
+		// Pass the mandatory data to the modal instance via a session variable
 		setModalData(t);
 
 		// Display the upload btn and hide the helper tool
 		$('.modal-change-cover .image-upload-container .helper-tool').css('display', 'none');
 	},
+	/**
+	 * @summary Open the upload modal and give it the needed data
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'click #upload-avatar-btn': function(e, t) { console.log(t);
 		// Open the cover change modal
 		Session.set('modalChangeAvatarErrors', {});
 		Session.set('activeModal', 'modalChangeAvatar');
+		// Pass the mandatory data to the modal instance via a session variable
 		setModalData(t);
 
 		// Init focuspoint
@@ -60,7 +77,12 @@ Template.placeProfileLayout.events({
 	/*****************************************************************************/
 	/* Identity edition UI */
 	/*****************************************************************************/
-	'click #identity-edit' : function(e,t) {
+	/**
+	 * @summary Open the upload modal and give it the needed data
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'click #identity-edit' : function(e, t) {
 		if (t.find('#resource-infos-identity .popover')) {
 			// Render the identity edition template to the popover.
 			// Be sure to always call Blaze.remove when the View is no longer needed.
@@ -80,7 +102,12 @@ Template.placeProfileLayout.events({
 	/*****************************************************************************/
 	/* Social profiles UI */
 	/*****************************************************************************/
-	'click #add-social-profiles, click #edit-social-profiles' : function(e,t) {
+	/**
+	 * @summary Init and open the social profiles popover
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'click #add-social-profiles, click #edit-social-profiles' : function(e, t) {
 		if (t.find('#resource-infos-social-profiles .popover')) {
 			// Render the social profiles edition template to the popover.
 			// Be sure to always call Blaze.remove when the View is no longer needed.
@@ -100,7 +127,9 @@ Template.placeProfileLayout.events({
 });
 
 Template.placeProfileIdentityEdition.rendered = function() {
+	// Destroy the existing tagsinput instance on the activities input field to prevent errors
 	$('#edit-identity-form input#input-activities').tagsinput('destroy');
+	// Set a new tagsinput instance for the activities input field
 	$('#edit-identity-form input#input-activities').tagsinput('items');
 	Session.set('staticMapUrl', "");
 }
@@ -118,19 +147,34 @@ Template.placeProfileIdentityEdition.helpers({
 });
 
 Template.placeProfileIdentityEdition.events({
+	/**
+	 * @summary Init and open the social profiles popover
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'click #close-identity-edit-popover': function (e, t) {
 		// Destroy the view and the popover
 		Blaze.remove(t.view);
 		$('#identity-edit').popover('destroy');
 	},
+	/**
+	 * @summary Because the address has changed, force the user to recheck it before he can submit
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'change #input-street-number, keypress #input-street-number, keypress #input-street-name, keypress #input-zipcode, keypress #input-city, change #select-country' : function(e,t) {
 		// Hide the submit btn, display the check one
 		t.find('#submit-identity').style.display = "none";
 		t.find('#check-location').style.display = "inline-block";
-		// Remove the map because it's no longer displaying the right adress
+		// Remove the map because it's no longer displaying the right address
 		Session.set('staticMapUrl', "");
 	},
-	'click #check-location, submit #edit-identity-form' : function(e,t) {
+	/**
+	 * @summary Check the location and if it's already ok, update the place document
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'click #check-location, submit #edit-identity-form' : function(e, t) {
 		e.preventDefault();
 
 		var place = {
@@ -144,47 +188,50 @@ Template.placeProfileIdentityEdition.events({
 			countryCode: t.find('#select-country').value
 		}
 
+		// Concatenate the location informations
 		place.address = place.streetNumber+ "+" + place.streetName + "+" + place.zipcode + "+" + place.city;
-		place.address = place.address.replace(/ /g, '+');
+		// Replace all the space occurences by a + for the reseach and url encode it
+		place.address = encodeURI(place.address.replace(/ /g, '+'));
 
 		// Display the loader
 		Session.set('staticMapUrl', "<img class='loader' src='/images/loader.gif' alt='loading'>");
 
-		// Geocoding. See: https://developers.google.com/maps/documentation/geocoding/
+		// Prepare the Geocoding query url. See: https://developers.google.com/maps/documentation/geocoding/
 		var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + place.address + "&components=country:" + place.countryCode;
-	
-		// Get geocode
+
+		// Get the geocoding data
 		Meteor.http.get(url, function (error, result) {
-			if (!error) {
-				var data = result.data;
-				//console.log(data);
-				if (data.status == "OK") {
-					place.loc = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+			if (error) return console.log(error);
+			
+			var data = result.data;
 
-					place.formattedAddress = data.results[0].formatted_address;
-					// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
-					Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=288x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
+			if (data.status == "OK") {
+				place.loc = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+
+				place.formattedAddress = data.results[0].formatted_address;
+				// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
+				Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=288x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
 				
-					// Sanitize the place object
-					delete place.address;
+				// Sanitize the place object
+				delete place.address; // No longer useful
 
-					// Display the submit btn
-					t.find('#submit-identity').style.display = "inline-block";
-					t.find('#check-location').style.display = "none";
-					console.log(place);
-					if (e.currentTarget.id == 'edit-identity-form') {
-						Meteor.call('placeIdentityUpdate', place, function(error, result) {
-							// Display the error to the user and abort
-							if (error)
-								return console.log(error.reason);
+				// If it was a check, we can now display the submit btn
+				t.find('#submit-identity').style.display = "inline-block";
+				t.find('#check-location').style.display = "none";
 
-							// Destroy the view and the popover
-							Blaze.remove(t.view);
-							$('#identity-edit').popover('destroy');
-						});
-					};
+				// If the location has already been checker, update the place document
+				if (e.currentTarget.id == 'edit-identity-form') {
+					Meteor.call('placeIdentityUpdate', place, function(error, result) {
+						// Display the error to the user and abort
+						if (error) return console.log(error.reason);
+
+						// Destroy the view and the popover
+						Blaze.remove(t.view);
+						$('#identity-edit').popover('destroy');
+					});
 				};
-			}
+			};
+
 		});
 	}
 })
@@ -199,13 +246,22 @@ Template.placeUpdateSocialProfiles.helpers({
 });
 
 Template.placeUpdateSocialProfiles.events({
+	/**
+	 * @summary Remove the social profiles popover template instance and destroy the popover
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
 	'click #close-social-profiles-popover': function (e, t) {
 		// Destroy the view and the popover
 		Blaze.remove(t.view);
 		$('#social-profiles').popover('destroy');
 	},
-	'submit #social-profiles-form' : function(e,t) {
-		e.preventDefault();
+	/**
+	 * @summary Check and update the place's social profiles, then close the popover
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'submit #social-profiles-form' : function(e, t) {
 		var socialProfiles = {
 			id: t.data.place._id,
 			facebook: t.find('#edit-facebook').value,
@@ -214,16 +270,15 @@ Template.placeUpdateSocialProfiles.events({
 			website: t.find('#edit-website').value
 		};
 
+		// Check the form values
 		var errors = validateUsersocialProfiles(socialProfiles);
 		Session.set('placeUpdateSocialProfilesErrors', errors);
-		if (Object.keys(errors).length)
-			// Abort the account creation due to errors
-			return; 
+		// Abort the update due to errors
+		if (Object.keys(errors).length) return;
 
+		// Update the place document
 		Meteor.call('placeUpdateSocialProfiles', socialProfiles, function(error, result) {
-			// Display the error to the user and abort
-			if (error)
-				console.log(error);
+			if (error) return console.log(error); // Display the error to the user and abort
 
 			// Destroy the view and the popover
 			Blaze.remove(t.view);
