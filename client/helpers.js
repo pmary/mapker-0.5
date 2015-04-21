@@ -1,10 +1,6 @@
-// This file is to refactorize and put in the client/helpers folder
-
-/**
- * Slingshot initialization for the client
+/** 
+ * @todo refactorize and put in the client/helpers folder
  */
-userCoverUploader = new Slingshot.Upload("userCoverUpload");
-userAvatarUploader = new Slingshot.Upload("userAvatarUpload");
 
 // Helper to user test equality
 UI.registerHelper('eq', function(v1, v2, options) {
@@ -33,6 +29,14 @@ UI.registerHelper('htmlLineBreack', function(text) {
 	return text;
 });
 
+/**
+ * @summary Check if the user already have the submited skill
+ * @locus Anywhere
+ * @params {String} value - The string we are looking for
+ * @params {Array} array - An array of skill objects
+ * @returns {Boolean} False if the user doesn't have the skill
+ * @returns {String} An error message if the user already have the skill
+ */
 isDuplicateSkillValidation = function(value, array) {
 	var result = false;
 	for (var i = 0; i < array.length; i++) {

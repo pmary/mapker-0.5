@@ -2,6 +2,7 @@ Template.placeProfileLayout.helpers({
 	/**
 	 * @summary Return if whether or not the current user is administrator of the place
 	 * @return {Boolean}
+	 * @locus Anywhere
 	 */
 	isAdmin: function() {
 		if (this.place && this.place.administrators.indexOf(Meteor.user()._id) > -1)
@@ -11,6 +12,11 @@ Template.placeProfileLayout.helpers({
 	}
 });
 
+/**
+ * @summary Test
+ * @return {Boolean}
+ * @locus Anywhere
+ */
 Template.placeProfileLayout.rendered = function(){
 };
 
