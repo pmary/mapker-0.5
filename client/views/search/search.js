@@ -69,12 +69,13 @@ Template.search.rendered = function() {
 		}
 	});
 
-	var resultPlacesSearchSubscription;
+	/*var resultPlacesSearchSubscription;
 	// Selectize init. for the what input field
-	$('#input-what').selectize({
+	var $selectizeWhat = $('#input-what').selectize({
 		valueField: 'text',
 		labelField: 'text',
-		searchField: 'text',
+		//searchField: 'text',
+		persist: false,
 		maxItems: 1,
 		create: false,
 		render: {
@@ -102,7 +103,7 @@ Template.search.rendered = function() {
 				callback(resultObject);
 			});
 		}
-	});
+	});*/
 }
 
 
@@ -140,7 +141,7 @@ Template.search.events({
 		markers = [];
 
 		var location = t.find('#input-where').value,
-		keywords = t.find('#input-what').value;
+		keywords = Session.get('searchTerms');
 
 		if (location.length < 2)
 			return;
@@ -171,6 +172,9 @@ Template.search.events({
 
 					var query = '{"text": "' + keywords + '", "bbox": "' + JSON.stringify(bbox) + '"}';
 					EasySearch.search('places',  query, function (err, data) {
+						if (err) console.log(err);
+
+						console.log(data);
 						// use data.results and data.total
 						Session.set("searchPlacesResults", data.results);
 						setTimeout(function() {

@@ -14,16 +14,13 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				{{#if hideSearch}}
-				{{else}}
 				<form id="navbar-search" class="navbar-form navbar-left" role="search">
 					<div class="form-group">
 						<input id="navbar-input-search" type="text" class="form-control" placeholder="Search">
 					</div>
 				</form>
-				{{/if}}
 				<ul class="nav navbar-nav" id="main-menu">
-					<li><a href="#">Map <span class="sr-only">(current)</span></a></li>
+					<!-- <li><a href="#">Map <span class="sr-only">(current)</span></a></li> -->
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -39,7 +36,7 @@
 					<li><a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>
 					<li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
-					<li class="active"><a href="/login">Sign in</a></li>
+					<li><a href="/login">Sign in</a></li>
 					<li><a href="/join">Sign up</a></li>
 					{{/if}}
 				</ul>

@@ -1,3 +1,4 @@
 # Files to ignore
 server/config.js
 .DS_Store
+/.demeteorized
