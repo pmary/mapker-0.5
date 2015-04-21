@@ -1,3 +1,7 @@
+/**
+ * 01 - General
+ * 02 - Search input
+ */
 #primary-navbar {
 	margin-bottom: 0px;
 	border-radius: 0px;
@@ -13,7 +17,7 @@
 }
 
 #primary-navbar .navbar-header {
-	  height: 75px;
+		height: 75px;
 }
 
 #primary-navbar .navbar-form {
@@ -23,7 +27,7 @@
 }
 
 #primary-navbar .navbar-toggle {
-	  margin-top: 20px;
+		margin-top: 20px;
 }
 
 #primary-navbar .collapse.in li{
@@ -83,4 +87,70 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 14px;
+}
+
+/** 
+ * 02 - Search input 
+ */
+#primary-navbar #navbar-search .selectize-control {
+	width: 320px;
+}
+
+#primary-navbar #navbar-search .selectize-input {
+	height: 40px;
+	border: 1px solid #252833;
+	background-color: #494e63;
+	color: #FFFFFF;
+	padding: 9px 12px;
+}
+
+#primary-navbar #navbar-search .selectize-input input {
+	width: 100% !important;
+}
+
+#primary-navbar #navbar-search .logo-container {
+	display: inline-block;
+}
+
+#primary-navbar #navbar-search .logo-container .logo {
+	width: 40px;
+	height: 40px;
+	background-position: center;
+	background-size: 40px auto;
+	display: block;
+}
+
+#primary-navbar #navbar-search a {
+	display: block;
+}
+
+#primary-navbar #navbar-search .infos {
+	display: inline-block;
+}
+
+#primary-navbar #navbar-search .infos span {
+	display: block;
+}
+
+.infos .title {
+	position: relative;
+	top: -5px;
+	height: 40px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+}
+
+#primary-navbar #navbar-search .infos span.name {
+	font-size: 14px;
+	line-height: 16px;
+	color: #333;
+	font-weight: bold;
+}
+
+.type {
+	font-size: 11px;
+	color: #999;
+	font-weight: normal;
 }

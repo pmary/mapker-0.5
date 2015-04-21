@@ -29,7 +29,15 @@ Template.userJoin.events({
 			return; // Abort the account creation due to errors
 
 		// If the form is valide
-		Accounts.createUser({email: user.email, password: user.password, profile:{firstname: user.firstname, lastname: user.lastname}}, function(error, result) {
+		Accounts.createUser({
+			email: user.email, 
+			password: user.password, 
+			profile:{
+				username: user.firstname+ " " + user.lastname, 
+				firstname: user.firstname, 
+				lastname: user.lastname
+			}
+		}, function(error, result) {
 			if (error) {
 				// Inform the user that account creation failed
 				Errors.throw(error.reason);
