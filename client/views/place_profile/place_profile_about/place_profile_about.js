@@ -4,7 +4,7 @@ Template.placeProfileAbout.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function() {
-		if (this.place && this.place.administrators.indexOf(Meteor.user()._id) > -1)
+		if (this.place && Meteor.user() && this.place.administrators.indexOf(Meteor.user()._id) > -1)
 			return true;
 		else
 			return false;

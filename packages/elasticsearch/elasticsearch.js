@@ -1,0 +1,1 @@
+Elasticsearch = Npm.require('elasticsearch');

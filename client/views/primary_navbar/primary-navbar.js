@@ -21,10 +21,12 @@ Template.primaryNavbar.rendered = function() {
 		addPrecedence: false,
 		render: {
 			option: function(item, escape) {
-				return '<a href="/places' + item._id + '/about">' +
-					'<span class="logo-container">' +
-						'<span class="logo" style="background-image: url(' + item.avatar.url + ')"></span>' +
-					'</span>' +
+				var result = '<a href="/places' + item._id + '/about">' +
+					'<span class="logo-container">';
+				if (item.avatar) {
+					result += '<span class="logo" style="background-image: url(' + item.avatar.url + '?' + Date.now() + ')"></span>';
+				};
+				result += '</span>' + 
 					'<span class="infos">' +
 						'<span class="title">' +
 							'<span class="name">' + escape(item.name) + '</span>' +
@@ -32,6 +34,8 @@ Template.primaryNavbar.rendered = function() {
 						'</span>' +
 					'<span>' +
 				'</a>';
+
+				return result;
 			}
 		},
 		load: function(query, callback) {

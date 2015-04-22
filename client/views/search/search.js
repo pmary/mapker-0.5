@@ -18,6 +18,8 @@ var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.search.rendered = function() {
 	Session.set("locationsResults", []);
+	// Clear the session var to prevent displaying results from an old search
+	Session.set("searchPlacesResults", []);
 
 	// If we have already subscribe for places, clear it
 	if (resultPlacesSubscription != null)
@@ -97,7 +99,7 @@ Template.search.rendered = function() {
 			Meteor.call('placesAutocompleteByActivities', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				console.log(result)
+				//console.log(result)
 				
 				var myResult = [];
 				for (var i = 0; i < result.length; i++) {
@@ -107,7 +109,7 @@ Template.search.rendered = function() {
 			});
 		},
 		onItemAdd: function(value, $item) {
-			console.log(value);
+			//console.log(value);
 			/*value = JSON.parse(value);
 			if (event && event.keyCode == 13) {
 				event.stopPropagation();
@@ -118,6 +120,9 @@ Template.search.rendered = function() {
 			} else {
 				Router.go('placeProfileAbout', {_id: value._id});
 			}*/
+		},
+		onItemRemove: function(value, $item) {
+			$('#input-where').val("");
 		},
 		onType: function(str) {
 			//Session.set('searchTerms', str);
@@ -186,8 +191,7 @@ Template.search.events({
 
 		var location = t.find('#input-where').value,
 		keywords = t.find('#input-what').value;
-
-		var searchObject;
+		console.log(location);
 
 		if (location.length > 2) {
 			var query = location.replace(/ /g, "+");
@@ -206,82 +210,24 @@ Template.search.events({
 						bounds = L.latLngBounds(southWest, northEast);
 						map.fitBounds(bounds);
 
-						// Search the related places in the db
-						//Places.find({ "loc": {$within: {$box: [[40.477398999999984, -79.76241799999997], [-71.77749099999998, 45.015864999999984]]}} } )
-						var bbox = [[content.features[0].bbox[1], content.features[0].bbox[0]], [content.features[0].bbox[3], content.features[0].bbox[2]]];
-
 						// If we have already subscribe for places, clear it
 						if (resultPlacesSubscription != null)
 							resultPlacesSubscription.stop();
 
-						searchObject = {queryString: keywords, bbox: bbox};
+						var bbox = [[content.features[0].bbox[1], content.features[0].bbox[0]], [content.features[0].bbox[3], content.features[0].bbox[2]]];
+						var searchObject = {queryString: keywords, bbox: bbox};
+						searchPlacesByActivitiesAndBbox(searchObject);
 					};
 				}
 			});
 		}
 		else {
+
 			var currentBounds = map.getBounds();
-			var bbox = [[currentBounds._southWest.lng, currentBounds._southWest.lat], [currentBounds._northEast.lng, currentBounds._northEast.lat]];
-			searchObject = {queryString: keywords, bbox: bbox};
+			var bbox = [[currentBounds._southWest.lat, currentBounds._southWest.lng], [currentBounds._northEast.lat, currentBounds._northEast.lng]];
+			var searchObject = {queryString: keywords, bbox: bbox};
+			searchPlacesByActivitiesAndBbox(searchObject);
 		}
-
-		Meteor.call('placesByActivityAndBbox', searchObject, function(error, result) {
-			// Display the error to the user and abort
-			if (error) return console.log(error.reason);
-			console.log(result)
-			
-			Session.set("searchPlacesResults", result);
-			setTimeout(function() {
-				// Init focus point for the cover and avatars
-				$('#search-page #search-results .place .cover').focusPoint();
-				$('#search-page #search-results .place .avatar').focusPoint();
-			}, 100);
-
-			// Display the results on the map
-			for (var i = 0; i < result.length; i++) {
-				var resource = result[i];
-				var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
-				var marker = new L.Marker(latlng, {
-					_id: resource._id,
-					icon: createIcon(resource)
-				});
-				// Add the marker to our marker list
-				markers.push(marker);
-
-				addPopup(marker, resource);
-								
-				addMarker(marker);
-			};
-		});
-
-		/*EasySearch.search('places',  searchQuery, function (err, data) {
-			if (err) console.log(err);
-
-			console.log(data);
-			// use data.results and data.total
-			Session.set("searchPlacesResults", data.results);
-			setTimeout(function() {
-				// Init focus point for the cover and avatars
-				$('#search-page #search-results .place .cover').focusPoint();
-				$('#search-page #search-results .place .avatar').focusPoint();
-			}, 100);
-
-			// Display the results on the map
-			for (var i = 0; i < data.results.length; i++) {
-				var resource = data.results[i];
-				var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
-				var marker = new L.Marker(latlng, {
-					_id: resource._id,
-					icon: createIcon(resource)
-				});
-				// Add the marker to our marker list
-				markers.push(marker);
-
-				addPopup(marker, resource);
-								
-				addMarker(marker);
-			};
-		});*/
 	},
 	'mouseover .place': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
@@ -300,20 +246,59 @@ Template.search.events({
 		};
 	},
 	/**
-	 * @summary Display the map
+	 * @summary Display the map container
 	 */
 	'click #input-radio-place': function(e,t) {
 		t.find('#map-container').className = 'col-md-5';
 		t.find('#search-container').className = 'col-md-7';
 	},
 	/**
-	 * @summary Hide the map
+	 * @summary Hide the map container
 	 */
 	'click #input-radio-skills': function(e,t) {
 		t.find('#map-container').className = 'hide';
 		t.find('#search-container').className = 'col-md-12';
 	}
 });
+
+/**
+ * @summary Find the places that are within the current map viewable zone and that one 
+ * of it's activities match with the given keywords
+ * @param {Object} searchObject - Contain the search parameters
+ * @param {String} searchObject.keywords - Activities keywords
+ * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
+ */
+var searchPlacesByActivitiesAndBbox = function(searchObject) {
+	console.log(searchObject);
+	Meteor.call('placesByActivitiesAndBbox', searchObject, function(error, result) {
+		// Display the error to the user and abort
+		if (error) return console.log(error.reason);
+		console.log(result)
+		
+		Session.set("searchPlacesResults", result);
+		setTimeout(function() {
+			// Init focus point for the cover and avatars
+			$('#search-page #search-results .place .cover').focusPoint();
+			$('#search-page #search-results .place .avatar').focusPoint();
+		}, 100);
+
+		// Display the results on the map
+		for (var i = 0; i < result.length; i++) {
+			var resource = result[i];
+			var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
+			var marker = new L.Marker(latlng, {
+				_id: resource._id,
+				icon: createIcon(resource)
+			});
+			// Add the marker to our marker list
+			markers.push(marker);
+
+			addPopup(marker, resource);
+							
+			addMarker(marker);
+		};
+	});
+}
 
 var createIcon = function(resource) {
 	return L.divIcon({
@@ -339,6 +324,6 @@ var clearMap = function() {
 }
 
 var addPopup = function(marker, resource) {
-	console.log(marker);
+	//console.log(marker);
 	marker.bindPopup("<h2>" + resource.name + "</h2>");
 }

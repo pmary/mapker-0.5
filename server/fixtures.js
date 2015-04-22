@@ -3,11 +3,11 @@
  */
  Meteor.startup(function () {
 	if (Meteor.users.find().count() > 0) {
-		//Meteor.users.remove({});
+		Meteor.users.remove({});
 	}
 
 	if (Places.find().count() > 0) {
-		//Places.remove({});
+		Places.remove({});
 	};
 
 	if (Meteor.users.find().count() === 0) {
@@ -35,7 +35,23 @@
 			        {
 			            "title" : "UX design"
 			        }
-			    ]
+			    ],
+		        "avatar" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/avatar",
+		            "name" : "i4FxWHYGyQr3LyN4x/avatar",
+		            "focusX" : -0.4123222748815166,
+		            "focusY" : 0.2562814070351759,
+		            "w" : 900,
+		            "h" : 1273
+		        },
+		        "cover" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/cover",
+		            "name" : "i4FxWHYGyQr3LyN4x/cover",
+		            "focusX" : 0,
+		            "focusY" : 0,
+		            "w" : 1500,
+		            "h" : 844
+		        }
 			},
 			"createdAt": "2015-04-07T13:55:07.055Z",
 			"services": {
@@ -147,8 +163,16 @@
 		        "name" : "ZMLHc88hxncfC6bkj/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "w" : 200,
+		        "h" : 200
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/cover",
+		        "name" : "ZMLHc88hxncfC6bkj/cover",
+		        "focusX" : 0.01895734597156396,
+		        "focusY" : -0.302491103202847,
+		        "w" : 850,
+		        "h" : 567
 		    }
 		});
 		Places.insert({
@@ -187,14 +211,6 @@
 		        "flickr" : "",
 		        "twitter" : "",
 		        "website" : ""
-		    },
-		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
 		    }
 		});
 		Places.insert({
@@ -289,12 +305,20 @@
 		        "website" : ""
 		    },
 		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkc/avatar",
+		        "name" : "ZMLHc88hxncfC6bkc/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "w" : 205,
+		        "h" : 205
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkc/cover",
+		        "name" : "ZMLHc88hxncfC6bkc/cover",
+		        "focusX" : 0,
+		        "focusY" : 0,
+		        "w" : 1920,
+		        "h" : 1025
 		    }
 		});
 		Places.insert({
@@ -388,14 +412,6 @@
 		        "flickr" : "",
 		        "twitter" : "",
 		        "website" : ""
-		    },
-		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
 		    }
 		});
 		Places.insert({
@@ -434,14 +450,6 @@
 		        "flickr" : "",
 		        "twitter" : "",
 		        "website" : ""
-		    },
-		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
 		    }
 		});
 		Places.insert({
@@ -482,12 +490,20 @@
 		        "website" : ""
 		    },
 		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkg/avatar",
+		        "name" : "ZMLHc88hxncfC6bkg/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "w" : 1275,
+		        "h" : 1269
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkg/cover",
+		        "name" : "ZMLHc88hxncfC6bkg/cover",
+		        "focusX" : 0,
+		        "focusY" : 0,
+		        "w" : 900,
+		        "h" : 601
 		    }
 		});
 		Places.insert({
@@ -526,14 +542,6 @@
 		        "flickr" : "",
 		        "twitter" : "",
 		        "website" : ""
-		    },
-		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
 		    }
 		});
 		Places.insert({
@@ -573,18 +581,10 @@
 		        "flickr" : "",
 		        "twitter" : "",
 		        "website" : ""
-		    },
-		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
 		    }
 		});
 		Places.insert({
-		    "_id" : "ZMLHc88hxncfC6bkk",
+		    "_id" : "ZMLHc88hxncfC6bkz",
 		    "name" : "La Paillasse",
 		    "themes" : [ 
 		        "biologie", 
@@ -621,8 +621,8 @@
 		        "website" : ""
 		    },
 		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkz/avatar",
+		        "name" : "ZMLHc88hxncfC6bkz/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
 		        "w" : 160,
