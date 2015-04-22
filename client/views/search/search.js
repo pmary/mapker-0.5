@@ -28,11 +28,14 @@ Template.search.rendered = function() {
 	this.autorun(function () {
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
+			// Return if Map is already initialized
 			map = L.mapbox.map('map', 'examples.map-i86nkdio')
-			.setView([40, -74.50], 9);
+			.setView([40, -30.50], 2);
 			//map.addLayer("placeLayer");
 			markerLayerGroup = L.layerGroup([]);
 			map.addLayer(markerLayerGroup);
+
+			console.log(map.getBounds());
 		}
 	});
 
@@ -69,21 +72,21 @@ Template.search.rendered = function() {
 		}
 	});
 
-	/*var resultPlacesSearchSubscription;
-	// Selectize init. for the what input field
-	var $selectizeWhat = $('#input-what').selectize({
-		valueField: 'text',
-		labelField: 'text',
-		//searchField: 'text',
-		persist: false,
+	$searchWhat = $('#input-what').selectize({
+		valueField: 'activity',
+		labelField: 'activity',
+		searchField: 'activity',
+		sortField: 'activity',
+		persist: true,
 		maxItems: 1,
 		create: false,
+		highlight: false,
+		addPrecedence: false,
 		render: {
 			option: function(item, escape) {
-				console.log(item);
 				return '<div>' +
 					'<span class="title">' +
-						'<span class="name">' + escape(item.text) + '</span>' +
+						'<span class="name">' + escape(item.activity) + '</span>' +
 					'</span>' +
 				'</div>';
 			}
@@ -91,19 +94,60 @@ Template.search.rendered = function() {
 		load: function(query, callback) {
 			if (!query.length) return callback();
 			
-			Meteor.call('placesByActivities', query, function(error, result) {
+			Meteor.call('placesAutocompleteByActivities', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				console.log(result);
-				result.slice(0, 10);
-				var resultObject = [];
+				console.log(result)
+				
+				var myResult = [];
 				for (var i = 0; i < result.length; i++) {
-					resultObject.push({text: result[i].activities[0]});
+					myResult.push({activity: result[i].activities[0]});
 				};
-				callback(resultObject);
+				callback(myResult);
 			});
+		},
+		onItemAdd: function(value, $item) {
+			console.log(value);
+			/*value = JSON.parse(value);
+			if (event && event.keyCode == 13) {
+				event.stopPropagation();
+				searchWhat.clear();
+				searchWhat.blur();
+				$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
+				Router.go('search');
+			} else {
+				Router.go('placeProfileAbout', {_id: value._id});
+			}*/
+		},
+		onType: function(str) {
+			//Session.set('searchTerms', str);
+		},
+		onFocus: function() {
+		},
+		onBlur: function(){
+			//$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
+		}
+	});
+
+	/*$("#input-what-container .selectize-input input").keyup(function(e) {
+		if (e && e.keyCode == 13) {
+			e.stopPropagation();
+			searchWhat.clear();
+			searchWhat.blur();
+			$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
+			Router.go('search');
 		}
 	});*/
+
+	searchWhat = $searchWhat[0].selectize;
+	$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
+	Session.set('searchTerms', "");
+
+	// Lauch the search
+	Meteor.setTimeout(function() {
+		$("#input-what-container .selectize-input input").keyup();
+		searchWhat.open();
+	}, 200);
 }
 
 
@@ -141,67 +185,103 @@ Template.search.events({
 		markers = [];
 
 		var location = t.find('#input-where').value,
-		keywords = Session.get('searchTerms');
+		keywords = t.find('#input-what').value;
 
-		if (location.length < 2)
-			return;
+		var searchObject;
 
-		var query = location.replace(/ /g, "+");
-		var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
-		
-		// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
+		if (location.length > 2) {
+			var query = location.replace(/ /g, "+");
+			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
+			
+			// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
 
-		//db.places.find({ "loc": {$within: {$box: [[48.81701299999982, 2.2242194999998044], [48.90197349999985, 2.4648354999997926]]}} } )
+			//db.places.find({ "loc": {$within: {$box: [[48.81701299999982, 2.2242194999998044], [48.90197349999985, 2.4648354999997926]]}} } )
 
-		Meteor.http.get(queryUrl, function (error, result) {
-			if (!error) {
-				var content = JSON.parse(result.content);
-				if (content.features && content.features.length) {
-					var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
-					northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
-					bounds = L.latLngBounds(southWest, northEast);
-					map.fitBounds(bounds);
+			Meteor.http.get(queryUrl, function (error, result) {
+				if (!error) {
+					var content = JSON.parse(result.content);
+					if (content.features && content.features.length) {
+						var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
+						northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
+						bounds = L.latLngBounds(southWest, northEast);
+						map.fitBounds(bounds);
 
-					// Search the related places in the db
-					//Places.find({ "loc": {$within: {$box: [[40.477398999999984, -79.76241799999997], [-71.77749099999998, 45.015864999999984]]}} } )
-					var bbox = [[content.features[0].bbox[1], content.features[0].bbox[0]], [content.features[0].bbox[3], content.features[0].bbox[2]]];
+						// Search the related places in the db
+						//Places.find({ "loc": {$within: {$box: [[40.477398999999984, -79.76241799999997], [-71.77749099999998, 45.015864999999984]]}} } )
+						var bbox = [[content.features[0].bbox[1], content.features[0].bbox[0]], [content.features[0].bbox[3], content.features[0].bbox[2]]];
 
-					// If we have already subscribe for places, clear it
-					if (resultPlacesSubscription != null)
-						resultPlacesSubscription.stop();
+						// If we have already subscribe for places, clear it
+						if (resultPlacesSubscription != null)
+							resultPlacesSubscription.stop();
 
-					var query = '{"text": "' + keywords + '", "bbox": "' + JSON.stringify(bbox) + '"}';
-					EasySearch.search('places',  query, function (err, data) {
-						if (err) console.log(err);
+						searchObject = {queryString: keywords, bbox: bbox};
+					};
+				}
+			});
+		}
+		else {
+			var currentBounds = map.getBounds();
+			var bbox = [[currentBounds._southWest.lng, currentBounds._southWest.lat], [currentBounds._northEast.lng, currentBounds._northEast.lat]];
+			searchObject = {queryString: keywords, bbox: bbox};
+		}
 
-						console.log(data);
-						// use data.results and data.total
-						Session.set("searchPlacesResults", data.results);
-						setTimeout(function() {
-							// Init focus point for the cover and avatars
-							$('#search-page #search-results .place .cover').focusPoint();
-							$('#search-page #search-results .place .avatar').focusPoint();
-						}, 100);
+		Meteor.call('placesByActivityAndBbox', searchObject, function(error, result) {
+			// Display the error to the user and abort
+			if (error) return console.log(error.reason);
+			console.log(result)
+			
+			Session.set("searchPlacesResults", result);
+			setTimeout(function() {
+				// Init focus point for the cover and avatars
+				$('#search-page #search-results .place .cover').focusPoint();
+				$('#search-page #search-results .place .avatar').focusPoint();
+			}, 100);
 
-						// Display the results on the map
-						for (var i = 0; i < data.results.length; i++) {
-							var resource = data.results[i];
-							var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
-							var marker = new L.Marker(latlng, {
-								_id: resource._id,
-								icon: createIcon(resource)
-							});
-							// Add the marker to our marker list
-							markers.push(marker);
+			// Display the results on the map
+			for (var i = 0; i < result.length; i++) {
+				var resource = result[i];
+				var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
+				var marker = new L.Marker(latlng, {
+					_id: resource._id,
+					icon: createIcon(resource)
+				});
+				// Add the marker to our marker list
+				markers.push(marker);
 
-							addPopup(marker, resource);
-							
-							addMarker(marker);
-						};
-					});
-				};
-			}
+				addPopup(marker, resource);
+								
+				addMarker(marker);
+			};
 		});
+
+		/*EasySearch.search('places',  searchQuery, function (err, data) {
+			if (err) console.log(err);
+
+			console.log(data);
+			// use data.results and data.total
+			Session.set("searchPlacesResults", data.results);
+			setTimeout(function() {
+				// Init focus point for the cover and avatars
+				$('#search-page #search-results .place .cover').focusPoint();
+				$('#search-page #search-results .place .avatar').focusPoint();
+			}, 100);
+
+			// Display the results on the map
+			for (var i = 0; i < data.results.length; i++) {
+				var resource = data.results[i];
+				var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
+				var marker = new L.Marker(latlng, {
+					_id: resource._id,
+					icon: createIcon(resource)
+				});
+				// Add the marker to our marker list
+				markers.push(marker);
+
+				addPopup(marker, resource);
+								
+				addMarker(marker);
+			};
+		});*/
 	},
 	'mouseover .place': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
@@ -218,6 +298,20 @@ Template.search.events({
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
 			}
 		};
+	},
+	/**
+	 * @summary Display the map
+	 */
+	'click #input-radio-place': function(e,t) {
+		t.find('#map-container').className = 'col-md-5';
+		t.find('#search-container').className = 'col-md-7';
+	},
+	/**
+	 * @summary Hide the map
+	 */
+	'click #input-radio-skills': function(e,t) {
+		t.find('#map-container').className = 'hide';
+		t.find('#search-container').className = 'col-md-12';
 	}
 });
 

@@ -10,9 +10,9 @@ Template.primaryNavbar.helpers({
 
 Template.primaryNavbar.rendered = function() {
 	$search = $('#navbar-input-search').selectize({
-		valueField: 'concate',
+		valueField: '_id',
 		labelField: 'name',
-		searchField: 'concate',
+		searchField: 'name',
 		sortField: 'name',
 		persist: true,
 		maxItems: 1,
@@ -28,7 +28,7 @@ Template.primaryNavbar.rendered = function() {
 					'<span class="infos">' +
 						'<span class="title">' +
 							'<span class="name">' + escape(item.name) + '</span>' +
-							'<span class="type">Place - ' + escape(item.activities.join(', ')) + '</span>' +
+							'<span class="type">Place</span>' +
 						'</span>' +
 					'<span>' +
 				'</a>';
@@ -40,7 +40,6 @@ Template.primaryNavbar.rendered = function() {
 			Meteor.call('resourcesAutocomplete', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				console.log(result);
 				
 				for (var i = 0; i < result.length; i++) {
 					result[i].concate = JSON.stringify(result[i]);
@@ -49,25 +48,25 @@ Template.primaryNavbar.rendered = function() {
 			});
 		},
 		onItemAdd: function(value, $item) {
-			value = JSON.parse(value);
 			if (event && event.keyCode == 13) {
 				event.stopPropagation();
 				search.clear();
 				search.blur();
-				$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
+				//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
 				Router.go('search');
 			} else {
-				Router.go('placeProfileAbout', {_id: value._id});
+				search.clear();
+				search.blur();
+				Router.go('placeProfileAbout', {_id: value});
 			}
 		},
 		onType: function(str) {
-			console.log('type');
 			Session.set('searchTerms', str);
 		},
 		onFocus: function() {
 		},
 		onBlur: function(){
-			$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
+			//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
 		}
 	});
 
@@ -76,10 +75,10 @@ Template.primaryNavbar.rendered = function() {
 			e.stopPropagation();
 			search.clear();
 			search.blur();
-			$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
+			//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
 			Router.go('search');
 		}
-	})
+	});
 
 	search = $search[0].selectize;
 }

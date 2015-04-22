@@ -105,7 +105,7 @@
 }
 
 #primary-navbar #navbar-search .selectize-input input {
-	width: 100% !important;
+	width: auto !important;
 }
 
 #primary-navbar #navbar-search .logo-container {
@@ -115,9 +115,10 @@
 #primary-navbar #navbar-search .logo-container .logo {
 	width: 40px;
 	height: 40px;
-	background-position: center;
-	background-size: 40px auto;
 	display: block;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 #primary-navbar #navbar-search a {

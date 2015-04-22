@@ -40,7 +40,7 @@
 }
 
 #search-page #search-parameters form {
-	margin-bottom: 35px;
+	margin-top: 35px;
 }
 
 #search-page #search-parameters ul {
@@ -51,6 +51,10 @@
 	list-style: none;
 	float: left;
 	margin-right: 25px;
+}
+
+#search-page #search-parameters .selectize-input input {
+	width: 100%;
 }
 
 /* Search results */
@@ -173,6 +177,9 @@
 	background-color: #ffffff;
 	float: left;
 	z-index: 1;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 #search-page #search-results .place header .cover {

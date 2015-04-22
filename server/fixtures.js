@@ -235,12 +235,20 @@
 		        "website" : ""
 		    },
 		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkb/avatar",
+		        "name" : "ZMLHc88hxncfC6bkb/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "w" : 94,
+		        "h" : 200
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkb/cover",
+		        "name" : "ZMLHc88hxncfC6bkb/cover",
+		        "focusX" : 0,
+		        "focusY" : 0,
+		        "w" : 1024,
+		        "h" : 300
 		    }
 		});
 		Places.insert({
@@ -328,12 +336,20 @@
 		        "website" : ""
 		    },
 		    "avatar" : {
-		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkd/avatar",
+		        "name" : "ZMLHc88hxncfC6bkd/avatar",
 		        "focusX" : 0,
 		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "w" : 186,
+		        "h" : 204
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkd/cover",
+		        "name" : "ZMLHc88hxncfC6bkd/cover",
+		        "focusX" : 0,
+		        "focusY" : 0,
+		        "w" : 1200,
+		        "h" : 600
 		    }
 		});
 		Places.insert({
@@ -611,6 +627,14 @@
 		        "focusY" : 0,
 		        "w" : 160,
 		        "h" : 160
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkk/cover",
+		        "name" : "ZMLHc88hxncfC6bkk/cover",
+		        "focusX" : 0,
+		        "focusY" : 0,
+		        "w" : 2298,
+		        "h" : 1723
 		    }
 		});
 	};

@@ -88,13 +88,8 @@
 						{{#if place.avatar}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar col-md-8 col-sm-offset-2">
-								<div class="focuspoint" id="profile-avatar-bg"
-									data-focus-x="{{place.avatar.focusX}}"
-									data-focus-y="{{place.avatar.focusY}}"
-									data-image-w="{{place.avatar.w}}"
-									data-image-h="{{place.avatar.h}}">
-										<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
-										<img class="profile-avatar-image" src="{{place.avatar.url}}" alt="Avatar">
+								<div style="background-image: url({{place.avatar.url}})" id="profile-avatar-bg">
+									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 								</div>
 							</div>
 						</a>
@@ -108,13 +103,8 @@
 					{{else}}
 						{{#if place.avatar}}
 						<div class="profile-avatar col-md-8 col-sm-offset-2">
-							<div class="focuspoint" id="profile-avatar-bg"
-								data-focus-x="{{place.avatar.focusX}}"
-								data-focus-y="{{place.avatar.focusY}}"
-								data-image-w="{{place.avatar.w}}"
-								data-image-h="{{place.avatar.h}}">
-									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
-									<img class="profile-avatar-image" src="{{place.avatar.url}}" alt="Avatar">
+							<div style="background-image: url({{place.avatar.url}})" id="profile-avatar-bg">
+								<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 							</div>
 						</div>
 						{{else}}

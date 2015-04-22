@@ -22,6 +22,10 @@ body {
 	padding-top: 77px;
 }
 
+.hide {
+	display: none;
+}
+
 /**
  * 01 - Velocity UI
  */
@@ -237,6 +241,9 @@ form small.error {
 .profile-page #profile-avatar-bg {
 	height: 160px;
 	width: 160px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 .profile-page .upload-cover-btn {
