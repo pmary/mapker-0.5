@@ -1,0 +1,64 @@
+<template name="searchPlaces">
+	<div class="col-md-7" id="search-container">
+		<section class="row" id="search-parameters">
+			<div class="col-md-8 col-md-offset-2">
+				<ul>
+					<li>
+						<input type="radio" name="inlineRadioOptions" id="input-radio-place" value="option1" checked>
+						<label class="radio-inline" for="input-radio-place">Places <span class="resource-icon round-place"></span></label>
+					</li>
+
+					<li>
+						<input type="radio" name="inlineRadioOptions" id="input-radio-skills" value="option2">
+						<label class="radio-inline" for="input-radio-skills">Skills <span class="resource-icon round-skill"></span></label>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-8 col-md-offset-2">
+				<form class="row" id="search-form">
+					<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-what-container">
+						<input type="text" class="form-control" id="input-what" placeholder="What are you looking for?">
+					</div>
+					<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-where-container">
+						<input type="text" class="form-control" id="input-where" placeholder="Where?">
+						{{#if locationsResults}}
+						<ul id="search-location-results">
+							{{#each locationsResults }}
+							<li id="{{ id }}" class="search-location-result">{{ place_name }}</li>
+							{{/each}}
+						</ul>
+						{{/if}}
+					</div>
+					<div class="form-group col-xs-12 col-sm-2 col-md-12 col-lg-2">
+						<input class="btn btn-primary" type="submit" value="Search">
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="row" id="search-results">
+			{{#each places}}
+				<div class="col-md-6">
+					<div class="place" data-id="{{_id}}">
+						<header>
+							<div class="avatar" style="background-image: url({{avatar.url}})">
+							</div>
+							<div class="focuspoint cover" data-focus-x="{{cover.focusX}}" data-focus-y="{{cover.focusY}}" data-image-w="{{cover.w}}" data-image-h="{{cover.h}}">
+								{{#if cover}}
+								<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
+								{{/if}}
+							</div>
+						</header>
+						
+						<section>
+							<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
+							<h2>{{split activities}}</h2>
+						</section>
+					</div>
+				</div>
+			{{/each}}
+		</section>
+	</div>
+	<div id="map-container" class="col-md-5">
+		<div id="map" class="mapbox"></div>
+	</div>
+</template>

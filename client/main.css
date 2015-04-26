@@ -239,8 +239,8 @@ form small.error {
 }
 
 .profile-page #profile-avatar-bg {
-	height: 160px;
-	width: 160px;
+	height: 180px;
+	width: 180px;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -293,6 +293,10 @@ form small.error {
 	top: 0px !important;
 }
 
+.profile-page .popover .arrow {
+ 	display: none;
+ }
+
 .profile-page #resource-infos .popover.right > .arrow {
 	top: 8% !important;
 }	
@@ -327,8 +331,8 @@ form small.error {
 
 .profile-page #resource-infos #user-area {
 	position: relative;
-	font-size: 16px;
-	color: #7d7d7d;
+	font-size: 14px;
+	color: #ABABAB;
 	right: -40px;
 }
 
@@ -388,7 +392,7 @@ form small.error {
 /* Dot icons */
 .icon-user-dot {
 	position: relative;
-	top: 5px;
+	top: 6px;
 	width: 30px;
 	height: 30px;
 	display: inline-block;

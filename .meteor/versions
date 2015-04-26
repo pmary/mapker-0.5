@@ -63,6 +63,7 @@ ordered-dict@1.0.3
 package-version-parser@3.0.3
 peerlibrary:aws-sdk@2.1.17_1
 peerlibrary:blocking@0.5.2
+pmary:cropper@0.0.1
 pmary:elasticsearch@0.0.1
 pmary:errors@0.0.1
 pmary:focuspoint@0.0.1

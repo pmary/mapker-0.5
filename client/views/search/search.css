@@ -95,7 +95,7 @@
 	padding-left: 25px; /* fait un peu d'espace pour notre case à venir */
 	cursor: pointer;    /* affiche un curseur adapté */
 	padding-left: 35px;
-	padding-top: 4px;
+	padding-top: 2px;
 }
 
 #search-page #search-parameters input[type="radio"]:not(:checked) + label:before,  
@@ -215,7 +215,6 @@
 #search-page #search-results .place section h2 {
 	margin-top: 10px;
 	font-size: 14px;
-	text-transform: capitalize;
 }
 
 /**

@@ -47,10 +47,10 @@ Meteor.methods({
 			resource: Object,	// Resource document required data (like the id)
 			type: String,		// The file type. Ex.: "image/jpeg"
 			role: String,		// Avatar or cover
-			focusX: Number,		// The rest of the attributes are for the focuspoint plugin
-			focusY: Number,
-			w: Number,
-			h: Number
+			focusX: Match.Optional(Number),		// The rest of the attributes are for the focuspoint plugin
+			focusY: Match.Optional(Number),
+			w: Match.Optional(Number),
+			h: Match.Optional(Number)
 		});
 		var img = _.extend(imgAttributes);
 

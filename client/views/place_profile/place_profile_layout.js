@@ -98,7 +98,7 @@ Template.placeProfileLayout.events({
 			// Clean the errors and prevent undefined session var
 			Session.set('userUpdateIdentityErrors', {});
 			// Init the popover with empty content
-			$(t.find('#identity-edit')).popover({html: true, content: " "});
+			$(t.find('#identity-edit')).popover({html: true, content: " ", placement: "bottom"});
 			// Show the popover
 			$(t.find('#identity-edit')).popover('show');
 			// Render the placeProfileIdentityEdition template in the popover with the current template data
@@ -123,7 +123,7 @@ Template.placeProfileLayout.events({
 			// Clean the errors and prevent undefined session var
 			Session.set('placeUpdateSocialProfilesErrors', {});
 			// Init the popover with empty content
-			$(t.find('#social-profiles')).popover({html: true, content: " "});
+			$(t.find('#social-profiles')).popover({html: true, content: " ", placement: "bottom"});
 			// Show the popover
 			$(t.find('#social-profiles')).popover('show');
 			// Render the placeUpdateSocialProfiles template in the popover with the current template data

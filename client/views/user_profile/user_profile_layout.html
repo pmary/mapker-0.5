@@ -94,13 +94,9 @@
 						{{#if user.profile.avatar}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar">
-								<div class="focuspoint" id="profile-avatar-bg"
-									data-focus-x="{{user.profile.avatar.focusX}}"
-									data-focus-y="{{user.profile.avatar.focusY}}"
-									data-image-w="{{user.profile.avatar.w}}"
-									data-image-h="{{user.profile.avatar.h}}">
-										<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
-										<img class="profile-avatar-image" src="{{user.profile.avatar.url}}" alt="Avatar">
+								<div id="profile-avatar-bg">
+									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
+									<img class="profile-avatar-image" src="{{user.profile.avatar.url}}" alt="Avatar">
 								</div>
 							</div>
 						</a>

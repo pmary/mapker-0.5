@@ -3,11 +3,11 @@
  */
  Meteor.startup(function () {
 	if (Meteor.users.find().count() > 0) {
-		Meteor.users.remove({});
+		//Meteor.users.remove({});
 	}
 
 	if (Places.find().count() > 0) {
-		Places.remove({});
+		//Places.remove({});
 	};
 
 	if (Meteor.users.find().count() === 0) {

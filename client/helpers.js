@@ -2,6 +2,10 @@
  * @todo refactorize and put in the client/helpers folder
  */
 
+UI.registerHelper('split', function(activities) {
+	return activities.join(", ");
+});
+
 // Helper to user test equality
 UI.registerHelper('eq', function(v1, v2, options) {
 	var result;

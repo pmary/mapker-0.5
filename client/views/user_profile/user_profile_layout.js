@@ -58,7 +58,7 @@ Template.UserProfileLayout.events({
 			// Clean the errors and prevent undefined session var
 			Session.set('userUpdateIdentityErrors', {});
 			// Init the popover with empty content
-			$('#identity-edit').popover({html: true, content: " "});
+			$('#identity-edit').popover({html: true, content: " ", placement: "bottom"});
 			// Show the popover
 			$('#identity-edit').popover('show');
 			// Render the userProfileIdentityEdition template in the popover with the current template data
@@ -78,7 +78,7 @@ Template.UserProfileLayout.events({
 			// Clean the errors and prevent undefined session var
 			Session.set('userUpdateSocialProfilesErrors', {});
 			// Init the popover with empty content
-			$('#social-profiles').popover({html: true, content: " "});
+			$('#social-profiles').popover({html: true, content: " ", placement: "bottom"});
 			// Show the popover
 			$('#social-profiles').popover('show');
 			// Render the userUpdateSocialProfiles template in the popover with the current template data

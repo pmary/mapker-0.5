@@ -1,16 +1,9 @@
 Template.primaryNavbar.helpers({
-	// Check if we are on the search page and if yes, hide the navbar search form
-	hideSearch: function() {
-		if (Router.current() && Router.current().route._path == '/search')
-			return true
-		else
-			return false
-	}
 });
 
 Template.primaryNavbar.rendered = function() {
 	$search = $('#navbar-input-search').selectize({
-		valueField: '_id',
+		valueField: 'concate',
 		labelField: 'name',
 		searchField: 'name',
 		sortField: 'name',
@@ -21,8 +14,16 @@ Template.primaryNavbar.rendered = function() {
 		addPrecedence: false,
 		render: {
 			option: function(item, escape) {
-				var result = '<a href="/places' + item._id + '/about">' +
-					'<span class="logo-container">';
+				console.log(item);
+				var result = "";
+				if (item.type == "place") {
+					result = '<a data-type="' + item.type + '" href="/places/' + item._id + '/about">';
+				}
+				else if (item.type == "user") {
+					result = '<a data-type="' + item.type + '" href="/user/' + item._id + '/bio">';
+				}
+				
+				result += '<span class="logo-container">';
 				if (item.avatar) {
 					result += '<span class="logo" style="background-image: url(' + item.avatar.url + '?' + Date.now() + ')"></span>';
 				};
@@ -57,11 +58,20 @@ Template.primaryNavbar.rendered = function() {
 				search.clear();
 				search.blur();
 				//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
-				Router.go('search');
+				Router.go('searchPlaces');
 			} else {
+				value = JSON.parse(value);
+				// console.log( value );
 				search.clear();
 				search.blur();
-				Router.go('placeProfileAbout', {_id: value});
+				
+				if (value.type == "user") {
+					Router.go('userProfileBio', {_id: value._id});
+
+				}
+				else if (value.type == "place") {
+					Router.go('placeProfileAbout', {_id: value._id});
+				};
 			}
 		},
 		onType: function(str) {
@@ -80,7 +90,7 @@ Template.primaryNavbar.rendered = function() {
 			search.clear();
 			search.blur();
 			//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
-			Router.go('search');
+			Router.go('searchPlaces');
 		}
 	});
 
@@ -98,10 +108,10 @@ Template.primaryNavbar.events({
 		var name = t.$(event.target).data('modal-template');
 		Session.set('activeModal', name);
 	},
-	'submit #navbar-search': function(e,t) {
+	'submit #navbar-search': function(e, t) {
 		e.preventDefault();
 		Session.set('searchTerms', t.find('#navbar-input-search').value);
 		t.find('#navbar-input-search').value = "";
-		Router.go('search');
+		Router.go('searchPlaces');
 	}
 });
