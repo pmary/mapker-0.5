@@ -124,6 +124,7 @@ Meteor.methods({
 
 		// Get the user data
 		var user = Meteor.users.findOne({ "_id": id });
+		if (!user) return;
 
 		ES.create({
 			index: 'resources',
@@ -149,6 +150,7 @@ Meteor.methods({
 
 		// Get the user data
 		var user = Meteor.users.findOne({ "_id": id });
+		if (!user) return;
 	},
 	/**
 	 * @summary Delete a user document from the 'resource' ES index
