@@ -14,27 +14,24 @@ Template.primaryNavbar.rendered = function() {
 		addPrecedence: false,
 		render: {
 			option: function(item, escape) {
-				console.log(item);
-				var result = "";
-				if (item.type == "place") {
-					result = '<a data-type="' + item.type + '" href="/places/' + item._id + '/about">';
-				}
-				else if (item.type == "user") {
-					result = '<a data-type="' + item.type + '" href="/user/' + item._id + '/bio">';
-				}
-				
-				result += '<span class="logo-container">';
-				if (item.avatar) {
-					result += '<span class="logo" style="background-image: url(' + item.avatar.url + '?' + Date.now() + ')"></span>';
-				};
-				result += '</span>' + 
+				var result = '<div>' + 
+					'<span class="logo-container">';
+					if (item.avatar) {
+						result += '<span class="logo" style="background-image: url(' + item.avatar.url + '?' + Date.now() + ')"></span>';
+					};
+					result += '</span>' + 
 					'<span class="infos">' +
 						'<span class="title">' +
-							'<span class="name">' + escape(item.name) + '</span>' +
-							'<span class="type">Place</span>' +
-						'</span>' +
-					'<span>' +
-				'</a>';
+							'<span class="name">' + escape(item.name) + '</span>';
+							if (item.type == "place") {
+								result += '<span class="type">Place</span>';
+							}
+							else if (item.type == "user") {
+								result += '<span class="type">Maker</span>';
+							}
+						result += '</span>' +
+					'</span>' +
+				'</div>';
 
 				return result;
 			}

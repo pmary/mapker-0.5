@@ -44,7 +44,12 @@ Template.userJoin.events({
 			}else {
 				// Success. Account has been created and the user
 				// has logged in successfully. 
-				console.log("sucess account creation");
+				
+				// Create a new document in the ES resource index
+				Meteor.call('createUserDocument', Meteor.user()._id, function(result) {
+					console.log(result);
+				});
+
 				Router.go('userProfileBio', {_id: Meteor.user()._id});
 			}
 		});

@@ -49,6 +49,25 @@ Meteor.methods({
 		
 		var resources = places.concat(users);
 
+		/* Test elasticSearch */
+		ES.search({
+			index: 'resources',
+			body: {
+				query: {
+					match: {
+						name: queryString
+					}
+				},
+				fields: ['name'] // The fields to return as part of hits
+			}
+		}, function (error, response) {
+			//console.log(response.hits.hits);
+			for (var i = 0; i < response.hits.hits.length; i++) {
+				console.log(response.hits.hits[i].fields);
+			};
+		});
+		/**/
+
 		return resources;
 	}
 });
