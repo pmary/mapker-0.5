@@ -33,8 +33,15 @@
 							<li><a href="#" id="modal-add-place" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Add a new place</a></li>
 						</ul>
 					</li>
-					<li><a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}</a></li>
-					<li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+					<li>
+						<a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">
+							{{#if currentUser.profile.avatar}}
+								<span class="avatar" style="background-image:url({{currentUser.profile.avatar.url}})"></span>
+							{{/if}}
+							{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}
+						</a>
+					</li>
+					<li><a href="/logout" data-toggle="tooltip" data-placement="bottom" title="Sign out"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
 					<li><a href="/login">Sign in</a></li>
 					<li><a href="/join">Sign up</a></li>

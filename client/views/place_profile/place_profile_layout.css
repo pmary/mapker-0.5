@@ -16,6 +16,10 @@
 	padding-left: 0px;
 }
 
+#place-profile-page .profile-avatar .edit-cover-icon {
+	top: 69px;
+}
+
 #place-profile-page .profile-avatar-image {
 	position: absolute;
 	left: 0;

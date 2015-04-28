@@ -16,6 +16,18 @@
 	z-index: 2000;
 }
 
+#primary-navbar .avatar {
+	position: relative;
+	top: -10px;
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	margin-right: 10px;
+	border-radius: 25px;
+	background-size: cover;
+	float: left;
+}
+
 #primary-navbar .navbar-header {
 		height: 75px;
 }
@@ -46,13 +58,14 @@
 }
 
 #primary-navbar #action-create-dropdown span.glyphicon {
-	background: #2EBDFF;
-	border-radius: 30px;
+	background: transparent;
+	border-radius: 25px;
 	height: 40px;
 	width: 40px;
 	text-align: center;
-	padding-top: 13px;
-	padding-left: 2px;
+	padding-top: 12px;
+	padding-left: 1px;
+	border: 1px solid #FFF;
 	font-weight: lighter;
 }
 
@@ -101,7 +114,6 @@
 	border: 1px solid #252833;
 	background-color: #494e63;
 	color: #FFFFFF;
-	padding: 9px 12px;
 }
 
 #primary-navbar #navbar-search .selectize-input input {

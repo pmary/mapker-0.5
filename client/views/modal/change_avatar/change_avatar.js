@@ -53,6 +53,7 @@ Template.modalChangeAvatar.events({
 					$('.helper-tool > img').cropper({
 						aspectRatio: 1/1,
 						movable: false,
+						strict: false, // The image can be smaller than the cropbox
 						minCropBoxWidth: 160,
 						minCropBoxHeight: 160,
 						guides: false,
@@ -92,7 +93,7 @@ Template.modalChangeAvatar.events({
 				// Set the uploaded file object
 				var uploadedFile = {
 					resource: Session.get('modalResource'), // Infos about the currently edited resource
-					data: jic.compressFromCanvas(canvas, e.target.result, 60), // Compress the image
+					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "avatar" // Can be cover or avatar
 				}

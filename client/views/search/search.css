@@ -17,12 +17,16 @@
 	margin-left: 0px;
 }
 
-#search-page #search-container {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.28);
-	z-index: 1;
+#search-page .no-search#search-container {
+	overflow: hidden;
+}
+
+#search-page .no-search#search-container #search-parameters {
 	height: 100%;
-	overflow-y: scroll;
-	overflow-x: hidden;
+}
+
+#search-page .no-search#search-container #search-results {
+	display: none;
 }
 
 /**
@@ -33,6 +37,9 @@
 	padding-top: 80px;
 	padding-bottom: 80px;
 	border-bottom: 1px solid #d9d9d9;
+	height: 263px;
+	-webkit-transition: height 1s ease;
+	transition: height 1s ease;
 }
 
 #search-page #search-parameters .form-group {
@@ -96,6 +103,7 @@
 	cursor: pointer;    /* affiche un curseur adapté */
 	padding-left: 35px;
 	padding-top: 2px;
+	color: #ffffff;
 }
 
 #search-page #search-parameters input[type="radio"]:not(:checked) + label:before,  
@@ -104,7 +112,7 @@
 	position: absolute;
 	left:0; top: 0px;
 	width: 24px; height: 24px; /* dim. de la case */
-	border: 2px solid #333845;
+	border: 2px solid #ffffff;
 	color: #333845;
 	background: transparent;
 	border-radius: 60px; /* angles arrondis */
@@ -120,7 +128,7 @@
 	border-radius: 12px;
 	height: 10px;
 	transition: all .2s;
-	background-color: #333845;
+	background-color: #ffffff;
 }
 
 #search-page #search-parameters input[type="radio"]:checked + label:after { /* Aspect si "cochée" */  
@@ -141,12 +149,20 @@
 	padding-bottom: 30px;
 }
 
+#search-page #search-results .loader {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 50px;
+	margin-top: 20px;
+}
+
 /* Search results places */
 #search-page #search-results .place {
 	display: inline-block;
 	border-radius: 3px;
-	/*border: 1px solid #eaeaec;
-	background-color: #ffffff;*/
+	border: 1px solid #EAEAEC;
+	background-color: #ffffff;
 	width: 100%;
 	margin-bottom: 30px;
 }
@@ -202,7 +218,7 @@
 
 #search-page #search-results .place section h1 {
 	margin-bottom: 0px;
-	margin-top: 0px;
+	margin-top: 7px;
 	font-size: 19px;
 	text-transform: uppercase;
 }
@@ -213,8 +229,9 @@
 }
 
 #search-page #search-results .place section h2 {
-	margin-top: 10px;
+	margin-top: 3px;
 	font-size: 14px;
+	color: #B0B0B0;
 }
 
 /**

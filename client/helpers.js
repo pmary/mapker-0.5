@@ -8,6 +8,8 @@ UI.registerHelper('split', function(activities) {
 
 // Helper to user test equality
 UI.registerHelper('eq', function(v1, v2, options) {
+	console.log(v1);
+	console.log(v2);
 	var result;
 	if (v1 != null) {
 		if (v2 instanceof Array) {

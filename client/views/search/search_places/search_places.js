@@ -158,6 +158,13 @@ Template.searchPlaces.rendered = function() {
 
 var resultPlacesSubscription;
 Template.searchPlaces.events({
+	// Search nav
+	'click #input-radio-place': function() {
+		Router.go('searchPlaces');
+	},
+	'click #input-radio-skills': function() {
+		Router.go('searchSkills');
+	},
 	'keyup #input-where': function(e,t) {
 		if (t.find('#input-where').value.length < 2)
 			return;
@@ -183,6 +190,9 @@ Template.searchPlaces.events({
 	},
 	'submit #search-form': function(e,t) {
 		e.preventDefault();
+
+		// Remove the no-search class from #search-container
+		$('#search-container').removeClass('no-search');
 
 		// Clear map
 		clearMap();
@@ -244,20 +254,6 @@ Template.searchPlaces.events({
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
 			}
 		};
-	},
-	/**
-	 * @summary Display the map container
-	 */
-	'click #input-radio-place': function(e,t) {
-		t.find('#map-container').className = 'col-md-5';
-		t.find('#search-container').className = 'col-md-7';
-	},
-	/**
-	 * @summary Hide the map container
-	 */
-	'click #input-radio-skills': function(e,t) {
-		t.find('#map-container').className = 'hide';
-		t.find('#search-container').className = 'col-md-12';
 	}
 });
 
@@ -271,11 +267,20 @@ Template.searchPlaces.events({
 var searchPlacesByActivitiesAndBbox = function(searchObject) {
 	console.log(searchObject);
 	Meteor.call('placesByActivitiesAndBbox', searchObject, function(error, result) {
+		console.log(result);
 		// Display the error to the user and abort
-		if (error) return console.log(error.reason);
-		console.log(result)
+		if (error) {
+			console.log(error.reason);
+			return Session.set("searchPlacesResults", 'no-result');
+		}
+
+		if (!result || !result.length) {
+			console.log('nope');
+			return Session.set("searchPlacesResults", 'no-result');
+		};
 		
 		Session.set("searchPlacesResults", result);
+
 		setTimeout(function() {
 			// Init focus point for the cover and avatars
 			$('#search-page #search-results .place .cover').focusPoint();

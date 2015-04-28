@@ -2,6 +2,9 @@ Template.primaryNavbar.helpers({
 });
 
 Template.primaryNavbar.rendered = function() {
+	// initialize all tooltips
+	$('#primary-navbar [data-toggle="tooltip"]').tooltip();
+
 	$search = $('#navbar-input-search').selectize({
 		valueField: 'concate',
 		labelField: 'name',

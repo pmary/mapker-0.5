@@ -18,6 +18,11 @@
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
 }
 
+#user-profile-page .profile-avatar .edit-cover-icon {
+	top: 58px;
+	left: -10px;
+}
+
 #user-profile-page .profile-avatar-image {
 	position: absolute;
 	left: 0;

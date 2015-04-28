@@ -10,6 +10,8 @@
  * 07 - Icons
  * 08 - Panels
  * 09 - Pins
+ * 10 - Loader
+ * 11 - Selectize
  */
 body, html {
 	height: 100%;
@@ -24,6 +26,10 @@ body {
 
 .hide {
 	display: none;
+}
+
+.modal {
+	z-index: 2050;
 }
 
 /**
@@ -499,4 +505,70 @@ form small.error {
 
 .pin.pin-place-hover {
 	background-position: 0px -47px;
+}
+
+/**
+ * 10 - Loader
+ */
+.loader {
+	height: 60px;
+	width: 60px;
+	right: 0;
+	left: 0;
+	z-index: 10;
+	margin-right: 40px;
+	display: inline-block;
+	position: relative;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
+}
+
+.loader .double-bounce1, .double-bounce2{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #FFF;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-animation: bounce 2.0s infinite ease-in-out;
+	animation: bounce 2.0s infinite ease-in-out;
+}
+
+.loader .double-bounce2 {
+	-webkit-animation-delay: -1.0s;
+	animation-delay: -1.0s;
+}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0)
+  }
+}
+
+/**
+ * 11 - Selectize
+ */
+.selectize-input {
+	min-height: 40px;
+}
+
+.selectize-input input,
+.selectize-input .item {
+	min-height: 26px !important;
+}
+
+.selectize-input .item {
+	vertical-align: middle;
+	line-height: 28px;
 }

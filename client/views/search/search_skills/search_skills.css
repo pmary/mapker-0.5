@@ -1,0 +1,20 @@
+.search-skills#search-container {
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+	z-index: 1;
+	height: 100%;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.search-skills#search-container #search-container-inner {
+	overflow-x: hidden;
+	height: 100%;
+}
+
+.search-skills#search-container #search-parameters {
+	background-image: url(https://c1.staticflickr.com/9/8650/16090105932_da0611e60d_h.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}

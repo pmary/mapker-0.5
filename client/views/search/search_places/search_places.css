@@ -1,0 +1,48 @@
+.search-place#search-container {
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+	z-index: 1;
+	height: 100%;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.search-place#search-container #search-container-inner {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 100%;
+	width: 102%;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
+.search-place#search-container #search-parameters {
+	background-image: url(https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/11080777_781455918591210_8651881486991331279_o.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	box-shadow: 0px 180px 200px rgba(0, 0, 0, 0.52) inset;
+}
+
+/* Label color */
+.search-place#search-container #search-parameters input[type="radio"]:not(:checked) + label, 
+.search-place#search-container #search-parameters input[type="radio"]:checked + label {
+	/*color: #333;*/
+}
+
+/* Box border color */
+.search-place#search-container #search-parameters input[type="radio"]:not(:checked) + label:before, 
+.search-place#search-container #search-parameters input[type="radio"]:checked + label:before {
+	/*border: 2px solid #333845;*/
+}
+
+/* Box checked color */
+.search-place#search-container #search-parameters input[type="radio"]:not(:checked) + label:after, 
+.search-place#search-container #search-parameters input[type="radio"]:checked + label:after {
+	/*background-color: #333845;*/
+}
+
+.search-place#search-container #search-results .loader .double-bounce1,
+.search-place#search-container #search-results .loader .double-bounce2 {
+	background-color: #FC3975;
+}
