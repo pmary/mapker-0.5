@@ -293,6 +293,10 @@ form small.error {
 	margin-bottom: 5px;
 }
 
+.popover {
+	z-index: 40;
+}
+
 .profile-page #resource-infos-identity .popover {
 	width: 320px;
 	max-width: 320px;

@@ -25,8 +25,6 @@
 				"firstname": "Pierre",
 				"lastname": "Mary",
 				"activity": "Développeur",
-				"countryCode": "FR",
-				"zipcode": "75002",
 				"bio" : "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. ",
 				"skills": [
 					{
@@ -36,13 +34,18 @@
 			            "title" : "UX design"
 			        }
 			    ],
+			    "address" : {
+		            "countryCode" : "FR",
+		            "zipcode" : "75008",
+		            "city" : "Paris",
+		            "loc" : [ 
+		                48.8718722, 
+		                2.31764320000002
+		            ]
+		        },
 		        "avatar" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/avatar",
-		            "name" : "i4FxWHYGyQr3LyN4x/avatar",
-		            "focusX" : -0.4123222748815166,
-		            "focusY" : 0.2562814070351759,
-		            "w" : 900,
-		            "h" : 1273
+		            "name" : "i4FxWHYGyQr3LyN4x/avatar"
 		        },
 		        "cover" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/cover",
@@ -95,8 +98,6 @@
 		        "firstname" : "Axel",
 		        "lastname" : "Delbrayère",
 		        "activity" : "Designer",
-		        "countryCode" : "FR",
-		        "zipcode" : "75008",
 		        "bio" : "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. ",
 		        "skills" : [ 
 		            {
@@ -105,7 +106,28 @@
 		            {
 		                "title" : "Design d'objet industriel"
 		            }
-		        ]
+		        ],
+		        "address" : {
+		            "countryCode" : "FR",
+		            "zipcode" : "75007",
+		            "city" : "Paris",
+		            "loc" : [ 
+		                48.8718722, 
+		                2.31764320000002
+		            ]
+		        },
+		        "avatar" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/cAqconthf92Yrnutf/avatar",
+		            "name" : "cAqconthf92Yrnutf/avatar"
+		        },
+		        "cover" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/cAqconthf92Yrnutf/cover",
+		            "name" : "cAqconthf92Yrnutf/cover",
+		            "focusX" : -0.03554502369668244,
+		            "focusY" : -0.2050473186119874,
+		            "w" : 3264,
+		            "h" : 2448
+		        }
 		    }
 		});
 	};

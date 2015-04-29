@@ -69,14 +69,23 @@ Meteor.methods({
 		//console.log(url);
 
 		// Create the image object to insert in the resource document
-		var image = {
-			url: url,
-			name: key,
-			focusX: img.focusX,
-			focusY: img.focusY,
-			w: img.w,
-			h: img.h
-		};
+		var image;
+		if (img.role == "avatar") {
+			image = {
+				url: url,
+				name: key
+			};
+		}
+		else if (img.role == "cover") {
+			image = {
+				url: url,
+				name: key,
+				focusX: img.focusX,
+				focusY: img.focusY,
+				w: img.w,
+				h: img.h
+			};
+		}
 
 		// Update the resource
 		if (img.resource.type == "user") {
