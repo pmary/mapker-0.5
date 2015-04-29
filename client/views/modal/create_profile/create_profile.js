@@ -21,7 +21,6 @@ Template.modalCreateProfile.helpers({
 Template.modalCreateProfile.events({
 	'submit #create-profile-form' : function(e, t){
 		e.preventDefault();
-		console.log("Create a new profile");
 
 		var profile = {
 			activity: t.find('#input-activity').value,
@@ -35,7 +34,18 @@ Template.modalCreateProfile.events({
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
 
-		Meteor.call('userCreateProfile', profile, function(error, result) {
+		// Get the user region central point coordinates
+		var address = "address=Mont+Cenis&components=country:FR&postal_code:75008";
+		var geocoder = new google.maps.Geocoder();
+		geocoder.geocode({ 'componentRestrictions': { 'postalCode': profile.zipcode }, region: profile.countryCode }, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				console.log(results);
+			} else {
+				console.log('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+
+		/*Meteor.call('userCreateProfile', profile, function(error, result) {
 			// display the error to the user and abort
 			if (error) {
 				console.log(error);
@@ -48,6 +58,6 @@ Template.modalCreateProfile.events({
 		  		keyboard: true
 			});
 			$('#myModal').modal('hide');
-	    });
+	    });*/
 	}
 });

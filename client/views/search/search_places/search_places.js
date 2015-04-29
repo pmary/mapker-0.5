@@ -17,6 +17,7 @@ Template.searchPlaces.helpers({
 var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
+	console.log("render");
 	Session.set("locationsResults", []);
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
@@ -27,6 +28,9 @@ Template.searchPlaces.rendered = function() {
 
 	$('#input-what').focus();
 
+	/**
+	 * @todo Try to move the accessToken declaration server side only to keep it private
+	 */
 	this.autorun(function () {
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
@@ -58,6 +62,7 @@ Template.searchPlaces.rendered = function() {
 			}
 		},
 		load: function(query, callback) {
+			console.log('load');
 			if (!query.length) return callback();
 			query = encodeURIComponent(query.replace(/ /g, "+"));
 			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
@@ -66,11 +71,15 @@ Template.searchPlaces.rendered = function() {
 			Meteor.http.get(queryUrl, function (error, result) {
 				if (!error) {
 					var content = JSON.parse(result.content);
+					console.log(content);
 					if (content.features && content.features.length) {
 						callback(content.features.slice(0, 10));
 					};
 				}
 			});
+		},
+		onType: function(str) {
+			console.log('type');
 		}
 	});
 
@@ -108,41 +117,14 @@ Template.searchPlaces.rendered = function() {
 				callback(myResult);
 			});
 		},
-		onItemAdd: function(value, $item) {
-			//console.log(value);
-			/*value = JSON.parse(value);
-			if (event && event.keyCode == 13) {
-				event.stopPropagation();
-				searchWhat.clear();
-				searchWhat.blur();
-				$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
-				Router.go('search');
-			} else {
-				Router.go('placeProfileAbout', {_id: value._id});
-			}*/
-		},
+		onItemAdd: function(value, $item) {},
 		onItemRemove: function(value, $item) {
 			$('#input-where').val("");
 		},
-		onType: function(str) {
-			//Session.set('searchTerms', str);
-		},
-		onFocus: function() {
-		},
-		onBlur: function(){
-			//$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
-		}
+		onType: function(str) {},
+		onFocus: function() {},
+		onBlur: function(){}
 	});
-
-	/*$("#input-what-container .selectize-input input").keyup(function(e) {
-		if (e && e.keyCode == 13) {
-			e.stopPropagation();
-			searchWhat.clear();
-			searchWhat.blur();
-			$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
-			Router.go('search');
-		}
-	});*/
 
 	searchWhat = $searchWhat[0].selectize;
 	$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));

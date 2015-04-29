@@ -10,8 +10,8 @@ Template.searchSkills.helpers({
 	}
 });
 
-Template.searchPlaces.rendered = function() {
-	$searchWhat = $('#input-what').selectize({
+Template.searchSkills.rendered = function() {
+	/*$searchWhat = $('#input-what').selectize({
 		valueField: 'activity',
 		labelField: 'activity',
 		searchField: 'activity',
@@ -52,7 +52,7 @@ Template.searchPlaces.rendered = function() {
 		onType: function(str) {},
 		onFocus: function() {},
 		onBlur: function(){}
-	});
+	});*/
 }
 
 Template.searchSkills.events({
