@@ -11,7 +11,7 @@ Template.searchSkills.helpers({
 });
 
 Template.searchSkills.rendered = function() {
-	/*$searchWhat = $('#input-what').selectize({
+	$searchSkills = $('#input-skills').selectize({
 		valueField: 'activity',
 		labelField: 'activity',
 		searchField: 'activity',
@@ -33,26 +33,24 @@ Template.searchSkills.rendered = function() {
 		load: function(query, callback) {
 			if (!query.length) return callback();
 			
-			Meteor.call('placesAutocompleteByActivities', query, function(error, result) {
+			Meteor.call('getSkillsSuggestions', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				//console.log(result)
+				console.log(result)
 				
-				var myResult = [];
+				/*var myResult = [];
 				for (var i = 0; i < result.length; i++) {
 					myResult.push({activity: result[i].activities[0]});
 				};
-				callback(myResult);
+				callback(myResult);*/
 			});
 		},
 		onItemAdd: function(value, $item) {},
-		onItemRemove: function(value, $item) {
-			$('#input-where').val("");
-		},
+		onItemRemove: function(value, $item) {},
 		onType: function(str) {},
 		onFocus: function() {},
 		onBlur: function(){}
-	});*/
+	});
 }
 
 Template.searchSkills.events({
