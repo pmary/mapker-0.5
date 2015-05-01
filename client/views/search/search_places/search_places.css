@@ -17,7 +17,7 @@
 }
 
 .search-place#search-container #search-parameters {
-	background-image: url(https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/11080777_781455918591210_8651881486991331279_o.jpg);
+	background-image: url(/images/places-search-background.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;

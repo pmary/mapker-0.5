@@ -5,7 +5,7 @@
  */
 
 // Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-ES = new Elasticsearch.Client({
+Meteor.ES = new Elasticsearch.Client({
 	host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
 	sniffOnStart: true,
 	sniffInterval: 60000,
@@ -22,16 +22,7 @@ var elasticsearchSync = function() {
 	var users = Meteor.users.find().fetch();
 	// Create the user documents
 	for (var i = 0; i < users.length; i++) {
-		ES.create({
-			index: 'resources',
-			type: 'user',
-			id: users[i]._id,
-			body: {
-		    	name: users[i].profile.fullname
-			}
-		}, function (error, response) {
-			
-		});
+		Meteor.ES.methods.updateUserDocument(users[i]._id);
 	};
 }
 
@@ -39,7 +30,7 @@ var elasticsearchSync = function() {
  * @summary Delete all the indices
  */
 var deleteAllIndices = function() {
-	ES.indices.delete({index: '_all'}, function (error, response) {});
+	Meteor.ES.indices.delete({index: '_all'}, function (error, response) {});
 }
 
 /**
@@ -51,7 +42,7 @@ var setupIndicesAndMapping = function() {
 	 * and setup the completion suggester on the field we need to
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
 	 */
-	ES.indices.create({ index: "resources" }, function() {
+	Meteor.ES.indices.create({ index: "resources" }, function() {
 		// Register specific mapping definition for places and user resources
 		// See http://www.elastic.co/guide/en/elasticsearch/guide/master/complex-core-fields.html
 		var placesBody = {
@@ -86,13 +77,14 @@ var setupIndicesAndMapping = function() {
 				}
 			}
 		};
-		ES.indices.putMapping({index:"resources", type:"place", body:placesBody});
+		Meteor.ES.indices.putMapping({index:"resources", type:"place", body:placesBody});
 
 		var usersBody = {
 			user: {
 				properties:{
 					id: {"type" : "string"},			// The MongoDB id
-					name: {"type" : "string"},			// Fullname field
+					loc: {"type" : "geo_point", "index" : "no"}, // profile.address.loc field
+					name: {"type" : "string"},			// profile.fullname field
 					cover: {
 						"type": "object",
 						"properties": {
@@ -119,14 +111,14 @@ var setupIndicesAndMapping = function() {
 				}
 			}
 		};
-		ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
+		Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
 	});
-}
+};
 
 /*****************************************************************************/
 /* Methods */
 /*****************************************************************************/
-ES.methods = {
+Meteor.ES.methods = {
 	/**
 	 * @summary Create a new user document in the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
@@ -138,7 +130,7 @@ ES.methods = {
 		var user = Meteor.users.findOne({ "_id": id });
 		if (!user) return;
 
-		ES.create({
+		Meteor.ES.create({
 			index: 'resources',
 			type: 'user',
 			id: id,
@@ -155,47 +147,6 @@ ES.methods = {
 		});
 	},
 	/**
-	 * @summary Update the skills field in a user document
-	 * @param {string} id The document id from MongoDB
-	 */
-	updateUserSkills: function(id) {
-		check(id, String);
-
-		// Get the user data
-		var user = Meteor.users.findOne({ "_id": id });
-		if (!user) return;
-
-		// Flatenize the skills as an array rather than an object
-		var skills = [];
-		for (var i = 0; i < user.profile.skills.length; i++) {
-			skills.push(user.profile.skills[i].title);
-		};
-		console.log(skills);
-
-		ES.index({
-			index: 'resources',
-			type: 'user',
-			id: id, // User id
-			body: {
-				skills: skills,
-				skills_suggest: {
-					input: skills
-				}
-			}
-		}, function (error, response) {
-			ES.get({
-			  index: 'resources',
-			  type: 'user',
-			  id: 'i4FxWHYGyQr3LyN4x'
-			}, function (error, response) {
-			  console.log(error);
-			  for (var i = 0; i < response._source.skills.length; i++) {
-			  	console.log(response._source.skills[i]);
-			  };
-			});
-		});
-	},
-	/**
 	 * @summary Update a user document from the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
 	 */
@@ -205,6 +156,45 @@ ES.methods = {
 		// Get the user data
 		var user = Meteor.users.findOne({ "_id": id });
 		if (!user) return;
+
+		// Flatenize the skills as an array rather than an object
+		if (user.profile.skills) {
+			var skills = [];
+			for (var i = 0; i < user.profile.skills.length; i++) {
+				skills.push(user.profile.skills[i].title);
+			};
+		};
+
+		Meteor.ES.index({
+			index: 'resources',
+			type: 'user',
+			id: id, // User id
+			body: {
+				loc: (user.profile.address ? user.profile.address.loc : undefined),
+				name: user.profile.fullname,
+				cover: {
+					url: (user.cover ? user.cover.url : undefined),
+					focusX: (user.cover ? user.cover.focusX : undefined),
+					focusY: (user.cover ? user.cover.focusY : undefined),
+					w: (user.cover ? user.cover.w : undefined),
+					h: (user.cover ? user.cover.h : undefined)
+				},
+				avatar: { url: (user.avatar ? user.avatar.url : undefined) },
+				skills: (skills ? skills : undefined),
+				skills_suggest: {
+					input: (skills ? skills : undefined)
+				}
+			}
+		}, function (error, response) {
+			Meteor.ES.get({
+			  index: 'resources',
+			  type: 'user',
+			  id: id
+			}, function (error, response) {
+			  console.log(error);
+			  console.log(response);
+			});
+		});
 	},
 	/**
 	 * @summary Delete a user document from the 'resource' ES index
@@ -215,7 +205,7 @@ ES.methods = {
 	},
 	getSkillsSuggestions: function(queryString, callback) {
 		// Get suggestions
-		ES.suggest({
+		Meteor.ES.suggest({
 			index: 'resources',
 			body: {
 				skills_suggester: {
@@ -226,9 +216,15 @@ ES.methods = {
 				}
 			}
 		}, function (error, response) {
-			console.log(error);
-			console.log(response.skills_suggester[0].options);
 			callback( null, response.skills_suggester[0].options );
+		});
+	},
+	getActivitiesSuggestions: function(queryString, callback) {
+		// Get suggestions
+		Meteor.ES.suggest({
+
+		}, function (error, response) {
+
 		});
 	}
 };
@@ -241,7 +237,7 @@ Meteor.methods({
 	getSkillsSuggestions: function(queryString) {
 		check(queryString, String);
 
-		var getSkillsSuggestionsAsync = Meteor.wrapAsync(ES.methods.getSkillsSuggestions); // @doc http://docs.meteor.com/#/full/meteor_wrapasync
+		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getSkillsSuggestions); // @doc http://docs.meteor.com/#/full/meteor_wrapasync
 		var results = getSkillsSuggestionsAsync(queryString);
 		return results;
 	}
@@ -249,14 +245,14 @@ Meteor.methods({
 
 /** Test procedure **/
 // Create a user document
-//ES.methods.createUserDocument('i4FxWHYGyQr3LyN4x');
+//Meteor.ES.methods.createUserDocument('i4FxWHYGyQr3LyN4x');
 
 // Index user skills
-//ES.methods.updateUserSkills('i4FxWHYGyQr3LyN4x');
+//Meteor.ES.methods.updateUserSkills('i4FxWHYGyQr3LyN4x');
 
 // Query against the skills_suggest indexe
 // For an indeep suggest exemple see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams
-/*ES.suggest({
+/*Meteor.ES.suggest({
 	index: 'resources',
 	body: {
 		skills_suggester: {

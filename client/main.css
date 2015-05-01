@@ -546,18 +546,18 @@ form small.error {
 }
 
 @-webkit-keyframes bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
+	0%, 100% { -webkit-transform: scale(0.0) }
+	50% { -webkit-transform: scale(1.0) }
 }
 
 @keyframes bounce {
-  0%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0)
-  }
+	0%, 100% { 
+		transform: scale(0.0);
+		-webkit-transform: scale(0.0);
+	} 50% { 
+		transform: scale(1.0);
+		-webkit-transform: scale(1.0)
+	}
 }
 
 /**
@@ -565,6 +565,24 @@ form small.error {
  */
 .selectize-input {
 	min-height: 40px;
+}
+
+.selectize-load:before {
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	content: ' ';
+	z-index: 2;
+	position: absolute;
+	display: block;
+	top: 50%;
+	right: 34px;
+	width: 16px;
+	height: 16px;
+	margin: -10px 0 0 0;
+	background: url(/images/spinner.gif);
+	background-size: 16px 16px;
+	opacity: 0.4;
 }
 
 .selectize-input input,

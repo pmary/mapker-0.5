@@ -15,6 +15,7 @@ Template.primaryNavbar.rendered = function() {
 		create: false,
 		highlight: false,
 		addPrecedence: false,
+		loadingClass: 'selectize-load',
 		render: {
 			option: function(item, escape) {
 				var result = '<div>' + 

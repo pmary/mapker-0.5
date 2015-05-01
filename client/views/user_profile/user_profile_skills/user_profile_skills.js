@@ -11,7 +11,7 @@ Template.UserProfileSkills.helpers({
 });
 
 Template.UserProfileSkills.rendered = function() {
-	Session.set('UserProfileSkillsErrors', {}); // Prevent undefined session warning
+	//Session.set('UserProfileSkillsErrors', {}); // Prevent undefined session warning
 }
 
 

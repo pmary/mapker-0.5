@@ -659,6 +659,50 @@
 		        "h" : 1723
 		    }
 		});
+		Places.insert({
+		    "_id" : "sEJKLQfXWmffogyt4",
+		    "name" : "aaa",
+		    "themes" : [ 
+		        "aaa"
+		    ],
+		    "activities" : [ 
+		        "aaa"
+		    ],
+		    "role" : "aaa",
+		    "streetNumber" : "40",
+		    "streetName" : "rue saint sabin",
+		    "zipcode" : "75011",
+		    "countryCode" : "fr",
+		    "city" : "Paris",
+		    "loc" : [ 
+		        48.8580654, 
+		        2.3695263
+		    ],
+		    "formattedAddress" : "40 Rue Saint-Sabin, 75011 Paris, France",
+		    "administrators" : [ 
+		        "cAqconthf92Yrnutf"
+		    ],
+		    "activated" : false,
+		    "submittedBy" : "cAqconthf92Yrnutf",
+		    "submittedAt" : ISODate("2015-04-24T07:45:04.593Z"),
+		    "avatar" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/sEJKLQfXWmffogyt4/avatar",
+		        "name" : "sEJKLQfXWmffogyt4/avatar",
+		        "focusX" : null,
+		        "focusY" : null,
+		        "w" : null,
+		        "h" : null
+		    },
+		    "cover" : {
+		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/sEJKLQfXWmffogyt4/cover",
+		        "name" : "sEJKLQfXWmffogyt4/cover",
+		        "focusX" : 0.3388625592417061,
+		        "focusY" : -0.3177257525083612,
+		        "w" : 1200,
+		        "h" : 851
+		    },
+		    "about" : "                \n\n\n                         cfscefv vfvdfv fdvdfv"
+		});
 	};
 
 	if (Projects.find().count() === 0) {

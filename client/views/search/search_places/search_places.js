@@ -46,12 +46,13 @@ Template.searchPlaces.rendered = function() {
 	});
 
 	// Selectize init. for the where input field
-	$('#input-where').selectize({
+	$('.search-place #input-where').selectize({
 		valueField: 'place_name',
 		labelField: 'place_name',
 		searchField: 'place_name',
 		maxItems: 1,
 		create: false,
+		loadingClass: 'selectize-load',
 		render: {
 			option: function(item, escape) {
 				return '<div>' +
@@ -83,7 +84,7 @@ Template.searchPlaces.rendered = function() {
 		}
 	});
 
-	$searchWhat = $('#input-what').selectize({
+	$searchWhat = $('.search-place #input-what').selectize({
 		valueField: 'activity',
 		labelField: 'activity',
 		searchField: 'activity',
@@ -93,6 +94,7 @@ Template.searchPlaces.rendered = function() {
 		create: false,
 		highlight: false,
 		addPrecedence: false,
+		loadingClass: 'selectize-load',
 		render: {
 			option: function(item, escape) {
 				return '<div>' +
