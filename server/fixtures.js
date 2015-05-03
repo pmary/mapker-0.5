@@ -2,13 +2,13 @@
  * Set a default data set for developement purpose
  */
  Meteor.startup(function () {
-	if (Meteor.users.find().count() > 0) {
-		//Meteor.users.remove({});
+	/*if (Meteor.users.find().count() > 0) {
+		Meteor.users.remove({});
 	}
 
 	if (Places.find().count() > 0) {
-		//Places.remove({});
-	};
+		Places.remove({});
+	};*/
 
 	if (Meteor.users.find().count() === 0) {
 		// Insert some fake user data
@@ -38,10 +38,10 @@
 		            "countryCode" : "FR",
 		            "zipcode" : "75008",
 		            "city" : "Paris",
-		            "loc" : [ 
-		                48.8718722, 
-		                2.31764320000002
-		            ]
+		            "loc" : { 
+		                "lat": 48.8718722, 
+		                "lon": 2.31764320000002
+		            }
 		        },
 		        "avatar" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/avatar",
@@ -111,10 +111,10 @@
 		            "countryCode" : "FR",
 		            "zipcode" : "75007",
 		            "city" : "Paris",
-		            "loc" : [ 
-		                48.8718722, 
-		                2.31764320000002
-		            ]
+		            "loc" : {
+		                "lat": 48.8718722, 
+		                "lon": 2.31764320000002
+		            }
 		        },
 		        "avatar" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/cAqconthf92Yrnutf/avatar",
@@ -684,7 +684,7 @@
 		    ],
 		    "activated" : false,
 		    "submittedBy" : "cAqconthf92Yrnutf",
-		    "submittedAt" : ISODate("2015-04-24T07:45:04.593Z"),
+		    "submittedAt" : Date("2015-04-24T07:45:04.593Z"),
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/sEJKLQfXWmffogyt4/avatar",
 		        "name" : "sEJKLQfXWmffogyt4/avatar",

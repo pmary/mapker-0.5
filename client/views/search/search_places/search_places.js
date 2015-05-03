@@ -175,14 +175,15 @@ Template.searchPlaces.events({
 	'submit #search-form': function(e,t) {
 		e.preventDefault();
 
-		// Remove the no-search class from #search-container
-		$('#search-container').removeClass('no-search');
+		// Remove the no-search class from #search-container to display the result area
+		$(t.find('#search-container')).removeClass('no-search');
 
 		// Clear map
 		clearMap();
 		// Reset the marker list
 		markers = [];
 
+		// Get the input values
 		var location = t.find('#input-where').value,
 		keywords = t.find('#input-what').value;
 		console.log(location);
@@ -195,6 +196,7 @@ Template.searchPlaces.events({
 
 			//db.places.find({ "loc": {$within: {$box: [[48.81701299999982, 2.2242194999998044], [48.90197349999985, 2.4648354999997926]]}} } )
 
+			// Get the location data
 			Meteor.http.get(queryUrl, function (error, result) {
 				if (!error) {
 					var content = JSON.parse(result.content);

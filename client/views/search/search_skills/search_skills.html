@@ -37,26 +37,40 @@
 				</div>
 			</section>
 			<section class="row" id="search-results">
-				{{#each places}}
-					<div class="col-md-6">
-						<div class="place" data-id="{{_id}}">
-							<header>
-								<div class="avatar" style="background-image: url({{avatar.url}})">
-								</div>
-								<div class="focuspoint cover" data-focus-x="{{cover.focusX}}" data-focus-y="{{cover.focusY}}" data-image-w="{{cover.w}}" data-image-h="{{cover.h}}">
-									{{#if cover}}
-									<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
-									{{/if}}
-								</div>
-							</header>
-							
-							<section>
-								<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
-								<h2>{{split activities}}</h2>
-							</section>
+				<div class="col-md-8 col-md-offset-2">
+				{{#if users}}
+					{{#if eq users "no-result"}}
+						<div class="col-md-6 col-md-offset-3">
+							<div class="alert alert-danger" role="alert">
+								No place were found for your search.
+							</div>
 						</div>
-					</div>
-				{{/each}}
+					{{else}}
+						{{#each users}}
+						<div class="col-md-6">
+							<div class="place" data-id="{{_id}}">
+								<header>
+									<div class="avatar" style="background-image: url({{avatar.url}})">
+									</div>
+									<div class="focuspoint cover" data-focus-x="{{cover.focusX}}" data-focus-y="{{cover.focusY}}" data-image-w="{{cover.w}}" data-image-h="{{cover.h}}">
+										{{#if cover}}
+										<a href="{{pathFor route='userProfileBio' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
+										{{/if}}
+									</div>
+								</header>
+								
+								<section>
+									<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{name}}</a></h1>
+									<h2>{{split skills}}</h2>
+								</section>
+							</div>
+						</div>
+						{{/each}}
+					{{/if}}
+				{{else}}
+					{{> loader}}
+				{{/if}}
+				</div>
 			</section>
 		</div>
 	</div>

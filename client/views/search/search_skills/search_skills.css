@@ -1,14 +1,13 @@
 .search-skills#search-container {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 	z-index: 1;
 	height: 100%;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	padding-right: 0px;
 	padding-left: 0px;
 }
 
 .search-skills#search-container #search-container-inner {
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
 	height: 100%;
 }
 
@@ -17,4 +16,17 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.search-skills#search-container #search-results {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+/* Loader color */
+.search-skills#search-container #search-results .loader .double-bounce1,
+.search-skills#search-container #search-results .loader .double-bounce2 {
+	background-color: #20DEC2;
 }

@@ -42,6 +42,7 @@
 	/*background-color: #333845;*/
 }
 
+/* Loader color */
 .search-place#search-container #search-results .loader .double-bounce1,
 .search-place#search-container #search-results .loader .double-bounce2 {
 	background-color: #FC3975;

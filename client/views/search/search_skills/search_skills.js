@@ -1,3 +1,43 @@
+/*****************************************************************************/
+/* Local function declaration */
+/*****************************************************************************/
+/**
+ * @summary Find the users that are within the selected location bounding box
+ * and one of it's skills match with the given keywords
+ * @param {Object} searchObject - Contain the search parameters
+ * @param {String} searchObject.keywords - Activities keywords
+ * @param {Array} searchObject.bbox - Bounding box coordinates of the selected location bounding box
+ */
+var searchUsersBySkillsAndBbox = function(searchObject) {
+	console.log("will query the get Meteor method");
+	Meteor.call('getUsers', searchObject, function(error, result) {
+		if (error)
+			console.log(error);
+
+		console.log(result);
+
+		// If there is no result
+		if (!result.length) 
+			return Session.set('searchUsersResults', "no-result");
+		
+		// Format the results
+		var users = [];
+		for (var i = 0; i < result.length; i++) {
+			result[i]._source._id = result[i]._id;
+			users.push(result[i]._source);
+		};
+		console.log(users);
+
+		Session.set('searchUsersResults', users);
+
+		// Init the focus point for the covers
+		setTimeout(function() {
+			// Init focus point for the cover and avatars
+			$('.search-skills #search-results .cover').focusPoint();
+		}, 100);
+	});
+}
+
 Template.searchSkills.helpers({
 	/*searchTerms: function () {
 		return Session.get('searchTerms');
@@ -37,7 +77,7 @@ Template.searchSkills.rendered = function() {
 			Meteor.call('getSkillsSuggestions', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				console.log(result)
+				//console.log(result)
 				
 				/*var myResult = [];
 				for (var i = 0; i < result.length; i++) {
@@ -71,7 +111,7 @@ Template.searchSkills.rendered = function() {
 			}
 		},
 		load: function(query, callback) {
-			console.log('load');
+			//console.log('load');
 			if (!query.length) return callback();
 			query = encodeURIComponent(query.replace(/ /g, "+"));
 			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
@@ -88,7 +128,7 @@ Template.searchSkills.rendered = function() {
 			});
 		},
 		onType: function(str) {
-			console.log('type');
+			//console.log('type');
 		}
 	});
 }
@@ -100,5 +140,38 @@ Template.searchSkills.events({
 	},
 	'click #input-radio-skills': function() {
 		Router.go('searchSkills');
+	},
+	'submit #search-form': function(e,t) {
+		e.preventDefault();
+
+		// Remove the no-search class from #search-container to display the result area
+		$(t.find('#search-container')).removeClass('no-search');
+
+		// Get the input values
+		var keywords = t.find('#input-skills').value,
+		location = t.find('#input-where').value;
+
+		if (location.length > 2) {
+			var query = location.replace(/ /g, "+");
+			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
+
+			// Get the location data
+			Meteor.http.get(queryUrl, function (error, result) {
+				if (!error) {
+					var content = JSON.parse(result.content);
+					if (content.features && content.features.length) {
+						// bbox = left,bottom,right,top
+						var bbox = content.features[0].bbox;
+						var searchObject = {queryString: keywords, bbox: bbox};
+						searchUsersBySkillsAndBbox(searchObject);
+					};
+				}
+			});
+		}
+		else {
+			// No location, so we search on every users
+			var searchObject = {queryString: keywords};
+			searchUsersBySkillsAndBbox(searchObject);
+		}
 	}
 });
