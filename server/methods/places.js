@@ -2,31 +2,6 @@
  * Serveur side methods for the Places collection
  */
 Meteor.methods({
-	/**
-	 * @summary Return the all the activities labels matching with the given string from database
-	 * @param {String} [queryString] The value of the search input field
-	 * @return {Array}
-	 */
-	placesAutocompleteByActivities: function(queryString) {
-		check(queryString, String);
-		var selector = { 'activities': { '$regex': queryString, '$options': 'i' } };
-		var options = { fields: { 'activities': {'$elemMatch': { '$regex': queryString, '$options': 'i' }}, '_id':0 }, limit: 10 };
-		var activities = Places.find( selector, options ).fetch();
-		return activities;
-	},
-	placesByActivitiesAndBbox: function(searchObject) {
-		check(searchObject, {
-			queryString: String,
-			bbox: Array
-		});
-		var selector = { $and: [
-			{ 'activities': searchObject.queryString },
-			{ "loc": {$within: {$box: searchObject.bbox}} }
-		]};
-		var options = { fields: { 'activities': 1, 'name': 1, 'avatar': 1, 'cover': 1, 'loc': 1 } };
-		var places = Places.find( selector, options ).fetch();
-		return places;
-	},
 	resourcesAutocomplete: function(queryString) {
 		check(queryString, String);
 		
@@ -48,25 +23,6 @@ Meteor.methods({
 		};
 		
 		var resources = places.concat(users);
-
-		/* Test elasticSearch */
-		/*Meteor.ES.search({
-			index: 'resources',
-			body: {
-				query: {
-					match: {
-						name: queryString
-					}
-				},
-				fields: ['name'] // The fields to return as part of hits
-			}
-		}, function (error, response) {
-			//console.log(response.hits.hits);
-			for (var i = 0; i < response.hits.hits.length; i++) {
-				console.log(response.hits.hits[i].fields);
-			};
-		});*/
-		/**/
 
 		return resources;
 	}

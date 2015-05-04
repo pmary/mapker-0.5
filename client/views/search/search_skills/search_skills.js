@@ -9,12 +9,11 @@
  * @param {Array} searchObject.bbox - Bounding box coordinates of the selected location bounding box
  */
 var searchUsersBySkillsAndBbox = function(searchObject) {
-	console.log("will query the get Meteor method");
 	Meteor.call('getUsers', searchObject, function(error, result) {
 		if (error)
 			console.log(error);
 
-		console.log(result);
+		//console.log(result);
 
 		// If there is no result
 		if (!result.length) 
@@ -26,7 +25,6 @@ var searchUsersBySkillsAndBbox = function(searchObject) {
 			result[i]._source._id = result[i]._id;
 			users.push(result[i]._source);
 		};
-		console.log(users);
 
 		Session.set('searchUsersResults', users);
 
@@ -51,14 +49,21 @@ Template.searchSkills.helpers({
 });
 
 Template.searchSkills.rendered = function() {
+	/**
+	 * @summary Selectize init. for the skills input field
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+	 */
+	var skillsInputText = "";
 	$searchSkills = $('.search-skills #input-skills').selectize({
 		valueField: 'text',
 		labelField: 'text',
 		searchField: 'text',
 		sortField: 'score',
-		persist: true,
+		persist: false,
 		maxItems: 1,
-		create: false,
+		createOnBlur: true, // {Boolean}  If true, when user exits the field (clicks outside of input or presses ESC) new option is created and selected (if `create`-option is enabled).
+		create: true, // {Boolean} Define if the user can or not enter a word that isn't in the select
 		highlight: false,
 		addPrecedence: false,
 		loadingClass: 'selectize-load',
@@ -72,29 +77,34 @@ Template.searchSkills.rendered = function() {
 			}
 		},
 		load: function(query, callback) {
-			if (!query.length) return callback();
+			if (!query.length) 
+				return callback();
 			
 			Meteor.call('getSkillsSuggestions', query, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
-				//console.log(result)
-				
-				/*var myResult = [];
-				for (var i = 0; i < result.length; i++) {
-					myResult.push({activity: result[i].activities[0]});
-				};*/
+
 				callback(result);
 			});
 		},
 		onItemAdd: function(value, $item) {},
 		onItemRemove: function(value, $item) {},
-		onType: function(str) {},
-		onFocus: function() {},
+		onType: function(str) { skillsInputText = str; },
+		onFocus: function() { 
+			searchSkills.clear(); 
+			$('.search-skills #input-what-container .selectize-input input').val(skillsInputText);
+		},
 		onBlur: function(){}
 	});
-
-	// Selectize init. for the where input field
-	$('.search-skills #input-where').selectize({
+	searchSkills = $searchSkills[0].selectize;
+ 
+	/**
+	 * @summary Selectize init. for the where input field
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+	 */
+	var whereInputText = "";
+	$searchWhere = $('.search-skills #input-where').selectize({
 		valueField: 'place_name',
 		labelField: 'place_name',
 		searchField: 'place_name',
@@ -127,10 +137,13 @@ Template.searchSkills.rendered = function() {
 				}
 			});
 		},
-		onType: function(str) {
-			//console.log('type');
+		onType: function(str) { whereInputText = str; },
+		onFocus: function() { 
+			searchWhere.clear(); 
+			$('.search-skills #input-where-container .selectize-input input').val(whereInputText);
 		}
 	});
+	searchWhere = $searchWhere[0].selectize;
 }
 
 Template.searchSkills.events({

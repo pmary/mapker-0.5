@@ -1,7 +1,97 @@
+/*****************************************************************************/
+/* Local function declaration */
+/*****************************************************************************/
+/**
+ * @summary Find the places that are within the current map viewable zone and that one 
+ * of it's activities match with the given keywords
+ * @param {Object} searchObject - Contain the search parameters
+ * @param {String} searchObject.keywords - Activities keywords
+ * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
+ */
+var searchPlacesByActivitiesAndBbox = function(searchObject) {
+	Meteor.call('getPlaces', searchObject, function(error, result) {		
+		if (error)
+			console.log(error);
+
+		console.log(result);
+
+		// If there is no result
+		if (!result.length) 
+			return Session.set('searchPlacesResults', "no-result");
+
+		// Format the results
+		var places = [];
+		for (var i = 0; i < result.length; i++) {
+			result[i]._source._id = result[i]._id;
+			places.push(result[i]._source);
+		};
+
+		Session.set('searchPlacesResults', places);
+
+		// Init the focus point for the covers
+		setTimeout(function() {
+			// Init focus point for the cover and avatars
+			$('.search-place #search-results .cover').focusPoint();
+		}, 100);
+
+		// Display the results on the map
+		for (var i = 0; i < places.length; i++) {
+			//console.log(places[i]);
+			var resource = places[i];
+			var latlng = new L.LatLng(resource.loc.lat, resource.loc.lon);
+			var marker = new L.Marker(latlng, {
+				_id: resource._id,
+				icon: createIcon(resource)
+			});
+			// Add the marker to our marker list
+			markers.push(marker);
+
+			addPopup(marker, resource);
+							
+			addMarker(marker);
+		}
+	});
+}
+
+var createIcon = function(resource) {
+	return L.divIcon({
+		iconSize: [30, 45],
+		iconAnchor: [15, 42],
+		popupAnchor: [-1, -40],
+		html: '<span class="pin place-pin"></span>',
+		className: 'leaflet-place-icon'
+	});
+}
+
+var addMarker = function(marker) {
+	// Get the layer in which added the marker
+	//var resourceLayer = getResourceLayer(resource.type);
+	//placeLayer.addLayer(marker);
+	markerLayerGroup.addLayer(marker);
+	// Index the marker to access it easily after
+	//markers[marker.options._id] = marker;
+}
+
+var clearMap = function() {
+	markerLayerGroup.clearLayers();
+}
+
+var addPopup = function(marker, resource) {
+	//console.log(marker);
+	marker.bindPopup("<h2>" + resource.name + "</h2>");
+}
+
+
+/*****************************************************************************/
+/* Meteor Startup actions */
+/*****************************************************************************/
 Meteor.startup(function(){
     Mapbox.load();
 });
 
+/*****************************************************************************/
+/* Meteor helpers */
+/*****************************************************************************/
 Template.searchPlaces.helpers({
 	searchTerms: function () {
 		return Session.get('searchTerms');
@@ -14,6 +104,10 @@ Template.searchPlaces.helpers({
 	}
 });
 
+
+/*****************************************************************************/
+/* Meteor on rendered function */
+/*****************************************************************************/
 var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
@@ -21,10 +115,6 @@ Template.searchPlaces.rendered = function() {
 	Session.set("locationsResults", []);
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
-
-	// If we have already subscribe for places, clear it
-	if (resultPlacesSubscription != null)
-  		resultPlacesSubscription.stop();
 
 	$('#input-what').focus();
 
@@ -84,14 +174,21 @@ Template.searchPlaces.rendered = function() {
 		}
 	});
 
+	/**
+	 * @summary Selectize init. for the what input field
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+	 */
+	var whatInputText = "";
 	$searchWhat = $('.search-place #input-what').selectize({
-		valueField: 'activity',
-		labelField: 'activity',
-		searchField: 'activity',
-		sortField: 'activity',
-		persist: true,
+		valueField: 'text',
+		labelField: 'text',
+		searchField: 'text',
+		sortField: 'score',
+		persist: false,
 		maxItems: 1,
-		create: false,
+		createOnBlur: true,
+		create: true,
 		highlight: false,
 		addPrecedence: false,
 		loadingClass: 'selectize-load',
@@ -99,13 +196,24 @@ Template.searchPlaces.rendered = function() {
 			option: function(item, escape) {
 				return '<div>' +
 					'<span class="title">' +
-						'<span class="name">' + escape(item.activity) + '</span>' +
+						'<span class="name">' + escape(item.text) + '</span>' +
 					'</span>' +
 				'</div>';
 			}
 		},
 		load: function(query, callback) {
-			if (!query.length) return callback();
+			if (!query.length) 
+				return callback();
+			
+			Meteor.call('getActivitiesSuggestions', query, function(error, result) {
+				// console.log(result);
+				// Display the error to the user and abort
+				if (error) return console.log(error.reason);
+
+				callback(result);
+			});
+
+			/*if (!query.length) return callback();
 			
 			Meteor.call('placesAutocompleteByActivities', query, function(error, result) {
 				// Display the error to the user and abort
@@ -117,15 +225,19 @@ Template.searchPlaces.rendered = function() {
 					myResult.push({activity: result[i].activities[0]});
 				};
 				callback(myResult);
-			});
+			});*/
 		},
-		onItemAdd: function(value, $item) {},
+		onItemAdd: function(value, $item) { whatInputText = value; Session.set('searchTerms', value); },
 		onItemRemove: function(value, $item) {
 			$('#input-where').val("");
 		},
-		onType: function(str) {},
+		onType: function(str) { whatInputText = str; Session.set('searchTerms', str); },
 		onFocus: function() {},
-		onBlur: function(){}
+		onBlur: function(){
+			searchWhat.clear(); 
+			$('.search-place #input-what-container .selectize-input input').val(whatInputText);
+			Session.set('searchTerms', whatInputText);
+		}
 	});
 
 	searchWhat = $searchWhat[0].selectize;
@@ -140,7 +252,9 @@ Template.searchPlaces.rendered = function() {
 }
 
 
-var resultPlacesSubscription;
+/*****************************************************************************/
+/* Meteor events */
+/*****************************************************************************/
 Template.searchPlaces.events({
 	// Search nav
 	'click #input-radio-place': function() {
@@ -149,28 +263,11 @@ Template.searchPlaces.events({
 	'click #input-radio-skills': function() {
 		Router.go('searchSkills');
 	},
-	'keyup #input-where': function(e,t) {
-		if (t.find('#input-where').value.length < 2)
-			return;
-
-		var query = t.find('#input-where').value.replace(/ /g, "+");
-		var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
-		
-		// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
-		Meteor.http.get(queryUrl, function (error, result) {
-			if (!error) {
-				var content = JSON.parse(result.content);
-				if (content.features && content.features.length) {
-					Session.set("locationsResults", content.features);
-				};
-			}
-		});
-	},
 	'mousedown .search-location-result': function(e,t) {
 		t.find('#input-where').value = e.currentTarget.innerHTML;
 	},
 	"focusout #input-where" : function(e,t) {
-		Session.set('locationsResults', []);
+		//Session.set('locationsResults', []);
 	},
 	'submit #search-form': function(e,t) {
 		e.preventDefault();
@@ -185,32 +282,27 @@ Template.searchPlaces.events({
 
 		// Get the input values
 		var location = t.find('#input-where').value,
-		keywords = t.find('#input-what').value;
-		console.log(location);
+		keywords = Session.get('searchTerms');
 
 		if (location.length > 2) {
 			var query = location.replace(/ /g, "+");
-			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
-			
 			// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
-
-			//db.places.find({ "loc": {$within: {$box: [[48.81701299999982, 2.2242194999998044], [48.90197349999985, 2.4648354999997926]]}} } )
+			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 
 			// Get the location data
 			Meteor.http.get(queryUrl, function (error, result) {
 				if (!error) {
 					var content = JSON.parse(result.content);
 					if (content.features && content.features.length) {
+						// bbox = left,bottom,right,top
+						var bbox = content.features[0].bbox;
+
+						// Center the map on the given bounding box
 						var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
 						northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
 						bounds = L.latLngBounds(southWest, northEast);
 						map.fitBounds(bounds);
 
-						// If we have already subscribe for places, clear it
-						if (resultPlacesSubscription != null)
-							resultPlacesSubscription.stop();
-
-						var bbox = [[content.features[0].bbox[1], content.features[0].bbox[0]], [content.features[0].bbox[3], content.features[0].bbox[2]]];
 						var searchObject = {queryString: keywords, bbox: bbox};
 						searchPlacesByActivitiesAndBbox(searchObject);
 					};
@@ -218,14 +310,19 @@ Template.searchPlaces.events({
 			});
 		}
 		else {
+			// See https://www.mapbox.com/mapbox.js/api/v2.1.9/l-latlngbounds/
+			var left = map.getBounds().getWest();
+			var bottom = map.getBounds().getSouth();
+			var right = map.getBounds().getEast();
+			var top = map.getBounds().getNorth();
 
-			var currentBounds = map.getBounds();
-			var bbox = [[currentBounds._southWest.lat, currentBounds._southWest.lng], [currentBounds._northEast.lat, currentBounds._northEast.lng]];
+			var bbox = [ left, bottom, right, top ];
+			console.log(bbox);
 			var searchObject = {queryString: keywords, bbox: bbox};
 			searchPlacesByActivitiesAndBbox(searchObject);
 		}
 	},
-	'mouseover .place': function(e,t) {
+	'mouseover .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
 		for (var i = 0; i < markers.length; i++) {
 			if(markers[i].options._id == resourceId) {
@@ -233,7 +330,7 @@ Template.searchPlaces.events({
 			}
 		};
 	},
-	'mouseout .place': function(e,t) {
+	'mouseout .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
 		for (var i = 0; i < markers.length; i++) {
 			if(markers[i].options._id == resourceId) {
@@ -242,79 +339,3 @@ Template.searchPlaces.events({
 		};
 	}
 });
-
-/**
- * @summary Find the places that are within the current map viewable zone and that one 
- * of it's activities match with the given keywords
- * @param {Object} searchObject - Contain the search parameters
- * @param {String} searchObject.keywords - Activities keywords
- * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
- */
-var searchPlacesByActivitiesAndBbox = function(searchObject) {
-	console.log(searchObject);
-	Meteor.call('placesByActivitiesAndBbox', searchObject, function(error, result) {
-		console.log(result);
-		// Display the error to the user and abort
-		if (error) {
-			console.log(error.reason);
-			return Session.set("searchPlacesResults", 'no-result');
-		}
-
-		if (!result || !result.length) {
-			console.log('nope');
-			return Session.set("searchPlacesResults", 'no-result');
-		};
-		
-		Session.set("searchPlacesResults", result);
-
-		setTimeout(function() {
-			// Init focus point for the cover and avatars
-			$('#search-page #search-results .place .cover').focusPoint();
-			$('#search-page #search-results .place .avatar').focusPoint();
-		}, 100);
-
-		// Display the results on the map
-		for (var i = 0; i < result.length; i++) {
-			var resource = result[i];
-			var latlng = new L.LatLng(resource.loc[0], resource.loc[1]);
-			var marker = new L.Marker(latlng, {
-				_id: resource._id,
-				icon: createIcon(resource)
-			});
-			// Add the marker to our marker list
-			markers.push(marker);
-
-			addPopup(marker, resource);
-							
-			addMarker(marker);
-		};
-	});
-}
-
-var createIcon = function(resource) {
-	return L.divIcon({
-		iconSize: [30, 45],
-		iconAnchor: [15, 42],
-		popupAnchor: [-1, -40],
-		html: '<span class="pin place-pin"></span>',
-		className: 'leaflet-place-icon'
-	});
-}
-
-var addMarker = function(marker) {
-	// Get the layer in which added the marker
-	//var resourceLayer = getResourceLayer(resource.type);
-	//placeLayer.addLayer(marker);
-	markerLayerGroup.addLayer(marker);
-	// Index the marker to access it easily after
-	//markers[marker.options._id] = marker;
-}
-
-var clearMap = function() {
-	markerLayerGroup.clearLayers();
-}
-
-var addPopup = function(marker, resource) {
-	//console.log(marker);
-	marker.bindPopup("<h2>" + resource.name + "</h2>");
-}

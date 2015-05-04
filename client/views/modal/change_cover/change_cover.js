@@ -106,11 +106,12 @@ Template.modalChangeCover.events({
 			var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
 					
 			var cover = {
+				resource: Session.get('modalResource'),
 				focusX: imgFocusAttr.x,
 				focusY: imgFocusAttr.y
 			};
 
-			Meteor.call('userUpdateCover', cover, function(error, result) {
+			Meteor.call('updateCover', cover, function(error, result) {
 				if (error)
 					return alert(error.reason);
 

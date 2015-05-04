@@ -40,6 +40,39 @@ isUserResourceAdmin = function(resource, userId) {
  * @return {String} The uploaded file url
  */
 Meteor.methods({
+	updateCover: function(imgAttributes) {
+		var userId = this.userId;
+		check(imgAttributes, {
+			resource: Object,
+			focusX: Match.Optional(Number),
+			focusY: Match.Optional(Number),
+		});
+		var img = _.extend(imgAttributes);
+
+		// Check if the user have sufficient rights to update the resource
+		if(!isUserResourceAdmin(img.resource, this.userId))
+			throw new Meteor.Error(401, "Bad credentials", "You are not authorized to update this resource");
+		
+		// Inster the post
+		if (img.resource.type == "user") {
+			Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover.focusX': img.focusX, 'profile.cover.focusY': img.focusY} });
+
+			// Update the elasticsearch document
+			if (Meteor.ES)
+				Meteor.ES.methods.updateUserDocument(img.resource.id);
+		}
+		else if (img.resource.type == "place") {
+			Places.update({_id: img.resource.id}, { $set: {'cover.focusX': img.focusX, 'cover.focusY': img.focusY} });
+
+			// Update the elasticsearch document
+			if (Meteor.ES)
+				Meteor.ES.methods.updatePlaceDocument(img.resource.id);
+		};
+
+		return {
+			result: "Image updated"
+		};
+	},
 	uploadToS3: function(imgAttributes) {
 		var userId = this.userId;
 		check(imgAttributes, {
@@ -93,12 +126,20 @@ Meteor.methods({
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.avatar': image} });
 			else if (img.role == "cover")
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover': image} });
+
+			// Update the elasticsearch document
+			if (Meteor.ES)
+				Meteor.ES.methods.updateUserDocument(img.resource.id);
 		}
 		else if (img.resource.type == "place") {
 			if (img.role == "avatar")
 				Places.update({_id: img.resource.id}, { $set: {'avatar': image} });
 			else if (img.role == "cover")
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
+
+			// Update the elasticsearch document
+			if (Meteor.ES)
+				Meteor.ES.methods.updatePlaceDocument(img.resource.id);
 		};
 
 		return url;

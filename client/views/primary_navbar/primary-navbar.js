@@ -5,14 +5,21 @@ Template.primaryNavbar.rendered = function() {
 	// initialize all tooltips
 	$('#primary-navbar [data-toggle="tooltip"]').tooltip();
 
+	/**
+	 * @summary Selectize init. for the search input field
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
+	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+	 */
+	var searchInputText = "";
 	$search = $('#navbar-input-search').selectize({
 		valueField: 'concate',
 		labelField: 'name',
 		searchField: 'name',
 		sortField: 'name',
-		persist: true,
+		persist: false,
 		maxItems: 1,
-		create: false,
+		createOnBlur: true,
+		create: true,
 		highlight: false,
 		addPrecedence: false,
 		loadingClass: 'selectize-load',
@@ -76,12 +83,14 @@ Template.primaryNavbar.rendered = function() {
 			}
 		},
 		onType: function(str) {
+			searchInputText = str;
 			Session.set('searchTerms', str);
 		},
 		onFocus: function() {
 		},
 		onBlur: function(){
-			//$("#navbar-search .selectize-input input").val(Session.get('searchTerms'));
+			search.clear(); 
+			$('#primary-navbar .selectize-input input').val(searchInputText);
 		}
 	});
 

@@ -161,10 +161,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8884512, 
-		        2.312168
-		    ],
+		    "loc" : {
+		        "lat": 48.8884512, 
+		        "lon": 2.312168
+		    } ,
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -215,10 +215,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8184512, 
-		        2.332168
-		    ],
+		    "loc" : {
+		        "lat": 48.8184512, 
+		        "lon": 2.332168
+		    } ,
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -253,10 +253,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8484512, 
-		        2.392168
-		    ],
+		    "loc" : { 
+		        "lat": 48.8484512, 
+		        "lon": 2.392168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -307,10 +307,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8384512, 
-		        2.282168
-		    ],
+		    "loc" : { 
+		        "lat": 48.8384512, 
+		        "lon": 2.282168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -362,10 +362,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8584512, 
-		        2.322168
-		    ],
+		    "loc" : { 
+		        "lat": 48.8584512, 
+		        "lon": 2.322168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -416,10 +416,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8324512, 
-		        2.341168
-		    ],
+		    "loc" : {
+		        "lat": 48.8324512, 
+		        "lon": 2.341168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -454,10 +454,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8434512, 
-		        2.322168
-		    ],
+		    "loc" : {
+		        "lat": 48.8434512, 
+		        "lon": 2.322168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -492,10 +492,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8584512, 
-		        2.343168
-		    ],
+		    "loc" : {
+		        "lat": 48.8584512, 
+		        "lon": 2.343168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -546,10 +546,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8534512, 
-		        2.372168
-		    ],
+		    "loc" : {
+		        "lat": 48.8534512, 
+		        "lon": 2.372168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -585,10 +585,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8784512, 
-		        2.331168
-		    ],
+		    "loc" : { 
+		        "lat": 48.8784512, 
+		        "lon": 2.331168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -623,10 +623,10 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8684512, 
-		        2.352168
-		    ],
+		    "loc" : {
+		        "lat": 48.8684512, 
+		        "lon": 2.352168
+		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf", 
@@ -674,10 +674,10 @@
 		    "zipcode" : "75011",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : [ 
-		        48.8580654, 
-		        2.3695263
-		    ],
+		    "loc" : {
+		        "lat": 48.8580654, 
+		        "lon": 2.3695263
+		    },
 		    "formattedAddress" : "40 Rue Saint-Sabin, 75011 Paris, France",
 		    "administrators" : [ 
 		        "cAqconthf92Yrnutf"

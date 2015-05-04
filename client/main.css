@@ -594,3 +594,7 @@ form small.error {
 	vertical-align: middle;
 	line-height: 28px;
 }
+
+.selectize-dropdown-content .create {
+	display: none;
+}

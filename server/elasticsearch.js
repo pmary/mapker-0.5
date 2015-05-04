@@ -57,7 +57,58 @@ Meteor.ES.methods = {
 		});
 	},
 	/**
-	 * @summary Update a user document from the 'resource' ES index
+	 * @summary Create or update a place document from the 'resource' ES index
+	 */
+	updatePlaceDocument: function(id) {
+		check(id, String);
+
+		// Get the place data
+		var place = Places.findOne({"_id": id});
+		if (!place) return;
+
+		// Init the body object
+		var body = {}
+
+		if (place.name) body.name = place.name;
+
+		if (place.activities) {
+			body.activities = place.activities;
+			body.activities_suggest = {input: place.activities};
+		}
+
+		if (place.loc)
+			body.loc = {lat: place.loc.lat, lon: place.loc.lon};
+
+		if (place.avatar && place.avatar.url)
+			body.avatar = {url: place.avatar.url};
+
+		if (place.cover) {
+			body.cover = {
+				url: (place.cover.url ? place.cover.url : undefined),
+				focusX: (place.cover.focusX ? place.cover.focusX : undefined),
+				focusY: (place.cover.focusY ? place.cover.focusY : undefined),
+				w: (place.cover.w ? place.cover.w : undefined),
+				h: (place.cover.h ? place.cover.h : undefined)
+			};
+		};
+
+		Meteor.ES.index({
+			index: 'resources',
+			type: 'place',
+			id: id, // User id
+			body: body
+		}, function (error, response) {
+			Meteor.ES.get({
+			  index: 'resources',
+			  type: 'place',
+			  id: id
+			}, function (error, response) {
+				console.log(response);
+			});
+		});
+	},
+	/**
+	 * @summary Create or update a user document from the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
 	 */
 	updateUserDocument: function(id) {
@@ -67,71 +118,65 @@ Meteor.ES.methods = {
 		var user = Meteor.users.findOne({ "_id": id });
 		if (!user) return;
 
+		// Init the body object
+		var body = {};
+
 		// Flatenize the skills as an array rather than an object
-		var skills = [];
-		var skillsSuggest = { input: [] };
 		if (user.profile.skills) {
+			body.skills = [];
 			for (var i = 0; i < user.profile.skills.length; i++) {
-				skills.push(user.profile.skills[i].title);
+				body.skills.push(user.profile.skills[i].title);
 			};
-			if (skills.length)
-				skillsSuggest = { input: skills };
+			body.skills_suggest = { input: body.skills };
 		};
 
-		// Check if the user location exist
-		var loc = {lat: 0, lon: 0};
-		if (
-			user.profile.address 
-			&& user.profile.address.loc
-			&& user.profile.address.loc.lat
-			&& user.profile.address.loc.lon
-		) {
-			loc = {
-				lat: (user.profile.address ? user.profile.address.loc.lat : undefined),
-				lon: (user.profile.address ? user.profile.address.loc.lon : undefined)
+		if (user.profile.fullname)
+			body.name = user.profile.fullname;
+
+		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
+			body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
+
+		if (user.profile.avatar && user.profile.avatar.url)
+			body.avatar = {url: user.profile.avatar.url};
+
+		if (user.profile.cover) {
+			body.cover = {
+				url: (user.profile.cover.url ? user.profile.cover.url : undefined),
+				focusX: (user.profile.cover.focusX ? user.profile.cover.focusX : undefined),
+				focusY: (user.profile.cover.focusY ? user.profile.cover.focusY : undefined),
+				w: (user.profile.cover.w ? user.profile.cover.w : undefined),
+				h: (user.profile.cover.h ? user.profile.cover.h : undefined)
 			};
 		};
 
-		// Check if the user cover exist
-		if (
-			user.profile.cover
-			&& user.profile.cover.url
-			&& user.profile.cover.focusX
-			&& user.profile.cover.focusY
-			&& user.profile.cover.w
-			&& user.profile.cover.h
-		) {
-			var cover = {
-				url: user.profile.cover.url,
-				focusX: user.profile.cover.focusX,
-				focusY: user.profile.cover.focusY,
-				w: user.profile.cover.w,
-				h: user.profile.cover.h
-			}
-		};
+		// Exemple: 
+		/*loc: {
+			lat: user.profile.address.loc.lat,
+			lon: user.profile.address.loc.lon
+		},
+		name: user.profile.fullname,
+		cover: {
+			url: user.profile.cover.url,
+			focusX: user.profile.cover.focusX,
+			focusY: user.profile.cover.focusY,
+			w: user.profile.cover.w,
+			h: user.profile.cover.h
+		},
+		avatar: { 
+			url: user.profile.avatar.url
+		},
+		skills: skills,
+		skills_suggest: {
+			input: skills
+		}*/
 
-		// Check if the user avatar exist
-		if (
-			user.profile.avatar
-			&& user.profile.avatar.url
-		) {
-			var avatar = {
-				url: user.profile.avatar.url
-			}
-		};
+		
 
 		Meteor.ES.index({
 			index: 'resources',
 			type: 'user',
 			id: id, // User id
-			body: {
-				loc: (loc ? loc : undefined),
-				name: user.profile.fullname,
-				cover: (cover ? cover : undefined),
-				avatar: (avatar ? avatar : undefined),
-				skills: (skills ? skills : undefined),
-				skills_suggest: (skillsSuggest ? skillsSuggest : undefined)
-			}
+			body: body
 		}, function (error, response) {
 			Meteor.ES.get({
 			  index: 'resources',
@@ -149,6 +194,10 @@ Meteor.ES.methods = {
 	deletUserDocument: function(id) {
 		check(id, String);
 	},
+	/**
+	 * @summary Get the matching user skills name suggestions
+	 * @params {String} queryString
+	 */
 	getSkillsSuggestions: function(queryString, callback) {
 		// Get suggestions
 		Meteor.ES.suggest({
@@ -167,19 +216,117 @@ Meteor.ES.methods = {
 		});
 	},
 	/**
-	 * @todo Integrate the suggestion search for the place activities
+	 * @summary Get the matching palce activities name suggestions
+	 * @params {String} queryString
 	 */
 	getActivitiesSuggestions: function(queryString, callback) {
 		// Get suggestions
 		Meteor.ES.suggest({
-
+			index: 'resources',
+			body: {
+				activities_suggester: {
+					text: queryString,
+					completion: {
+						field: 'activities_suggest'
+					}
+				}
+			}
 		}, function (error, response) {
-
+			if (response && response.activities_suggester && response.activities_suggester[0])
+				callback( null, response.activities_suggester[0].options );
 		});
 	},
 	/**
+	 * @summary Query the resources index places type to get the places 
+	 * with a particular activity and/or within the given location
+	 * @paramas {Object} queryObject
+	 * @params {String} queryString
+	 * @params {Array} [bbox]
+	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
+	 */
+	getPlaces: function(queryObject, callback) {
+		console.log('ES get places')
+		check(queryObject, Object);
+
+		if (queryObject.queryString && queryObject.bbox) {
+			console.log('Query the activities and the location');
+			// Query the activities and the location
+			Meteor.ES.search({
+				index: 'resources',
+				body: {
+					query: {
+						filtered: {
+							query: {
+								match: {
+									activities: queryObject.queryString
+								}
+							},
+							filter: {
+								geo_bounding_box: {
+									"place.loc" :{
+										"top" : queryObject.bbox[3],
+										"left" : queryObject.bbox[0],
+										"bottom" : queryObject.bbox[1],
+										"right" : queryObject.bbox[2]
+									}
+								}
+							}
+						}
+					},
+					
+				}
+			}, function(error, response) {
+				if (response && response.hits)
+					callback( null, response.hits.hits );
+			});
+		} else if(queryObject.queryString && !queryObject.bbox) {
+			console.log('Query on the activities only');
+			// Query on the activities only
+			Meteor.ES.search({
+				index: 'resources',
+				body: {
+					query: {
+						match: {
+							activities: queryObject.queryString
+						}
+					},
+					
+				}
+			}, function(error, response) {
+				if (response && response.hits)
+					callback( null, response.hits.hits );
+			});
+		} else if(!queryObject.queryString && queryObject.bbox) {
+			console.log('Query the location only');
+			// Query the location only
+			Meteor.ES.search({
+				index: 'resources',
+				body: {
+					"query" : {
+						"match_all" : {}
+					},
+					"filter" : {
+						"geo_bounding_box" : {
+							"place.loc" : {
+								"top" : queryObject.bbox[3],
+								"left" : queryObject.bbox[0],
+								"bottom" : queryObject.bbox[1],
+								"right" : queryObject.bbox[2]
+							}
+						}
+					}		
+				}
+			}, function(error, response) {
+				if (response && response.hits)
+					callback( null, response.hits.hits );
+			});
+		} else {
+			callback( null, [] );
+		}
+	},
+	/**
 	 * @summary Query the resources index users type to get the users 
-	 * with a particular skills and within the given location
+	 * with a particular skills and/or within the given location
 	 * @paramas {Object} queryObject
 	 * @params {String} queryString
 	 * @params {Array} [bbox]
@@ -254,6 +401,8 @@ Meteor.ES.methods = {
 					}		
 				}
 			}, function(error, response) {
+				console.log(error);
+				console.log(queryObject.bbox);
 				if (response && response.hits)
 					callback( null, response.hits.hits );
 			});
@@ -277,6 +426,19 @@ Meteor.methods({
 		return results;
 	},
 	/**
+	 * @summary Get activities suggested by query string for autocompletion purpose
+	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
+	 */
+	getActivitiesSuggestions: function(queryString) {
+		console.log(queryString);
+		check(queryString, String);
+
+		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
+		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getActivitiesSuggestions); 
+		var results = getActivitiesSuggestionsAsync(queryString);
+		return results;
+	},
+	/**
 	 * @summary Restore the elasticsearch index
 	 */
 	resetElasticSearch: function() {
@@ -287,12 +449,22 @@ Meteor.methods({
 			return;
 
 		// Rebuild the indexes
-		wrappedRestoreIndex('', function() {
+		wrappedRestoreIndex('', function(error, result) {
 			// Restore the users documents
-			wrappedRestoreUsersDocuments('');
+			wrappedRestoreDocuments('', function(error, result){
+				//console.log(error);
+			});
 		});
 		// Restore the users documents
-		//wrappedRestoreUsersDocuments('');
+		//wrappedRestoreDocuments('');
+	},
+	getPlaces: function(queryObject) {
+		check(queryObject, Object);
+
+		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces); 
+		var results = wrappedGetPlaces(queryObject);
+		console.log(results);
+		return results;
 	},
 	getUsers: function(queryObject) {
 		check(queryObject, Object);
@@ -307,18 +479,26 @@ Meteor.methods({
  * @summary Get all the documents from the users collection
  * and insert them in the elasticsearch index
  */
-var restoreUsersDocuments = function(req, callback) {
+var restoreDocuments = function(req, callback) {
 	// Get all the users
 	var users = Meteor.users.find().fetch();
 	// Create the user documents
 	for (var i = 0; i < users.length; i++) {
-		console.log("Restoring " + users[i].profile.fullname);
 		Meteor.ES.methods.updateUserDocument(users[i]._id);
 	};
-	console.log( users.length + " users document index restored !" );
+	console.log( users.length + " users indexed!" );
+
+	// Get all the places
+	var places = Places.find().fetch();
+	// Create the place documents
+	for (var i = 0; i < places.length; i++) {
+		Meteor.ES.methods.updatePlaceDocument(places[i]._id);
+	};
+	console.log( places.length + " places indexed!" );
+
 	callback(null, true);
 };
-var wrappedRestoreUsersDocuments = Meteor.wrapAsync(restoreUsersDocuments);
+var wrappedRestoreDocuments = Meteor.wrapAsync(restoreDocuments);
 
 /**
  * @summary Delete all the indexes, rebuild them and set their mapping
@@ -339,6 +519,7 @@ var restoreIndex = function(req, callback) {
 				place:{
 					properties:{
 						id: {"type" : "string"},			// The MongoDB id
+						loc: {"type" : "geo_point"}, 		// loc field
 						name: {"type" : "string"},
 						cover: {
 							"type": "object",
@@ -372,7 +553,7 @@ var restoreIndex = function(req, callback) {
 				user: {
 					properties:{
 						id: {"type" : "string"},			// The MongoDB id
-						loc: {"type" : "geo_point"}, // profile.address.loc field
+						loc: {"type" : "geo_point"}, 		// profile.address.loc field
 						name: {"type" : "string"},			// profile.fullname field
 						cover: {
 							"type": "object",
