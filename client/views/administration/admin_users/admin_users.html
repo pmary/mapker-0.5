@@ -1,0 +1,8 @@
+<template name="adminUsers">
+	<h1>User management</h1>
+	<ul>
+	{{#each users}}
+		<li><a href="{{pathFor route='adminUserEdit' _id=_id}}">{{profile.fullname}}</a></li>
+	{{/each}}
+	</ul>
+</template>

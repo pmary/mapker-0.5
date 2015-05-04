@@ -47,3 +47,19 @@
 .search-place#search-container #search-results .loader .double-bounce2 {
 	background-color: #FC3975;
 }
+
+/* Places search results cards */
+.search-place#search-container #search-results .result header .validation-in-progess {
+	position: absolute;
+	color: #4cd6ff;
+	padding: 5px;
+	text-align: center;
+	background: #ffffff;
+	width: 100%;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+	font-size: 12px;
+}
+
+.search-place#search-container #search-results .result section {
+	border-top: 2px solid #fc3975;
+}

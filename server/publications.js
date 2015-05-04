@@ -43,12 +43,13 @@ Meteor.publish('placesWithinBbox', function(bbox) {
 	return Places.find({ "loc": {$within: {$box: bbox}} });
 });
 
-
+// Return a user data following the given id
 Meteor.publish("user", function (userId) {
 	check(userId, String);
     return Meteor.users.find({_id: userId});
 });
 
+// Return many users data following the giver array of ids
 Meteor.publish('users', function (userIds) {
 	check(userIds, Array);
 	return Meteor.users.find({_id: { $in : userIds} });
@@ -60,3 +61,7 @@ Meteor.publish('users', function (userIds) {
 Meteor.publish("placesToValidate", function () {
 	return Places.find({activated: false});
 });
+
+Meteor.publish("allUsers", function() {
+	return Meteor.users.find({}, { fields: { 'profile.fullname': 1}});
+})

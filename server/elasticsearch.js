@@ -68,11 +68,56 @@ Meteor.ES.methods = {
 		if (!user) return;
 
 		// Flatenize the skills as an array rather than an object
+		var skills = [];
+		var skillsSuggest = { input: [] };
 		if (user.profile.skills) {
-			var skills = [];
 			for (var i = 0; i < user.profile.skills.length; i++) {
 				skills.push(user.profile.skills[i].title);
 			};
+			if (skills.length)
+				skillsSuggest = { input: skills };
+		};
+
+		// Check if the user location exist
+		var loc = {lat: 0, lon: 0};
+		if (
+			user.profile.address 
+			&& user.profile.address.loc
+			&& user.profile.address.loc.lat
+			&& user.profile.address.loc.lon
+		) {
+			loc = {
+				lat: (user.profile.address ? user.profile.address.loc.lat : undefined),
+				lon: (user.profile.address ? user.profile.address.loc.lon : undefined)
+			};
+		};
+
+		// Check if the user cover exist
+		if (
+			user.profile.cover
+			&& user.profile.cover.url
+			&& user.profile.cover.focusX
+			&& user.profile.cover.focusY
+			&& user.profile.cover.w
+			&& user.profile.cover.h
+		) {
+			var cover = {
+				url: user.profile.cover.url,
+				focusX: user.profile.cover.focusX,
+				focusY: user.profile.cover.focusY,
+				w: user.profile.cover.w,
+				h: user.profile.cover.h
+			}
+		};
+
+		// Check if the user avatar exist
+		if (
+			user.profile.avatar
+			&& user.profile.avatar.url
+		) {
+			var avatar = {
+				url: user.profile.avatar.url
+			}
 		};
 
 		Meteor.ES.index({
@@ -80,25 +125,12 @@ Meteor.ES.methods = {
 			type: 'user',
 			id: id, // User id
 			body: {
-				loc: {
-					lat: (user.profile.address ? user.profile.address.loc.lat : undefined),
-					lon: (user.profile.address ? user.profile.address.loc.lon : undefined)
-				},
+				loc: (loc ? loc : undefined),
 				name: user.profile.fullname,
-				cover: {
-					url: (user.profile.cover ? user.profile.cover.url : undefined),
-					focusX: (user.profile.cover ? user.profile.cover.focusX : undefined),
-					focusY: (user.profile.cover ? user.profile.cover.focusY : undefined),
-					w: (user.profile.cover ? user.profile.cover.w : undefined),
-					h: (user.profile.cover ? user.profile.cover.h : undefined)
-				},
-				avatar: { 
-					url: (user.profile.avatar ? user.profile.avatar.url : undefined) 
-				},
+				cover: (cover ? cover : undefined),
+				avatar: (avatar ? avatar : undefined),
 				skills: (skills ? skills : undefined),
-				skills_suggest: {
-					input: (skills ? skills : undefined)
-				}
+				skills_suggest: (skillsSuggest ? skillsSuggest : undefined)
 			}
 		}, function (error, response) {
 			Meteor.ES.get({
@@ -106,6 +138,7 @@ Meteor.ES.methods = {
 			  type: 'user',
 			  id: id
 			}, function (error, response) {
+				console.log(response);
 			});
 		});
 	},
@@ -247,8 +280,19 @@ Meteor.methods({
 	 * @summary Restore the elasticsearch index
 	 */
 	resetElasticSearch: function() {
-		wrappedRestoreIndex('');
-		wrappedRestoreUsersDocuments('');
+		// Check if the user is loged in
+		check(Meteor.userId(), String);
+		// Check if the user is an admin
+		if (Meteor.userId() != "i4FxWHYGyQr3LyN4x")
+			return;
+
+		// Rebuild the indexes
+		wrappedRestoreIndex('', function() {
+			// Restore the users documents
+			wrappedRestoreUsersDocuments('');
+		});
+		// Restore the users documents
+		//wrappedRestoreUsersDocuments('');
 	},
 	getUsers: function(queryObject) {
 		check(queryObject, Object);
@@ -268,8 +312,10 @@ var restoreUsersDocuments = function(req, callback) {
 	var users = Meteor.users.find().fetch();
 	// Create the user documents
 	for (var i = 0; i < users.length; i++) {
+		console.log("Restoring " + users[i].profile.fullname);
 		Meteor.ES.methods.updateUserDocument(users[i]._id);
 	};
+	console.log( users.length + " users document index restored !" );
 	callback(null, true);
 };
 var wrappedRestoreUsersDocuments = Meteor.wrapAsync(restoreUsersDocuments);
@@ -355,13 +401,9 @@ var restoreIndex = function(req, callback) {
 				}
 			};
 			Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
-
+			console.log("Mapping done !");
 			callback(null, true);
 		});
 	});
 };
 var wrappedRestoreIndex = Meteor.wrapAsync(restoreIndex);
-
-Meteor.call('resetElasticSearch', function(){
-	console.log('ok');
-});
