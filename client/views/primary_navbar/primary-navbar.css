@@ -16,6 +16,11 @@
 	z-index: 50;
 }
 
+#primary-navbar .navbar-right > li:hover > a,
+#primary-navbar .dropdown.open > a {
+	background-color: #36384E;
+}
+
 #primary-navbar .avatar {
 	position: relative;
 	top: -10px;
@@ -53,8 +58,8 @@
 }
 
 #primary-navbar #action-create-dropdown {
-	padding-top: 15px;
-	padding-bottom: 0px;
+	padding-top: 18px;
+	padding-bottom: 17px;
 }
 
 #primary-navbar #action-create-dropdown span.glyphicon {
@@ -82,8 +87,8 @@
 
 #primary-navbar .navbar-nav > li > a {
 	color: #FFFFFF;
-	padding-top: 27px;
-	padding-bottom: 26px;
+	padding-top: 28px;
+	padding-bottom: 27px;
 }
 
 #primary-navbar .navbar-form {

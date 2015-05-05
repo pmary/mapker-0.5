@@ -3,65 +3,72 @@
  * @doc: http://docs.meteor.com/#/full/dataandsecurity
  */
 
-// server: publish all room documents
-/*Meteor.publish("all-rooms", function () {
-  return Rooms.find(); // everything
-});*/
-// client: start a all-rooms subscription
-/*Meteor.subscribe("all-rooms");*/
+/*****************************************************************************/
+/* Public Places publications */
+/*****************************************************************************/
 
-Meteor.publish('placesByName', function(selector, options) {
-	console.log(selector);
-	check(arguments, Object);
-	check(options, Object);
-	Autocomplete.publishCursor( Places.find(selector, options), this);
-	this.ready();
-});
-
-Meteor.publish('placesByActivities', function(selector, options) {
-	/*console.log(selector);
-	console.log(options);*/
-	//console.log("{ activities: { '$regex': "+selector.activities.$regex+", '$options': 'i' } }, { activities: {$elemMatch: { '$regex': "+selector.activities.$regex+", '$options': 'i' }}, _id:0 }");
-
-	return Places.find( { activities: { '$regex': 'aero', '$options': 'i' } },  { activities: {$elemMatch: { '$regex': 'aero', '$options': 'i' }}, _id:0 } );
-});
-
-// Return all places where the given user is admin
+/*****************************************************************************/
+/* Public Users publications */
+/*****************************************************************************/
+/**
+ * @summary Publish all places of the user matchning the given id when he is an administrator
+ */
 Meteor.publish('userPlaces', function(userId) {
 	check(userId, String);
 	return Places.find({administrators: userId});
 });
 
+/**
+ * @summary Publish a place by it's id
+ */
 Meteor.publish('place', function(placeId) {
 	check(placeId, String);
 	return Places.find({_id: placeId});
 });
 
-// Return all the place that are located in the given bounding box
-Meteor.publish('placesWithinBbox', function(bbox) {
-	check(bbox, Array);
-	return Places.find({ "loc": {$within: {$box: bbox}} });
-});
-
-// Return a user data following the given id
+/**
+ * @summary Publish a user document by it's id
+ */
 Meteor.publish("user", function (userId) {
 	check(userId, String);
     return Meteor.users.find({_id: userId});
 });
 
-// Return many users data following the giver array of ids
+/**
+ * @summary Publish users documents following the given array of ids
+ */
 Meteor.publish('users', function (userIds) {
 	check(userIds, Array);
 	return Meteor.users.find({_id: { $in : userIds} });
 });
 
+/*****************************************************************************/
+/* Public Notifications publications */
+/*****************************************************************************/
 /**
- * Administration publications
+ * @summary Publish all the notifications of an user
+ */
+Meteor.publish('pubUserNotifs', function(userId) {
+	check(userId, String);
+	return Notifications.find({userId: userId});
+});
+
+/*****************************************************************************/
+/* Admin Places publications */
+/*****************************************************************************/
+/**
+ * @summary Publish all the places waiting for validation
  */
 Meteor.publish("placesToValidate", function () {
 	return Places.find({activated: false});
 });
 
+/*****************************************************************************/
+/* Admin Users publications */
+/*****************************************************************************/
+/**
+ * @summary Publish all the users fullname
+ */
 Meteor.publish("allUsers", function() {
 	return Meteor.users.find({}, { fields: { 'profile.fullname': 1}});
 })

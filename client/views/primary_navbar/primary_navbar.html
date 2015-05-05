@@ -41,6 +41,9 @@
 							{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}
 						</a>
 					</li>
+					<li class="dropdown">
+						{{> primaryNavbarNotifications}}
+					</li>
 					<li><a href="/logout" data-toggle="tooltip" data-placement="bottom" title="Sign out"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
 					<li><a href="/login">Sign in</a></li>
