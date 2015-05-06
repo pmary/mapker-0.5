@@ -7,8 +7,18 @@
  * @param {Object} searchObject - Contain the search parameters
  * @param {String} searchObject.keywords - Activities keywords
  * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
+ * @param {Object} template - The searchPlaces template instance object
  */
-var searchPlacesByActivitiesAndBbox = function(searchObject) {
+var searchPlacesByActivitiesAndBbox = function(template, searchObject) {
+	// Remove the no-search class from #search-container to display the result area
+	$(template.find('#search-container')).removeClass('no-search');
+
+	// Clear map
+	clearMap();
+	// Reset the marker list
+	markers = [];
+
+	console.log(searchObject)
 	Meteor.call('getPlaces', searchObject, function(error, result) {		
 		if (error)
 			console.log(error);
@@ -93,14 +103,17 @@ Meteor.startup(function(){
 /* Meteor helpers */
 /*****************************************************************************/
 Template.searchPlaces.helpers({
-	searchTerms: function () {
-		return Session.get('searchTerms');
-	},
-	locationsResults: function () {
-		return Session.get("locationsResults");
+	locationSuggestions: function () {
+		return Session.get("locationSuggestions");
 	},
 	places: function () {
 		return Session.get("searchPlacesResults");
+	},
+	/**
+	 * @summary Return the suggestions returned when typing in the what input field
+	 */
+	whatSuggestions: function () {
+		return Session.get("whatSuggestions");
 	}
 });
 
@@ -112,7 +125,7 @@ var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
 	console.log("render");
-	Session.set("locationsResults", []);
+	Session.set("locationSuggestions", []);
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
 
@@ -173,82 +186,6 @@ Template.searchPlaces.rendered = function() {
 			console.log('type');
 		}
 	});
-
-	/**
-	 * @summary Selectize init. for the what input field
-	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
-	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
-	 */
-	var whatInputText = "";
-	$searchWhat = $('.search-place #input-what').selectize({
-		valueField: 'text',
-		labelField: 'text',
-		searchField: 'text',
-		sortField: 'score',
-		persist: false,
-		maxItems: 1,
-		createOnBlur: true,
-		create: true,
-		highlight: false,
-		addPrecedence: false,
-		loadingClass: 'selectize-load',
-		render: {
-			option: function(item, escape) {
-				return '<div>' +
-					'<span class="title">' +
-						'<span class="name">' + escape(item.text) + '</span>' +
-					'</span>' +
-				'</div>';
-			}
-		},
-		load: function(query, callback) {
-			if (!query.length) 
-				return callback();
-			
-			Meteor.call('getActivitiesSuggestions', query, function(error, result) {
-				// console.log(result);
-				// Display the error to the user and abort
-				if (error) return console.log(error.reason);
-
-				callback(result);
-			});
-
-			/*if (!query.length) return callback();
-			
-			Meteor.call('placesAutocompleteByActivities', query, function(error, result) {
-				// Display the error to the user and abort
-				if (error) return console.log(error.reason);
-				//console.log(result)
-				
-				var myResult = [];
-				for (var i = 0; i < result.length; i++) {
-					myResult.push({activity: result[i].activities[0]});
-				};
-				callback(myResult);
-			});*/
-		},
-		onItemAdd: function(value, $item) { whatInputText = value; Session.set('searchTerms', value); },
-		onItemRemove: function(value, $item) {
-			$('#input-where').val("");
-		},
-		onType: function(str) { whatInputText = str; Session.set('searchTerms', str); },
-		onFocus: function() {},
-		onBlur: function(){
-			searchWhat.clear(); 
-			$('.search-place #input-what-container .selectize-input input').val(whatInputText);
-			Session.set('searchTerms', whatInputText);
-		}
-	});
-
-	searchWhat = $searchWhat[0].selectize;
-	$("#input-what-container .selectize-input input").val(Session.get('searchTerms'));
-	Session.set('searchTerms', "");
-
-	// Lauch the search
-	Meteor.setTimeout(function() {
-		$("#input-what-container .selectize-input input").keyup();
-		searchWhat.open();
-	}, 200);
 }
 
 
@@ -256,35 +193,25 @@ Template.searchPlaces.rendered = function() {
 /* Meteor events */
 /*****************************************************************************/
 Template.searchPlaces.events({
-	// Search nav
-	'click #input-radio-place': function() {
-		Router.go('searchPlaces');
-	},
-	'click #input-radio-skills': function() {
-		Router.go('searchSkills');
-	},
 	'mousedown .search-location-result': function(e,t) {
-		t.find('#input-where').value = e.currentTarget.innerHTML;
+		//t.find('#input-where').value = e.currentTarget.innerHTML;
 	},
 	"focusout #input-where" : function(e,t) {
-		//Session.set('locationsResults', []);
+		//Session.set('locationSuggestions', []);
 	},
 	'submit #search-form': function(e,t) {
+		// Hide the suggestion list
+		$(template.find("#input-what-container .suggestions-container")).addClass("hide");
+
 		e.preventDefault();
-
-		// Remove the no-search class from #search-container to display the result area
-		$(t.find('#search-container')).removeClass('no-search');
-
-		// Clear map
-		clearMap();
-		// Reset the marker list
-		markers = [];
 
 		// Get the input values
 		var location = t.find('#input-where').value,
-		keywords = Session.get('searchTerms');
+		keywords = t.find('#input-what').value;
+		console.log(location);
 
 		if (location.length > 2) {
+			console.log('has location');
 			var query = location.replace(/ /g, "+");
 			// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
 			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
@@ -304,7 +231,7 @@ Template.searchPlaces.events({
 						map.fitBounds(bounds);
 
 						var searchObject = {queryString: keywords, bbox: bbox};
-						searchPlacesByActivitiesAndBbox(searchObject);
+						searchPlacesByActivitiesAndBbox(t, searchObject);
 					};
 				}
 			});
@@ -319,7 +246,7 @@ Template.searchPlaces.events({
 			var bbox = [ left, bottom, right, top ];
 			console.log(bbox);
 			var searchObject = {queryString: keywords, bbox: bbox};
-			searchPlacesByActivitiesAndBbox(searchObject);
+			searchPlacesByActivitiesAndBbox(t, searchObject);
 		}
 	},
 	'mouseover .result': function(e,t) {
@@ -330,6 +257,10 @@ Template.searchPlaces.events({
 			}
 		};
 	},
+	'click': function(e,t) {
+		// Hide the suggestion list
+		$(t.find("#input-what-container .suggestions-container")).addClass("hide");
+	},
 	'mouseout .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
 		for (var i = 0; i < markers.length; i++) {
@@ -337,5 +268,34 @@ Template.searchPlaces.events({
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
 			}
 		};
+	},
+	'focusin #input-what, click #input-what': function(e,t) {
+		e.stopPropagation();
+		// Display the suggestion list
+		$(t.find("#input-what-container .suggestions-container")).removeClass("hide");
+	},
+	'keyup #input-what': function(e,t) {
+		var queryString = t.find("#input-what").value;
+		console.log(queryString);
+
+		// Search places matching with the what input value
+		var searchObject = {queryString: queryString};
+		searchPlacesByActivitiesAndBbox(t, searchObject);
+
+		// Get and display searcg suggestions according to the querySting
+		Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
+			console.log(result);
+			// Display the error to the user and abort
+			if (error) return console.log(error.reason);
+
+			return Session.set("whatSuggestions", result);
+		});
+	},
+	'click #input-what-container .suggestion-item': function(e,t) {
+		// Set the input with the text of the suggestion item selected
+		t.find('#input-what').value = e.currentTarget.dataset.text;
+
+		// Hide the suggestion list
+		$(t.find("#input-what-container .suggestions-container")).addClass("hide");
 	}
 });

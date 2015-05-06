@@ -147,13 +147,6 @@ Template.searchSkills.rendered = function() {
 }
 
 Template.searchSkills.events({
-	// Search nav
-	'click #input-radio-place': function() {
-		Router.go('searchPlaces');
-	},
-	'click #input-radio-skills': function() {
-		Router.go('searchSkills');
-	},
 	'submit #search-form': function(e,t) {
 		e.preventDefault();
 

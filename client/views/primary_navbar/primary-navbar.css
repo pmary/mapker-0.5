@@ -21,6 +21,10 @@
 	background-color: #36384E;
 }
 
+#primary-navbar .navbar-left > li:hover > a {
+	background-color: #282A41;
+}
+
 #primary-navbar .avatar {
 	position: relative;
 	top: -10px;

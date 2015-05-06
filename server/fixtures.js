@@ -2,6 +2,16 @@
  * Set a default data set for developement purpose
  */
  Meteor.startup(function () {
+ 	// Create a test notif
+ 	/*Notifications.insert({
+ 		"createdAt" : Date("2014-09-30T23:59:40.081Z"),
+		"type": "comment",
+		"from": ""
+		"msg": "Welcome on Mapker",
+		"userId": "i4FxWHYGyQr3LyN4x",
+		"read": false,
+ 	});*/
+
 	/*if (Meteor.users.find().count() > 0) {
 		Meteor.users.remove({});
 	}
@@ -128,6 +138,81 @@
 		            "w" : 3264,
 		            "h" : 2448
 		        }
+		    }
+		});
+		Meteor.users.insert({
+		    "_id" : "qwghbQDKgEKbBBFoN",
+		    "createdAt" : Date("2015-05-04T14:08:01.886Z"),
+		    "services" : {
+		        "password" : {
+		            "bcrypt" : "$2a$10$KiS3XbkoF6aYDMLlmQyhu.ujYWNEEwh0No70un1/U6zunsOgkTKj6"
+		        },
+		        "resume" : {
+		            "loginTokens" : []
+		        }
+		    },
+		    "emails" : [ 
+		        {
+		            "address" : "mario.simon@free.fr",
+		            "verified" : false
+		        }
+		    ],
+		    "profile" : {
+		        "fullname" : "Mario Simon",
+		        "firstname" : "Mario",
+		        "lastname" : "Simon",
+		        "activity" : "Photographer",
+		        "address" : {
+		            "countryCode" : "FR",
+		            "zipcode" : "75010",
+		            "city" : "Paris",
+		            "loc" : {
+		                "lat" : 48.8785618,
+		                "lon" : 2.360368900000026
+		            }
+		        },
+		        "cover" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/qwghbQDKgEKbBBFoN/cover",
+		            "name" : "qwghbQDKgEKbBBFoN/cover",
+		            "focusX" : 0.1399999999999999,
+		            "focusY" : 0.3477038425492034,
+		            "w" : 1600,
+		            "h" : 1067
+		        },
+		        "avatar" : {
+		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/qwghbQDKgEKbBBFoN/avatar",
+		            "name" : "qwghbQDKgEKbBBFoN/avatar"
+		        },
+		        "links" : {
+		            "facebook" : "https://www.facebook.com/mariosimonphotographe",
+		            "flickr" : "",
+		            "twitter" : "",
+		            "website" : "http://www.mariosimonpictures.tumblr.com"
+		        },
+		        "skills" : [ 
+		            {
+		                "title" : "Portraits"
+		            }, 
+		            {
+		                "title" : "Photoshop"
+		            }, 
+		            {
+		                "title" : "Studio"
+		            }, 
+		            {
+		                "title" : "natural light"
+		            }, 
+		            {
+		                "title" : "life"
+		            }, 
+		            {
+		                "title" : "fashion"
+		            }, 
+		            {
+		                "title" : "objects"
+		            }
+		        ],
+		        "bio" : "I'm a parisian photographer"
 		    }
 		});
 	};

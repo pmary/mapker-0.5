@@ -3,19 +3,6 @@
 		<div id="search-container-inner">
 			<section class="row" id="search-parameters">
 				<div class="col-md-8 col-md-offset-2">
-					<ul>
-						<li>
-							<input type="radio" name="inlineRadioOptions" id="input-radio-place" value="option1">
-							<label class="radio-inline" for="input-radio-place">Places <span class="resource-icon round-place"></span></label>
-						</li>
-
-						<li>
-							<input type="radio" name="inlineRadioOptions" id="input-radio-skills" value="option2" checked>
-							<label class="radio-inline" for="input-radio-skills">Skills <span class="resource-icon round-skill"></span></label>
-						</li>
-					</ul>
-				</div>
-				<div class="col-md-8 col-md-offset-2">
 					<form class="row" id="search-form">
 						<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-what-container">
 							<input type="text" class="form-control" id="input-skills" placeholder="What skill are you looking for ?">
@@ -42,7 +29,7 @@
 					{{#if eq users "no-result"}}
 						<div class="col-md-6 col-md-offset-3">
 							<div class="alert alert-danger" role="alert">
-								No place were found for your search.
+								No skill were found for your search.
 							</div>
 						</div>
 					{{else}}

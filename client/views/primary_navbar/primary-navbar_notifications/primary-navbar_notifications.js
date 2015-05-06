@@ -1,3 +1,13 @@
+Template.primaryNavbarNotifications.helpers({
+	/**
+	 * @summary Get all the notifications of the current user
+	 */
+	notifs: function() {
+		/*if (Meteor.user())
+			return Notifications.find({userId: Meteor.user()._id});*/
+	}
+});
+
 Template.primaryNavbarNotifications.rendered = function(argument) {
 	this.autorun(function () {
 		if (Meteor.user()) {

@@ -6,8 +6,9 @@
  * 01 - 
  */
 #navbar-notifs-list {
+  color: #333;
 	width: 320px;
-	margin-top: -10px;
+	margin-top: 5px;
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
@@ -26,11 +27,18 @@
 
 #navbar-notifs-list:after {
   position: absolute;
-  top: -6px;
+  top: -16px;
   right: 15px;
   display: inline-block;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffffff;
-  border-left: 6px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 16px solid #ffffff;
+  border-left: 10px solid transparent;
   content: '';
+}
+
+#navbar-notifs-list li:first-child {
+  text-align: center;
+  border-bottom: 1px solid #F2F2F2;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

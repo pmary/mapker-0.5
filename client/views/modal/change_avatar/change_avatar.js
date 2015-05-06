@@ -17,6 +17,9 @@ Template.modalChangeAvatar.helpers({
 
 Template.modalChangeAvatar.events({
 	'click .image-upload' : function(e, t){
+		// Reset the input file by delete and re-create the node
+		$(t.find('.modal-change-avatar .modal-body #input-avatar')).remove();
+		$(t.find('.modal-change-avatar .modal-body')).append('<input type="file" id="input-avatar">');
 		// Open the upload file browser
 		$('#input-avatar').click();
 	},

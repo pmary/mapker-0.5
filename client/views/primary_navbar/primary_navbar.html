@@ -19,8 +19,9 @@
 						<input id="navbar-input-search" type="text" class="form-control" placeholder="Search">
 					</div>
 				</form>
-				<ul class="nav navbar-nav" id="main-menu">
-					<li><a href="{{pathFor route='search'}}">Resources</a></li>
+				<ul class="nav navbar-nav navbar-left" id="main-menu">
+					<li><a href="{{pathFor route='searchPlaces'}}">Places <span class="resource-icon round-place"></span></a></li>
+					<li><a href="{{pathFor route='searchSkills'}}">Skills <span class="resource-icon round-skill"></span></a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -38,7 +39,7 @@
 							{{#if currentUser.profile.avatar}}
 								<span class="avatar" style="background-image:url({{currentUser.profile.avatar.url}})"></span>
 							{{/if}}
-							{{currentUser.profile.firstname}} {{currentUser.profile.lastname}}
+							{{currentUser.profile.firstname}}
 						</a>
 					</li>
 					<li class="dropdown">

@@ -103,7 +103,7 @@ Meteor.ES.methods = {
 			  type: 'place',
 			  id: id
 			}, function (error, response) {
-				console.log(response);
+				//console.log(response);
 			});
 		});
 	},
@@ -183,7 +183,7 @@ Meteor.ES.methods = {
 			  type: 'user',
 			  id: id
 			}, function (error, response) {
-				console.log(response);
+				//console.log(response);
 			});
 		});
 	},
@@ -245,7 +245,6 @@ Meteor.ES.methods = {
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
 	getPlaces: function(queryObject, callback) {
-		console.log('ES get places')
 		check(queryObject, Object);
 
 		if (queryObject.queryString && queryObject.bbox) {
@@ -511,7 +510,34 @@ var restoreIndex = function(req, callback) {
 		 * and setup the completion suggester on the field we need to
 		 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
 		 */
-		Meteor.ES.indices.create({ index: "resources" }, function() {
+		Meteor.ES.indices.create({ 
+			index: "resources", 
+			body: {
+				settings: {
+					"analysis" : {
+						"analyzer" : {
+							"str_search_analyzer" : {
+								"tokenizer" : "keyword",
+								"filter" : ["lowercase"]
+							},
+
+							"str_index_analyzer" : {
+								"tokenizer" : "keyword",
+								"filter" : ["lowercase", "substring"]
+							}
+						},
+
+						"filter" : {
+							"substring" : {
+								"type" : "nGram",
+								"min_gram" : 1,
+								"max_gram"  : 20
+							}
+						}
+					}
+				}
+			}
+		}, function() {
 			// Register specific mapping definition for places and user resources
 			// See http://www.elastic.co/guide/en/elasticsearch/guide/master/complex-core-fields.html
 			var placesBody = {
@@ -537,7 +563,11 @@ var restoreIndex = function(req, callback) {
 								url: {"type" : "string", "index" : "no"}
 							}
 						},
-						activities: {"type" : "string"},
+						activities: {
+							"type" : "string",
+							"search_analyzer" : "str_search_analyzer",
+							"index_analyzer" : "str_index_analyzer"
+						},
 						activities_suggest: {
 							"type": "completion",
 							"index_analyzer": "simple",
@@ -582,6 +612,14 @@ var restoreIndex = function(req, callback) {
 				}
 			};
 			Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
+
+			/*Meteor.ES.indices.putSettings({ 
+				index: "resources",
+				body: {
+					
+				}
+			});*/
+
 			console.log("Mapping done !");
 			callback(null, true);
 		});
