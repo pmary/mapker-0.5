@@ -248,7 +248,7 @@ Meteor.ES.methods = {
 		check(queryObject, Object);
 
 		if (queryObject.queryString && queryObject.bbox) {
-			console.log('Query the activities and the location');
+			//console.log('Query the activities and the location');
 			// Query the activities and the location
 			Meteor.ES.search({
 				index: 'resources',
@@ -279,7 +279,7 @@ Meteor.ES.methods = {
 					callback( null, response.hits.hits );
 			});
 		} else if(queryObject.queryString && !queryObject.bbox) {
-			console.log('Query on the activities only');
+			//console.log('Query on the activities only');
 			// Query on the activities only
 			Meteor.ES.search({
 				index: 'resources',
@@ -296,7 +296,7 @@ Meteor.ES.methods = {
 					callback( null, response.hits.hits );
 			});
 		} else if(!queryObject.queryString && queryObject.bbox) {
-			console.log('Query the location only');
+			//console.log('Query the location only');
 			// Query the location only
 			Meteor.ES.search({
 				index: 'resources',
@@ -429,7 +429,7 @@ Meteor.methods({
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
 	 */
 	getActivitiesSuggestions: function(queryString) {
-		console.log(queryString);
+		//console.log(queryString);
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
@@ -462,7 +462,7 @@ Meteor.methods({
 
 		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces); 
 		var results = wrappedGetPlaces(queryObject);
-		console.log(results);
+		// console.log(results);
 		return results;
 	},
 	getUsers: function(queryObject) {
@@ -612,13 +612,6 @@ var restoreIndex = function(req, callback) {
 				}
 			};
 			Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
-
-			/*Meteor.ES.indices.putSettings({ 
-				index: "resources",
-				body: {
-					
-				}
-			});*/
 
 			console.log("Mapping done !");
 			callback(null, true);

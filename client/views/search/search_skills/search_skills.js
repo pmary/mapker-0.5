@@ -36,6 +36,9 @@ var searchUsersBySkillsAndBbox = function(searchObject) {
 	});
 }
 
+/*****************************************************************************/
+/* Meteor helpers */
+/*****************************************************************************/
 Template.searchSkills.helpers({
 	/*searchTerms: function () {
 		return Session.get('searchTerms');
@@ -48,55 +51,53 @@ Template.searchSkills.helpers({
 	}
 });
 
+/*****************************************************************************/
+/* Meteor on rendered function */
+/*****************************************************************************/
 Template.searchSkills.rendered = function() {
+	// Set the focus on the what input field
+	$('.search-skills #input-skills').focus();
+
 	/**
-	 * @summary Selectize init. for the skills input field
-	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
-	 * @see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+	 * @summary AutoComplete init. for the skills input field
+	 * @see https://github.com/devbridge/jQuery-Autocomplete
+	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
-	var skillsInputText = "";
-	$searchSkills = $('.search-skills #input-skills').selectize({
-		valueField: 'text',
-		labelField: 'text',
-		searchField: 'text',
-		sortField: 'score',
-		persist: false,
-		maxItems: 1,
-		createOnBlur: true, // {Boolean}  If true, when user exits the field (clicks outside of input or presses ESC) new option is created and selected (if `create`-option is enabled).
-		create: true, // {Boolean} Define if the user can or not enter a word that isn't in the select
-		highlight: false,
-		addPrecedence: false,
-		loadingClass: 'selectize-load',
-		render: {
-			option: function(item, escape) {
-				return '<div>' +
-					'<span class="title">' +
-						'<span class="name">' + escape(item.text) + '</span>' +
-					'</span>' +
-				'</div>';
-			}
-		},
-		load: function(query, callback) {
-			if (!query.length) 
-				return callback();
+	var currentQueryString;
+	$('.search-skills #input-skills').autocomplete({
+		position: "absolute",
+		appendTo: $('.search-skills #input-what-container'),
+		lookup: function(queryString, done) {
+			// No search if the query string lenght < 2 characters
+			// Or if the input text hasn't change
+			if (queryString.length < 2 || queryString == currentQueryString) return;
+			currentQueryString = queryString;
+
+			// Search places matching with the what input value
+			/*var searchObject = {queryString: queryString};
+			searchPlacesByActivitiesAndBbox(searchObject);*/
 			
-			Meteor.call('getSkillsSuggestions', query, function(error, result) {
+			// Get the suggestions according to the queryString
+			console.log("will getSkillsSuggestions");
+			Meteor.call('getSkillsSuggestions', queryString, function(error, result) {
+				console.log(error);
+				console.log(result);
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
 
-				callback(result);
+				formatedResult = {
+					suggestions: $.map(result, function(dataItem) {
+						return { value: dataItem.text, data: dataItem.text };
+					})
+				};
+
+				done(formatedResult);
 			});
 		},
-		onItemAdd: function(value, $item) {},
-		onItemRemove: function(value, $item) {},
-		onType: function(str) { skillsInputText = str; },
-		onFocus: function() { 
-			searchSkills.clear(); 
-			$('.search-skills #input-what-container .selectize-input input').val(skillsInputText);
-		},
-		onBlur: function(){}
+		onSelect: function (suggestion) {
+			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+		}
 	});
-	searchSkills = $searchSkills[0].selectize;
  
 	/**
 	 * @summary Selectize init. for the where input field

@@ -24,6 +24,10 @@
 	box-shadow: 0px 180px 200px rgba(0, 0, 0, 0.52) inset;
 }
 
+.search-place#search-container #search-parameters #input-what-container {
+	position: relative;
+}
+
 /* Label color */
 .search-place#search-container #search-parameters input[type="radio"]:not(:checked) + label, 
 .search-place#search-container #search-parameters input[type="radio"]:checked + label {

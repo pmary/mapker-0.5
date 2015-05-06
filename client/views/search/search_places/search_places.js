@@ -9,14 +9,16 @@
  * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
  * @param {Object} template - The searchPlaces template instance object
  */
-var searchPlacesByActivitiesAndBbox = function(template, searchObject) {
+var searchPlacesByActivitiesAndBbox = function(searchObject) {
 	// Remove the no-search class from #search-container to display the result area
-	$(template.find('#search-container')).removeClass('no-search');
+	$('.search-place#search-container').removeClass('no-search');
 
 	// Clear map
 	clearMap();
 	// Reset the marker list
 	markers = [];
+	// Reset the search results
+	Session.set('searchPlacesResults', '');
 
 	console.log(searchObject)
 	Meteor.call('getPlaces', searchObject, function(error, result) {		
@@ -129,7 +131,8 @@ Template.searchPlaces.rendered = function() {
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
 
-	$('#input-what').focus();
+	// Set the focus on the what input field
+	$('.search-place #input-what').focus();
 
 	/**
 	 * @todo Try to move the accessToken declaration server side only to keep it private
@@ -145,6 +148,44 @@ Template.searchPlaces.rendered = function() {
 			map.addLayer(markerLayerGroup);
 
 			console.log(map.getBounds());
+		}
+	});
+
+	/**
+	 * @summary AutoComplete init. for the skills input field
+	 * @see https://github.com/devbridge/jQuery-Autocomplete
+	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
+	 */
+	var currentQueryString;
+	$('.search-place #input-what').autocomplete({
+		position: "absolute",
+		appendTo: $('.search-place #input-what-container'),
+		lookup: function(queryString, done) {
+			// No search if the query string lenght < 2 characters
+			// Or if the input text hasn't change
+			if (queryString.length < 2 || queryString == currentQueryString) return;
+			currentQueryString = queryString;
+
+			// Search places matching with the what input value
+			var searchObject = {queryString: queryString};
+			searchPlacesByActivitiesAndBbox(searchObject);
+			
+			// Get the suggestions according to the queryString
+			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
+				// Display the error to the user and abort
+				if (error) return console.log(error.reason);
+
+				formatedResult = {
+					suggestions: $.map(result, function(dataItem) {
+						return { value: dataItem.text, data: dataItem.text };
+					})
+				};
+
+				done(formatedResult);
+			});
+		},
+		onSelect: function (suggestion) {
+			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 		}
 	});
 
@@ -193,16 +234,7 @@ Template.searchPlaces.rendered = function() {
 /* Meteor events */
 /*****************************************************************************/
 Template.searchPlaces.events({
-	'mousedown .search-location-result': function(e,t) {
-		//t.find('#input-where').value = e.currentTarget.innerHTML;
-	},
-	"focusout #input-where" : function(e,t) {
-		//Session.set('locationSuggestions', []);
-	},
 	'submit #search-form': function(e,t) {
-		// Hide the suggestion list
-		$(template.find("#input-what-container .suggestions-container")).addClass("hide");
-
 		e.preventDefault();
 
 		// Get the input values
@@ -231,7 +263,7 @@ Template.searchPlaces.events({
 						map.fitBounds(bounds);
 
 						var searchObject = {queryString: keywords, bbox: bbox};
-						searchPlacesByActivitiesAndBbox(t, searchObject);
+						searchPlacesByActivitiesAndBbox(searchObject);
 					};
 				}
 			});
@@ -246,7 +278,7 @@ Template.searchPlaces.events({
 			var bbox = [ left, bottom, right, top ];
 			console.log(bbox);
 			var searchObject = {queryString: keywords, bbox: bbox};
-			searchPlacesByActivitiesAndBbox(t, searchObject);
+			searchPlacesByActivitiesAndBbox(searchObject);
 		}
 	},
 	'mouseover .result': function(e,t) {
@@ -257,10 +289,6 @@ Template.searchPlaces.events({
 			}
 		};
 	},
-	'click': function(e,t) {
-		// Hide the suggestion list
-		$(t.find("#input-what-container .suggestions-container")).addClass("hide");
-	},
 	'mouseout .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
 		for (var i = 0; i < markers.length; i++) {
@@ -268,34 +296,5 @@ Template.searchPlaces.events({
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
 			}
 		};
-	},
-	'focusin #input-what, click #input-what': function(e,t) {
-		e.stopPropagation();
-		// Display the suggestion list
-		$(t.find("#input-what-container .suggestions-container")).removeClass("hide");
-	},
-	'keyup #input-what': function(e,t) {
-		var queryString = t.find("#input-what").value;
-		console.log(queryString);
-
-		// Search places matching with the what input value
-		var searchObject = {queryString: queryString};
-		searchPlacesByActivitiesAndBbox(t, searchObject);
-
-		// Get and display searcg suggestions according to the querySting
-		Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
-			console.log(result);
-			// Display the error to the user and abort
-			if (error) return console.log(error.reason);
-
-			return Session.set("whatSuggestions", result);
-		});
-	},
-	'click #input-what-container .suggestion-item': function(e,t) {
-		// Set the input with the text of the suggestion item selected
-		t.find('#input-what').value = e.currentTarget.dataset.text;
-
-		// Hide the suggestion list
-		$(t.find("#input-what-container .suggestions-container")).addClass("hide");
 	}
 });
