@@ -7,15 +7,8 @@
 						<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-what-container">
 							<input type="text" class="form-control" id="input-skills" placeholder="What skill are you looking for ?" autocomplete="off">
 						</div>
-						<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-where-container" autocomplete="off">
-							<input type="text" class="form-control" id="input-where" placeholder="Where?">
-							{{#if locationsResults}}
-							<ul id="search-location-results">
-								{{#each locationsResults }}
-								<li id="{{ id }}" class="search-location-result">{{ place_name }}</li>
-								{{/each}}
-							</ul>
-							{{/if}}
+						<div class="form-group col-xs-12 col-sm-5 col-md-12 col-lg-5" id="input-where-container">
+							<input type="text" class="form-control" id="input-where" placeholder="Where?" autocomplete="off">
 						</div>
 						<div class="form-group col-xs-12 col-sm-2 col-md-12 col-lg-2">
 							<input class="btn btn-primary" type="submit" value="Search">

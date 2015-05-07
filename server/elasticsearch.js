@@ -31,163 +31,6 @@ var elasticsearchSync = function() {
 /*****************************************************************************/
 Meteor.ES.methods = {
 	/**
-	 * @summary Create a new user document in the 'resource' ES index
-	 * @param {string} id The document id from MongoDB
-	 */
-	createUserDocument: function(id) {
-		check(id, String);
-
-		// Get the user data
-		var user = Meteor.users.findOne({ "_id": id });
-		if (!user) return;
-
-		Meteor.ES.create({
-			index: 'resources',
-			type: 'user',
-			id: id,
-			body: {
-		    	name: user.profile.fullname,
-		    	cover: {},
-		    	avatar: {},
-		    	skills: {}
-			}
-		}, function (error, response) {
-			if (error) return error;
-			return response;
-		});
-	},
-	/**
-	 * @summary Create or update a place document from the 'resource' ES index
-	 */
-	updatePlaceDocument: function(id) {
-		check(id, String);
-
-		// Get the place data
-		var place = Places.findOne({"_id": id});
-		if (!place) return;
-
-		// Init the body object
-		var body = {}
-
-		if (place.name) body.name = place.name;
-
-		if (place.activities) {
-			body.activities = place.activities;
-			body.activities_suggest = {input: place.activities};
-		}
-
-		if (place.loc)
-			body.loc = {lat: place.loc.lat, lon: place.loc.lon};
-
-		if (place.avatar && place.avatar.url)
-			body.avatar = {url: place.avatar.url};
-
-		if (place.cover) {
-			body.cover = {
-				url: (place.cover.url ? place.cover.url : undefined),
-				focusX: (place.cover.focusX ? place.cover.focusX : undefined),
-				focusY: (place.cover.focusY ? place.cover.focusY : undefined),
-				w: (place.cover.w ? place.cover.w : undefined),
-				h: (place.cover.h ? place.cover.h : undefined)
-			};
-		};
-
-		Meteor.ES.index({
-			index: 'resources',
-			type: 'place',
-			id: id, // User id
-			body: body
-		}, function (error, response) {
-			Meteor.ES.get({
-			  index: 'resources',
-			  type: 'place',
-			  id: id
-			}, function (error, response) {
-				//console.log(response);
-			});
-		});
-	},
-	/**
-	 * @summary Create or update a user document from the 'resource' ES index
-	 * @param {string} id The document id from MongoDB
-	 */
-	updateUserDocument: function(id) {
-		check(id, String);
-
-		// Get the user data
-		var user = Meteor.users.findOne({ "_id": id });
-		if (!user) return;
-
-		// Init the body object
-		var body = {};
-
-		// Flatenize the skills as an array rather than an object
-		if (user.profile.skills) {
-			body.skills = [];
-			for (var i = 0; i < user.profile.skills.length; i++) {
-				body.skills.push(user.profile.skills[i].title);
-			};
-			body.skills_suggest = { input: body.skills };
-		};
-
-		if (user.profile.fullname)
-			body.name = user.profile.fullname;
-
-		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
-			body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
-
-		if (user.profile.avatar && user.profile.avatar.url)
-			body.avatar = {url: user.profile.avatar.url};
-
-		if (user.profile.cover) {
-			body.cover = {
-				url: (user.profile.cover.url ? user.profile.cover.url : undefined),
-				focusX: (user.profile.cover.focusX ? user.profile.cover.focusX : undefined),
-				focusY: (user.profile.cover.focusY ? user.profile.cover.focusY : undefined),
-				w: (user.profile.cover.w ? user.profile.cover.w : undefined),
-				h: (user.profile.cover.h ? user.profile.cover.h : undefined)
-			};
-		};
-
-		// Exemple: 
-		/*loc: {
-			lat: user.profile.address.loc.lat,
-			lon: user.profile.address.loc.lon
-		},
-		name: user.profile.fullname,
-		cover: {
-			url: user.profile.cover.url,
-			focusX: user.profile.cover.focusX,
-			focusY: user.profile.cover.focusY,
-			w: user.profile.cover.w,
-			h: user.profile.cover.h
-		},
-		avatar: { 
-			url: user.profile.avatar.url
-		},
-		skills: skills,
-		skills_suggest: {
-			input: skills
-		}*/
-
-		
-
-		Meteor.ES.index({
-			index: 'resources',
-			type: 'user',
-			id: id, // User id
-			body: body
-		}, function (error, response) {
-			Meteor.ES.get({
-			  index: 'resources',
-			  type: 'user',
-			  id: id
-			}, function (error, response) {
-				//console.log(response);
-			});
-		});
-	},
-	/**
 	 * @summary Delete a user document from the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
 	 */
@@ -256,8 +99,11 @@ Meteor.ES.methods = {
 					query: {
 						filtered: {
 							query: {
-								match: {
-									activities: queryObject.queryString
+								bool: {
+									should: [
+										{ match: { activities: queryObject.queryString } },
+										{ match: { name: queryObject.queryString } }
+									]
 								}
 							},
 							filter: {
@@ -285,8 +131,11 @@ Meteor.ES.methods = {
 				index: 'resources',
 				body: {
 					query: {
-						match: {
-							activities: queryObject.queryString
+						bool: {
+							should: [
+								{ match: { activities: queryObject.queryString } },
+								{ match: { name: queryObject.queryString } }
+							]
 						}
 					},
 					
@@ -342,8 +191,11 @@ Meteor.ES.methods = {
 					query: {
 						filtered: {
 							query: {
-								match: {
-									skills: queryObject.queryString
+								bool: {
+									should: [
+										{ match: { skills: queryObject.queryString } },
+										{ match: { name: queryObject.queryString } }
+									]
 								}
 							},
 							filter: {
@@ -370,8 +222,11 @@ Meteor.ES.methods = {
 				index: 'resources',
 				body: {
 					query: {
-						match: {
-							skills: queryObject.queryString
+						bool: {
+							should: [
+								{ match: { skills: queryObject.queryString } },
+								{ match: { name: queryObject.queryString } }
+							]
 						}
 					},
 					
@@ -451,7 +306,7 @@ Meteor.methods({
 		wrappedRestoreIndex('', function(error, result) {
 			// Restore the users documents
 			wrappedRestoreDocuments('', function(error, result){
-				//console.log(error);
+				console.log(error);
 			});
 		});
 		// Restore the users documents
@@ -471,151 +326,293 @@ Meteor.methods({
 		var wrappedGetUsers = Meteor.wrapAsync(Meteor.ES.methods.getUsers); 
 		var results = wrappedGetUsers(queryObject);
 		return results;
-	}
-});
+	},
+	/**
+	 * @summary Get all the documents from the users collection
+	 * and insert them in the elasticsearch index
+	 */
+	restoreDocuments: function() {
+		// Get all the users
+		var users = Meteor.users.find().fetch();
 
-/**
- * @summary Get all the documents from the users collection
- * and insert them in the elasticsearch index
- */
-var restoreDocuments = function(req, callback) {
-	// Get all the users
-	var users = Meteor.users.find().fetch();
-	// Create the user documents
-	for (var i = 0; i < users.length; i++) {
-		Meteor.ES.methods.updateUserDocument(users[i]._id);
-	};
-	console.log( users.length + " users indexed!" );
+		// Create the user documents
+		for (var i = 0; i < users.length; i++) {
+			var id = users[i]._id;
+			// Get the user data
+			var user = users[i];
 
-	// Get all the places
-	var places = Places.find().fetch();
-	// Create the place documents
-	for (var i = 0; i < places.length; i++) {
-		Meteor.ES.methods.updatePlaceDocument(places[i]._id);
-	};
-	console.log( places.length + " places indexed!" );
+			// Init the body object
+			var body = {};
 
-	callback(null, true);
-};
-var wrappedRestoreDocuments = Meteor.wrapAsync(restoreDocuments);
+			// Flatenize the skills as an array rather than an object
+			if (user.profile.skills) {
+				body.skills = [];
+				for (var y = 0; y < user.profile.skills.length; y++) {
+					body.skills.push(user.profile.skills[y].title);
+				};
+				body.skills_suggest = { input: body.skills };
+			};
 
-/**
- * @summary Delete all the indexes, rebuild them and set their mapping
- */
-var restoreIndex = function(req, callback) {
-	// Delete all the indices
-	Meteor.ES.indices.delete({index: '_all'}, function (error, response) {
-		/**
-		 * @summary Create the elasticsearch 'resources' incice
-		 * and setup the completion suggester on the field we need to
-		 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
-		 */
-		Meteor.ES.indices.create({ 
-			index: "resources", 
-			body: {
-				settings: {
-					"analysis" : {
-						"analyzer" : {
-							"str_search_analyzer" : {
-								"tokenizer" : "keyword",
-								"filter" : ["lowercase"]
+			if (user.profile.fullname)
+				body.name = user.profile.fullname;
+
+			if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
+				body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
+
+			if (user.profile.avatar && user.profile.avatar.url)
+				body.avatar = {url: user.profile.avatar.url};
+
+			if (user.profile.cover) {
+				body.cover = {
+					url: (user.profile.cover.url ? user.profile.cover.url : undefined),
+					focusX: (user.profile.cover.focusX ? user.profile.cover.focusX : undefined),
+					focusY: (user.profile.cover.focusY ? user.profile.cover.focusY : undefined),
+					w: (user.profile.cover.w ? user.profile.cover.w : undefined),
+					h: (user.profile.cover.h ? user.profile.cover.h : undefined)
+				};
+			};
+
+			/*userIndices.push({
+				index: 'resources',
+				type: 'user',
+				id: id, // User id
+				body: body
+			});*/
+			// Exemple: 
+			/*loc: {
+				lat: user.profile.address.loc.lat,
+				lon: user.profile.address.loc.lon
+			},
+			name: user.profile.fullname,
+			cover: {
+				url: user.profile.cover.url,
+				focusX: user.profile.cover.focusX,
+				focusY: user.profile.cover.focusY,
+				w: user.profile.cover.w,
+				h: user.profile.cover.h
+			},
+			avatar: { 
+				url: user.profile.avatar.url
+			},
+			skills: skills,
+			skills_suggest: {
+				input: skills
+			}*/
+
+			Meteor.ES.index({
+				index: 'resources',
+				type: 'user',
+				id: id, // User id
+				body: body
+			}, function (error, response) {
+				//console.log(response);
+				console.log(error);
+				/*Meteor.ES.get({
+				  index: 'resources',
+				  type: 'user',
+				  id: id
+				}, function (error, response) {
+					console.log(id);
+					console.log(error);
+				});*/
+			});
+		};
+		
+		console.log( users.length + " users indexed!" );
+
+		// Get all the places
+		var places = Places.find().fetch();
+		// Create the place documents
+		for (var i = 0; i < places.length; i++) {
+			var id = places[i]._id;
+			// Get the place data
+			var place = places[i];
+
+			// Init the body object
+			var body = {}
+
+			if (place.name) body.name = place.name;
+
+			if (place.activities) {
+				body.activities = place.activities;
+				body.activities_suggest = {input: place.activities};
+			}
+
+			if (place.loc)
+				body.loc = {lat: place.loc.lat, lon: place.loc.lon};
+
+			if (place.avatar && place.avatar.url)
+				body.avatar = {url: place.avatar.url};
+
+			if (place.cover) {
+				body.cover = {
+					url: (place.cover.url ? place.cover.url : undefined),
+					focusX: (place.cover.focusX ? place.cover.focusX : undefined),
+					focusY: (place.cover.focusY ? place.cover.focusY : undefined),
+					w: (place.cover.w ? place.cover.w : undefined),
+					h: (place.cover.h ? place.cover.h : undefined)
+				};
+			};
+
+			Meteor.ES.index({
+				index: 'resources',
+				type: 'place',
+				id: id, // User id
+				body: body
+			}, function (error, response) {
+				console.log(response);
+				console.log(error);
+				/*Meteor.ES.get({
+				  index: 'resources',
+				  type: 'place',
+				  id: id
+				}, function (error, response) {
+					console.log(id);
+					console.log(error);
+				});*/
+			});
+		};
+		console.log( places.length + " places indexed!" );
+	},
+	/**
+	 * @summary Delete all the indexes, rebuild them and set their mapping
+	 */
+	restoreIndex: function() {
+		// Delete all the indices
+		Meteor.ES.indices.delete({index: '_all'}, function (error, response) {
+			if (error) return console.log(error);
+			console.log('Delete indices:' + response.acknowledged);
+			/**
+			 * @summary Create the elasticsearch 'resources' incice
+			 * and setup the completion suggester on the field we need to
+			 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
+			 */
+			Meteor.ES.indices.create({ 
+				index: "resources", 
+				body: {
+					settings: {
+						"analysis" : {
+							"analyzer" : {
+								"str_search_analyzer" : {
+									"tokenizer" : "keyword",
+									"buffer_size": 1024, // To prevent errors like RemoteTransportException[[fili-1][inet[/10.0.1.8:9300]][indices:data/write/index]]; nested: IllegalArgumentException[TokenStream expanded to 300 finite strings. Only <= 256 finite strings are supported];
+									"filter" : ["lowercase"]
+								},
+
+								"str_index_analyzer" : {
+									"tokenizer" : "keyword",
+									"buffer_size": 1024,
+									"filter" : ["lowercase", "substring"]
+								}
 							},
 
-							"str_index_analyzer" : {
-								"tokenizer" : "keyword",
-								"filter" : ["lowercase", "substring"]
-							}
-						},
-
-						"filter" : {
-							"substring" : {
-								"type" : "nGram",
-								"min_gram" : 1,
-								"max_gram"  : 20
+							"filter" : {
+								"substring" : {
+									"type" : "nGram",
+									"min_gram" : 1,
+									"max_gram"  : 20
+								}
 							}
 						}
 					}
 				}
-			}
-		}, function() {
-			// Register specific mapping definition for places and user resources
-			// See http://www.elastic.co/guide/en/elasticsearch/guide/master/complex-core-fields.html
-			var placesBody = {
-				// The resource object can be a place, a user or whatever
-				place:{
-					properties:{
-						id: {"type" : "string"},			// The MongoDB id
-						loc: {"type" : "geo_point"}, 		// loc field
-						name: {"type" : "string"},
-						cover: {
-							"type": "object",
-							"properties": {
-								url: {"type" : "string", "index" : "no"},
-								focusX: {"type" : "integer", "index" : "no"},
-								focusY: {"type" : "integer", "index" : "no"},
-								w: {"type" : "integer", "index" : "no"},
-								h: {"type" : "integer", "index" : "no"},
+			}, function(error, response) {
+				if (error) return console.log(error);
+				console.log('Create resources indice:' + response.acknowledged);
+				// Register specific mapping definition for places and user resources
+				// See http://www.elastic.co/guide/en/elasticsearch/guide/master/complex-core-fields.html
+				var placesBody = {
+					// The resource object can be a place, a user or whatever
+					place:{
+						properties:{
+							id: {"type" : "string"},			// The MongoDB id
+							loc: {"type" : "geo_point"}, 		// loc field
+							name: {
+								"type" : "string",
+								"search_analyzer" : "str_search_analyzer",
+								"index_analyzer" : "str_index_analyzer"
+							},
+							cover: {
+								"type": "object",
+								"properties": {
+									url: {"type" : "string", "index" : "no"},
+									focusX: {"type" : "integer", "index" : "no"},
+									focusY: {"type" : "integer", "index" : "no"},
+									w: {"type" : "integer", "index" : "no"},
+									h: {"type" : "integer", "index" : "no"},
+								}
+							},
+							avatar: {
+								"type": "object",
+								"properties": {
+									url: {"type" : "string", "index" : "no"}
+								}
+							},
+							activities: {
+								"type" : "string",
+								"search_analyzer" : "str_search_analyzer",
+								"index_analyzer" : "str_index_analyzer"
+							},
+							activities_suggest: {
+								"type": "completion",
+								"search_analyzer": "str_search_analyzer",
+								"index_analyzer": "str_index_analyzer",
+								"payloads": false
 							}
-						},
-						avatar: {
-							"type": "object",
-							"properties": {
-								url: {"type" : "string", "index" : "no"}
-							}
-						},
-						activities: {
-							"type" : "string",
-							"search_analyzer" : "str_search_analyzer",
-							"index_analyzer" : "str_index_analyzer"
-						},
-						activities_suggest: {
-							"type": "completion",
-							"index_analyzer": "simple",
-							"search_analyzer": "simple",
-							"payloads": false
 						}
 					}
-				}
-			};
-			Meteor.ES.indices.putMapping({index:"resources", type:"place", body:placesBody});
-
-			var usersBody = {
-				user: {
-					properties:{
-						id: {"type" : "string"},			// The MongoDB id
-						loc: {"type" : "geo_point"}, 		// profile.address.loc field
-						name: {"type" : "string"},			// profile.fullname field
-						cover: {
-							"type": "object",
-							"properties": {
-								url: {"type" : "string", "index" : "no"},
-								focusX: {"type" : "integer", "index" : "no"},
-								focusY: {"type" : "integer", "index" : "no"},
-								w: {"type" : "integer", "index" : "no"},
-								h: {"type" : "integer", "index" : "no"},
+				};
+				Meteor.ES.indices.putMapping({index:"resources", type:"place", body:placesBody}, function(error, response) {
+					if (error) return console.log(error);
+					console.log('Put place mapping:' + response.acknowledged);
+					var usersBody = {
+						user: {
+							properties:{
+								id: {"type" : "string"},			// The MongoDB id
+								loc: {"type" : "geo_point"}, 		// profile.address.loc field
+								name: {
+									"type" : "string",				// profile.fullname field
+									"search_analyzer" : "str_search_analyzer",
+									"index_analyzer" : "str_index_analyzer"
+								},
+								cover: {
+									"type": "object",
+									"properties": {
+										url: {"type" : "string", "index" : "no"},
+										focusX: {"type" : "integer", "index" : "no"},
+										focusY: {"type" : "integer", "index" : "no"},
+										w: {"type" : "integer", "index" : "no"},
+										h: {"type" : "integer", "index" : "no"},
+									}
+								},
+								avatar: {
+									"type": "object",
+									"properties": {
+										url: {"type" : "string"}
+									}
+								},
+								skills: {
+									"type" : "string", // Flatenize the skills as an array rather than an object
+									"search_analyzer" : "str_search_analyzer",
+									"index_analyzer" : "str_index_analyzer"
+								},
+								skills_suggest: {
+									"type": "completion",
+									"search_analyzer": "str_search_analyzer",
+									"index_analyzer": "str_index_analyzer",
+									"payloads": false
+								}
 							}
-						},
-						avatar: {
-							"type": "object",
-							"properties": {
-								url: {"type" : "string"}
-							}
-						},
-						skills: {"type" : "string"}, // Flatenize the skills as an array rather than an object
-						skills_suggest: {
-							"type": "completion",
-							"index_analyzer": "simple",
-							"search_analyzer": "simple",
-							"payloads": false
 						}
-					}
-				}
-			};
-			Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody});
+					};
+					Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody}, function(error, response) {
+						if (error) return console.log(error);
+						console.log('Put user mapping:' + response.acknowledged);
 
-			console.log("Mapping done !");
-			callback(null, true);
+						console.log("Mapping done !");
+					});
+				});
+			});
 		});
-	});
-};
-var wrappedRestoreIndex = Meteor.wrapAsync(restoreIndex);
+	}
+});

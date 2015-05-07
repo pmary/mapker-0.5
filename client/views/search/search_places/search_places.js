@@ -7,23 +7,12 @@
  * @param {Object} searchObject - Contain the search parameters
  * @param {String} searchObject.keywords - Activities keywords
  * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
- * @param {Object} template - The searchPlaces template instance object
  */
 var searchPlacesByActivitiesAndBbox = function(searchObject) {
-	// Remove the no-search class from #search-container to display the result area
-	$('.search-place#search-container').removeClass('no-search');
-
-	// Clear map
-	clearMap();
-	// Reset the marker list
-	markers = [];
-	// Reset the search results
-	Session.set('searchPlacesResults', '');
-
-	console.log(searchObject)
+	// Query the ES index via the Meteor method and return the results
+	console.log(searchObject);
 	Meteor.call('getPlaces', searchObject, function(error, result) {		
-		if (error)
-			console.log(error);
+		if (error) return console.log(error);
 
 		console.log(result);
 
@@ -63,6 +52,65 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 			addMarker(marker);
 		}
 	});
+}
+
+/**
+ * @summary Prepare the UI and create the search object for the query
+ * @fires searchPlacesByActivitiesAndBbox Call the function to query the index, passing the object
+ */
+var buildAndFiresSearch = function() {
+	// Remove the no-search class from #search-container to display the result area
+	$('.search-place#search-container').removeClass('no-search');
+
+	// Clear map
+	clearMap();
+	// Reset the marker list
+	markers = [];
+	// Reset the search results
+	Session.set('searchPlacesResults', '');
+
+	// Get the input values
+	var location = $('.search-place #input-where').val(),
+	keywords = $('.search-place #input-what').val(),
+	searchObject;	
+	if (location.length > 2) {
+		console.log('has location');
+		var query = location.replace(/ /g, "+");
+		// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
+		var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
+
+		// Get the location data
+		Meteor.http.get(queryUrl, function (error, result) {
+			if (!error) {
+				var content = JSON.parse(result.content);
+				if (content.features && content.features.length) {
+					// bbox = left,bottom,right,top
+					var bbox = content.features[0].bbox;
+
+					// Center the map on the given bounding box
+					var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
+					northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
+					bounds = L.latLngBounds(southWest, northEast);
+					map.fitBounds(bounds);
+
+					searchObject = {queryString: keywords, bbox: bbox};
+					searchPlacesByActivitiesAndBbox(searchObject);
+				};
+			}
+		});
+	}
+	else {
+		// See https://www.mapbox.com/mapbox.js/api/v2.1.9/l-latlngbounds/
+		var left = map.getBounds().getWest(),
+		bottom = map.getBounds().getSouth(),
+		right = map.getBounds().getEast(),
+		top = map.getBounds().getNorth(),
+		bbox = [ left, bottom, right, top ];
+		
+		console.log(bbox);
+		searchObject = {queryString: keywords, bbox: bbox};
+		searchPlacesByActivitiesAndBbox(searchObject);
+	}
 }
 
 var createIcon = function(resource) {
@@ -105,17 +153,8 @@ Meteor.startup(function(){
 /* Meteor helpers */
 /*****************************************************************************/
 Template.searchPlaces.helpers({
-	locationSuggestions: function () {
-		return Session.get("locationSuggestions");
-	},
 	places: function () {
 		return Session.get("searchPlacesResults");
-	},
-	/**
-	 * @summary Return the suggestions returned when typing in the what input field
-	 */
-	whatSuggestions: function () {
-		return Session.get("whatSuggestions");
 	}
 });
 
@@ -126,8 +165,6 @@ Template.searchPlaces.helpers({
 var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
-	console.log("render");
-	Session.set("locationSuggestions", []);
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
 
@@ -156,26 +193,25 @@ Template.searchPlaces.rendered = function() {
 	 * @see https://github.com/devbridge/jQuery-Autocomplete
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
-	var currentQueryString;
+	var currentWhatQueryString;
 	$('.search-place #input-what').autocomplete({
 		position: "absolute",
 		appendTo: $('.search-place #input-what-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
-			if (queryString.length < 2 || queryString == currentQueryString) return;
-			currentQueryString = queryString;
+			if (queryString.length < 2 || queryString == currentWhatQueryString) return;
+			currentWhatQueryString = queryString;
 
-			// Search places matching with the what input value
-			var searchObject = {queryString: queryString};
-			searchPlacesByActivitiesAndBbox(searchObject);
+			// Search places matching with the current input values
+			buildAndFiresSearch();
 			
 			// Get the suggestions according to the queryString
 			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
 				if (error) return console.log(error.reason);
 
-				formatedResult = {
+				var formatedResult = {
 					suggestions: $.map(result, function(dataItem) {
 						return { value: dataItem.text, data: dataItem.text };
 					})
@@ -186,45 +222,52 @@ Template.searchPlaces.rendered = function() {
 		},
 		onSelect: function (suggestion) {
 			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			// Search places matching with the current input values
+			buildAndFiresSearch();
 		}
 	});
 
-	// Selectize init. for the where input field
-	$('.search-place #input-where').selectize({
-		valueField: 'place_name',
-		labelField: 'place_name',
-		searchField: 'place_name',
-		maxItems: 1,
-		create: false,
-		loadingClass: 'selectize-load',
-		render: {
-			option: function(item, escape) {
-				return '<div>' +
-					'<span class="title">' +
-						'<span class="name">' + escape(item.place_name) + '</span>' +
-					'</span>' +
-				'</div>';
-			}
-		},
-		load: function(query, callback) {
-			console.log('load');
-			if (!query.length) return callback();
-			query = encodeURIComponent(query.replace(/ /g, "+"));
-			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
+	/**
+	 * @summary AutoComplete init. for the location input field
+	 * @see https://github.com/devbridge/jQuery-Autocomplete
+	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
+	 */
+	var currentLocationQueryString;
+	$('.search-place #input-where').autocomplete({
+		position: "absolute",
+		appendTo: $('.search-place #input-where-container'),
+		lookup: function(queryString, done) {
+			// No search if the query string lenght < 2 characters
+			// Or if the input text hasn't change
+			if (queryString.length < 2 || queryString == currentLocationQueryString) return;
+			currentLocationQueryString = queryString;
+
+			queryString = encodeURIComponent(queryString.replace(/ /g, "+"));
+			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + queryString + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 
 			// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
 			Meteor.http.get(queryUrl, function (error, result) {
 				if (!error) {
 					var content = JSON.parse(result.content);
-					console.log(content);
 					if (content.features && content.features.length) {
-						callback(content.features.slice(0, 10));
+						console.log(content.features);
+						var results = content.features.slice(0, 10);
+						
+						var formatedResult = {
+							suggestions: $.map(results, function(dataItem) {
+								return { value: dataItem.place_name, data: dataItem.place_name };
+							})
+						};
+
+						done(formatedResult);
 					};
 				}
 			});
 		},
-		onType: function(str) {
-			console.log('type');
+		onSelect: function (suggestion) {
+			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			// Search places matching with the current input values
+			buildAndFiresSearch();
 		}
 	});
 }
@@ -236,50 +279,8 @@ Template.searchPlaces.rendered = function() {
 Template.searchPlaces.events({
 	'submit #search-form': function(e,t) {
 		e.preventDefault();
-
-		// Get the input values
-		var location = t.find('#input-where').value,
-		keywords = t.find('#input-what').value;
-		console.log(location);
-
-		if (location.length > 2) {
-			console.log('has location');
-			var query = location.replace(/ /g, "+");
-			// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
-			var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
-
-			// Get the location data
-			Meteor.http.get(queryUrl, function (error, result) {
-				if (!error) {
-					var content = JSON.parse(result.content);
-					if (content.features && content.features.length) {
-						// bbox = left,bottom,right,top
-						var bbox = content.features[0].bbox;
-
-						// Center the map on the given bounding box
-						var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
-						northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
-						bounds = L.latLngBounds(southWest, northEast);
-						map.fitBounds(bounds);
-
-						var searchObject = {queryString: keywords, bbox: bbox};
-						searchPlacesByActivitiesAndBbox(searchObject);
-					};
-				}
-			});
-		}
-		else {
-			// See https://www.mapbox.com/mapbox.js/api/v2.1.9/l-latlngbounds/
-			var left = map.getBounds().getWest();
-			var bottom = map.getBounds().getSouth();
-			var right = map.getBounds().getEast();
-			var top = map.getBounds().getNorth();
-
-			var bbox = [ left, bottom, right, top ];
-			console.log(bbox);
-			var searchObject = {queryString: keywords, bbox: bbox};
-			searchPlacesByActivitiesAndBbox(searchObject);
-		}
+		// Search places matching with the current input values
+		buildAndFiresSearch();
 	},
 	'mouseover .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
