@@ -49,7 +49,10 @@ Meteor.ES.methods = {
 				skills_suggester: {
 					text: queryString,
 					completion: {
-						field: 'skills_suggest'
+						field: 'skills_suggest',
+						fuzzy : {
+							fuzziness : 2
+						}
 					}
 				}
 			}
@@ -70,7 +73,10 @@ Meteor.ES.methods = {
 				activities_suggester: {
 					text: queryString,
 					completion: {
-						field: 'activities_suggest'
+						field: 'activities_suggest',
+						fuzzy : {
+							fuzziness : 2
+						}
 					}
 				}
 			}
@@ -328,10 +334,76 @@ Meteor.methods({
 		return results;
 	},
 	/**
+	 * @summary Update a user document in ES
+	 */
+	updateUserDocument: function(userId) {
+		check(userId, String);
+
+		// Get the user data
+		var user = Meteor.users.findOne({_id: userId});
+
+		// Create the user documents
+		var id = user._id;
+
+		// Init the body object
+		var body = {};
+
+		// Flatenize the skills as an array rather than an object
+		if (user.profile.skills) {
+			body.skills = [];
+			for (var y = 0; y < user.profile.skills.length; y++) {
+				body.skills.push(user.profile.skills[y].title);
+			};
+			body.skills_suggest = { input: body.skills };
+		};
+
+		if (user.profile.fullname) {
+			body.name = user.profile.fullname;
+			body.skills_suggest.input.push(user.profile.fullname)
+		}
+
+		if (user.profile.activity)
+			body.skills_suggest.input.push(user.profile.activity);
+
+		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
+			body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
+
+		if (user.profile.avatar && user.profile.avatar.url)
+			body.avatar = {url: user.profile.avatar.url};
+
+		if (user.profile.cover) {
+			body.cover = {
+				url: (user.profile.cover.url ? user.profile.cover.url : undefined),
+				focusX: (user.profile.cover.focusX ? user.profile.cover.focusX : undefined),
+				focusY: (user.profile.cover.focusY ? user.profile.cover.focusY : undefined),
+				w: (user.profile.cover.w ? user.profile.cover.w : undefined),
+				h: (user.profile.cover.h ? user.profile.cover.h : undefined)
+			};
+		};
+
+		Meteor.ES.index({
+			index: 'resources',
+			type: 'user',
+			id: id, // User id
+			body: body
+		}, function (error, response) {
+			//console.log(response);
+			console.log(error);
+			/*Meteor.ES.get({
+			  index: 'resources',
+			  type: 'user',
+			  id: id
+			}, function (error, response) {
+				console.log(id);
+				console.log(error);
+			});*/
+		});
+	},
+	/**
 	 * @summary Get all the documents from the users collection
 	 * and insert them in the elasticsearch index
 	 */
-	restoreDocuments: function() {
+	restoreUsersDocuments: function() {
 		// Get all the users
 		var users = Meteor.users.find().fetch();
 
@@ -353,8 +425,13 @@ Meteor.methods({
 				body.skills_suggest = { input: body.skills };
 			};
 
-			if (user.profile.fullname)
+			if (user.profile.fullname) {
 				body.name = user.profile.fullname;
+				body.skills_suggest.input.push(user.profile.fullname)
+			}
+
+			if (user.profile.activity)
+				body.skills_suggest.input.push(user.profile.activity);
 
 			if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
 				body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
@@ -371,33 +448,6 @@ Meteor.methods({
 					h: (user.profile.cover.h ? user.profile.cover.h : undefined)
 				};
 			};
-
-			/*userIndices.push({
-				index: 'resources',
-				type: 'user',
-				id: id, // User id
-				body: body
-			});*/
-			// Exemple: 
-			/*loc: {
-				lat: user.profile.address.loc.lat,
-				lon: user.profile.address.loc.lon
-			},
-			name: user.profile.fullname,
-			cover: {
-				url: user.profile.cover.url,
-				focusX: user.profile.cover.focusX,
-				focusY: user.profile.cover.focusY,
-				w: user.profile.cover.w,
-				h: user.profile.cover.h
-			},
-			avatar: { 
-				url: user.profile.avatar.url
-			},
-			skills: skills,
-			skills_suggest: {
-				input: skills
-			}*/
 
 			Meteor.ES.index({
 				index: 'resources',
@@ -417,9 +467,13 @@ Meteor.methods({
 				});*/
 			});
 		};
-		
 		console.log( users.length + " users indexed!" );
-
+	},
+	/**
+	 * @summary Get all the documents from the users collection
+	 * and insert them in the elasticsearch index
+	 */
+	restorePlacesDocuments: function() {
 		// Get all the places
 		var places = Places.find().fetch();
 		// Create the place documents
@@ -431,11 +485,14 @@ Meteor.methods({
 			// Init the body object
 			var body = {}
 
-			if (place.name) body.name = place.name;
-
 			if (place.activities) {
 				body.activities = place.activities;
 				body.activities_suggest = {input: place.activities};
+			}
+
+			if (place.name) {
+				body.name = place.name;
+				body.activities_suggest.input.push(place.name);
 			}
 
 			if (place.loc)
@@ -460,8 +517,8 @@ Meteor.methods({
 				id: id, // User id
 				body: body
 			}, function (error, response) {
-				console.log(response);
-				console.log(error);
+				/*console.log(response);
+				console.log(error);*/
 				/*Meteor.ES.get({
 				  index: 'resources',
 				  type: 'place',
@@ -495,14 +552,18 @@ Meteor.methods({
 							"analyzer" : {
 								"str_search_analyzer" : {
 									"tokenizer" : "keyword",
-									"buffer_size": 1024, // To prevent errors like RemoteTransportException[[fili-1][inet[/10.0.1.8:9300]][indices:data/write/index]]; nested: IllegalArgumentException[TokenStream expanded to 300 finite strings. Only <= 256 finite strings are supported];
 									"filter" : ["lowercase"]
 								},
 
 								"str_index_analyzer" : {
-									"tokenizer" : "keyword",
-									"buffer_size": 1024,
-									"filter" : ["lowercase", "substring"]
+									"tokenizer" : "standard",
+									"filter" : ["lowercase", "substring", "token_limit"]
+								},
+
+								autocomplete: {
+									type: "custom",
+									tokenizer: "keyword",
+									filter: ["lowercase", "substring"]
 								}
 							},
 
@@ -510,7 +571,17 @@ Meteor.methods({
 								"substring" : {
 									"type" : "nGram",
 									"min_gram" : 1,
-									"max_gram"  : 20
+									"max_gram"  : 10
+									//max_token_count : 250
+								},
+								"autocomplete_filter": {
+									type: "edge_ngram",
+									min_gram: 1,
+									max_gram: 20
+								},
+								"token_limit": {
+									type: "limit",
+									max_token_count : 250
 								}
 							}
 						}
@@ -529,8 +600,8 @@ Meteor.methods({
 							loc: {"type" : "geo_point"}, 		// loc field
 							name: {
 								"type" : "string",
-								"search_analyzer" : "str_search_analyzer",
-								"index_analyzer" : "str_index_analyzer"
+								/*"search_analyzer" : "str_search_analyzer",
+								"index_analyzer" : "str_index_analyzer"*/
 							},
 							cover: {
 								"type": "object",
@@ -550,13 +621,13 @@ Meteor.methods({
 							},
 							activities: {
 								"type" : "string",
-								"search_analyzer" : "str_search_analyzer",
-								"index_analyzer" : "str_index_analyzer"
+								/*"search_analyzer" : "str_search_analyzer",
+								"index_analyzer" : "str_index_analyzer"*/
 							},
 							activities_suggest: {
 								"type": "completion",
 								"search_analyzer": "str_search_analyzer",
-								"index_analyzer": "str_index_analyzer",
+								"index_analyzer": "autocomplete",
 								"payloads": false
 							}
 						}
@@ -572,8 +643,8 @@ Meteor.methods({
 								loc: {"type" : "geo_point"}, 		// profile.address.loc field
 								name: {
 									"type" : "string",				// profile.fullname field
-									"search_analyzer" : "str_search_analyzer",
-									"index_analyzer" : "str_index_analyzer"
+									/*"search_analyzer" : "str_search_analyzer",
+									"index_analyzer" : "str_index_analyzer"*/
 								},
 								cover: {
 									"type": "object",
@@ -593,13 +664,13 @@ Meteor.methods({
 								},
 								skills: {
 									"type" : "string", // Flatenize the skills as an array rather than an object
-									"search_analyzer" : "str_search_analyzer",
-									"index_analyzer" : "str_index_analyzer"
+									/*"search_analyzer" : "str_search_analyzer",
+									"index_analyzer" : "str_index_analyzer"*/
 								},
 								skills_suggest: {
 									"type": "completion",
 									"search_analyzer": "str_search_analyzer",
-									"index_analyzer": "str_index_analyzer",
+									"index_analyzer": "autocomplete",
 									"payloads": false
 								}
 							}

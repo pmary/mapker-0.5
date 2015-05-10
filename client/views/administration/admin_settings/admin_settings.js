@@ -5,9 +5,16 @@ Template.adminSettings.events({
 			console.log(error);
 		});
 	},
-	'click #restoreDocuments': function() {
+	'click #restoreUsersDocuments': function() {
 		console.log('restore documents in the index');
-		Meteor.call('restoreDocuments', function(error, result){
+		Meteor.call('restoreUsersDocuments', function(error, result){
+			console.log(error);
+			console.log('ok');
+		});
+	},
+	'click #restorePlacesDocuments': function() {
+		console.log('restore documents in the index');
+		Meteor.call('restorePlacesDocuments', function(error, result){
 			console.log(error);
 			console.log('ok');
 		});
