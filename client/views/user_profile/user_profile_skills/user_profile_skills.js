@@ -1,30 +1,37 @@
-Template.UserProfileSkills.helpers({
+Template.userProfileSkills.helpers({
 	errorMessage: function(field) {
-		return Session.get('UserProfileSkillsErrors')[field];
+		if (Session.get('userProfileSkillsErrors'))
+			return Session.get('userProfileSkillsErrors')[field];
 	},
 	errorClass: function (field) {
-		return !!Session.get('UserProfileSkillsErrors')[field] ? 'has-error' : '';
+		if (Session.get('userProfileSkillsErrors'))
+			return !!Session.get('userProfileSkillsErrors')[field] ? 'has-error' : '';
 	},
 	userOriginalSkills: function (field) {
 		return Session.get('userOriginalSkills');
+	},
+	userEditedSkills: function (field) {
+		return Session.get('userEditedSkills');
 	}
 });
 
-Template.UserProfileSkills.rendered = function() {
-	//Session.set('UserProfileSkillsErrors', {}); // Prevent undefined session warning
+Template.userProfileSkills.rendered = function() {
 }
 
 
 var userEditedSkills, userOriginalSkills;
 
-Template.UserProfileSkills.events({
+Template.userProfileSkills.events({
+	/**
+	 * @summary Add a skill
+	 */
 	'submit #add-skill-form' : function(e, t) {
 		e.preventDefault();
 		var skill = t.find('#input-skill').value;
 		var skills = t.data.user.profile.skills;
 
 		var errors = validateUserAddSkill(skill, skills);
-		Session.set('UserProfileSkillsErrors', errors);
+		Session.set('userProfileSkillsErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
 
@@ -34,35 +41,42 @@ Template.UserProfileSkills.events({
 			t.find('#input-skill').value = "";
 	    });
 	},
+	/**
+	 * @summary Display the skill edition UI and set the helpers
+	 */
 	'click .skill-edit' : function(e,t) {
-		if (userOriginalSkills) {
-			Session.set('userOriginalSkills', userOriginalSkills);	
-		}
-		else {
-			Session.set('userOriginalSkills', t.data.user.profile.skills);
-			userOriginalSkills = Session.get('userOriginalSkills');
-		};
-		userEditedSkills = Session.get('userOriginalSkills');
+		// Init the sessions variables with the original skills
+		Session.set('userOriginalSkills', t.data.user.profile.skills);
+		Session.set('userEditedSkills', t.data.user.profile.skills);
+
 		// Display the edition zone
 		t.find('.user-skills').style.display = 'none';
 		t.find('.edit-user-skills').style.display = 'block';
 	},
 	'click .skill-remove' : function(e,t) {
-		userEditedSkills.splice(userEditedSkills.indexOf(e.currentTarget.dataset.skillTitle), 1)
-		Session.set('userOriginalSkills', userEditedSkills);
+		// Remove the selected skill from the 'userEditedSkills' session var
+		Session.set('userEditedSkills',
+			Session.get('userEditedSkills').filter(function (el) {
+				return el.title !== e.currentTarget.dataset.skillTitle;
+			})
+		);
+
+		// Remove the item node from the dom
 		$(e.currentTarget.parentNode).remove();
 	},
 	'click #cancel-edit-user-skills' : function(e,t) {
 		t.find('.user-skills').style.display = 'block';
 		t.find('.edit-user-skills').style.display = 'none';
 	},
+	/**
+	 * @summary Save the skills modifications
+	 */
 	'submit #edit-user-skills-form' : function(e,t) {
 		e.preventDefault();
-		Meteor.call('userUpdateSkills', userEditedSkills, function(error, result) {
+		Meteor.call('userUpdateSkills', Session.get('userEditedSkills'), function(error, result) {
 			if (error)
 				console.log(error);
 			
-			userOriginalSkills = userEditedSkills;
 			t.find('.user-skills').style.display = 'block';
 			t.find('.edit-user-skills').style.display = 'none';
 		});

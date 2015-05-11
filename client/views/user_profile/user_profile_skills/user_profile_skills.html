@@ -1,4 +1,4 @@
-<template name="UserProfileSkills">
+<template name="userProfileSkills">
 	<section class="user-profile-bio">
 		{{#if eq currentUser._id user._id}}
 		<form class="form-inline" id="add-skill-form">
@@ -23,7 +23,7 @@
 				{{/each}}
 			</div>
 			<form class="edit-user-skills" id="edit-user-skills-form">
-				{{#each userOriginalSkills}}
+				{{#each userEditedSkills}}
 					<div class="user-skill">
 						<span class="skill-title">{{title}}</span>
 						<input type="text" value="{{title}}">

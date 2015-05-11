@@ -11,20 +11,6 @@ Meteor.ES = new Elasticsearch.Client({
 	sniffInterval: 60000,
 });
 
-/*****************************************************************************/
-/* Helpers */
-/*****************************************************************************/
-/**
- * @summary Sync the MongoDB data with easysearch
- */
-var elasticsearchSync = function() {
-	// Get all the users
-	var users = Meteor.users.find().fetch();
-	// Create the user documents
-	for (var i = 0; i < users.length; i++) {
-		Meteor.ES.methods.updateUserDocument(users[i]._id);
-	};
-}
 
 /*****************************************************************************/
 /* Methods */
@@ -334,9 +320,9 @@ Meteor.methods({
 		return results;
 	},
 	/**
-	 * @summary Update a user document in ES
+	 * @summary Update a user document in the ES 'resources' index
 	 */
-	updateUserDocument: function(userId) {
+	updateUserESDocument: function(userId) {
 		check(userId, String);
 
 		// Get the user data
