@@ -46,14 +46,14 @@ Template.modalChangeAvatar.events({
 				// Closure to capture the file information
 				reader.onloadend = function(e) {
 					// Destroyer the cropper instance if they was already one
-					if ($('.helper-tool > img').hasClass('cropper-hidden'))
-						$('.helper-tool > img').cropper('destroy');
+					if ($('.modal-change-avatar .helper-tool > img').hasClass('cropper-hidden'))
+						$('.modal-change-avatar .helper-tool > img').cropper('destroy');
 
 					// Render image and create cropbox
 					$('#avatar-helper-tool-img').attr('src', e.target.result);
 
 					// Init a cropper instance
-					$('.helper-tool > img').cropper({
+					$('#avatar-helper-tool-img').cropper({
 						aspectRatio: 1/1,
 						movable: false,
 						strict: false, // The image can be smaller than the cropbox

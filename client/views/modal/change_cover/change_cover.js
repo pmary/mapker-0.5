@@ -27,6 +27,21 @@ Template.modalChangeCover.events({
 		// Close the modal
 		$('#myModal').modal('hide');
 	},
+	'click #helper-tool-container': function(e, t) {
+		console.log('click');
+		// Get the new reticle positon
+		var top = t.find('.reticle').style.top,
+		left = t.find('.reticle').style.left;
+		console.log('ellipse(47px 47px at ' + top + ' ' + left + ')');
+		
+		// Update the mask clip path position
+		console.log($('#helper-tool-mask'));
+		$('#helper-tool-mask').css({
+			'-webkit-clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')',
+			'clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')',
+			'-moz-clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')'
+		});
+	},
 	'change #input-cover': function(e, t) {
 		// Once a file to upload is picked
 		var file = e.target.files[0];
