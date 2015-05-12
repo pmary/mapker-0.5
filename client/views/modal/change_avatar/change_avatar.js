@@ -68,7 +68,7 @@ Template.modalChangeAvatar.events({
 					});
 
 					// Hide the upload btn and display the helper tool
-					$('.modal-change-avatar .image-upload-container .helper-tool').css('display', 'block');
+					$('.modal-change-avatar .image-upload-container .helper-tool, .modal-change-avatar .image-upload-container .cropper-controls').css('display', 'block');
 					// Remove the first-upload UI
 					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';};
 					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';};
@@ -117,12 +117,18 @@ Template.modalChangeAvatar.events({
 					$('.helper-tool > img').cropper('destroy');
 
 					// Show the upload btn and hide the helper tool
-					$('.modal-change-avatar .image-upload-container .helper-tool').css('display', 'none');
+					$('.modal-change-avatar .image-upload-container .helper-tool, .modal-change-avatar .image-upload-container .cropper-controls').css('display', 'none');
 					// Remove the first-upload UI
 					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'inline-block';};
 					if (t.find('#change-image')) {t.find('#change-image').style.display = 'none';};
 				});
 			}
 		};
+	},
+	'click .cropper-zoom-in': function(e, t){
+		$('.helper-tool > img').cropper("zoom", 0.1);
+	},
+	'click .cropper-zoom-out': function(e, t){
+		$('.helper-tool > img').cropper("zoom", -0.1);
 	}
 });

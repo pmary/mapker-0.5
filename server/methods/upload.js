@@ -57,9 +57,8 @@ Meteor.methods({
 		if (img.resource.type == "user") {
 			Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover.focusX': img.focusX, 'profile.cover.focusY': img.focusY} });
 
-			// Update the elasticsearch document
-			if (Meteor.ES)
-				Meteor.ES.methods.updateUserDocument(img.resource.id);
+			// Update the user ElasticSearch document
+			Meteor.call('updateUserESDocument', Meteor.userId());
 		}
 		else if (img.resource.type == "place") {
 			Places.update({_id: img.resource.id}, { $set: {'cover.focusX': img.focusX, 'cover.focusY': img.focusY} });
@@ -127,9 +126,8 @@ Meteor.methods({
 			else if (img.role == "cover")
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover': image} });
 
-			// Update the elasticsearch document
-			if (Meteor.ES)
-				Meteor.ES.methods.updateUserDocument(img.resource.id);
+			// Update the user ElasticSearch document
+			Meteor.call('updateUserESDocument', Meteor.userId());
 		}
 		else if (img.resource.type == "place") {
 			if (img.role == "avatar")

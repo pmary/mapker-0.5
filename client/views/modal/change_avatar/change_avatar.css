@@ -7,7 +7,8 @@
 	display: block;
 }
 
-.modal-change-avatar #input-avatar {
+.modal-change-avatar #input-avatar,
+.modal-change-avatar .cropper-controls {
 	display: none;
 }
 
@@ -33,6 +34,9 @@
 
 .image-upload-container #change-image {
 	display: none;
+}
+
+.image-upload-container .cropper-controls {
 }
 
 .modal-change-avatar .image-upload-container .helper-tool {
