@@ -18,6 +18,9 @@
 	background-position: center;
 	margin-right: 0px;
 	margin-left: 0px;
+	margin-bottom: 30px;
+	height: 263px;
+	width: 100%;
 }
 
 .search-skills#search-container #search-results {

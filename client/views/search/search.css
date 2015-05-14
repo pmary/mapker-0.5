@@ -25,10 +25,6 @@
 	height: 100%;
 }
 
-#search-page .no-search#search-container #search-results {
-	display: none;
-}
-
 /**
  * 01 - Search parameters
  */
@@ -37,7 +33,8 @@
 	padding-top: 80px;
 	padding-bottom: 80px;
 	border-bottom: 1px solid #d9d9d9;
-	height: 263px;
+	height: 100%;
+	float: left;
 	-webkit-transition: height 1s ease;
 	transition: height 1s ease;
 }
@@ -146,8 +143,7 @@
  * 02 - Search results
  */
 #search-page #search-results {
-	padding-top: 30px;
-	padding-bottom: 30px;
+	
 }
 
 #search-page #search-results .loader {
@@ -226,10 +222,13 @@
  * 03 - Map
  */
 #search-page #map-container {
+	position: relative;
 	height: 100%;
 	overflow: hidden;
 	padding-left: 0px;
 	padding-right: 0px;
+	width: 100%;
+	z-index: 1;
 }
 
 #search-page #map.mapbox {

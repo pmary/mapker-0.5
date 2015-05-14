@@ -91,7 +91,7 @@ var buildAndFiresSearch = function() {
 					var southWest = L.latLng(content.features[0].bbox[1], content.features[0].bbox[0]),
 					northEast = L.latLng(content.features[0].bbox[3], content.features[0].bbox[2]),
 					bounds = L.latLngBounds(southWest, northEast);
-					map.fitBounds(bounds);
+					map.fitBounds([bounds], {paddingTopLeft: [750, 0]});
 
 					searchObject = {queryString: keywords, bbox: bbox};
 					searchPlacesByActivitiesAndBbox(searchObject);
@@ -182,9 +182,17 @@ Template.searchPlaces.rendered = function() {
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized
-			map = L.mapbox.map('map', 'examples.map-i86nkdio')
+			map = L.mapbox.map('map', 'examples.map-i86nkdio', {zoomControl: false})
 			.setView([40, -20.50], 3);
 			//map.addLayer("placeLayer");
+
+			// Disable touch and whell zoom
+			map.touchZoom.disable();
+			map.scrollWheelZoom.disable();
+
+			// Set the zoom controls at the bottom right
+			new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
 			markerLayerGroup = L.layerGroup([]);
 			map.addLayer(markerLayerGroup);
 

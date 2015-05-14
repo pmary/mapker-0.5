@@ -1,10 +1,14 @@
 .search-place#search-container {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+	position: absolute;
 	z-index: 1;
 	height: 100%;
 	overflow: hidden;
 	padding-right: 0px;
 	padding-left: 0px;
+	width: 750px;
+	top: 0px;
+	padding-top: 77px;
+	z-index: 2;
 }
 
 .search-place#search-container #search-container-inner {
@@ -17,11 +21,17 @@
 }
 
 .search-place#search-container #search-parameters {
-	background-image: url(/images/places-search-background.jpg);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	box-shadow: 0px 180px 200px rgba(0, 0, 0, 0.52) inset;
+	background-color: rgba(255,255,255,0.8);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+	width: 250px;
+	padding-top: 60px;
+}
+
+.search-place#search-container #search-parameters .search-places-icon {
+	position: relative;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .search-place#search-container #search-parameters #input-what-container {
@@ -66,4 +76,73 @@
 
 .search-place#search-container #search-results .result section {
 	border-top: 2px solid #fc3975;
+}
+
+/**
+ * Search form
+ */
+.search-place#search-container #search-form .form-group {
+	margin-bottom: 10px;
+}
+
+.search-place#search-container #search-form {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.search-place#search-container #search-form input {
+	width: 180px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.search-place#search-container #search-form input[type="text"] {
+	border: 1px solid #8D8C8C;
+	border-radius: 5px;
+	background-color: rgba(0,0,0, 0.05);
+}
+
+.search-place#search-container #search-form .autocomplete-suggestions {
+	margin-left: 35px;
+}
+
+/* Placeholder color */
+.search-place#search-container #search-form input[type="text"]::-webkit-input-placeholder { /* WebKit browsers */
+    color: #FB3975;
+}
+.search-place#search-container #search-form input[type="text"]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: #FB3975;
+   opacity:  1;
+}
+.search-place#search-container #search-form input[type="text"]::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #FB3975;
+   opacity:  1;
+}
+.search-place#search-container #search-form input[type="text"]:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color: #FB3975;
+}
+
+/**
+ * Search results 
+ */
+.search-place.no-search#search-container #search-results {
+	display: none;
+}
+.search-place#search-container #search-results {
+	height: 100%;
+	margin-left: 250px;
+	overflow: hidden;
+	width: 500px;
+}
+
+.search-place#search-container #search-results #search-results-inner {
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding-left: 15px;
+	padding-top: 20px;
+	padding-right: 20px;
+	padding-bottom: 30px;
+	width: 520px;
+	height: 100%;
 }
