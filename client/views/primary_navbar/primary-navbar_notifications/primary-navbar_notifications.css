@@ -5,6 +5,14 @@
 /**
  * 01 - 
  */
+.notif-menu-item .notifs-count {
+  position: absolute;
+  top: 15px;
+  left: 23px;
+  padding: 5px 5px;
+  border-radius: 30px;
+  background-color: #fc7e7e;
+}
 #navbar-notifs-list {
   color: #333;
 	width: 320px;
@@ -28,7 +36,7 @@
 #navbar-notifs-list:after {
   position: absolute;
   top: -16px;
-  right: 15px;
+  right: 13px;
   display: inline-block;
   border-right: 10px solid transparent;
   border-bottom: 16px solid #ffffff;
@@ -39,6 +47,17 @@
 #navbar-notifs-list li:first-child {
   text-align: center;
   border-bottom: 1px solid #F2F2F2;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 0px 5px 0px;
+}
+
+#navbar-notifs-list li {
+  
+}
+
+#navbar-notifs-list li a {
+  padding: 15px 20px 15px 20px;
+}
+
+#navbar-notifs-list li.unread {
+  background-color: #ECF9FE;
 }

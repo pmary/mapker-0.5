@@ -48,10 +48,10 @@ Meteor.publish('users', function (userIds) {
 /**
  * @summary Publish all the notifications of an user
  */
-/*Meteor.publish('pubUserNotifs', function(userId) {
+Meteor.publish('pubUserNotifs', function(userId) {
 	check(userId, String);
 	return Notifications.find({userId: userId});
-});*/
+});
 
 /*****************************************************************************/
 /* Admin Places publications */

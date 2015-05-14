@@ -175,6 +175,10 @@ Template.searchPlaces.rendered = function() {
 	 * @todo Try to move the accessToken declaration server side only to keep it private
 	 */
 	this.autorun(function () {
+		// Set the menu item as active
+		$('#primary-navbar #main-menu li').removeClass('active');
+		$('#primary-navbar #main-menu #menu-item-places').addClass('active');
+
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized

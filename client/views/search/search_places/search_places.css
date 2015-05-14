@@ -11,9 +11,9 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 	height: 100%;
-	width: 102%;
-	padding-left: 1%;
-	padding-right: 1%;
+	width: 103%;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
 }
 
 .search-place#search-container #search-parameters {

@@ -85,6 +85,12 @@ Template.searchSkills.helpers({
 /* Meteor on rendered function */
 /*****************************************************************************/
 Template.searchSkills.rendered = function() {
+	this.autorun(function () {
+		// Set the menu item as active
+	    $('#primary-navbar #main-menu li').removeClass('active');
+	    $('#primary-navbar #main-menu #menu-item-skills').addClass('active');
+	});
+
 	// Set the focus on the what input field
 	$('.search-skills #input-skills').focus();
 

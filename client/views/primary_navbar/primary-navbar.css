@@ -21,6 +21,12 @@
 	background-color: #36384E;
 }
 
+#primary-navbar .navbar-right .notif-menu-item > a {
+	font-size: 18px;
+	padding-top: 29px;
+	padding-bottom: 24px;
+}
+
 #primary-navbar .navbar-left > li:hover > a {
 	background-color: #282A41;
 }
@@ -62,17 +68,17 @@
 }
 
 #primary-navbar #action-create-dropdown {
-	padding-top: 18px;
-	padding-bottom: 17px;
+	padding-top: 23px;
+	padding-bottom: 22px;
 }
 
 #primary-navbar #action-create-dropdown span.glyphicon {
 	background: transparent;
 	border-radius: 25px;
-	height: 40px;
-	width: 40px;
+	height: 30px;
+	width: 30px;
 	text-align: center;
-	padding-top: 12px;
+	padding-top: 7px;
 	padding-left: 1px;
 	border: 1px solid #FFF;
 	font-weight: lighter;
@@ -109,6 +115,36 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 14px;
+	color: #616263;
+}
+
+#primary-navbar #main-menu li a .resource-icon {
+	background-color: #616263;
+	border: 2px solid #616263;
+}
+
+#primary-navbar #main-menu li.active a {
+	background-color: transparent;
+}
+
+#primary-navbar #main-menu li#menu-item-places:hover a,
+#primary-navbar #main-menu li.active#menu-item-places a {
+	color: #FC3975
+}
+#primary-navbar #main-menu li#menu-item-places:hover a .resource-icon,
+#primary-navbar #main-menu li.active#menu-item-places a .resource-icon {
+	background-color: #FC3975;
+	border: 2px solid #DE3366;
+}
+
+#primary-navbar #main-menu li#menu-item-skills:hover a,
+#primary-navbar #main-menu li.active#menu-item-skills a {
+	color: #20DEC2
+}
+#primary-navbar #main-menu li#menu-item-skills:hover a .resource-icon,
+#primary-navbar #main-menu li.active#menu-item-skills a .resource-icon {
+	background-color: #20DEC2;
+	border: 2px solid #1ABDA4;
 }
 
 /** 
