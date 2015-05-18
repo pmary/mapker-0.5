@@ -1,29 +1,27 @@
 <template name="Home">
 	<div class="container-fluid" id="home-page">
 		<header class="row">
-			<div class="col-md-offset-3 col-md-6">
-				<h1>Search for the resources you need in Paris</h1>
-				<!-- <form class="form-inline" id="resources-search">
-					<div class="form-group col-xs-12 col-sm-4 col-md-12 col-lg-4">
-						<input type="text" class="form-control" id="input-what" placeholder="What are you looking for?">
-					</div>
-					<div class="form-group col-xs-12 col-sm-3 col-md-12 col-lg-3">
-						<select class="form-control">
-							<option value="places">Places</option>
-							<option value="machines">Machines</option>
-							<option value="projects">Projects</option>
-							<option value="skills">Skills</option>
-						</select>
-					</div>
-					<div class="form-group col-xs-12 col-sm-3 col-md-12 col-lg-3">
-						<input type="text" class="form-control" id="input-type" placeholder="Where?">
-					</div>
-					<div class="form-group col-xs-12 col-sm-2 col-md-12 col-lg-2">
-						<input class="btn btn-primary" type="submit" value="Search">
-					</div>
-				</form> -->
+			<div class="col-md-offset-2 col-md-8">
+				<h1>Welcome in the Makers world</h1>
+				<h2>Find the places and skills you need to bootstrap your projects</h2>
 			</div>
 		</header>
+		<section class="row section-1">
+			<div class="col-md-offset-2 col-md-8">
+				<h2>What are you looking for?</h2>
+				<div class="row">
+					<div class="resource col-md-6">
+						<a href="{{pathFor route='searchPlaces'}}">
+							<img src="/images/search-places-icon.png" alt="Places">
+						</a>
+					</div>
+					<div class="resource col-md-6">
+						<a href="{{pathFor route='searchSkills'}}">
+							<img src="/images/search-skills-icon.png" alt="Skills">
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
 	</div>
-	{{> footer}}
 </template>
