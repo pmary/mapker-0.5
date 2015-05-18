@@ -68,15 +68,11 @@
 				<section id="cover-avatar">
 					<div class="profile-cover">
 						{{#if place.cover}}
-						<div class="focuspoint" id="profile-cover-bg"
-						data-focus-x="{{place.cover.focusX}}"
-						data-focus-y="{{place.cover.focusY}}"
-						data-image-w="{{place.cover.w}}"
-						data-image-h="{{place.cover.h}}">
-							<img class="profile-cover-image" src="{{place.cover.url}}" alt="Cover">
+						<div class="focuspoint" id="profile-cover-bg" style="background-image: url({{place.cover.url}})">
 						</div>
 						{{else}}
-						
+						<div class="focuspoint" id="profile-cover-bg">
+						</div>
 						{{/if}}
 
 						{{#if isAdmin}}

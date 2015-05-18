@@ -80,7 +80,6 @@ Template.modalChangeAvatar.events({
 		}
 	},
 	'click #save-avatar, click #update-avatar': function(e, t) {
-		// $('#avatar-helper-tool-img').parent().append($('.helper-tool > img').cropper('getCroppedCanvas', { width: 160, height: 160, fillColor: "#ffffff" } ) );
 		var canvas = $('.helper-tool > img').cropper('getCroppedCanvas', { width: 160, height: 160, fillColor: "#ffffff" } );
 
 		var resource = Session.get('modalResource');

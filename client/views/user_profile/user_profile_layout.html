@@ -86,23 +86,16 @@
 		<div class="row">
 			<header class="col-md-12">
 				<section id="cover-avatar">
-					<div class="profile-cover">
-						{{#if user.profile.cover}}
-						<div class="focuspoint" id="profile-cover-bg"
-						data-focus-x="{{user.profile.cover.focusX}}"
-						data-focus-y="{{user.profile.cover.focusY}}"
-						data-image-w="{{user.profile.cover.w}}"
-						data-image-h="{{user.profile.cover.h}}">
-							<img class="profile-cover-image" src="{{user.profile.cover.url}}" alt="Cover">
-						</div>
-						{{else}}
-						
-						{{/if}}
-
+					{{#if user.profile.cover}}
+					<div class="profile-cover" style="background-image: url({{user.profile.cover.url}})">
 						{{#if eq currentUser._id user._id}}
 						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
 						{{/if}}
 					</div>
+					{{else}}
+					<div class="profile-cover">
+					</div>
+					{{/if}}
 
 					{{#if eq currentUser._id user._id}}
 						{{#if user.profile.avatar}}

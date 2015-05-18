@@ -41,9 +41,6 @@ Template.UserProfileLayout.events({
 		Session.set('modalChangeAvatarErrors', {});
 		Session.set('activeModal', 'modalChangeAvatar');
 		setModalData(t);
-
-		// Init focuspoint
-		$('#helper-tool-container').jQueryFocuspointHelpertool();
 	},
 	/*****************************************************************************/
 	/* Identity edition UI */

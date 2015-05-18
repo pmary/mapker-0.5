@@ -1,9 +1,6 @@
 var coverHelperContainer;
 
 Template.modalChangeCover.rendered = function() {
-	$('.modal-change-cover [data-toggle="popover"]').popover();
-
-	coverHelperContainer = $('#helper-tool-container').jQueryFocuspointHelpertool();
 }
 
 Template.modalChangeCover.helpers({
@@ -20,6 +17,9 @@ Template.modalChangeCover.helpers({
 
 Template.modalChangeCover.events({
 	'click .image-upload' : function(e, t){
+		// Reset the input file by delete and re-create the node
+		$(t.find('.modal-change-cover .modal-body #input-cover')).remove();
+		$(t.find('.modal-change-cover .modal-body')).append('<input type="file" id="input-cover">');
 		// Open the upload file browser
 		$('#input-cover').click();
 	},
@@ -27,28 +27,13 @@ Template.modalChangeCover.events({
 		// Close the modal
 		$('#myModal').modal('hide');
 	},
-	'click #helper-tool-container': function(e, t) {
-		console.log('click');
-		// Get the new reticle positon
-		var top = t.find('.reticle').style.top,
-		left = t.find('.reticle').style.left;
-		console.log('ellipse(47px 47px at ' + top + ' ' + left + ')');
-		
-		// Update the mask clip path position
-		console.log($('#helper-tool-mask'));
-		$('#helper-tool-mask').css({
-			'-webkit-clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')',
-			'clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')',
-			'-moz-clip-path': 'ellipse(47px 47px at ' + left + ' ' + top + ')'
-		});
-	},
 	'change #input-cover': function(e, t) {
 		// Once a file to upload is picked
 		var file = e.target.files[0];
 		// If our file is an image, display it in the cover
-		if (file.size >= 2097152)
+		if (file && file.size >= 2097152)
 			return Session.set('modalChangeCoverErrors', {image: 'The weight of your image must be less than 2 MB'});
-		if (!file.type.match('image.*') && file.type != "image/jpeg" && file.type != "image/png")
+		if (file && !file.type.match('image.*') && file.type != "image/jpeg" && file.type != "image/png")
 			return Session.set('modalChangeCoverErrors', {image: 'Only png and jpg images are authorized'});
 		Session.set('modalChangeCoverErrors', {});
 
@@ -60,12 +45,29 @@ Template.modalChangeCover.events({
 
 				// Closure to capture the file information
 				reader.onloadend = function(e) {
+					// Destroyer the cropper instance if they was already one
+					if ($('.modal-change-cover .helper-tool > img').hasClass('cropper-hidden'))
+						$('.modal-change-cover .helper-tool > img').cropper('destroy');
+
 					// Render image and create cropbox
-					$('#cover-helper-tool-img, #cover-target-overlay').attr('src', e.target.result);
-					// Init jQueryFocuspoint
-					coverHelperContainer = $('#helper-tool-container').jQueryFocuspointHelpertool();
+					$('#cover-helper-tool-img').attr('src', e.target.result);
+
+					// Init a cropper instance
+					$('#cover-helper-tool-img').cropper({
+						movable: false,
+						strict: false, // When false, image can't be smaller than the cropbox
+						minCropBoxWidth: 422,
+						minCropBoxHeight: 93,
+						guides: false,
+						dragCrop: false,
+						resizable: false,
+						crop: function(data) {
+							// Output the result data for cropping image.
+						}
+					});
+
 					// Hide the upload btn and display the helper tool
-					$('.modal-change-cover .image-upload-container .helper-tool').css('display', 'block');
+					$('.modal-change-cover .image-upload-container').css('display', 'block');
 					// Remove the first-upload UI
 					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';};
 					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';};
@@ -77,9 +79,10 @@ Template.modalChangeCover.events({
 		}
 	},
 	'click #save-cover, click #update-cover': function(e, t) {
+		var canvas = $('.helper-tool > img').cropper('getCroppedCanvas', { fillColor: "#ffffff" } );
+
 		var resource = Session.get('modalResource');
 		var file = document.getElementById('input-cover').files[0];
-		var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
 
 		if (file) {
 			// It's a cover change
@@ -91,63 +94,35 @@ Template.modalChangeCover.events({
 				// Set the uploaded file object
 				var uploadedFile = {
 					resource: Session.get('modalResource'), // Infos about the currently edited resource
-					data: jic.compress(e.target.result, 60), // Compress the image
+					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "cover", // Can be cover or avatar
-					focusX: imgFocusAttr.x,
-					focusY: imgFocusAttr.y,
-					w: imgFocusAttr.w,
-					h: imgFocusAttr.h
 				}
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
-					if (error) return console.log(error)
-						
+					if (error) { console.log(error) }
+					console.log(imageUrl);
 					// If necessary, refresh the cover image
-					$('.profile-cover-image').attr('src', imageUrl + '? ' + new Date().getTime());
+					$('.profile-cover').css('background-image', 'url(' + imageUrl + '?' + new Date().getTime() + ')');
 
 					// Close the modal
 					$('#myModal').modal('hide');
 
-					// Set the data to force the focus adjustement
-					$('#profile-cover-bg').data('focusY', uploadedFile.focusY);
-					$('#profile-cover-bg').data('focusX', uploadedFile.focusX);
-					$('#profile-cover-bg').data('imageW', uploadedFile.w);
-					$('#profile-cover-bg').data('imageH', uploadedFile.h);
-					$('#profile-cover-bg').focusPoint();
+					// Destroyer the cropper instance
+					$('.helper-tool > img').cropper('destroy');
+
+					// Show the upload btn and hide the helper tool
+					$('.modal-change-cover .image-upload-container').css('display', 'none');
+					// Remove the first-upload UI
+					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'inline-block';};
+					if (t.find('#change-image')) {t.find('#change-image').style.display = 'none';};
 				});
 			}
-		} else {
-			// Its just an update
-			var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
-					
-			var cover = {
-				resource: Session.get('modalResource'),
-				focusX: imgFocusAttr.x,
-				focusY: imgFocusAttr.y
-			};
-
-			Meteor.call('updateCover', cover, function(error, result) {
-				if (error)
-					return alert(error.reason);
-
-				// Close the modal
-				$('#myModal').modal('hide');
-
-				// Set the data to force the focus adjustement
-				$('#profile-cover-bg').data('focusY', cover.focusY);
-				$('#profile-cover-bg').data('focusX', cover.focusX);
-				$('#profile-cover-bg').focusPoint();
-			});
 		};
 	},
-	'click #update-cover': function(e, t) {
-		var imgFocusAttr = coverHelperContainer.getFocusPointAttr();
-
-		var cover = {
-			focusX: imgFocusAttr.x,
-			focusY: imgFocusAttr.y,
-			w: imgFocusAttr.w,
-			h: imgFocusAttr.h
-		};
+	'click .cropper-zoom-in': function(e, t){
+		$('.helper-tool > img').cropper("zoom", 0.1);
+	},
+	'click .cropper-zoom-out': function(e, t){
+		$('.helper-tool > img').cropper("zoom", -0.1);
 	}
 });

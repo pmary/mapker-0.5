@@ -223,27 +223,18 @@ form small.error {
 .profile-page .profile-cover {
 	height: 420px;
 	background-color: #333333;
+	background-size: cover;
+	background-position: center;
 	width: 100%;
 	box-shadow: 0px 0px 110px 21px rgba(0, 0, 0, 0.5) inset;
 	background-image: url(/images/fond-cover-place.png);
 }
 
-.profile-page .profile-cover-image {
-	position: absolute;
-	left: 0;
-	top: 0;
-	margin: 0;
-	display: block;
-	width: auto;
-	height: auto;
-	min-width: 100%;
-	min-height: 100%;
-	max-height: none;
-	max-width: none;
-}
-
 .profile-page #profile-cover-bg {
 	height: 420px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .profile-page #profile-avatar-bg {

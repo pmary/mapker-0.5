@@ -17,15 +17,11 @@
 							<img src="{{avatar.url}}">
 							{{/if}}
 						</div>
-						<div class="focuspoint cover"
-						data-focus-x="{{cover.focusX}}"
-						data-focus-y="{{cover.focusY}}"
-						data-image-w="{{cover.w}}"
-						data-image-h="{{cover.h}}">
-							{{#if cover}}
-							<img src="{{cover.url}}" alt="Place cover">
-							{{/if}}
-						</div>
+						{{#if cover}}
+						<div class="cover" style="background-image: url({{cover.url}})"></div>
+						{{else}}
+						<div class="cover"></div>
+						{{/if}}
 					</header>
 					
 					<section>

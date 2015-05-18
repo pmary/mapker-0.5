@@ -76,9 +76,6 @@ Template.placeProfileLayout.events({
 		Session.set('activeModal', 'modalChangeAvatar');
 		// Pass the mandatory data to the modal instance via a session variable
 		setModalData(t);
-
-		// Init focuspoint
-		$('#helper-tool-container').jQueryFocuspointHelpertool();
 	},
 	/*****************************************************************************/
 	/* Identity edition UI */

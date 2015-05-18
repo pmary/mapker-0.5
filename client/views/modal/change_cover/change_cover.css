@@ -1,36 +1,50 @@
+.modal-change-cover {
+	text-align: center;
+}
+
+.modal-change-cover em {
+	margin-bottom: 15px;
+	display: block;
+}
+
 .modal-change-cover #input-cover {
 	display: none;
 }
 
-.modal-change-cover .image-upload-container,
-.modal-change-cover .image-update-container {
+.modal-change-cover .image-upload-container {
 	text-align: center;
+	display: none;
 }
 
-.modal-change-cover .helper-tool-target {
-	margin-left: auto;
-	margin-right: auto;
-	width: auto;
-	max-width: 100%;
-	display: table;
+.modal-change-cover #first-upload {
+	background-color: #f6f6f6;
+	height: 180px;
+	border: 2px dashed #c9c9c9;
+	border-radius: 3px;
+	font-size: 16px;
+	color: #c9c9c9;
+	line-height: 180px;
+	width: 100%;
 }
 
-.modal-change-cover #helper-tool-container #helper-tool-mask {
-	clip-path: ellipse(47px 47px at 50% 50%);
-	-webkit-clip-path: ellipse(47px 47px at 50% 50%);
-	-moz-clip-path: ellipse(47px 47px at 50% 50%);
-	
-	transition: all 500ms ease-in-out;
-	-webkit-transition: all 500ms ease-in-out;
-	-moz-transition: all 500ms ease-in-out;
+.modal-change-cover #first-upload:hover {
+	cursor: pointer;
 }
 
-.modal-change-cover #cover-target-overlay {
-	opacity: 0.5;
+.image-upload-container #change-image {
+	display: none;
+}
+
+.image-upload-container .cropper-controls {
 }
 
 .modal-change-cover .image-upload-container .helper-tool {
-	display: none;
+	display: block !important;
+	height: 200px;
+	width: 422px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px;
 }
 
 .modal-change-cover .modal-header {

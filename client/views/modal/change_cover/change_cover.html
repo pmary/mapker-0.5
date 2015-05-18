@@ -12,42 +12,20 @@
 				</div>
 				{{/if}}
 
-				{{#if modalResource.cover}}
-				<div class="image-update-container">
+				<em>Position and resize your photo</em>
 
-					<div class="helper-tool">
-						<!-- <img class="focus-target-reticle" src='../img/focuspoint-target.png' /> -->
-						<div class="helper-tool-target" id="helper-tool-container">
-							<div class="mask" id="helper-tool-mask">
-								<img class="helper-tool-img" id="cover-helper-tool-img" src="{{modalResource.cover.url}}">
-							</div>
-							<img class="reticle" src="http://jonom.github.io/jquery-focuspoint/demos/img/focuspoint-target.png">
-							<img class="target-overlay" id="cover-target-overlay" src="{{modalResource.cover.url}}">
-						</div>
-						<em>Click on the image to indicate where this focal point is located. This ensure that this point will be never cropped out</em>
+				<div id="first-upload" class="image-upload first-upload">Upload an image</div>
+
+				<div class="image-upload-container">
+					<div class="cropper-controls">
+						<button class="btn btn-info cropper-zoom-in"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+						<button class="btn btn-info cropper-zoom-out"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
 					</div>
-
+					<div class="helper-tool">
+						<img id="cover-helper-tool-img" src="">
+					</div>
 					<button class="btn btn-primary image-upload">Change your cover</button>
 				</div>
-				{{else}}
-				<div class="image-upload-container">
-
-					<div class="helper-tool">
-						<!-- <img class="focus-target-reticle" src='../img/focuspoint-target.png' /> -->
-						<div class="helper-tool-target" id="helper-tool-container">
-							<div class="mask" id="helper-tool-mask">
-								<img class="helper-tool-img" id="cover-helper-tool-img" src="http://jonom.github.io/jquery-focuspoint/demos/img/city_from_unsplash.jpg">
-							</div>
-							<img class="reticle" src="http://jonom.github.io/jquery-focuspoint/demos/img/focuspoint-target.png">
-							<img class="target-overlay" id="cover-target-overlay" src="http://jonom.github.io/jquery-focuspoint/demos/img/city_from_unsplash.jpg">
-						</div>
-						<em>Click on the image to indicate where this focal point is located. This ensure that this point will be never cropped out</em>
-					</div>
-
-					<div id="first-upload" class="image-upload first-upload">Upload an image</div>
-					<button id="change-image" class="btn btn-primary image-upload first-upload">Upload another image</button>
-				</div>
-				{{/if}}
 
 			</div>
 			<div class="modal-footer">

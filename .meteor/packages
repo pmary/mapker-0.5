@@ -12,7 +12,6 @@ mike:mocha
 velocity:nightwatch-framework
 velocity:html-reporter
 peerlibrary:aws-sdk
-pmary:focuspoint
 twbs:bootstrap
 pmary:errors
 pmary:tagsinput
