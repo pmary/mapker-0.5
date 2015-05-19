@@ -18,6 +18,19 @@ var setModalData = function(t) {
 
 Template.UserProfileLayout.events({
 	/*****************************************************************************/
+	/* Social bar */
+	/*****************************************************************************/
+	'click .user-actions-connect-button': function(e, t) {
+		// Check if the user is loged in
+		if (Meteor.user())
+			console.log('loged in');
+		else
+			console.log('loged out');
+
+		// Get the user id
+		console.log(t.data.user._id);
+	},
+	/*****************************************************************************/
 	/* Inner navigation UI */
 	/*****************************************************************************/
 	'click #inner-nav a' : function(e, t){
