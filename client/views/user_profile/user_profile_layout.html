@@ -91,9 +91,27 @@
 						{{#if eq currentUser._id user._id}}
 						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
 						{{/if}}
+						<section class="row" id="social-bar">
+							<div class="col-md-12">
+								<div class="col-md-8 col-sm-offset-2">
+									<div class="pull-right">
+										<button type="button" class="btn btn-social-connect user-actions-connect-button">Connect</button>
+									</div>
+								</div>
+							</div>
+						</section>
 					</div>
 					{{else}}
 					<div class="profile-cover">
+						<section class="row" id="social-bar">
+							<div class="col-md-12">
+								<div class="col-md-8 col-sm-offset-2">
+									<div class="pull-right">
+										<button type="button" class="btn btn-social-connect user-actions-connect-button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connect</button>
+									</div>
+								</div>
+							</div>
+						</section>
 					</div>
 					{{/if}}
 
@@ -135,16 +153,6 @@
 				</section>
 			</header>
 		</div>
-
-		<section class="row" id="social-bar">
-			<div class="col-md-12">
-				<div class="col-md-8 col-sm-offset-2">
-					<div class="pull-right">
-						<button type="button" class="btn btn-info user-actions-connect-button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connect</button>
-					</div>
-				</div>
-			</div>
-		</section>
 
 		<section class="row" id="resource-infos">
 			<div class="col-md-8 col-sm-offset-2">

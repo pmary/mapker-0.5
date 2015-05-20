@@ -19,7 +19,7 @@ body, html {
 }
 
 body {
-	background-color: #fafafc;
+	background-color: #EFEFEF;
 	font-family: 'Montserrat', sans-serif;
 	/*margin-bottom: 25px;*/
 	padding-top: 77px;
@@ -164,6 +164,13 @@ form small.error {
 	
 }
 
+.btn-social-connect {
+	color: #FFFFFF;
+	border: 1px solid #FFFFFF;
+	background-color: transparent;
+	font-weight: bold;
+}
+
 /**
  * 05 - Modals
  */
@@ -217,7 +224,6 @@ form small.error {
 .profile-page #cover-avatar {
 	height: 420px;
 	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
-	-webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
 }
 
 .profile-page .profile-cover {
@@ -280,6 +286,10 @@ form small.error {
 }
 
 /* Resource infos */
+.profile-page #resource-infos {
+	margin-top: 20px;
+}
+
 .profile-page #resource-infos h1 {
 	color: #1c1c1c;
 	margin-top: 0px;
