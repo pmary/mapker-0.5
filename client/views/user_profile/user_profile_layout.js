@@ -22,10 +22,17 @@ Template.UserProfileLayout.events({
 	/*****************************************************************************/
 	'click .user-actions-connect-button': function(e, t) {
 		// Check if the user is loged in
-		if (Meteor.user())
+		if (Meteor.user()) {
 			console.log('loged in');
-		else
+		}
+		else {
 			console.log('loged out');
+
+			Session.set('modalLoginRequiredErrors', {});
+			// Open the login required modal
+			Session.set('activeModal', "modalLoginRequired");
+			$('#myModal').modal();
+		}
 
 		// Get the user id
 		console.log(t.data.user._id);

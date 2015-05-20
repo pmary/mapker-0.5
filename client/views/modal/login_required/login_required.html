@@ -1,2 +1,16 @@
 <template name="modalLoginRequired">
+	<div class="modal-dialog modal-login-required">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Register on Mapker</h4>
+			</div>
+			<div class="modal-body">
+				You're not on Mapker? Sign up, stay connected to your network.
+				<a href="{{pathFor route='userJoin'}}"><button class="btn btn-primary user-actions-join-btn">Sign up</button></a>
+			</div>
+			<div class="modal-footer">
+				Already have an account? <a href="{{pathFor route='UserLogin'}}">Sign In >></a>
+			</div>
+		</div>
+	</div>	
 </template>
