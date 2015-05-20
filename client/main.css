@@ -218,7 +218,6 @@ form small.error {
 .profile-page header {
 	padding-right: 0px;
 	padding-left: 0px;
-	margin-bottom: 20px;
 }
 
 .profile-page #cover-avatar {
@@ -261,6 +260,7 @@ form small.error {
 	left: -125px;
 	margin-left: 50%;
 	margin-right: auto;
+	z-index: 2;
 }
 
 .profile-page .profile-cover:hover .upload-cover-btn {

@@ -9,21 +9,27 @@
 				<div class="form-group" id="input-where-container">
 					<input type="text" class="form-control" id="input-where" placeholder="Where?" autocomplete="off">
 				</div>
-				<!-- <div class="form-group">
-					<input class="btn btn-primary" type="submit" value="Search">
-				</div> -->
+				<div class="form-group">
+					<button class="btn user-action-search"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
 			</form>
+			{{#if places}}
+				{{#if eq places "no-result"}}
+				<div class="col-md-6 col-md-offset-3">
+					<div class="alert alert-danger" role="alert">
+						No place were found for your search.
+					</div>
+				</div>
+				{{/if}}
+			{{else}}
+				{{> loader}}
+			{{/if}}
 		</section>
 			
 		<section class="" id="search-results">
 			<div id="search-results-inner">
 				{{#if places}}
 					{{#if eq places "no-result"}}
-						<div class="col-md-6 col-md-offset-3">
-							<div class="alert alert-danger" role="alert">
-								No place were found for your search.
-							</div>
-						</div>
 					{{else}}
 						{{#each places}}
 						<div class="col-md-12">
@@ -35,7 +41,7 @@
 										{{#if cover}}
 										<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
 										{{else}}
-										<a href="{{pathFor route='placeProfileAbout' _id=_id}}"><img src="/images/fond-cover-place.png" alt="Place cover"></a>
+										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image:url(/images/fond-cover-place.png); background-repeat: repeat;height: 100px;display: block;"></a>
 										{{/if}}
 									</div>
 								</header>
@@ -48,8 +54,6 @@
 						</div>
 						{{/each}}
 					{{/if}}
-				{{else}}
-					{{> loader}}
 				{{/if}}
 			</div>
 		</section>

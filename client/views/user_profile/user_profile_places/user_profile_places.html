@@ -8,15 +8,13 @@
 						{{else}}
 							<div class="validation-in-progess">Validation in progess</div>
 						{{/if}}
-						<div class="focuspoint avatar"
-						data-focus-x="{{avatar.focusX}}"
-						data-focus-y="{{avatar.focusY}}"
-						data-image-w="{{avatar.w}}"
-						data-image-h="{{avatar.h}}">
-							{{#if avatar}}
-							<img src="{{avatar.url}}">
-							{{/if}}
+						{{#if avatar}}
+						<div class="focuspoint avatar" style="background-image: url({{avatar.url}})">
 						</div>
+						{{else}}
+						<div class="focuspoint avatar" style="background-image: url(/images/avatar-place-default.jpg)">
+						</div>
+						{{/if}}
 						{{#if cover}}
 						<div class="cover" style="background-image: url({{cover.url}})"></div>
 						{{else}}

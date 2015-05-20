@@ -17,6 +17,10 @@
 }
 
 #footer li a {
+	color: #A1A0A0;
+}
+
+#footer li a:hover {
 	color: #4fb8e9;
 }
 
@@ -42,7 +46,7 @@
 }
 
 .col-middle {
-	padding-left: 25px;
+	padding-left: 15px;
 	padding-right: 25px;
 }
 
@@ -50,6 +54,8 @@
 	margin-right: auto;
 	margin-left: auto;
 	display: block;
+	top: -4px;
+	position: relative;
 }
 
 .col-right ul {
