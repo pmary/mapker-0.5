@@ -1,14 +1,5 @@
 .search-place#search-container {
-	position: absolute;
-	z-index: 1;
-	height: 100%;
-	overflow: hidden;
-	padding-right: 0px;
-	padding-left: 0px;
 	width: 780px;
-	top: 0px;
-	padding-top: 77px;
-	z-index: 2;
 }
 
 .search-place#search-container #search-container-inner {
@@ -18,24 +9,6 @@
 	width: 103%;
 	padding-left: 1.5%;
 	padding-right: 1.5%;
-}
-
-.search-place#search-container #search-parameters {
-	background-color: rgba(255,255,255,0.8);
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
-	width: 250px;
-	padding-top: 60px;
-}
-
-.search-place#search-container #search-parameters .search-places-icon {
-	position: relative;
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
-}
-
-.search-place#search-container #search-parameters #input-what-container {
-	position: relative;
 }
 
 /* Label color */
@@ -93,47 +66,14 @@
 /**
  * Search form
  */
-.search-place#search-container #search-form .form-group {
-	margin-bottom: 10px;
-}
-
-.search-place#search-container #search-form {
-	margin-right: 0px;
-	margin-left: 0px;
-}
-
-.search-place#search-container #search-form input {
-	width: 180px;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-}
-
 .search-place#search-container #search-form input[type="text"] {
 	color: #FB3975;
 	border: 1px solid #D1D1D1;
-	border-radius: 5px;
 	background-color: #F9F9F9;
 }
 
 .search-place#search-container #search-form .user-action-search {
-	width: 10px;
-	background-color: #FFF;
-	border: 1px solid #D1D1D1;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	border-radius: 30px;
-	padding-left: 12px;
 	color: #FB3975;
-	padding-right: 26px;
-	padding-top: 9px;
-	position: relative;
-	margin-top: 20px;
-}
-
-.search-place#search-container #search-form .autocomplete-suggestions {
-	margin-left: 35px;
 }
 
 .search-place#search-container #search-form .form-control:focus,

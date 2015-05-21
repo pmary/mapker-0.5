@@ -1,9 +1,5 @@
 .search-skills#search-container {
-	z-index: 1;
-	height: 100%;
-	/*overflow: hidden;*/
-	padding-right: 0px;
-	padding-left: 0px;
+	width: 100%;
 }
 
 .search-skills#search-container #search-container-inner {
@@ -11,21 +7,65 @@
 	height: 100%;
 }
 
-.search-skills#search-container #search-parameters {
-	background-image: url(/images/skills-search-background.jpg);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
+.search-skills#search-container #search-results {
+	position: absolute;
 	margin-right: 0px;
 	margin-left: 0px;
-	margin-bottom: 30px;
-	height: 263px;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	padding-left: 250px;
 	width: 100%;
+	z-index: 1;
 }
 
-.search-skills#search-container #search-results {
-	margin-right: 0px;
-	margin-left: 0px;
+.search-skills#search-container #search-parameters {
+	position: fixed;
+	z-index: 1;
+	margin-top: 75px;
+	height: 100%;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-left: 0px;
+	top: 0px;
+	padding-top: 77px;
+	z-index: 2;
+}
+
+.search-skills#search-container #search-form .user-action-search {
+	color: #00DFC2;
+}
+
+.search-skills#search-container #search-form .form-control:focus, .search-skills#search-container #search-form .form-control:active {
+  box-shadow: none;
+  border: 1px solid #00DFC2;
+}
+
+.search-skills#search-container #search-form input {
+	color: #00DFC2;
+}
+
+/* Placeholder color */
+.search-skills#search-container #search-form input[type="text"]::-webkit-input-placeholder { /* WebKit browsers */
+	color: rgba(0, 223, 194, 0.49);
+	font-size: 12px;
+	padding-top: 2px;
+}
+.search-skills#search-container #search-form input[type="text"]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color: rgba(0, 223, 194, 0.49);
+	opacity:  1;
+	font-size: 12px;
+	padding-top: 2px;
+}
+.search-skills#search-container #search-form input[type="text"]::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color: rgba(0, 223, 194, 0.49);
+	opacity:  1;
+	font-size: 12px;
+	padding-top: 2px;
+}
+.search-skills#search-container #search-form input[type="text"]:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color: rgba(0, 223, 194, 0.49);
+	font-size: 12px;
+	padding-top: 2px;
 }
 
 /* Loader color */

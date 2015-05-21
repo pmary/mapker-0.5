@@ -27,12 +27,6 @@ var searchUsersBySkillsAndBbox = function(searchObject) {
 		};
 
 		Session.set('searchUsersResults', users);
-
-		// Init the focus point for the covers
-		setTimeout(function() {
-			// Init focus point for the cover and avatars
-			$('.search-skills #search-results .cover').focusPoint();
-		}, 100);
 	});
 }
 

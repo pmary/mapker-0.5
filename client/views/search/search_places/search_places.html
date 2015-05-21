@@ -1,7 +1,7 @@
 <template name="searchPlaces">
 	<div class="col-md-4 no-search search-place" id="search-container">
 		<section class="" id="search-parameters">
-			<img class="search-places-icon" src="/images/search-places-icon.png" alt="Search a place">
+			<img class="search-icon" src="/images/search-places-icon.png" alt="Search a place">
 			<form class="row" id="search-form">
 				<div class="form-group" id="input-what-container">
 					<input type="text" class="form-control" id="input-what" placeholder="What are you looking for?" autocomplete="off">
@@ -15,7 +15,7 @@
 			</form>
 			{{#if places}}
 				{{#if eq places "no-result"}}
-				<div class="col-md-6 col-md-offset-3">
+				<div class="alert-container">
 					<div class="alert alert-danger" role="alert">
 						No place were found for your search.
 					</div>
