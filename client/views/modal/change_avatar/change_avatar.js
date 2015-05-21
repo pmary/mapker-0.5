@@ -45,6 +45,10 @@ Template.modalChangeAvatar.events({
 
 				// Closure to capture the file information
 				reader.onloadend = function(e) {
+					// Hide the crop zone for the time of the cropper init
+					// to prevent a quick jump of the image
+					$('.modal-change-avatar .image-upload-container').css('display', 'none');
+
 					// Destroyer the cropper instance if they was already one
 					if ($('.modal-change-avatar .helper-tool > img').hasClass('cropper-hidden'))
 						$('.modal-change-avatar .helper-tool > img').cropper('destroy');
@@ -56,7 +60,7 @@ Template.modalChangeAvatar.events({
 					$('#avatar-helper-tool-img').cropper({
 						aspectRatio: 1/1,
 						movable: false,
-						strict: false, // The image can be smaller than the cropbox
+						strict: true, // The image can be smaller than the cropbox
 						minCropBoxWidth: 160,
 						minCropBoxHeight: 160,
 						guides: false,
@@ -67,8 +71,11 @@ Template.modalChangeAvatar.events({
 						}
 					});
 
-					// Hide the upload btn and display the helper tool
-					$('.modal-change-avatar .image-upload-container .helper-tool, .modal-change-avatar .image-upload-container .cropper-controls').css('display', 'block');
+					Meteor.setTimeout(function() {
+						$('.modal-change-avatar .image-upload-container').css('display', 'block');
+						$('.modal-change-avatar .image-upload-container .helper-tool, .modal-change-avatar .image-upload-container .cropper-controls').css('display', 'block');
+					}, 200);
+
 					// Remove the first-upload UI
 					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';};
 					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';};
@@ -102,7 +109,7 @@ Template.modalChangeAvatar.events({
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
 					console.log(imageUrl);
-					// If necessary, refresh the avatar image
+					// If necessary, refresh the avatar image to avoid persistend cache
 					if (uploadedFile.resource.type == "user") {
 						$('.profile-avatar-image').attr('src', imageUrl + '?' + new Date().getTime());
 					} else {

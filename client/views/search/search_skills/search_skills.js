@@ -13,7 +13,7 @@ var searchUsersBySkillsAndBbox = function(searchObject) {
 	Meteor.call('getUsers', searchObject, function(error, result) {
 		if (error) return console.log(error);
 
-		//console.log(result);
+		console.log(result);
 
 		// If there is no result
 		if (!result.length) 

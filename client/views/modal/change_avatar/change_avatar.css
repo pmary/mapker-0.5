@@ -12,6 +12,14 @@
 	display: none;
 }
 
+.modal-change-avatar .image-upload {
+	margin-top: 10px;
+}
+
+.modal-change-avatar .cropper-controls {
+	margin-bottom: 10px;
+}
+
 .modal-change-avatar .image-upload-container,
 .modal-change-avatar .image-update-container {
 	text-align: center;

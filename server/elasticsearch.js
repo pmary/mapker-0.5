@@ -348,8 +348,10 @@ Meteor.methods({
 			body.skills_suggest.input.push(user.profile.fullname)
 		}
 
-		if (user.profile.activity)
+		if (user.profile.activity) {
 			body.skills_suggest.input.push(user.profile.activity);
+			body.activity = user.profile.activity;
+		}
 
 		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
 			body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
@@ -416,8 +418,10 @@ Meteor.methods({
 				body.skills_suggest.input.push(user.profile.fullname)
 			}
 
-			if (user.profile.activity)
+			if (user.profile.activity) {
 				body.skills_suggest.input.push(user.profile.activity);
+				body.activity = user.profile.activity;
+			}
 
 			if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
 				body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
@@ -592,11 +596,7 @@ Meteor.methods({
 							cover: {
 								"type": "object",
 								"properties": {
-									url: {"type" : "string", "index" : "no"},
-									focusX: {"type" : "integer", "index" : "no"},
-									focusY: {"type" : "integer", "index" : "no"},
-									w: {"type" : "integer", "index" : "no"},
-									h: {"type" : "integer", "index" : "no"},
+									url: {"type" : "string", "index" : "no"}
 								}
 							},
 							avatar: {
@@ -632,14 +632,14 @@ Meteor.methods({
 									/*"search_analyzer" : "str_search_analyzer",
 									"index_analyzer" : "str_index_analyzer"*/
 								},
+								activity: {
+									"type": "string",
+									"index" : "no"
+								},
 								cover: {
 									"type": "object",
 									"properties": {
-										url: {"type" : "string", "index" : "no"},
-										focusX: {"type" : "integer", "index" : "no"},
-										focusY: {"type" : "integer", "index" : "no"},
-										w: {"type" : "integer", "index" : "no"},
-										h: {"type" : "integer", "index" : "no"},
+										url: {"type" : "string", "index" : "no"}
 									}
 								},
 								avatar: {

@@ -11,6 +11,14 @@
 	display: none;
 }
 
+.modal-change-cover .image-upload {
+	margin-top: 10px;
+}
+
+.modal-change-cover .cropper-controls {
+	margin-bottom: 10px;
+}
+
 .modal-change-cover .image-upload-container {
 	text-align: center;
 	display: none;

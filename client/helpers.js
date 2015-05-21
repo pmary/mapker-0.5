@@ -102,6 +102,15 @@ emailValidation = function(value) {
 	}
 }
 
+phoneValidation = function(value) {
+	var re = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+	if (!re.test(value)) {
+		return "Phone number invalide"
+	} else {
+		return false;
+	}
+}
+
 passwordValidation = function(value) {
 	if (!value) {
 		return "Required field";

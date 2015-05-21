@@ -340,6 +340,13 @@ form small.error {
 
 .profile-page #resource-infos #user-activity {
 	font-size: 19px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: inline-block;
+	width: 50%;
+	overflow: hidden;
+	top: 3px;
+	position: relative;
 }
 
 .profile-page #resource-infos #user-area {

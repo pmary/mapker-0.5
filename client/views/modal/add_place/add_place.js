@@ -6,8 +6,8 @@ Template.modalAddPlace.rendered = function() {
 
 	// Init the tags input
 	$('input#input-activities').tagsinput('destroy');
-	$('input#input-themes').tagsinput('destroy');
-	$("input#input-themes").tagsinput('items');
+	//$('input#input-themes').tagsinput('destroy');
+	//$("input#input-themes").tagsinput('items');
 	$("input#input-activities").tagsinput('items');
 }
 
@@ -26,7 +26,8 @@ Template.modalAddPlace.helpers({
 var checkPlaceData = function(t, step) {
 	var place = {
 		name: t.find('#input-name').value,
-		themes: $('#input-themes').tagsinput('items'),
+		//themes: $('#input-themes').tagsinput('items'),
+		phone: t.find('#input-phone').value,
 		activities: $('#input-activities').tagsinput('items'),
 		role: t.find('#input-role').value,
 		streetNumber: t.find('#input-street-number').value,

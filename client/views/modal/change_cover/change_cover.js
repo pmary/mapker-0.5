@@ -45,6 +45,10 @@ Template.modalChangeCover.events({
 
 				// Closure to capture the file information
 				reader.onloadend = function(e) {
+					// Hide the crop zone for the time of the cropper init
+					// to prevent a quick jump of the image
+					$('.modal-change-cover .image-upload-container').css('display', 'none');
+
 					// Destroyer the cropper instance if they was already one
 					if ($('.modal-change-cover .helper-tool > img').hasClass('cropper-hidden'))
 						$('.modal-change-cover .helper-tool > img').cropper('destroy');
@@ -55,9 +59,12 @@ Template.modalChangeCover.events({
 					// Init a cropper instance
 					$('#cover-helper-tool-img').cropper({
 						movable: false,
-						strict: false, // When false, image can't be smaller than the cropbox
+						strict: true, // When false, image can't be smaller than the cropbox
 						minCropBoxWidth: 422,
 						minCropBoxHeight: 93,
+						minCanvasWidth: 422,
+						minCanvasHeight: 93,
+						autoCrop: true,
 						guides: false,
 						dragCrop: false,
 						resizable: false,
@@ -66,8 +73,11 @@ Template.modalChangeCover.events({
 						}
 					});
 
-					// Hide the upload btn and display the helper tool
-					$('.modal-change-cover .image-upload-container').css('display', 'block');
+					Meteor.setTimeout(function() {
+						$('#cover-helper-tool-img').cropper('move', 1, 0);
+						$('.modal-change-cover .image-upload-container').css('display', 'block');
+					}, 200);
+					
 					// Remove the first-upload UI
 					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';};
 					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';};
@@ -101,7 +111,7 @@ Template.modalChangeCover.events({
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
 					console.log(imageUrl);
-					// If necessary, refresh the cover image
+					// If necessary, refresh the cover image to avoid persistend cache
 					$('.profile-cover').css('background-image', 'url(' + imageUrl + '?' + new Date().getTime() + ')');
 
 					// Close the modal
