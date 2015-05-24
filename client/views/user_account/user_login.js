@@ -26,11 +26,16 @@ Template.userLogin.events({
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
 
+		// Display the loader state
+		$('#login-button').addClass('btn-loader');
+
 		// If the form is valide log the user in
 		Meteor.loginWithPassword(credentials.email, credentials.password, function(error){
 			if (error){
 				// Display the related error message
 				Errors.throw(error.reason);
+				// Cancel the loader state
+				$('#login-button').removeClass('btn-loader');
 			}else {
 				// The user has been logged in, redirect him to his profile paga
 				Router.go('userProfileBio', {_id: Meteor.user()._id});

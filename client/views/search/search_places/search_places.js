@@ -29,12 +29,6 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 
 		Session.set('searchPlacesResults', places);
 
-		// Init the focus point for the covers
-		setTimeout(function() {
-			// Init focus point for the cover and avatars
-			$('.search-place #search-results .cover').focusPoint();
-		}, 100);
-
 		// Display the results on the map
 		for (var i = 0; i < places.length; i++) {
 			//console.log(places[i]);

@@ -30,11 +30,10 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-default" id="cancel-modal-cover">Cancel</button>
-				{{#if modalResource.cover}}
-				<button class="btn btn-success" id="update-cover">Update</button>
-				{{else}}
-				<button class="btn btn-success" id="save-cover">Save</button>
-				{{/if}}
+				<button class="btn btn-success" id="save-cover">
+					<span>Save</span>
+					{{> loader}}
+				</button>
 			</div>
 		</div>
 	</div>	

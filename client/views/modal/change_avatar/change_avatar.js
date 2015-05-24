@@ -50,8 +50,10 @@ Template.modalChangeAvatar.events({
 					$('.modal-change-avatar .image-upload-container').css('display', 'none');
 
 					// Destroyer the cropper instance if they was already one
-					if ($('.modal-change-avatar .helper-tool > img').hasClass('cropper-hidden'))
+					if ($('.modal-change-avatar .helper-tool > img').hasClass('cropper-hidden')) {
 						$('.modal-change-avatar .helper-tool > img').cropper('destroy');
+						$('#avatar-helper-tool-img').attr('src', '');
+					}
 
 					// Render image and create cropbox
 					$('#avatar-helper-tool-img').attr('src', e.target.result);
@@ -93,6 +95,9 @@ Template.modalChangeAvatar.events({
 		var file = document.getElementById('input-avatar').files[0];
 
 		if (file) {
+			// Display the loader state
+			$('.modal-change-avatar #save-avatar').addClass('btn-loader');
+
 			// It's an avatar change
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
@@ -107,7 +112,16 @@ Template.modalChangeAvatar.events({
 					role: "avatar" // Can be cover or avatar
 				}
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
-					if (error) { console.log(error) }
+					if (error) { 
+						console.log(error);
+					}
+
+					// Close the modal
+					$('#myModal').modal('hide');
+					
+					// Remove the loader state
+					$('.modal-change-avatar #save-avatar').removeClass('btn-loader');
+					
 					console.log(imageUrl);
 					// If necessary, refresh the avatar image to avoid persistend cache
 					if (uploadedFile.resource.type == "user") {
@@ -115,9 +129,6 @@ Template.modalChangeAvatar.events({
 					} else {
 						$('#profile-avatar-bg').css('background-image', 'url(' + imageUrl + '?' + new Date().getTime() + ')');
 					};
-
-					// Close the modal
-					$('#myModal').modal('hide');
 
 					// Destroyer the cropper instance
 					$('.helper-tool > img').cropper('destroy');

@@ -335,12 +335,13 @@ Meteor.methods({
 		var body = {};
 
 		// Flatenize the skills as an array rather than an object
+		body.skills_suggest = { input: [] };
 		if (user.profile.skills) {
 			body.skills = [];
 			for (var y = 0; y < user.profile.skills.length; y++) {
 				body.skills.push(user.profile.skills[y].title);
 			};
-			body.skills_suggest = { input: body.skills };
+			body.skills_suggest.input = body.skills;
 		};
 
 		if (user.profile.fullname) {
@@ -388,6 +389,65 @@ Meteor.methods({
 		});
 	},
 	/**
+	 * @summary Update a user document in the ES 'resources' index
+	 */
+	updatePlaceESDocument: function(placeId) {
+		check(placeId, String);
+
+		// Get the place data
+		var place = Places.findOne({_id: placeId});
+
+		// Create the place documents
+		var id = place._id;
+
+		// Init the body object
+		var body = {}
+
+		if (place.activities) {
+			body.activities = place.activities;
+			body.activities_suggest = {input: place.activities};
+		}
+
+		if (place.name) {
+			body.name = place.name;
+			body.activities_suggest.input.push(place.name);
+		}
+
+		if (place.loc)
+			body.loc = {lat: place.loc.lat, lon: place.loc.lon};
+
+		if (place.avatar && place.avatar.url)
+			body.avatar = {url: place.avatar.url};
+
+		if (place.cover) {
+			body.cover = {
+				url: (place.cover.url ? place.cover.url : undefined),
+				focusX: (place.cover.focusX ? place.cover.focusX : undefined),
+				focusY: (place.cover.focusY ? place.cover.focusY : undefined),
+				w: (place.cover.w ? place.cover.w : undefined),
+				h: (place.cover.h ? place.cover.h : undefined)
+			};
+		};
+
+		Meteor.ES.index({
+			index: 'resources',
+			type: 'place',
+			id: id, // User id
+			body: body
+		}, function (error, response) {
+			/*console.log(response);
+			console.log(error);*/
+			/*Meteor.ES.get({
+			  index: 'resources',
+			  type: 'place',
+			  id: id
+			}, function (error, response) {
+				console.log(id);
+				console.log(error);
+			});*/
+		});
+	},
+	/**
 	 * @summary Get all the documents from the users collection
 	 * and insert them in the elasticsearch index
 	 */
@@ -405,12 +465,13 @@ Meteor.methods({
 			var body = {};
 
 			// Flatenize the skills as an array rather than an object
+			body.skills_suggest = { input: [] };
 			if (user.profile.skills) {
 				body.skills = [];
 				for (var y = 0; y < user.profile.skills.length; y++) {
 					body.skills.push(user.profile.skills[y].title);
 				};
-				body.skills_suggest = { input: body.skills };
+				body.skills_suggest.input = body.skills;
 			};
 
 			if (user.profile.fullname) {

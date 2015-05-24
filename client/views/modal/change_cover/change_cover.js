@@ -50,8 +50,10 @@ Template.modalChangeCover.events({
 					$('.modal-change-cover .image-upload-container').css('display', 'none');
 
 					// Destroyer the cropper instance if they was already one
-					if ($('.modal-change-cover .helper-tool > img').hasClass('cropper-hidden'))
+					if ($('.modal-change-cover .helper-tool > img').hasClass('cropper-hidden')) {
 						$('.modal-change-cover .helper-tool > img').cropper('destroy');
+						$('#cover-helper-tool-img').attr('src', '');
+					}
 
 					// Render image and create cropbox
 					$('#cover-helper-tool-img').attr('src', e.target.result);
@@ -85,7 +87,6 @@ Template.modalChangeCover.events({
 			}
 		}
 		else {
-
 		}
 	},
 	'click #save-cover, click #update-cover': function(e, t) {
@@ -95,6 +96,9 @@ Template.modalChangeCover.events({
 		var file = document.getElementById('input-cover').files[0];
 
 		if (file) {
+			// Display the loader state
+			$('.modal-change-cover #save-cover').addClass('btn-loader');
+
 			// It's a cover change
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
@@ -110,12 +114,16 @@ Template.modalChangeCover.events({
 				}
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
 					if (error) { console.log(error) }
-					console.log(imageUrl);
-					// If necessary, refresh the cover image to avoid persistend cache
-					$('.profile-cover').css('background-image', 'url(' + imageUrl + '?' + new Date().getTime() + ')');
 
 					// Close the modal
 					$('#myModal').modal('hide');
+
+					// Remove the loader state
+					$('.modal-change-cover #save-cover').removeClass('btn-loader');
+
+					console.log(imageUrl);
+					// If necessary, refresh the cover image to avoid persistend cache
+					$('.profile-cover').css('background-image', 'url(' + imageUrl + '?' + new Date().getTime() + ')');
 
 					// Destroyer the cropper instance
 					$('.helper-tool > img').cropper('destroy');

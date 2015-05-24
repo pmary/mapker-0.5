@@ -40,6 +40,8 @@
 						<a href="{{pathFor route='userProfileBio' _id=currentUser._id}}">
 							{{#if currentUser.profile.avatar}}
 								<span class="avatar" style="background-image:url({{currentUser.profile.avatar.url}})"></span>
+							{{else}}
+								<span class="avatar" style="background-image:url(/images/avatar-user-default.png)"></span>
 							{{/if}}
 							{{currentUser.profile.firstname}}
 						</a>

@@ -75,11 +75,15 @@ form small.error {
 	border-radius: 3px;
 	transition: box-shadow 0.3s ease;
 	padding: 9px 25px;
-}
-.btn:hover {
-	box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.20);
-}
 
+	&:hover {
+		box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.20);
+	}
+
+	.loader {
+		display: none;
+	}
+}
 
 .btn-default,
 .btn-default:hover,
@@ -171,6 +175,37 @@ form small.error {
 	font-weight: bold;
 }
 
+.btn-loader {
+	height: 40px;
+	border: none;
+
+	span {
+		display: none;
+	}
+	
+	&:hover,
+	&:focus,
+	&:active {
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
+
+	.loader {
+		display: inline-block;
+		height: 35px;
+		width: 35px;
+		margin-right: 0px;
+		top: -7px;
+		position: relative;
+
+		.double-bounce1,
+		.double-bounce2 {
+			background-color: #DEDEDE;
+		}
+	}
+}
+
 /**
  * 05 - Modals
  */
@@ -232,7 +267,6 @@ form small.error {
 	background-position: center;
 	width: 100%;
 	box-shadow: 0px 0px 110px 21px rgba(0, 0, 0, 0.5) inset;
-	background-image: url(/images/fond-cover-place.png);
 }
 
 .profile-page #profile-cover-bg {

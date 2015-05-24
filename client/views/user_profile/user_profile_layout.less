@@ -37,6 +37,26 @@
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
 }
 
+#user-profile-page .profile-avatar.no-avatar {
+	background-size: cover;
+	background-image: url(/images/avatar-user-default.png);
+
+	.glyphicon {
+		display: none;
+	}
+
+	&:hover {
+		.glyphicon {
+			display: inline-block;
+		}
+	}
+}
+
+#user-profile-page .profile-cover.no-cover {
+	background-size: initial;
+	background-image: url(/images/fond-cover-skills.png);
+}
+
 #user-profile-page .profile-avatar .edit-cover-icon {
 	top: 58px;
 	left: -10px;
