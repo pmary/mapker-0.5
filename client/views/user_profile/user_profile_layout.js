@@ -20,14 +20,21 @@ Template.UserProfileLayout.events({
 	/*****************************************************************************/
 	/* Social bar */
 	/*****************************************************************************/
-	'click .user-actions-connect-button': function(e, t) {
+	'click .user-actions-follow-button': function(e, t) {
+		// Get the user id
+		var resourceId = t.data.user._id;
+
 		// Check if the user is loged in
 		if (Meteor.user()) {
-			console.log('loged in');
+			// If the user is loged in, connect him to the given user
+			Meteor.call('userFollow', resourceId, function(error, result) {
+				if (error) { console.log(error) };
+
+				$('.user-actions-unfollow-button').html('Disconnect');
+			});
 		}
 		else {
-			console.log('loged out');
-
+			// If the user isn't loged, open the modal to invite him to create an account or logged in
 			Session.set('modalLoginRequiredErrors', {});
 			// Open the login required modal
 			Session.set('activeModal', "modalLoginRequired");
@@ -36,6 +43,20 @@ Template.UserProfileLayout.events({
 
 		// Get the user id
 		console.log(t.data.user._id);
+	},
+	'mouseover .user-actions-unfollow-button': function(e, t) {
+		$('.user-actions-unfollow-button').html('Disconnect');
+	},
+	'mouseout .user-actions-unfollow-button': function(e, t) {
+		$('.user-actions-unfollow-button').html('Connected');
+	},
+	'click .user-actions-unfollow-button': function(e, t) {
+		// Get the user id
+		var resourceId = t.data.user._id;
+
+		Meteor.call('userUnfollow', resourceId, function(error, result) {
+			if (error) { console.log(error) };
+		});
 	},
 	/*****************************************************************************/
 	/* Inner navigation UI */

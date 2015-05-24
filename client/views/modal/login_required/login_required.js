@@ -13,7 +13,8 @@ Template.modalLoginRequired.events({
 		// Close the modal
 		$('#myModal').modal('hide');
 	},
-	"click .user-actions-connect-btn": function() {
+	"click .user-actions-connect-btn": function(e, t) {
+		e.preventDefault();
 		// Redirect the user to the signup page
 		Router.go('UserLogin');
 		// Close the modal

@@ -95,7 +95,15 @@
 							<div class="col-md-12">
 								<div class="col-md-8 col-sm-offset-2">
 									<div class="pull-right">
-										<button type="button" class="btn btn-social-connect user-actions-connect-button">Connect</button>
+										<!-- If this isn't the current user profile page -->
+										{{#if eq currentUser._id user._id}}{{else}}
+											<!-- If the current user already follow this profile -->
+											{{#if inArray user._id currentUser.profile.network.users.followed}}
+											<button type="button" class="btn btn-info btn-social-unfollow user-actions-unfollow-button">Connected</button>
+											{{else}}
+											<button type="button" class="btn btn-primary btn-social-follow user-actions-follow-button">Connect</button>
+											{{/if}}
+										{{/if}}
 									</div>
 								</div>
 							</div>
@@ -107,7 +115,9 @@
 							<div class="col-md-12">
 								<div class="col-md-8 col-sm-offset-2">
 									<div class="pull-right">
-										<button type="button" class="btn btn-social-connect user-actions-connect-button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connect</button>
+										{{#if eq currentUser._id user._id}}{{else}}
+										<button type="button" class="btn btn-primary btn-social-connect user-actions-connect-button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connect</button>
+										{{/if}}
 									</div>
 								</div>
 							</div>

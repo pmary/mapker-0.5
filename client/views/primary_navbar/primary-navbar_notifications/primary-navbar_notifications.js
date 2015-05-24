@@ -4,7 +4,14 @@ Template.primaryNavbarNotifications.helpers({
 	 */
 	notifs: function() {
 		if (Meteor.user())
-			return Notifications.find({userId: Meteor.user()._id}, { sort: { 'createdAt' : -1 }});
+			return Session.get('notifs');
+	},
+	/**
+	 * @summary Get all the unread notifications sum
+	 */
+	notifsCount: function() {
+		if (Meteor.user())
+			return Notifications.find({to: Meteor.user()._id, read: false}).count();
 	}
 });
 
@@ -16,3 +23,14 @@ Template.primaryNavbarNotifications.rendered = function(argument) {
 		}
 	});
 }
+
+Template.primaryNavbarNotifications.events({
+	'click .user-action-open-notifs-list': function(e, t) {
+		// Get the user notifications
+		Session.set( 'notifs', Notifications.find({to: Meteor.user()._id}, { sort: { 'createdAt' : -1 }, reactive: false}).fetch() );
+
+		Meteor.call('userMaskNotifsAsRead', function(error, result) {
+			if (error) {console.log(error)};
+		});
+	}
+});

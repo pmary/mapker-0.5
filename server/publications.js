@@ -50,7 +50,7 @@ Meteor.publish('users', function (userIds) {
  */
 Meteor.publish('pubUserNotifs', function(userId) {
 	check(userId, String);
-	return Notifications.find({userId: userId});
+	return Notifications.find({to: userId}, {reactive: false});
 });
 
 /*****************************************************************************/

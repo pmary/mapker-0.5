@@ -25,6 +25,20 @@ UI.registerHelper('eq', function(v1, v2, options) {
 	return result;
 });
 
+UI.registerHelper('inArray', function(value, array) {
+	if (value && array && array.constructor === Array) {
+		if (array.indexOf(value) > -1) {
+		return true
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}	
+});
+
 // replace \n and \r bu a <br> tag
 UI.registerHelper('htmlLineBreack', function(text) {
 	if (text!=null){

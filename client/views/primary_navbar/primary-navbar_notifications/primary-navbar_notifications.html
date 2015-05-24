@@ -1,7 +1,9 @@
 <template name="primaryNavbarNotifications">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+	<a class="dropdown-toggle user-action-open-notifs-list" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 		<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-		<span class="badge notifs-count">19</span>
+		{{#if notifsCount}}
+		<span class="badge notifs-count">{{notifsCount}}</span>
+		{{/if}}
 	</a>
 	<ul class="dropdown-menu" id="navbar-notifs-list">
 		<li>Notifications</li>
@@ -9,13 +11,13 @@
 			{{#if read}}
 			<li class="read">
 				<a href="#">
-					{{msg}}
+					{{{msg}}}
 				</a>
 			</li>
 			{{else}}
 			<li class="unread">
 				<a href="#">
-					{{msg}}
+					{{{msg}}}
 				</a>
 			</li>
 			{{/if}}

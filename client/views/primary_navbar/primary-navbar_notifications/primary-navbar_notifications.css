@@ -9,8 +9,9 @@
   position: absolute;
   top: 18px;
   left: 29px;
+  text-align: center;
   padding: 5px 5px;
-  border-radius: 30px;
+  border-radius: 4px;
   background-color: #fc7e7e;
 }
 #navbar-notifs-list {
@@ -36,7 +37,7 @@
 #navbar-notifs-list:after {
   position: absolute;
   top: -16px;
-  right: 13px;
+  right: 25px;
   display: inline-block;
   border-right: 10px solid transparent;
   border-bottom: 16px solid #ffffff;

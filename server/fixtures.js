@@ -59,11 +59,7 @@
 		        },
 		        "cover" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/cover",
-		            "name" : "i4FxWHYGyQr3LyN4x/cover",
-		            "focusX" : 0,
-		            "focusY" : 0,
-		            "w" : 1500,
-		            "h" : 844
+		            "name" : "i4FxWHYGyQr3LyN4x/cover"
 		        }
 			},
 			"createdAt": "2015-04-07T13:55:07.055Z",
@@ -132,11 +128,7 @@
 		        },
 		        "cover" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/cAqconthf92Yrnutf/cover",
-		            "name" : "cAqconthf92Yrnutf/cover",
-		            "focusX" : -0.03554502369668244,
-		            "focusY" : -0.2050473186119874,
-		            "w" : 3264,
-		            "h" : 2448
+		            "name" : "cAqconthf92Yrnutf/cover"
 		        }
 		    }
 		});
@@ -173,11 +165,7 @@
 		        },
 		        "cover" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/qwghbQDKgEKbBBFoN/cover",
-		            "name" : "qwghbQDKgEKbBBFoN/cover",
-		            "focusX" : 0.1399999999999999,
-		            "focusY" : 0.3477038425492034,
-		            "w" : 1600,
-		            "h" : 1067
+		            "name" : "qwghbQDKgEKbBBFoN/cover"
 		        },
 		        "avatar" : {
 		            "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/qwghbQDKgEKbBBFoN/avatar",
@@ -267,19 +255,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/avatar",
-		        "name" : "ZMLHc88hxncfC6bkj/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 200,
-		        "h" : 200
+		        "name" : "ZMLHc88hxncfC6bkj/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkj/cover",
-		        "name" : "ZMLHc88hxncfC6bkj/cover",
-		        "focusX" : 0.01895734597156396,
-		        "focusY" : -0.302491103202847,
-		        "w" : 850,
-		        "h" : 567
+		        "name" : "ZMLHc88hxncfC6bkj/cover"
 		    }
 		});
 		Places.insert({
@@ -359,19 +339,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkb/avatar",
-		        "name" : "ZMLHc88hxncfC6bkb/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 94,
-		        "h" : 200
+		        "name" : "ZMLHc88hxncfC6bkb/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkb/cover",
-		        "name" : "ZMLHc88hxncfC6bkb/cover",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 1024,
-		        "h" : 300
+		        "name" : "ZMLHc88hxncfC6bkb/cover"
 		    }
 		});
 		Places.insert({
@@ -413,19 +385,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkc/avatar",
-		        "name" : "ZMLHc88hxncfC6bkc/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 205,
-		        "h" : 205
+		        "name" : "ZMLHc88hxncfC6bkc/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkc/cover",
-		        "name" : "ZMLHc88hxncfC6bkc/cover",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 1920,
-		        "h" : 1025
+		        "name" : "ZMLHc88hxncfC6bkc/cover"
 		    }
 		});
 		Places.insert({
@@ -468,19 +432,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkd/avatar",
-		        "name" : "ZMLHc88hxncfC6bkd/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 186,
-		        "h" : 204
+		        "name" : "ZMLHc88hxncfC6bkd/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkd/cover",
-		        "name" : "ZMLHc88hxncfC6bkd/cover",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 1200,
-		        "h" : 600
+		        "name" : "ZMLHc88hxncfC6bkd/cover"
 		    }
 		});
 		Places.insert({
@@ -598,19 +554,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkg/avatar",
-		        "name" : "ZMLHc88hxncfC6bkg/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 1275,
-		        "h" : 1269
+		        "name" : "ZMLHc88hxncfC6bkg/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkg/cover",
-		        "name" : "ZMLHc88hxncfC6bkg/cover",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 900,
-		        "h" : 601
+		        "name" : "ZMLHc88hxncfC6bkg/cover"
 		    }
 		});
 		Places.insert({
@@ -729,19 +677,11 @@
 		    },
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkz/avatar",
-		        "name" : "ZMLHc88hxncfC6bkz/avatar",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 160,
-		        "h" : 160
+		        "name" : "ZMLHc88hxncfC6bkz/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/ZMLHc88hxncfC6bkk/cover",
-		        "name" : "ZMLHc88hxncfC6bkk/cover",
-		        "focusX" : 0,
-		        "focusY" : 0,
-		        "w" : 2298,
-		        "h" : 1723
+		        "name" : "ZMLHc88hxncfC6bkk/cover"
 		    }
 		});
 		Places.insert({
@@ -772,19 +712,11 @@
 		    "submittedAt" : Date("2015-04-24T07:45:04.593Z"),
 		    "avatar" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/sEJKLQfXWmffogyt4/avatar",
-		        "name" : "sEJKLQfXWmffogyt4/avatar",
-		        "focusX" : null,
-		        "focusY" : null,
-		        "w" : null,
-		        "h" : null
+		        "name" : "sEJKLQfXWmffogyt4/avatar"
 		    },
 		    "cover" : {
 		        "url" : "https://la-paillasse.s3.eu-central-1.amazonaws.com/sEJKLQfXWmffogyt4/cover",
-		        "name" : "sEJKLQfXWmffogyt4/cover",
-		        "focusX" : 0.3388625592417061,
-		        "focusY" : -0.3177257525083612,
-		        "w" : 1200,
-		        "h" : 851
+		        "name" : "sEJKLQfXWmffogyt4/cover"
 		    },
 		    "about" : "                \n\n\n                         cfscefv vfvdfv fdvdfv"
 		});

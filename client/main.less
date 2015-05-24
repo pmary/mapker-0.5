@@ -168,11 +168,27 @@ form small.error {
 	
 }
 
-.btn-social-connect {
+.btn-social-follow {
 	color: #FFFFFF;
 	border: 1px solid #FFFFFF;
 	background-color: transparent;
 	font-weight: bold;
+}
+
+.btn-social-unfollow {
+	background-color: #4CD6FF;
+	color: #ffffff;
+
+	&:hover {
+		background-color: #FC7E7E;
+		color: #ffffff;
+		transition: background-color 200ms linear;
+	}
+
+	&:focus,
+	&:active {
+		outline: none;
+	}
 }
 
 .btn-loader {

@@ -102,8 +102,11 @@
 		}
 	}
 
-	.open #action-create-dropdown {
-		background-color: transparent;
+	.open {
+		#action-create-dropdown,
+		.dropdown-toggle {
+			background-color: transparent;
+		}
 	}
 
 	#action-create-list {
@@ -112,6 +115,17 @@
 		border-top-right-radius: 3px;
 		margin-top: 5px;
 		width: 320px;
+
+		&:after {
+			position: absolute;
+			top: -16px;
+			right: 23px;
+			display: inline-block;
+			border-right: 10px solid transparent;
+			border-bottom: 16px solid #ffffff;
+			border-left: 10px solid transparent;
+			content: '';
+		}
 
 		li {
 			text-align: center;
