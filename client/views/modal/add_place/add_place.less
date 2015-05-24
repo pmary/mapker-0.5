@@ -10,6 +10,25 @@
 .modal-add-place .modal-header {
 	background-color: #fc3975;
 	color: #ffffff;
+	padding: 0px;
+	height: 95px;
+
+	.close {
+		display: none;
+	}
+
+	.modal-title {
+		&:before {
+			content: " ";
+			position: relative;
+			background-image: url(/images/avatar-place-default.png);
+			display: inline-block;
+			height: 60px;
+			top: 7px;
+			width: 80px;
+			background-size: cover;
+		}
+	}
 }
 
 .modal-add-place .validation-message {

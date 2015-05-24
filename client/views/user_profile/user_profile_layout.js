@@ -10,7 +10,7 @@ var setModalData = function(t) {
 	var resource = {
 		id: t.data.user._id, // User id
 		cover: t.data.user.profile.cover,
-		logo: t.data.user.profile.avatar,
+		avatar: t.data.user.profile.avatar,
 		type: 'user'
 	}
 	Session.set('modalResource', resource);

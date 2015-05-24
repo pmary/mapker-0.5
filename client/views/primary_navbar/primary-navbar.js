@@ -14,7 +14,7 @@ Template.primaryNavbar.events({
 		
 		//console.log("Open modal " + t.$(event.target).data('modal-template'));
 		// Open the add place modal
-		var name = t.$(event.target).data('modal-template');
-		Session.set('activeModal', name);
+		Session.set('activeModal', 'modalAddPlace');
+		$('#myModal').modal();
 	}
 });

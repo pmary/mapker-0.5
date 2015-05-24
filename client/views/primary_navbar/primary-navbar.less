@@ -1,6 +1,7 @@
 /**
  * 01 - General
  * 02 - Search input
+ * 03 - Home UI
  */
 #primary-navbar {
 	margin-bottom: 0px;
@@ -110,6 +111,15 @@
 		border-top-left-radius: 3px;
 		border-top-right-radius: 3px;
 		margin-top: 5px;
+		width: 320px;
+
+		li {
+			text-align: center;
+
+			a {
+				padding-bottom: 8px;
+			}
+		}
 	}
 
 	.navbar-nav > li > a {
@@ -250,4 +260,17 @@
 	font-size: 11px;
 	color: #999;
 	font-weight: normal;
+}
+
+
+/** 
+ * 03 - Home UI
+ */
+#primary-navbar.home-ui {
+	border-color: transparent;
+	background: transparent;
+
+	#main-menu {
+		display: none;
+	}
 }

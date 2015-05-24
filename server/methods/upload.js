@@ -92,32 +92,27 @@ Meteor.methods({
 
 		var data = img.data.replace(/^data:image\/\w+;base64,/, ""); // Set the image data in base64
 		var buf = new Buffer(data, 'base64'); // @doc https://nodejs.org/api/buffer.html
-		var key = img.resource.id + '/' + img.role; // The S3 object key
+		var key = img.resource.id + '/' + img.role + '-' + Date.now(); // The S3 object key
 
 		// Upload to S3 and get back the uploaded file url asyncronously
 		var params = {Key: key, Body: buf, ContentType: img.type, ACL: 'public-read'};
 		var s3UploadAsync = Meteor.wrapAsync(s3Upload); // @doc http://docs.meteor.com/#/full/meteor_wrapasync
 		var url = s3UploadAsync(params);
+
+		// Remove the old file
+		var deletionParams = {Key: img.resource[img.role].name}
+		s3.deleteObject(deletionParams, function(err, data) {
+			if (err) console.log(err, err.stack); // an error occurred
+			else     console.log(data);           // successful response
+		});
+
 		//console.log(url);
 
 		// Create the image object to insert in the resource document
-		var image;
-		if (img.role == "avatar") {
-			image = {
-				url: url,
-				name: key
-			};
-		}
-		else if (img.role == "cover") {
-			image = {
-				url: url,
-				name: key,
-				focusX: img.focusX,
-				focusY: img.focusY,
-				w: img.w,
-				h: img.h
-			};
-		}
+		var image = {
+			url: url,
+			name: key
+		};
 
 		// Update the resource
 		if (img.resource.type == "user") {

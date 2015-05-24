@@ -28,7 +28,7 @@ var setModalData = function(t) {
 	var resource = {
 		id: t.data.place._id,
 		cover: t.data.place.cover,
-		logo: t.data.place.avatar,
+		avatar: t.data.place.avatar,
 		type: 'place'
 	}
 	Session.set('modalResource', resource);

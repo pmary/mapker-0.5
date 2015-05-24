@@ -350,7 +350,6 @@ form small.error {
 
 .profile-page #resource-infos #identity,
 .profile-page #resource-infos #identity-edit {
-	display: inline-block;
 }
 
 .profile-page #resource-infos #identity-edit:hover {
@@ -374,13 +373,13 @@ form small.error {
 
 .profile-page #resource-infos #user-activity {
 	font-size: 19px;
-	white-space: nowrap;
+	/*white-space: nowrap;
 	text-overflow: ellipsis;
 	display: inline-block;
 	width: 50%;
 	overflow: hidden;
 	top: 3px;
-	position: relative;
+	position: relative;*/
 }
 
 .profile-page #resource-infos #user-area {
@@ -464,6 +463,19 @@ form small.error {
 	background-color: #fc3975;
 	border: 3px solid #de3366;
 	border-radius: 20px;
+}
+
+.menu-icon-place-before {
+	&:before {
+		content: " ";
+		position: relative;
+		background-image: url(/images/avatar-place-default.png);
+		display: inline-block;
+		height: 23px;
+		top: 2px;
+		width: 30px;
+		background-size: cover;
+	}
 }
 
 /* Social icons */
