@@ -1,0 +1,29 @@
+<template name="userProfileNetwork">
+	<section class="user-profile-network">
+		{{#each followedUsers}}
+			<div class="col-sd-12 col-md-6 col-lg-4">
+				<div class="user">
+					<header>
+						{{#if profile.avatar}}
+						<div class="focuspoint avatar" style="background-image: url({{profile.avatar.url}})">
+						</div>
+						{{else}}
+						<div class="focuspoint avatar" style="background-image: url(/images/avatar-user-default.jpg)">
+						</div>
+						{{/if}}
+						{{#if profile.cover}}
+						<div class="cover" style="background-image: url({{profile.cover.url}})"></div>
+						{{else}}
+						<div class="cover"></div>
+						{{/if}}
+					</header>
+					
+					<section>
+						<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
+						<h2>{{profile.activity}}</h2>
+					</section>
+				</div>
+			</div>
+		{{/each}}
+	</section>
+</template>
