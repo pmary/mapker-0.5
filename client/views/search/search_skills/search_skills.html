@@ -16,11 +16,11 @@
 				</form>
 				{{#if users}}
 					{{#if eq users "no-result"}}
-					<div class="alert-container">
+					<!-- <div class="alert-container">
 						<div class="alert alert-danger" role="alert">
 							No skill were found for your search.
 						</div>
-					</div>
+					</div> -->
 					{{/if}}
 				{{else}}
 					{{> loader}}
@@ -41,9 +41,9 @@
 								<header>
 									<div class="avatar" style="background-image: url({{avatar.url}})">
 									</div>
-									<div class="focuspoint cover" data-focus-x="{{cover.focusX}}" data-focus-y="{{cover.focusY}}" data-image-w="{{cover.w}}" data-image-h="{{cover.h}}">
+									<div class="focuspoint cover">
 										{{#if cover}}
-										<a href="{{pathFor route='userProfileBio' _id=_id}}"><img src="{{cover.url}}" alt="Place cover"></a>
+										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{cover.url}})"></a>
 										{{/if}}
 									</div>
 								</header>

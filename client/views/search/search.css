@@ -251,6 +251,14 @@
 	height: 140px;
 	background-color: #333333;
 	box-shadow: 0px 0px 110px 21px rgba(0, 0, 0, 0.5) inset;
+	overflow: hidden;
+}
+
+#search-page #search-results .result header .cover a {
+	background-size: cover;
+	display: block;
+	height: 100%;
+	margin-left: 140px;
 }
 
 #search-page #search-results .result section {
@@ -259,6 +267,7 @@
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 10px;
+	position: relative;
 }
 
 #search-page #search-results .result section h1 {

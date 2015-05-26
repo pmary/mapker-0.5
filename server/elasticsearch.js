@@ -87,15 +87,15 @@ Meteor.ES.methods = {
 			// Query the activities and the location
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'place',
 				body: {
 					query: {
 						filtered: {
 							query: {
-								bool: {
-									should: [
-										{ match: { activities: queryObject.queryString } },
-										{ match: { name: queryObject.queryString } }
-									]
+								multi_match: {
+									fields: ['activities_suggest', 'name'],
+									query: queryObject.queryString,
+									fuzziness: 2
 								}
 							},
 							filter: {
@@ -121,16 +121,21 @@ Meteor.ES.methods = {
 			// Query on the activities only
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'place',
 				body: {
 					query: {
-						bool: {
+						/*bool: {
 							should: [
 								{ match: { activities: queryObject.queryString } },
 								{ match: { name: queryObject.queryString } }
 							]
+						}*/
+						multi_match: {
+							fields: ['activities_suggest', 'name'],
+							query: queryObject.queryString,
+							fuzziness: 2
 						}
-					},
-					
+					}
 				}
 			}, function(error, response) {
 				if (response && response.hits)
@@ -141,6 +146,7 @@ Meteor.ES.methods = {
 			// Query the location only
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'place',
 				body: {
 					"query" : {
 						"match_all" : {}
@@ -179,6 +185,7 @@ Meteor.ES.methods = {
 			// Query the skill and the location
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'user',
 				body: {
 					query: {
 						filtered: {
@@ -212,6 +219,7 @@ Meteor.ES.methods = {
 			// Query on the skill only
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'user',
 				body: {
 					query: {
 						bool: {
@@ -231,6 +239,7 @@ Meteor.ES.methods = {
 			// Query the location only
 			Meteor.ES.search({
 				index: 'resources',
+				type: 'user',
 				body: {
 					"query" : {
 						"match_all" : {}

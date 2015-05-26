@@ -63,9 +63,8 @@ Meteor.methods({
 		else if (img.resource.type == "place") {
 			Places.update({_id: img.resource.id}, { $set: {'cover.focusX': img.focusX, 'cover.focusY': img.focusY} });
 
-			// Update the elasticsearch document
-			if (Meteor.ES)
-				Meteor.ES.methods.updatePlaceDocument(img.resource.id);
+			// Update the place ElasticSearch document
+			Meteor.call('updatePlaceESDocument', place.id);
 		};
 
 		return {

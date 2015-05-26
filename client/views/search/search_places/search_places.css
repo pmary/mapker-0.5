@@ -63,6 +63,17 @@
 	border-top: 4px solid #fc3975;
 }
 
+.search-place#search-container #search-results .result section .user-action-zoom-to {
+	cursor: pointer;
+	position: absolute;
+	display: block;
+	right: 13px;
+	top: 40px;
+	width: 22px;
+	height: 21px;
+	background-image: url(/images/picto-zoom-to.png);
+}
+
 /**
  * Search form
  */

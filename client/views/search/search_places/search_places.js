@@ -45,6 +45,12 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 							
 			addMarker(marker);
 		}
+
+		// If they was no bbox provided
+		if (!searchObject.bbox) {
+			var group = new L.featureGroup(markers);
+			map.fitBounds(group.getBounds(), {paddingTopLeft: [750, 30], paddingBottomRight: [30, 30]});
+		};
 	});
 }
 
@@ -95,14 +101,14 @@ var buildAndFiresSearch = function() {
 	}
 	else {
 		// See https://www.mapbox.com/mapbox.js/api/v2.1.9/l-latlngbounds/
-		var left = map.getBounds().getWest(),
+		/*var left = map.getBounds().getWest(),
 		bottom = map.getBounds().getSouth(),
 		right = map.getBounds().getEast(),
 		top = map.getBounds().getNorth(),
 		bbox = [ left, bottom, right, top ];
+		console.log(bbox);*/
 		
-		console.log(bbox);
-		searchObject = {queryString: keywords, bbox: bbox};
+		searchObject = {queryString: keywords/*, bbox: bbox*/};
 		searchPlacesByActivitiesAndBbox(searchObject);
 	}
 }
@@ -301,6 +307,17 @@ Template.searchPlaces.events({
 		for (var i = 0; i < markers.length; i++) {
 			if(markers[i].options._id == resourceId) {
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
+			}
+		};
+	},
+	'click .user-action-zoom-to': function(e,t) {
+		console.log('pan to');
+		var resourceId = e.currentTarget.dataset.id;
+		for (var i = 0; i < markers.length; i++) {
+			if(markers[i].options._id == resourceId) {
+				map.setView(markers[i].getLatLng(), 13);
+				map.panBy([-350, 0]);
+				markers[i]._icon.firstElementChild.className = "pin pin-place-hover";
 			}
 		};
 	}
