@@ -9,14 +9,119 @@
 			<div class="col-md-1">Saturday</div>
 			<div class="col-md-1">Sunday</div>
 		</div>
-		<div class="col-sm-6 col-md-12 seven-cols hours">
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">9h - 18h</div>
-			<div class="col-md-1">Closed</div>
+		<div class="col-sm-6 col-md-12 seven-cols hours" id="hours-container">
+			<div class="col-md-1 hour" id="mo">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="mo">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="tu">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="tu">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="we">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="we">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="th">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="th">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="fr">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="fr">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="sa">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="sa">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
+			<div class="col-md-1 hour" id="su">
+				{{#if isAdmin}}
+				<div class="timerange-display editable" data-day="su">9:00h - 18:00h</div>
+				<div class="timerange-edit">
+					<span>From</span>
+					<input type="text" class="time start" />
+					<span>to</span>
+					<input type="text" class="time end" />
+					<span class="user-action-cancel-hour">Cancel</span>
+				</div>
+				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
+				{{else}}
+				<div class="timerange-display">9:00h - 18:00h</div>
+				{{/if}}
+			</div>
 		</div>
+
+		{{#if isAdmin}}
+		<div class="pull-right">
+			<button class="btn btn-default user-action-cancel">Cancel</button>
+			<button class="btn btn-primary user-action-save">Save</button>
+		</div>
+		{{/if}}
 	</section>
 </template>

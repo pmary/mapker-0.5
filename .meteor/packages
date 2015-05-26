@@ -25,3 +25,5 @@ pmary:elasticsearch
 pmary:cropper
 grigio:babel
 less
+momentjs:moment
+jquery

@@ -39,7 +39,86 @@
 		border: 1px solid #eaeaec;
 		border-bottom-right-radius: 3px;
 		border-bottom-left-radius: 3px;
-		padding-top: 30px;
-		padding-bottom: 30px;
+		margin-bottom: 15px;
+
+		.hour {
+			.user-action-set-closed {
+				margin-bottom: 30px;
+				width: 100%;
+				padding: 10px 0px;
+			}
+		}
+
+		.hour.active {
+			.timerange-display {
+				display: none;
+			}
+
+			.timerange-edit {
+				display: block;
+			}
+
+			.user-action-set-closed {
+				display: none;
+			}
+		}
+
+		.timerange-display {
+			padding-top: 30px;
+			padding-bottom: 30px;
+		}
+
+		.timerange-display.editable {
+			padding-bottom: 20px;
+
+			&:hover {
+				cursor: pointer;
+
+				&:after {
+					content: "\270f";
+					position: absolute;
+					top: 35px;
+					display: inline-block;
+					font-family: 'Glyphicons Halflings';
+					font-style: normal;
+					font-weight: normal;
+					line-height: 1;
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+					right: 10px;
+  					font-size: 12px;
+				}
+			}
+		}
+
+		.timerange-edit {
+			display: none;
+			padding-top: 10px;
+			padding-bottom: 0px;
+
+			.user-action-cancel-hour {
+				position: relative;
+				cursor: pointer;
+				top: 2px;
+
+				&:hover {
+					color: #4FB8E9;
+				}
+			}
+
+			span {
+				font-weight: normal;
+				font-size: 14px;
+			}
+
+			input {
+				max-width: 100%;
+				padding: 2px 5px;
+			}
+		}
+	}
+
+	.pull-right {
+		display: none;
 	}
 }
