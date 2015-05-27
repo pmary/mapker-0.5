@@ -64,6 +64,15 @@ isDuplicateSkillValidation = function(value, array) {
 	return result;
 }
 
+isStringValidation = function(value) {
+	if (typeof value == 'string') {
+		return false;
+	}
+	else {
+		return "Required field";
+	}
+}
+
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {
 		return "Required field";

@@ -8,6 +8,12 @@ Template.placeProfileTimetable.helpers({
 			return true;
 		else
 			return false;
+	},
+	errorMessage: function(field) {
+		return Session.get('placeProfileTimetableErrors')[field];
+	},
+	errorClass: function (field) {
+		return !!Session.get('placeProfileTimetableErrors')[field] ? 'has-error' : '';
 	}
 });
 
@@ -103,6 +109,27 @@ Template.placeProfileTimetable.events({
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 	},
 	'click .user-action-save': function (e, t) {
+		var openingHours = { 
+			mo: t.find('#mo-text').textContent,
+			tu: t.find('#tu-text').textContent,
+			we: t.find('#we-text').textContent,
+			th: t.find('#th-text').textContent,
+			fr: t.find('#fr-text').textContent,
+			sa: t.find('#sa-text').textContent,
+			su: t.find('#su-text').textContent
+		}
+
+		var errors = validateOpeningHours(openingHours);
+		Session.set('placeProfileTimetableErrors', errors);
+		if (Object.keys(errors).length)
+			return; // Abort the account creation due to errors
+
+		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error, result) {
+			if (error)
+				console.log(error);
+			console.log(result);
+		});
+
 		$('.user-profile-timetable .hour').removeClass('active');
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 	}
