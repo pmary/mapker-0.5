@@ -14,21 +14,31 @@ Template.placeProfileTimetable.helpers({
 	},
 	errorClass: function (field) {
 		return !!Session.get('placeProfileTimetableErrors')[field] ? 'has-error' : '';
+	},
+	/**
+	 * @summary Get the current place opening hours data
+	 */
+	openingHours: function () {
+		return Session.get('openingHours');
 	}
+
 });
 
-Template.placeProfileTimetable.rendered = function (argument) {
-	this.autorun(function () {
-		/*var container = document.getElementById('hours-container');
-		var datepair = new Datepair(container);*/
-		$('#hours-container .time').timepicker({
-			'showDuration': true,
-			'timeFormat': 'g:ia'
-		});
 
-		var container = document.getElementById('hours-container');
-		var datepair = new Datepair(container);
-	});
+openingHours = new ReactiveVar();
+Template.placeProfileTimetable.created = function () {
+	// here 'this' refers to template instance
+	this.openingHours = new ReactiveVar();
+	this.autorun(_.bind(function(){
+		var place = Places.findOne({'_id': Router.current().params._id});
+		if (place && place.openingHours) {
+			this.openingHours.set(place.openingHours);
+			Session.set('openingHours', place.openingHours);
+		};
+	},this));
+};
+
+Template.placeProfileTimetable.rendered = function (argument) {
 }
 
 var datepair;
@@ -37,79 +47,77 @@ var datepair;
  * @see https://github.com/jonthornton/jquery-timepicker
  */
 Template.placeProfileTimetable.events({
+	/**
+	 * @summary Display and init the edition UI for the selected day
+	 */
 	'click .timerange-display.editable': function (e, t) {
-		
-		// Get the id of the day we are editing
-		var dayId = e.currentTarget.dataset.day;
-
-		// Get the opening hours edition zone node
-		var editContainer = $(e.currentTarget).parent().find('.timerange-edit');
-
-		// Clean the interface
+		// Remove the 'active' class from every days
 		$('.user-profile-timetable .hour').removeClass('active');
+		// Hide the 'Cancel' and 'Save' btns
 		$('.user-profile-timetable .pull-right').css('display', 'none');
-		// Clean the timepicker and datepair instances
-		if ($('.user-profile-timetable .time').timepicker()) {
+		// Destroy all the timepicker
+		if ($('.user-profile-timetable .time').timepicker())
 			$('.user-profile-timetable .time').timepicker('remove');
-		}
-		if (datepair) {
+		// Destroy all the datepair instances
+		if (datepair)
 			datepair.remove();
-		}
 
-		// Hide the opening hours and display the opening hours edition zone
+		// Set the selected day in editing state
 		$(e.currentTarget).parent().addClass('active');
+		// Display the 'Cancel' and 'Save' btns
 		$('.user-profile-timetable .pull-right').css('display', 'block');
-		
+
 		// Init the timepicker
-		$('#'+dayId+' .time').timepicker({
-			'showDuration': true,
-			'timeFormat': 'G:i'
-		});
+		$('#'+this.d+' .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
 		// Init the datepair
-		datepair = new Datepair(document.getElementById(dayId));
+		datepair = new Datepair(document.getElementById(this.d));
 
 		// Set the focus on the first input
-		editContainer.find('input[type="text"]:first').focus();
+		$(e.currentTarget).parent().find('.timerange-edit').find('input[type="text"]:first').focus();
 	},
 	'change .time': function (e, t) {
-		// Get the timerange initially displayed
 		var $hourContainer = $(e.target).parent().parent(),
-		$editContainer = $hourContainer.find('.timerange-edit'),
-		initialTimerange = $hourContainer.find('.timerange-display').text(),
-		startVal,
-		endVal;
+		$editingContainer = $hourContainer.find('.timerange-edit');
 
-		if (initialTimerange != "Closed") {
-			initialTimerange = $hourContainer.find('.timerange-display').text().replace(/ /g, "").split('-'),
-			startVal = initialTimerange[0].replace(/h/g, ""), 
-			endVal = initialTimerange[1].replace(/h/g, "");
-		}
-		else {
-		}
-
-		// Get the new timerange
-		var newStartVal = $editContainer.find('.time.start').val().replace(/am/g, "").replace(/pm/g, ""),
-		newEndVal = $editContainer.find('.time.end').val().replace(/am/g, "").replace(/pm/g, ""),
-		concatenedNewVal = newStartVal + 'h - ' + newEndVal + 'h';
-
-		// Set the new timerange
-		$hourContainer.find('.timerange-display').text(concatenedNewVal);
+		var openingHours = Session.get('openingHours');
+		for (var i = 0; i < openingHours.length; i++) {
+			if(openingHours[i].d == this.d) {
+				if (openingHours[i].c) delete openingHours[i].c;
+				openingHours[i].s = $editingContainer.find('.time.start').val();
+				openingHours[i].e = $editingContainer.find('.time.end').val();
+				Session.set('openingHours', openingHours);
+			}
+		};
 	},
 	'click .user-action-cancel-hour': function (e, t) {
 		$('.user-profile-timetable .hour').removeClass('active');
 	},
 	'click .user-action-set-closed': function (e, t) {
-		console.log('mark as closed');
-		var $hourContainer = $(e.currentTarget).parent();
-		$hourContainer.find('.timerange-display').text('Closed');
+		// Display the 'Cancel' and 'Save' btns
+		$('.user-profile-timetable .pull-right').css('display', 'block');
 
+		var openingHours = Session.get('openingHours');
+		for (var i = 0; i < openingHours.length; i++) {
+			if(openingHours[i].d == this.d) {
+				delete openingHours[i].s;
+				delete openingHours[i].e;
+				openingHours[i].c = true;
+				Session.set('openingHours', openingHours);
+			}
+		};
 	},
 	'click .user-action-cancel': function (e, t) {
+		//console.log(Router.current().params._id);
+		console.log(t.openingHours.get());
+		//Places.findOne({'_id': Router.current().params._id});
+		Session.set('openingHours', t.openingHours.get());
+
 		$('.user-profile-timetable .hour').removeClass('active');
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 	},
 	'click .user-action-save': function (e, t) {
-		var openingHours = { 
+		console.log(Session.get('openingHours'));
+		/*var openingHours = { 
 			mo: t.find('#mo-text').textContent,
 			tu: t.find('#tu-text').textContent,
 			we: t.find('#we-text').textContent,
@@ -117,12 +125,50 @@ Template.placeProfileTimetable.events({
 			fr: t.find('#fr-text').textContent,
 			sa: t.find('#sa-text').textContent,
 			su: t.find('#su-text').textContent
-		}
+		}*/
 
-		var errors = validateOpeningHours(openingHours);
+		/*var openingHours = [
+			{
+				d: mo,
+				s: ,
+				e: 
+			},
+			{
+				d: tu,
+				s: ,
+				e: 
+			},
+			{
+				d: we,
+				s: ,
+				e: 
+			},
+			{
+				d: th,
+				s: ,
+				e: 
+			},
+			{
+				d: fr,
+				s: ,
+				e: 
+			},
+			{
+				d: sa,
+				s: ,
+				e: 
+			},
+			{
+				d: su,
+				s: ,
+				e: 
+			}
+		];*/
+		var openingHours = Session.get('openingHours');
+		/*var errors = validateOpeningHours(openingHours);
 		Session.set('placeProfileTimetableErrors', errors);
 		if (Object.keys(errors).length)
-			return; // Abort the account creation due to errors
+			return; // Abort the account creation due to errors*/
 
 		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error, result) {
 			if (error)

@@ -27,3 +27,4 @@ grigio:babel
 less
 momentjs:moment
 jquery
+reactive-var

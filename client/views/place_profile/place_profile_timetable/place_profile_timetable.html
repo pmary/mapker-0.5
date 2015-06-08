@@ -10,111 +10,35 @@
 			<div class="col-md-1 day">Sunday</div>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-12 seven-cols hours" id="hours-container">
-			<div class="col-md-1 hour" id="mo">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="mo-text" data-day="mo">{{ place.openingHours.mo }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
+			{{#if isAdmin}}
+				{{#each openingHours}}
+				<div class="col-md-1 hour" id="{{d}}">
+					{{#if c}}
+					<div class="timerange-display editable" id="mo-text" data-day="mo">Closed</div>
+					{{else}}
+					<div class="timerange-display editable" id="mo-text" data-day="mo">{{s}}h - {{e}}h</div>
+					{{/if}}
+					
+					<div class="timerange-edit">
+						<span>From</span>
+						<input type="text" class="time start" />
+						<span>to</span>
+						<input type="text" class="time end" />
+						<!-- <span class="user-action-cancel-hour">Cancel</span> -->
+					</div>
+					{{#if c}}{{else}}<button class="btn btn-default user-action-set-closed">Close this day ?</button>{{/if}}
 				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.mo }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="tu">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="tu-text" data-day="tu">{{ place.openingHours.tu }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.tu }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="we">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="we-text" data-day="we">{{ place.openingHours.we }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.we }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="th">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="th-text" data-day="th">{{ place.openingHours.th }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.th }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="fr">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="fr-text" data-day="fr">{{ place.openingHours.fr }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.fr }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="sa">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="sa-text" data-day="sa">{{ place.openingHours.sa }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.sa }}</div>
-				{{/if}}
-			</div>
-			<div class="col-md-1 hour" id="su">
-				{{#if isAdmin}}
-				<div class="timerange-display editable" id="su-text" data-day="su">{{ place.openingHours.su }}</div>
-				<div class="timerange-edit">
-					<span>From</span>
-					<input type="text" class="time start" />
-					<span>to</span>
-					<input type="text" class="time end" />
-					<span class="user-action-cancel-hour">Cancel</span>
-				</div>
-				<button class="btn btn-default user-action-set-closed">Close this day ?</button>
-				{{else}}
-				<div class="timerange-display">{{ place.openingHours.su }}</div>
-				{{/if}}
-			</div>
+				{{/each}}
+			{{else}}
+				{{#each place.openingHours}}
+					{{#if c}}
+					<div class="timerange-display">Closed</div>
+					{{else}}
+					<div class="timerange-display">{{s}}h - {{e}}h</div>
+					{{/if}}
+				{{/each}}
+			{{/if}}
+			
 		</div>
 
 		{{#if isAdmin}}
