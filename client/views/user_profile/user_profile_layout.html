@@ -160,18 +160,18 @@
 		</div>
 
 		<section class="row" id="resource-infos">
-			<div class="col-md-8 col-sm-offset-2">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="row">
 
-					<div id="resource-infos-identity" class="col-sd-12 col-md-6">
+					<div id="resource-infos-identity" class="col-sd-12 col-sm-12 col-md-8">
 						{{#if eq currentUser._id user._id}}
 						<div id="identity-edit" role="button">
 							<div id="identity">
 								<h1>
 									<span class="icon icon-user-dot"></span>
-									<span id="user-name">{{user.profile.firstname}} {{user.profile.lastname}}</span>
+									<span id="user-name">{{user.profile.fullname}}</span>
 									{{#if user.profile.activity}}
-									<span id="user-activity">- {{user.profile.activity}}</span>
+									<span id="user-activity"> {{user.profile.activity}}</span>
 									{{/if}}
 									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 								</h1>
@@ -187,7 +187,7 @@
 								<span class="icon icon-user-dot"></span>
 								<span id="user-name">{{user.profile.firstname}} {{user.profile.lastname}}</span>
 								{{#if user.profile.activity}}
-								<span id="user-activity">- {{user.profile.activity}}</span>
+								<span id="user-activity"> {{user.profile.activity}}</span>
 								{{/if}}
 							</h1>
 							
@@ -198,7 +198,7 @@
 						{{/if}}
 					</div>
 
-					<div id="resource-infos-social-profiles" class="col-sd-12 col-md-6">
+					<div id="resource-infos-social-profiles" class="col-sd-12 col-sm-12 col-md-4">
 						<div id="social-profiles">
 						
 						{{#if hasSocialLink user.profile.links}}
@@ -234,7 +234,7 @@
 		</section>
 
 		<nav class="row" id="inner-nav">
-			<div class="col-md-8 col-sm-offset-2">
+			<div class="col-md-8 col-md-offset-2">
 				<ul class="nav nav-pills">
 					<li role="presentation" class="active">
 						<a href="{{pathFor route='userProfileBio' _id=user._id}}">Bio</a>
@@ -253,7 +253,7 @@
 		</nav> 
 
 		<div class="row">
-			<div class="col-md-8 col-sm-offset-2">
+			<div class="col-md-8 col-md-offset-2">
 				{{> yield "content"}}
 			</div>
 		</div>

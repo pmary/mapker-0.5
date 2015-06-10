@@ -3,6 +3,10 @@
  */
 
 UI.registerHelper('split', function(activities) {
+	// Capitalize the first letter of each string
+	for (var i = 0; i < activities.length; i++) {
+		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
+	};
 	return activities.join(", ");
 });
 
