@@ -413,18 +413,19 @@ Meteor.methods({
 		var body = {}
 
 		var autocompleteFields = [];
-		if (place.types) {
-			autocompleteFields.concat(place.types);
-		}
-		if (place.specialities) {
-			autocompleteFields.concat(place.specialities);
-		}
-		body.activities_suggest = {input: autocompleteFields};
-
 		if (place.name) {
 			body.name = place.name;
-			body.activities_suggest.input.push(place.name);
+			autocompleteFields.push(place.name);
 		}
+		if (place.types) {
+			body.types = place.types;
+			autocompleteFields = autocompleteFields.concat(place.types);
+		}
+		if (place.specialities) {
+			body.specialities = place.specialities;
+			autocompleteFields = autocompleteFields.concat(place.specialities);
+		}
+		body.activities_suggest = {input: autocompleteFields};
 
 		if (place.loc)
 			body.loc = {lat: place.loc.lat, lon: place.loc.lon};
@@ -563,8 +564,6 @@ Meteor.methods({
 				autocompleteFields = autocompleteFields.concat(place.specialities);
 			}
 			body.activities_suggest = {input: autocompleteFields};
-
-			console.log(autocompleteFields);
 
 			if (place.loc)
 				body.loc = {lat: place.loc.lat, lon: place.loc.lon};

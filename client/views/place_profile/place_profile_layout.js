@@ -128,11 +128,37 @@ Template.placeProfileLayout.events({
 	}
 });
 
+var typesSelectize, specialitiesSelectize;
 Template.placeProfileIdentityEdition.rendered = function() {
-	// Destroy the existing tagsinput instance on the activities input field to prevent errors
-	$('#edit-identity-form input#input-activities').tagsinput('destroy');
-	// Set a new tagsinput instance for the activities input field
-	$('#edit-identity-form input#input-activities').tagsinput('items');
+	console.log(this.data.place.specialities);
+	// Destroy the existing selectize instance on the types and specialities select fields to prevent errors
+	if (typesSelectize || specialitiesSelectize) {
+		typesSelectize[0].selectize.destroy();
+		specialitiesSelectize[0].selectize.destroy();
+	};
+
+	// Set a new selectize instance for the types select field
+	var typesSelectize = $('#edit-identity-form select#select-types').selectize({
+		maxItems: 3
+	});
+	// Set current types by default
+	var types = this.data.place.types;
+	for (var i = 0; i < types.length; i++) {
+		types[i] = types[i].toLowerCase();
+	};
+	typesSelectize[0].selectize.setValue( types );
+
+	// Set a new selectize instance for the specialities select field
+	var specialitiesSelectize = $('#edit-identity-form select#select-specialities').selectize({
+		maxItems: 3
+	});
+	// Set current specialities by default
+	var specialities = this.data.place.specialities;
+	for (var i = 0; i < specialities.length; i++) {
+		specialities[i] = specialities[i].toLowerCase();
+	};
+	specialitiesSelectize[0].selectize.setValue( specialities );
+
 	Session.set('staticMapUrl', "");
 }
 
@@ -182,7 +208,8 @@ Template.placeProfileIdentityEdition.events({
 		var place = {
 			id: t.data.place._id,
 			name: t.find('#input-name').value,
-			activities: $('#edit-identity-form input#input-activities').tagsinput('items'),
+			types: $('#edit-identity-form #select-types').val(),
+			specialities: $('#edit-identity-form #select-specialities').val(),
 			streetNumber: t.find('#input-street-number').value,
 			streetName: t.find('#input-street-name').value,
 			city: t.find('#input-city').value,

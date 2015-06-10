@@ -5,10 +5,48 @@
 			<input class='form-control' type="text" value="{{place.name}}" id="input-name">
 			<span class='help-block'>{{errorMessage 'name'}}</span>
 		</div>
-		<div class="form-group {{errorClass 'activities'}}">
-			<label for="input-activities">Activities</label>
-			<input type="text" class="form-control" id="input-activities" value="{{place.activities}}" placeholder="" data-role="tagsinput">
-			<span class="help-block">{{errorMessage 'activities'}}</span>
+		<div class="form-group {{errorClass 'types'}}">
+			<label for="select-types">Types</label>
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the type of your" data-trigger="hover click"></span>
+			<select id="select-types" name="types[]" multiple class="demo-default" placeholder="Select a type...">
+				<option value="">Select a type...</option>
+				<option value="fablab">Fablab</option>
+				<option value="coworking">Coworking</option>
+				<option value="hackerspace">Hackerspace</option>
+				<option value="school">School</option>
+			</select>
+			<span class="help-block">{{errorMessage 'types'}}</span>
+		</div>
+		<div class="form-group {{errorClass 'specialities'}}">
+			<label for="select-specialities">Specialities</label>
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the specialities of your place" data-trigger="hover click"></span>
+			<select id="select-specialities" name="specialities[]" multiple class="demo-default" placeholder="Select a speciality...">
+				<option value="">Select a speciality...</option>
+				<option value="wood">Wood</option>
+				<option value="metal">Metal</option>
+				<option value="plastic">Plastic</option>
+				<option value="photography">Photography</option>
+				<option value="video">Video</option>
+				<option value="mechanic">Mechanic</option>
+				<option value="biology">Biology</option>
+				<option value="physics">Physics</option>
+				<option value="chemistry">Chemistry</option>
+				<option value="ecology">Ecology</option>
+				<option value="beauty">Beauty</option>
+				<option value="health">Health</option>
+				<option value="architecture">Architecture</option>
+				<option value="upcycling">Upcycling</option>
+				<option value="design">Design</option>
+				<option value="fashion design">Fashion design</option>
+				<option value="print">Print</option>
+				<option value="graphism">Graphism</option>
+				<option value="electronics">Electronics</option>
+				<option value="space">space</option>
+				<option value="drone">Drone</option>
+				<option value="digital">Digital</option>
+				<option value="environment">Environment</option>
+			</select>
+			<span class="help-block">{{errorMessage 'specialities'}}</span>
 		</div>
 		<div class="form-group {{errorClass 'address'}}">
 			<label for="input-street-number">Address</label>
@@ -30,7 +68,7 @@
 		</div>		
 		<button type='button' class='btn btn-default' id='close-identity-edit-popover'>Cancel</button>
 		<button type='button' class='btn btn-primary' id="check-location">Check your location</button>
-		<button type='submit' class='btn btn-primary' id="submit-identity">Save</button>
+		<button type='submit' class='btn btn-success' id="submit-identity">Save</button>
 	</form>
 </template>
 
