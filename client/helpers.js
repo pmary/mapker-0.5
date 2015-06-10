@@ -25,6 +25,7 @@ UI.registerHelper('eq', function(v1, v2, options) {
 	return result;
 });
 
+// Check if a value exist in the given array
 UI.registerHelper('inArray', function(value, array) {
 	if (value && array && array.constructor === Array) {
 		if (array.indexOf(value) > -1) {
@@ -37,6 +38,19 @@ UI.registerHelper('inArray', function(value, array) {
 	else {
 		return false;
 	}	
+});
+
+// Check if the user have fill at least one social profile link
+UI.registerHelper('hasSocialLink', function(links) {
+	var result = false;
+
+	if (links) {
+		if (links.facebook || links.flickr || links.twitter || links.website) {
+			result = true;
+		};
+	};
+
+	return result;
 });
 
 // replace \n and \r bu a <br> tag
@@ -66,6 +80,15 @@ isDuplicateSkillValidation = function(value, array) {
 
 isStringValidation = function(value) {
 	if (typeof value == 'string') {
+		return false;
+	}
+	else {
+		return "Required field";
+	}
+}
+
+isArrayValidation = function(value) {
+	if (Array.isArray(value) && value.length) {
 		return false;
 	}
 	else {

@@ -11,32 +11,49 @@
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-12 seven-cols hours" id="hours-container">
 			{{#if isAdmin}}
-				{{#each openingHours}}
-				<div class="col-md-1 hour" id="{{d}}">
-					{{#if c}}
-					<div class="timerange-display editable" id="mo-text" data-day="mo">Closed</div>
-					{{else}}
-					<div class="timerange-display editable" id="mo-text" data-day="mo">{{s}}h - {{e}}h</div>
-					{{/if}}
-					
-					<div class="timerange-edit">
-						<span>From</span>
-						<input type="text" class="time start" />
-						<span>to</span>
-						<input type="text" class="time end" />
-						<!-- <span class="user-action-cancel-hour">Cancel</span> -->
+				{{#if openingHours}}
+					{{#each openingHours}}
+					<div class="col-md-1 hour" id="{{d}}">
+						{{#if c}}
+						<div class="timerange-display editable" id="mo-text" data-day="mo">Closed</div>
+						{{else}}
+						<div class="timerange-display editable" id="mo-text" data-day="mo">{{s}}h - {{e}}h</div>
+						{{/if}}
+						
+						<div class="timerange-edit">
+							<span>From</span>
+							<input type="text" class="time start" />
+							<span>to</span>
+							<input type="text" class="time end" />
+							<!-- <span class="user-action-cancel-hour">Cancel</span> -->
+						</div>
+						{{#if c}}{{else}}<button class="btn btn-default user-action-set-closed">Close this day ?</button>{{/if}}
 					</div>
-					{{#if c}}{{else}}<button class="btn btn-default user-action-set-closed">Close this day ?</button>{{/if}}
-				</div>
-				{{/each}}
+					{{/each}}
+				{{else}}
+					<div class="col-md-12 hour">
+						<div class="timerange-display">
+							<p>Peoples want to know when you are open</p>
+							<button class="btn btn-primary user-action-set-hours">Fill the opening hours</button>
+						</div>
+					</div>
+				{{/if}}
 			{{else}}
-				{{#each place.openingHours}}
-					{{#if c}}
-					<div class="timerange-display">Closed</div>
-					{{else}}
-					<div class="timerange-display">{{s}}h - {{e}}h</div>
-					{{/if}}
-				{{/each}}
+				{{#if openingHours}}
+					{{#each openingHours}}
+					<div class="col-md-1 hour" id="{{d}}">
+						{{#if c}}
+						<div class="timerange-display">Closed</div>
+						{{else}}
+						<div class="timerange-display">{{s}}h - {{e}}h</div>
+						{{/if}}
+					</div>
+					{{/each}}
+				{{else}}
+					<div class="col-md-12 hour">
+						<div class="timerange-display">The opening hours aren't available for the moment</div>
+					</div>
+				{{/if}}
 			{{/if}}
 			
 		</div>
@@ -44,7 +61,7 @@
 		{{#if isAdmin}}
 		<div class="pull-right">
 			<button class="btn btn-default user-action-cancel">Cancel</button>
-			<button class="btn btn-primary user-action-save">Save</button>
+			<button class="btn btn-success user-action-save">Save</button>
 		</div>
 		{{/if}}
 	</section>

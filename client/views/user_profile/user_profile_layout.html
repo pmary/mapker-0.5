@@ -201,7 +201,7 @@
 					<div id="resource-infos-social-profiles" class="col-sd-12 col-md-6">
 						<div id="social-profiles">
 						
-						{{#if user.profile.links}}
+						{{#if hasSocialLink user.profile.links}}
 							{{#if user.profile.links.facebook}}
 							<a href="{{user.profile.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
 							{{/if}}

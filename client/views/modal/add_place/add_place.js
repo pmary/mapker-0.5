@@ -5,10 +5,16 @@ Template.modalAddPlace.rendered = function() {
 	$('.modal-add-place [data-toggle="popover"]').popover();
 
 	// Init the tags input
-	$('input#input-activities').tagsinput('destroy');
-	//$('input#input-themes').tagsinput('destroy');
-	//$("input#input-themes").tagsinput('items');
-	$("input#input-activities").tagsinput('items');
+	//$('input#input-activities').tagsinput('destroy');
+	//$("input#input-activities").tagsinput('items');
+
+	$('select#select-types').selectize({
+		maxItems: 3
+	});
+
+	$('select#select-specialities').selectize({
+		maxItems: 3
+	});
 }
 
 Template.modalAddPlace.helpers({
@@ -26,9 +32,9 @@ Template.modalAddPlace.helpers({
 var checkPlaceData = function(t, step) {
 	var place = {
 		name: t.find('#input-name').value,
-		//themes: $('#input-themes').tagsinput('items'),
+		specialities: $('#select-specialities').val(),
 		phone: t.find('#input-phone').value,
-		activities: $('#input-activities').tagsinput('items'),
+		types: $('#select-types').val(),
 		role: t.find('#input-role').value,
 		streetNumber: t.find('#input-street-number').value,
 		streetName: t.find('#input-street-name').value,
@@ -79,7 +85,7 @@ var checkPlaceData = function(t, step) {
 					Meteor.call('placeInsert', place, function(error, result) {
 						// Display the error to the user and abort
 						if (error)
-							return alert(error.reason);
+							return console.log(error.reason);
 
 						// Redirect to the user places page
 						Router.go('userProfilePlaces', {_id: Meteor.user()._id});
@@ -101,6 +107,7 @@ Template.modalAddPlace.events({
 		checkPlaceData(t, "submit");
 	},
 	'click #check-location' : function(e, t){
+		console.log('check loc');
 		checkPlaceData(t, "check");
 	},
 	'focus .bootstrap-tagsinput input' : function(e, t){

@@ -115,60 +115,24 @@ Template.placeProfileTimetable.events({
 		$('.user-profile-timetable .hour').removeClass('active');
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 	},
+	/**
+	 * @summary When there is no opening hours filled yet, this action 
+	 * allow the user to fill them
+	 */
+	'click .user-action-set-hours': function (e, t) {
+		console.log('set default opening hour');
+		Session.set('openingHours', [
+			{d : "mo", c: true},
+			{d : "tu", c: true},
+			{d : "we", c: true},
+			{d : "th", c: true},
+			{d : "fr", c: true},
+			{d : "sa", c: true},
+			{d : "su", c: true}
+		]);
+	},
 	'click .user-action-save': function (e, t) {
-		console.log(Session.get('openingHours'));
-		/*var openingHours = { 
-			mo: t.find('#mo-text').textContent,
-			tu: t.find('#tu-text').textContent,
-			we: t.find('#we-text').textContent,
-			th: t.find('#th-text').textContent,
-			fr: t.find('#fr-text').textContent,
-			sa: t.find('#sa-text').textContent,
-			su: t.find('#su-text').textContent
-		}*/
-
-		/*var openingHours = [
-			{
-				d: mo,
-				s: ,
-				e: 
-			},
-			{
-				d: tu,
-				s: ,
-				e: 
-			},
-			{
-				d: we,
-				s: ,
-				e: 
-			},
-			{
-				d: th,
-				s: ,
-				e: 
-			},
-			{
-				d: fr,
-				s: ,
-				e: 
-			},
-			{
-				d: sa,
-				s: ,
-				e: 
-			},
-			{
-				d: su,
-				s: ,
-				e: 
-			}
-		];*/
 		var openingHours = Session.get('openingHours');
-		/*var errors = validateOpeningHours(openingHours);
-		Session.set('placeProfileTimetableErrors', errors);
-		if (Object.keys(errors).length)
-			return; // Abort the account creation due to errors*/
 
 		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error, result) {
 			if (error)
