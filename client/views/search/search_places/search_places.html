@@ -35,8 +35,13 @@
 						<div class="col-md-12">
 							<div class="result" data-id="{{_id}}">
 								<header>
+									{{#if avatar}}
 									<div class="avatar" style="background-image: url({{avatar.url}})">
 									</div>
+									{{else}}
+									<div class="avatar" style="background-image: url(/images/avatar-place-default.png)">
+									</div>
+									{{/if}}
 									<div class="focuspoint cover">
 										{{#if cover}}
 										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image:url({{cover.url}});">
