@@ -4,6 +4,7 @@
  * 03 - Home UI
  */
 #primary-navbar {
+	transition: all 1s ease;
 	margin-bottom: 0px;
 	border-radius: 0px;
 	min-height: 75px;
@@ -293,4 +294,13 @@
 #primary-navbar.home-ui {
 	border-color: transparent;
 	background: transparent;
+	transition: all 1s ease;
+}
+
+#primary-navbar.home-ui.withBg {
+	border-bottom: 2px solid #2ebdff;
+	background: -webkit-linear-gradient(left, #272d47, #454662); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, #272d47, #454662); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #272d47, #454662); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, #272d47, #454662); /* Standard syntax */
 }

@@ -1,5 +1,7 @@
 .search-skills#search-container {
 	width: 100%;
+	background-image: url(images/search-skills/bg.png);
+	background-repeat: repeat;
 }
 
 .search-skills#search-container #search-container-inner {
