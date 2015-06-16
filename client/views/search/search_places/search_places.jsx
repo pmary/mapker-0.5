@@ -115,7 +115,7 @@ var buildAndFiresSearch = function() {
 
 var createIcon = function(resource) {
 	return L.divIcon({
-		iconSize: [30, 45],
+		iconSize: [30, 47],
 		iconAnchor: [15, 42],
 		popupAnchor: [-1, -40],
 		html: '<span class="pin place-pin"></span>',

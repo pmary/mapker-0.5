@@ -37,7 +37,7 @@
 	padding-right: 0px;
 	padding-left: 0px;
 	top: 0px;
-	padding-top: 77px;
+	padding-top: 73px;
 	z-index: 2;
 }
 
@@ -86,10 +86,70 @@
 
 /* Users search results cards */
 .search-skills#search-container #search-results .result {
-	max-width: 485px;
+	width: 485px;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+	height: 220px;
+	width: 526px;
+	background-color: #FFFFFF;
+	margin-bottom: 20px;
+	border-radius: 3px;
 	display: block;
+	
+	header {
+		width: 220px;
+		height: 220px;
+		display: inline-block;
+		float: left;
+
+		.avatar {
+			display: block;
+			width: 220px;
+			height: 220px;
+			border-top-left-radius: 3px;
+			border-bottom-left-radius: 3px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-size: contain;
+		}
+	}
 
 	section {
-		border-top: 4px solid #20dec2;
+		width: 306px;
+		display: inline-block;
+
+		.cover {
+			height: 120px;
+
+			a {
+				height: 120px;
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				display: block;
+				border-top-right-radius: 3px;
+			}
+		}
+
+		.result-data {
+			padding-left: 25px;
+			padding-top: 20px;
+			height: 100px;
+			border-left: 1px solid #dfdfdf;
+
+			h1 {
+				margin-top: 0px;
+				margin-bottom: 5px;
+				font-size: 19px;
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			h2 {
+				margin-top: 0px;
+				margin-bottom: 15px;
+				font-size: 14px;
+				color: #20DEC2;
+			}
+		}
 	}
 }

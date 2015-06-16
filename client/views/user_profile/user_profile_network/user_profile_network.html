@@ -1,30 +1,32 @@
 <template name="userProfileNetwork">
 	<section class="user-profile-network">
 		{{#each followedUsers}}
-			<div class="col-sd-12 col-md-6 col-lg-4">
+			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="user">
 					<header>
 						{{#if profile.avatar}}
-						<div class="focuspoint avatar" style="background-image: url({{profile.avatar.url}})">
-						</div>
+						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{profile.avatar.url}})">
+						</a>
 						{{else}}
-						<div class="focuspoint avatar" style="background-image: url(/images/avatar-user-default.jpg)">
-						</div>
-						{{/if}}
-						{{#if profile.cover}}
-						<div class="cover-container">
-							<div class="cover" style="background-image: url({{profile.cover.url}})"></div>
-						</div>
-						{{else}}
-						<div class="cover-container">
-							<div class="cover"></div>
-						</div>
+						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+						</a>
 						{{/if}}
 					</header>
 					
 					<section>
-						<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
-						<h2>{{profile.activity}}</h2>
+						{{#if profile.cover}}
+						<div class="cover">
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{profile.cover.url}})"></a>
+						</div>
+						{{else}}
+						<div class="cover">
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
+						</div>
+						{{/if}}
+						<div class="result-data">
+							<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
+							<h2>{{profile.activity}}</h2>
+						</div>
 					</section>
 				</div>
 			</div>

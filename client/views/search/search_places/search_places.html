@@ -36,26 +36,28 @@
 							<div class="result" data-id="{{_id}}">
 								<header>
 									{{#if avatar}}
-									<div class="avatar" style="background-image: url({{avatar.url}})">
-									</div>
+									<a href="{{pathFor route='placeProfileAbout' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
+									</a>
 									{{else}}
-									<div class="avatar" style="background-image: url(/images/avatar-place-default.png)">
-									</div>
+									<a href="{{pathFor route='placeProfileAbout' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-place-default.png)">
+									</a>
 									{{/if}}
-									<div class="focuspoint cover">
+								</header>
+								
+								<section>
+									<div class="cover">
 										{{#if cover}}
 										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image:url({{cover.url}});">
 										</a>
 										{{else}}
-										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image:url(/images/fond-cover-place.png); background-repeat: repeat;height: 100px;display: block;"></a>
+										<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image:url(/images/fond-cover-place.png);"></a>
 										{{/if}}
 									</div>
-								</header>
-								
-								<section>
-									<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
-									<h2>{{split types}}</h2>
-									<span data-id="{{_id}}" class="user-action-zoom-to" aria-hidden="true"></span>
+									<div class="result-data">
+										<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
+										<h2>{{split types}}</h2>
+										<span data-id="{{_id}}" class="user-action-zoom-to" aria-hidden="true"></span>
+									</div>
 								</section>
 							</div>
 						</div>

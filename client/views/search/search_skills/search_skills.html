@@ -37,18 +37,27 @@
 						{{#each users}}
 							<div class="result" data-id="{{_id}}">
 								<header>
-									<div class="avatar" style="background-image: url({{avatar.url}})">
-									</div>
+									{{#if avatar}}
+									<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
+									</a>
+									{{else}}
+									<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+									</a>
+									{{/if}}
 								</header>
 								
 								<section>
-									<div class="focuspoint cover">
+									<div class="cover">
 										{{#if cover}}
 										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{cover.url}})"></a>
+										{{else}}
+										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
 										{{/if}}
 									</div>
-									<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{name}}</a></h1>
-									<h2>{{activity}}</h2>
+									<div class="result-data">
+										<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{name}}</a></h1>
+										<h2>{{activity}}</h2>
+									</div>
 								</section>
 							</div>
 						{{/each}}

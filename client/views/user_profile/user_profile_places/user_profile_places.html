@@ -1,7 +1,7 @@
 <template name="userProfilePlaces">
 	<section class="user-profile-places">
 		{{#each places}}
-			<div class="col-sd-12 col-md-6 col-lg-4">
+			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="place">
 					<header>
 						{{#if activated}}						
@@ -9,26 +9,28 @@
 							<!-- <div class="validation-in-progess">Validation in progess</div> -->
 						{{/if}}
 						{{#if avatar}}
-						<div class="focuspoint avatar" style="background-image: url({{avatar.url}})">
-						</div>
+						<a href="{{pathFor route='placeProfileAbout' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
+						</a>
 						{{else}}
-						<div class="focuspoint avatar" style="background-image: url(/images/avatar-place-default.png)">
-						</div>
-						{{/if}}
-						{{#if cover}}
-						<div class="cover-container">
-							<div class="cover" style="background-image: url({{cover.url}})"></div>
-						</div>
-						{{else}}
-						<div class="cover-container">
-							<div class="cover" style="background-image: url(/images/fond-cover-place.png)"></div>
-						</div>
+						<a href="{{pathFor route='placeProfileAbout' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-place-default.png)">
+						</a>
 						{{/if}}
 					</header>
 					
 					<section>
-						<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
-						<h2>{{split types}}</h2>
+						{{#if cover}}
+						<div class="cover">
+							<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image: url({{cover.url}})"></a>
+						</div>
+						{{else}}
+						<div class="cover">
+							<a href="{{pathFor route='placeProfileAbout' _id=_id}}" style="background-image: url(/images/fond-cover-place.png)"></a>
+						</div>
+						{{/if}}
+						<div class="result-data">
+							<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
+							<h2>{{split types}}</h2>
+						</div>
 					</section>
 				</div>
 			</div>
