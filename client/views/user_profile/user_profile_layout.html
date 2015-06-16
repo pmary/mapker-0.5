@@ -61,16 +61,61 @@
 			<input class='form-control' type='url' id='edit-facebook' value='{{user.profile.links.facebook}}'>
 			<span class='help-block'>{{errorMessage 'facebook'}}</span>
 		</div>
-		<div class='form-group {{errorClass "flickr"}}'>
-			<label for='edit-activity'>Flickr</label>
-			<input class='form-control' type='url' id='edit-flickr' value='{{user.profile.links.flickr}}'>
-			<span class='help-block'>{{errorMessage 'flickr'}}</span>
-		</div>
+
 		<div class='form-group {{errorClass "twitter"}}'>
 			<label for='edit-activity'>Twitter</label>
 			<input class='form-control' type='url' id='edit-twitter' value='{{user.profile.links.twitter}}'>
 			<span class='help-block'>{{errorMessage 'twitter'}}</span>
 		</div>
+
+		<div class='form-group {{errorClass "linkedin"}}'>
+			<label for='edit-activity'>Linkedin</label>
+			<input class='form-control' type='url' id='edit-linkedin' value='{{user.profile.links.linkedin}}'>
+			<span class='help-block'>{{errorMessage 'linkedin'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "github"}}'>
+			<label for='edit-activity'>Github</label>
+			<input class='form-control' type='url' id='edit-github' value='{{user.profile.links.github}}'>
+			<span class='help-block'>{{errorMessage 'github'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "tumblr"}}'>
+			<label for='edit-activity'>Tumblr</label>
+			<input class='form-control' type='url' id='edit-tumblr' value='{{user.profile.links.tumblr}}'>
+			<span class='help-block'>{{errorMessage 'tumblr'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "instagram"}}'>
+			<label for='edit-activity'>Instagram</label>
+			<input class='form-control' type='url' id='edit-instagram' value='{{user.profile.links.instagram}}'>
+			<span class='help-block'>{{errorMessage 'instagram'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "behance"}}'>
+			<label for='edit-activity'>Behance</label>
+			<input class='form-control' type='url' id='edit-behance' value='{{user.profile.links.behance}}'>
+			<span class='help-block'>{{errorMessage 'behance'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "pinterest"}}'>
+			<label for='edit-activity'>Pinterest</label>
+			<input class='form-control' type='url' id='edit-pinterest' value='{{user.profile.links.pinterest}}'>
+			<span class='help-block'>{{errorMessage 'pinterest'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "vimeo"}}'>
+			<label for='edit-activity'>Vimeo</label>
+			<input class='form-control' type='url' id='edit-vimeo' value='{{user.profile.links.vimeo}}'>
+			<span class='help-block'>{{errorMessage 'vimeo'}}</span>
+		</div>
+
+		<div class='form-group {{errorClass "flickr"}}'>
+			<label for='edit-activity'>Flickr</label>
+			<input class='form-control' type='url' id='edit-flickr' value='{{user.profile.links.flickr}}'>
+			<span class='help-block'>{{errorMessage 'flickr'}}</span>
+		</div>
+		
 		<div class='form-group {{errorClass "website"}}'>
 			<label for='edit-activity'>Personal website</label>
 			<input class='form-control' type='url' id='edit-website' value='{{user.profile.links.website}}'>
@@ -209,16 +254,47 @@
 						
 						{{#if hasSocialLink user.profile.links}}
 							{{#if user.profile.links.facebook}}
-							<a href="{{user.profile.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
+							<a href="{{user.profile.links.facebook}}" target="_blank" class="social-icon-30-facebook"><span>Facebook</span></a>
 							{{/if}}
+
 							{{#if user.profile.links.twitter}}
-							<a href="{{user.profile.links.twitter}}" target="_blank"><span class="social-icon-25 social-icon-25-twitter"></span></a>
+							<a href="{{user.profile.links.twitter}}" target="_blank" class="social-icon-30-twitter"><span>Twitter</span></a>
 							{{/if}}
+
+							{{#if user.profile.links.linkedin}}
+							<a href="{{user.profile.links.linkedin}}" target="_blank" class="social-icon-30-linkedin"><span>Linkedin</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.github}}
+							<a href="{{user.profile.links.github}}" target="_blank" class="social-icon-30-github"><span>Github</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.tumblr}}
+							<a href="{{user.profile.links.tumblr}}" target="_blank" class="social-icon-30-tumblr"><span>Tumblr</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.instagram}}
+							<a href="{{user.profile.links.instagram}}" target="_blank" class="social-icon-30-instagram"><span>Instagram</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.behance}}
+							<a href="{{user.profile.links.behance}}" target="_blank" class="social-icon-30-behance"><span>Behance</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.pinterest}}
+							<a href="{{user.profile.links.pinterest}}" target="_blank" class="social-icon-30-pinterest"><span>Pinterest</span></a>
+							{{/if}}
+
+							{{#if user.profile.links.vimeo}}
+							<a href="{{user.profile.links.vimeo}}" target="_blank" class="social-icon-30-vimeo"><span>Vimeo</span></a>
+							{{/if}}
+
 							{{#if user.profile.links.flickr}}
-							<a href="{{user.profile.links.flickr}}" target="_blank"><span class="social-icon-25 social-icon-25-flickr"></span></a>
+							<a href="{{user.profile.links.flickr}}" target="_blank" class="social-icon-30-flickr"><span>Flickr</span></a>
 							{{/if}}
+
 							{{#if user.profile.links.website}}
-							<a href="{{user.profile.links.website}}" target="_blank"><span class="social-icon-25 social-icon-25-website"></span></a>
+							<a href="{{user.profile.links.website}}" target="_blank" class="social-icon-30-website"><span>Personal website</span></a>
 							{{/if}}
 
 							{{#if eq currentUser._id user._id}}

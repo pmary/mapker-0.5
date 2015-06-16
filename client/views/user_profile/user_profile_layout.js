@@ -254,6 +254,13 @@ Template.userUpdateSocialProfiles.events({
 			facebook: t.find('#edit-facebook').value,
 			flickr: t.find('#edit-flickr').value,
 			twitter: t.find('#edit-twitter').value,
+			linkedin: t.find('#edit-linkedin').value,
+			github: t.find('#edit-github').value,
+			tumblr: t.find('#edit-tumblr').value,
+			instagram: t.find('#edit-instagram').value,
+			behance: t.find('#edit-behance').value,
+			pinterest: t.find('#edit-pinterest').value,
+			vimeo: t.find('#edit-vimeo').value,
 			website: t.find('#edit-website').value
 		};
 
