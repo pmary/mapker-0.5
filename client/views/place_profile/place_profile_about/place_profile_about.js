@@ -15,7 +15,7 @@ Template.placeProfileAbout.events({
 	'click #update-user-bio' : function(e, t){
 		var bioContainer = t.find('.user-bio-container'),
 		bioEdition = t.find('.user-bio-edition'),
-		bioInput = t.find('#input-user-bio');
+		bioInput = t.find('#input-place-about');
 
 		bioInput.style.height = bioContainer.clientHeight + 'px';
 		bioContainer.style.display = 'none';
@@ -31,7 +31,7 @@ Template.placeProfileAbout.events({
 		e.preventDefault();
 		var place = {
 			id: t.data.place._id,
-			about: t.find('#input-user-bio').value
+			about: t.find('#input-place-about').value
 		};
 
 		Meteor.call('placeUpdateAbout', place, function(error, result) {

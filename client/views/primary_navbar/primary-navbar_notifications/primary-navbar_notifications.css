@@ -22,6 +22,14 @@
 	border-top-right-radius: 4px;
 }
 
+#navbar-notifs-list .user-link a {
+  color: #20DEC2;
+}
+
+#navbar-notifs-list .place-link a {
+  color: #FC3975;
+}
+
 #navbar-notifs-list:before {
   position: absolute;
   top: -7px;
@@ -51,12 +59,15 @@
   padding: 5px 0px 5px 0px;
 }
 
-#navbar-notifs-list li {
-  
+#navbar-notifs-list li:hover {
+  background-color: #F7F7F7;
+  cursor: pointer;
 }
 
-#navbar-notifs-list li a {
+#navbar-notifs-list li span {
   padding: 15px 20px 15px 20px;
+  display: block;
+  text-align: left;
 }
 
 #navbar-notifs-list li.unread {

@@ -15,45 +15,47 @@
 						<span class="help-block">{{errorMessage 'name'}}</span>
 					</div>
 					<div class="form-group {{errorClass 'types'}}">
-						<label for="select-types">Types</label>
+						<label for="select-types">Types <em>(3 max)</em></label>
 						<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the type of your" data-trigger="hover click"></span>
 						<select id="select-types" name="types[]" multiple class="demo-default" placeholder="Select a type...">
 							<option value="">Select a type...</option>
-							<option value="fablab">Fablab</option>
 							<option value="coworking">Coworking</option>
+							<option value="fablab">Fablab</option>
 							<option value="hackerspace">Hackerspace</option>
 							<option value="school">School</option>
 						</select>
 						<span class="help-block">{{errorMessage 'types'}}</span>
 					</div>
 					<div class="form-group {{errorClass 'specialities'}}">
-						<label for="select-specialities">Specialities</label>
-						<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the specialities of your place" data-trigger="hover click"></span>
+						<label for="select-specialities">Specialities <em>(5 max)</em></label>
+						<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 5 terms max to descibe the specialities of your place" data-trigger="hover click"></span>
 						<select id="select-specialities" name="specialities[]" multiple class="demo-default" placeholder="Select a speciality...">
 							<option value="">Select a speciality...</option>
-							<option value="wood">Wood</option>
-							<option value="metal">Metal</option>
-							<option value="plastic">Plastic</option>
-							<option value="photography">Photography</option>
-							<option value="video">Video</option>
-							<option value="mechanic">Mechanic</option>
-							<option value="biology">Biology</option>
-							<option value="physics">Physics</option>
-							<option value="chemistry">Chemistry</option>
-							<option value="ecology">Ecology</option>
-							<option value="beauty">Beauty</option>
-							<option value="health">Health</option>
 							<option value="architecture">Architecture</option>
-							<option value="upcycling">Upcycling</option>
+							<option value="art">Art</option>
+							<option value="beauty">Beauty</option>
+							<option value="biology">Biology</option>
+							<option value="chemistry">Chemistry</option>
+							<option value="craft">Craft</option>
 							<option value="design">Design</option>
-							<option value="fashion design">Fashion design</option>
-							<option value="print">Print</option>
-							<option value="graphism">Graphism</option>
-							<option value="electronics">Electronics</option>
-							<option value="space">space</option>
-							<option value="drone">Drone</option>
 							<option value="digital">Digital</option>
+							<option value="drone">Drone</option>
+							<option value="ecology">Ecology</option>
+							<option value="electronics">Electronics</option>
 							<option value="environment">Environment</option>
+							<option value="fashion design">Fashion design</option>
+							<option value="graphism">Graphism</option>
+							<option value="health">Health</option>
+							<option value="mechanic">Mechanic</option>
+							<option value="metal">Metal</option>
+							<option value="photography">Photography</option>
+							<option value="physics">Physics</option>
+							<option value="plastic">Plastic</option>
+							<option value="print">Print</option>
+							<option value="space">Space</option>
+							<option value="upcycling">Upcycling</option>
+							<option value="video">Video</option>
+							<option value="wood">Wood</option>							
 						</select>
 						<span class="help-block">{{errorMessage 'specialities'}}</span>
 					</div>

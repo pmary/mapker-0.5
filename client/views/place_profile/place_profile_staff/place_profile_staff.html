@@ -1,0 +1,13 @@
+<template name="placeProfileStaff">
+	<section class="user-profile-staff">
+		{{#if isAdmin}}
+		<form class="form-inline" id="add-member-form">
+			<div class="form-group {{errorClass 'member'}}">
+				<input type="text" class="form-control" placeholder="Invite a new member" id="input-member">
+				<span class="help-block">{{errorMessage 'member'}}</span>
+			</div>
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+		{{/if}}
+	</section>
+</template>

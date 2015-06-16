@@ -4,12 +4,23 @@
  * @see http://blog.qbox.io/quick-and-dirty-autocomplete-with-elasticsearch-completion-suggest for autocomplete exemple
  */
 
-// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-Meteor.ES = new Elasticsearch.Client({
-	host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
-	sniffOnStart: true,
-	sniffInterval: 60000,
-});
+// Check if we are in production or development environement
+if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
+	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
+	Meteor.ES = new Elasticsearch.Client({
+		host: 'https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com',
+		sniffOnStart: true,
+		sniffInterval: 60000,
+	});
+}
+else {
+	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
+	Meteor.ES = new Elasticsearch.Client({
+		host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
+		sniffOnStart: true,
+		sniffInterval: 60000,
+	});
+}
 
 
 /*****************************************************************************/
@@ -256,7 +267,7 @@ Meteor.ES.methods = {
 					}		
 				}
 			}, function(error, response) {
-				console.log(error);
+				if (error) console.log(error);
 				console.log(queryObject.bbox);
 				if (response && response.hits)
 					callback( null, response.hits.hits );
@@ -355,7 +366,8 @@ Meteor.methods({
 
 		if (user.profile.fullname) {
 			body.name = user.profile.fullname;
-			body.skills_suggest.input.push(user.profile.fullname)
+			body.skills_suggest.input.push(user.profile.fullname);
+			body.fullname_suggest = { input: [user.profile.fullname] };
 		}
 
 		if (user.profile.activity) {
@@ -427,6 +439,9 @@ Meteor.methods({
 		}
 		body.activities_suggest = {input: autocompleteFields};
 
+		if (place.formattedAddress)
+			body.formattedAddress = place.formattedAddress;
+
 		if (place.loc)
 			body.loc = {lat: place.loc.lat, lon: place.loc.lon};
 
@@ -490,7 +505,8 @@ Meteor.methods({
 
 			if (user.profile.fullname) {
 				body.name = user.profile.fullname;
-				body.skills_suggest.input.push(user.profile.fullname)
+				body.skills_suggest.input.push(user.profile.fullname);
+				body.fullname_suggest = { input: [user.profile.fullname] };
 			}
 
 			if (user.profile.activity) {
@@ -565,6 +581,9 @@ Meteor.methods({
 			}
 			body.activities_suggest = {input: autocompleteFields};
 
+			if (place.formattedAddress)
+				body.formattedAddress = place.formattedAddress;
+
 			if (place.loc)
 				body.loc = {lat: place.loc.lat, lon: place.loc.lon};
 
@@ -630,7 +649,7 @@ Meteor.methods({
 									"filter" : ["lowercase", "substring", "token_limit"]
 								},
 
-								autocomplete: {
+								"autocomplete": {
 									type: "custom",
 									tokenizer: "keyword",
 									filter: ["lowercase", "substring"]
@@ -673,6 +692,7 @@ Meteor.methods({
 								/*"search_analyzer" : "str_search_analyzer",
 								"index_analyzer" : "str_index_analyzer"*/
 							},
+							formattedAddress: { "type" : "string", "index" : "no" },
 							cover: {
 								"type": "object",
 								"properties": {
@@ -735,6 +755,12 @@ Meteor.methods({
 									"type" : "string", // Flatenize the skills as an array rather than an object
 									/*"search_analyzer" : "str_search_analyzer",
 									"index_analyzer" : "str_index_analyzer"*/
+								},
+								fullname_suggest: {
+									"type": "completion",
+									"search_analyzer": "str_search_analyzer",
+									"index_analyzer": "autocomplete",
+									"payloads": false
 								},
 								skills_suggest: {
 									"type": "completion",

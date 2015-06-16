@@ -29,9 +29,11 @@ Template.modalCreateProfile.events({
 	 * and display them to the user, using the Google geocoding API
 	 * @see https://developers.google.com/maps/documentation/geocoding/
 	 */
-	'focusout #input-zipcode': function(e,t) {
+	'keyup #input-zipcode': function(e,t) {
 		var countryCode = t.find('#select-country').value,
 		zipcode = t.find('#input-zipcode').value;
+
+		if (zipcode.length > 5) return;
 
 		// Get results by postal code and region iso code
 		var geocoder = new google.maps.Geocoder();
@@ -43,14 +45,14 @@ Template.modalCreateProfile.events({
 					if (results[0].postcode_localities) {
 						// Set the session variable with the locallities to display them on the from
 						Session.set('localities', results[0].postcode_localities);
-						$('#create-profile-form #select-city').focus();
+						//$('#create-profile-form #select-city').focus();
 					} else {
 						// Else, it mean there is only one locality matching
 						// The 'locality' type indicates an incorporated city or town political entity.
 						if (results[0].address_components[i].types[0] == "locality") {
 							// Set the session variable with the locallity to display it on the from
 							Session.set('localities', [results[0].address_components[i].long_name]);
-							$('#create-profile-form #select-city').focus();
+							//$('#create-profile-form #select-city').focus();
 						}
 					}
 				};

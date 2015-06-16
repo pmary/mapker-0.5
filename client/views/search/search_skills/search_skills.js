@@ -80,6 +80,8 @@ Template.searchSkills.helpers({
 /*****************************************************************************/
 Template.searchSkills.rendered = function() {
 	this.autorun(function () {
+		// Clear the search results
+		Session.set('searchUsersResults', '');
 		// Set the menu item as active
 	    $('#primary-navbar #main-menu li').removeClass('active');
 	    $('#primary-navbar #main-menu #menu-item-skills').addClass('active');

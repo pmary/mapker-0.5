@@ -10,11 +10,11 @@
  */
 var searchPlacesByActivitiesAndBbox = function(searchObject) {
 	// Query the ES index via the Meteor method and return the results
-	console.log(searchObject);
+	//console.log(searchObject);
 	Meteor.call('getPlaces', searchObject, function(error, result) {		
 		if (error) return console.log(error);
 
-		console.log(result);
+		//console.log(result);
 
 		// If there is no result
 		if (!result.length) 
@@ -137,8 +137,29 @@ var clearMap = function() {
 }
 
 var addPopup = function(marker, resource) {
-	//console.log(marker);
-	marker.bindPopup("<h2>" + resource.name + "</h2>");
+	if (resource.avatar) {
+		marker.bindPopup(`<div class="popup">
+			<div class="avatar" style="background-image: url( ${resource.avatar.url} )"></div>
+			<div class="infos">
+				<div class="info-v-center">
+					<h2>${resource.name}</h2>
+					<p>${resource.formattedAddress}</p>
+				</div>
+			</div>
+		</div>`);
+	}
+	else {
+		marker.bindPopup(`<div class="popup">
+			<div class="avatar" style="background-image: url( /images/avatar-place-default.png )"></div>
+			<div class="infos">
+				<div class="info-v-center">
+					<h2>${resource.name}</h2>
+					<p>${resource.formattedAddress}</p>
+				</div>
+			</div>
+		</div>`);
+	}
+	
 }
 
 
@@ -318,6 +339,7 @@ Template.searchPlaces.events({
 				map.setView(markers[i].getLatLng(), 13);
 				map.panBy([-350, 0]);
 				markers[i]._icon.firstElementChild.className = "pin pin-place-hover";
+				markers[i].openPopup();
 			}
 		};
 	}

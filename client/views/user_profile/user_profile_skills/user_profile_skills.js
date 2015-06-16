@@ -55,14 +55,14 @@ Template.userProfileSkills.events({
 	},
 	'click .skill-remove' : function(e,t) {
 		// Remove the selected skill from the 'userEditedSkills' session var
-		Session.set('userEditedSkills',
-			Session.get('userEditedSkills').filter(function (el) {
-				return el.title !== e.currentTarget.dataset.skillTitle;
-			})
-		);
+		var sessionSkills = Session.get('userEditedSkills');
+		var newUserEditedSkills = sessionSkills.filter(function (el) {
+			return el.title !== e.currentTarget.dataset.skillTitle;
+		})
+		Session.set('userEditedSkills', newUserEditedSkills);
 
 		// Remove the item node from the dom
-		$(e.currentTarget.parentNode).remove();
+		//$(e.currentTarget.parentNode).remove();
 	},
 	'click #cancel-edit-user-skills' : function(e,t) {
 		t.find('.user-skills').style.display = 'block';

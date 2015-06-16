@@ -1,21 +1,29 @@
 <template name="placeProfileAbout">
-	<section class="user-profile-bio">
+	<section class="user-profile-bio place-profile-about">
 		<div class="user-bio-container">
 			{{#if isAdmin}}
 				{{#if place.about}}
-					<div class="user-bio-content">
-						{{{htmlLineBreack place.about}}}
+					<div class="place-about-content">
+						<div class="specialities">
+							Main specialities: {{splitByScore place.specialities}}
+						</div>
+
+						<p>{{{htmlLineBreack place.about}}}</p>
 						<a href="#" id="update-user-bio">Edit</a>
 					</div>
 				{{else}}
-				<div id="update-user-bio" class="add-user-bio">
+				<div id="update-user-bio" class="add-place-about">
 					Talk about you
 				</div>
 				{{/if}}
 			{{else}}
 				{{#if place.about}}
-					<div class="user-bio-content">
-					{{{htmlLineBreack place.about}}}
+					<div class="place-about-content">
+					<div class="specialities">
+						Main specialities: {{splitByScore place.specialities}}
+					</div>
+
+					<p>{{{htmlLineBreack place.about}}}</p>
 					</div>
 				{{/if}}
 			{{/if}}
@@ -23,7 +31,7 @@
 		<div class="user-bio-edition">
 			<form id="form-user-bio">
 				<div class="form-group">
-					<textarea class="form-control" id="input-user-bio">{{place.about}}</textarea>
+					<textarea class="form-control" id="input-place-about">{{place.about}}</textarea>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-default" id="cancel-bio-edit">Cancel</button>

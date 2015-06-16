@@ -13,7 +13,7 @@ Template.modalAddPlace.rendered = function() {
 	});
 
 	$('select#select-specialities').selectize({
-		maxItems: 3
+		maxItems: 5
 	});
 }
 

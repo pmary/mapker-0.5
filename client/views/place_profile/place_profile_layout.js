@@ -125,11 +125,28 @@ Template.placeProfileLayout.events({
 			// Render the placeUpdateSocialProfiles template in the popover with the current template data
 			Blaze.renderWithData(Template.placeUpdateSocialProfiles, t.data, t.find('#resource-infos-social-profiles .popover-content'));
 		}
+	},
+	/*****************************************************************************/
+	/* Social bar UI */
+	/*****************************************************************************/
+	/**
+	 * @summary Open the modal that allow the user to send a message to the place owner
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'click .user-action-message': function (e, t) {
+		// Set the session var with the current resource data
+		Session.set('modalMessage', t.data);
+
+		// Open the add message modal
+		Session.set('activeModal', 'modalSendMessage');
+		$('#myModal').modal();
 	}
 });
 
 var typesSelectize, specialitiesSelectize;
 Template.placeProfileIdentityEdition.rendered = function() {
+	$('#edit-identity-form').popover();
 	console.log(this.data.place.specialities);
 	// Destroy the existing selectize instance on the types and specialities select fields to prevent errors
 	if (typesSelectize || specialitiesSelectize) {
@@ -150,7 +167,7 @@ Template.placeProfileIdentityEdition.rendered = function() {
 
 	// Set a new selectize instance for the specialities select field
 	var specialitiesSelectize = $('#edit-identity-form select#select-specialities').selectize({
-		maxItems: 3
+		maxItems: 5
 	});
 	// Set current specialities by default
 	var specialities = this.data.place.specialities;
@@ -183,7 +200,7 @@ Template.placeProfileIdentityEdition.events({
 	'click #close-identity-edit-popover': function (e, t) {
 		// Destroy the view and the popover
 		Blaze.remove(t.view);
-		$('#identity-edit').popover('destroy');
+		$('#edit-identity-form').popover('destroy');
 	},
 	/**
 	 * @summary Because the address has changed, force the user to recheck it before he can submit
@@ -256,7 +273,7 @@ Template.placeProfileIdentityEdition.events({
 
 						// Destroy the view and the popover
 						Blaze.remove(t.view);
-						$('#identity-edit').popover('destroy');
+						$('#edit-identity-form').popover('destroy');
 					});
 				};
 			};

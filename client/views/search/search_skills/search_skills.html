@@ -30,34 +30,30 @@
 
 
 		<section class="" id="search-results">
-			<div class="col-md-12">
-				<div class="col-md-10 col-md-offset-1">
+			<div class="results-container">
 				{{#if users}}
 					{{#if eq users "no-result"}}
 					{{else}}
 						{{#each users}}
-						<div class="col-sd-12 col-md-6">
 							<div class="result" data-id="{{_id}}">
 								<header>
 									<div class="avatar" style="background-image: url({{avatar.url}})">
 									</div>
+								</header>
+								
+								<section>
 									<div class="focuspoint cover">
 										{{#if cover}}
 										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{cover.url}})"></a>
 										{{/if}}
 									</div>
-								</header>
-								
-								<section>
 									<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{name}}</a></h1>
 									<h2>{{activity}}</h2>
 								</section>
 							</div>
-						</div>
 						{{/each}}
 					{{/if}}
 				{{/if}}
-				</div>
 			</div>
 		</section>
 	</div>

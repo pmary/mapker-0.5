@@ -55,7 +55,12 @@
 	margin-right: auto;
 }
 
-.modal-change-avatar .modal-header {
+.modal-change-avatar .modal-header.user {
 	background-color: #20dec2;
+	color: #FFFFFF;
+}
+
+.modal-change-avatar .modal-header.place {
+	background-color: #FC3975;
 	color: #FFFFFF;
 }

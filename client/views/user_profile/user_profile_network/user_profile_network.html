@@ -12,9 +12,13 @@
 						</div>
 						{{/if}}
 						{{#if profile.cover}}
-						<div class="cover" style="background-image: url({{profile.cover.url}})"></div>
+						<div class="cover-container">
+							<div class="cover" style="background-image: url({{profile.cover.url}})"></div>
+						</div>
 						{{else}}
-						<div class="cover"></div>
+						<div class="cover-container">
+							<div class="cover"></div>
+						</div>
 						{{/if}}
 					</header>
 					

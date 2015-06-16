@@ -98,12 +98,14 @@ Meteor.methods({
 		var s3UploadAsync = Meteor.wrapAsync(s3Upload); // @doc http://docs.meteor.com/#/full/meteor_wrapasync
 		var url = s3UploadAsync(params);
 
-		// Remove the old file
-		var deletionParams = {Key: img.resource[img.role].name}
-		s3.deleteObject(deletionParams, function(err, data) {
-			if (err) console.log(err, err.stack); // an error occurred
-			else     console.log(data);           // successful response
-		});
+		// Remove the old file if there is one
+		if (img.resource[img.role]) {
+			var deletionParams = {Key: img.resource[img.role].name}
+			s3.deleteObject(deletionParams, function(err, data) {
+				if (err) console.log(err, err.stack); // an error occurred
+				else     console.log(data);           // successful response
+			});
+		};
 
 		//console.log(url);
 
@@ -129,9 +131,8 @@ Meteor.methods({
 			else if (img.role == "cover")
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
 
-			// Update the elasticsearch document
-			if (Meteor.ES)
-				Meteor.ES.methods.updatePlaceDocument(img.resource.id);
+			// Update the user ElasticSearch document
+			Meteor.call('updatePlaceESDocument', img.resource.id);
 		};
 
 		return url;

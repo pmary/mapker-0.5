@@ -92,6 +92,7 @@ Template.modalChangeAvatar.events({
 		var canvas = $('.helper-tool > img').cropper('getCroppedCanvas', { width: 160, height: 160, fillColor: "#ffffff" } );
 
 		var resource = Session.get('modalResource');
+		//console.log(resource);
 		var file = document.getElementById('input-avatar').files[0];
 
 		if (file) {
@@ -105,6 +106,7 @@ Template.modalChangeAvatar.events({
 			// Closure to capture the file information
 			reader.onloadend = function(e) {
 				// Set the uploaded file object
+				//console.log(Session.get('modalResource'));
 				var uploadedFile = {
 					resource: Session.get('modalResource'), // Infos about the currently edited resource
 					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image

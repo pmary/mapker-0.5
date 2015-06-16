@@ -10,15 +10,29 @@
 		{{#each notifs}}
 			{{#if read}}
 			<li class="read">
-				<a href="#">
+				{{#if eq from.resource 'users'}}
+				<span class="user-link" href="#">
 					{{{msg}}}
-				</a>
+				</span>
+				{{/if}}
+				{{#if eq from.resource 'places'}}
+				<span class="place-link" href="#">
+					{{{msg}}}
+				</span>
+				{{/if}}
 			</li>
 			{{else}}
 			<li class="unread">
-				<a href="#">
+				{{#if eq from.resource 'users'}}
+				<span class="user-link" href="#">
 					{{{msg}}}
-				</a>
+				</span>
+				{{/if}}
+				{{#if eq from.resource 'places'}}
+				<span class="place-link" href="#">
+					{{{msg}}}
+				</span>
+				{{/if}}
 			</li>
 			{{/if}}
 		{{/each}}

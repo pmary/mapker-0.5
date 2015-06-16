@@ -145,3 +145,67 @@
 	width: 552px;
 	height: 100%;
 }
+
+/**
+ * Popup
+ */
+#search-page {
+	.leaflet-popup-close-button {
+		display: none;
+	}
+
+	.leaflet-popup-content-wrapper {
+		width: 400px;
+		height: 120px;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+		padding: 0px;
+		overflow: hidden;
+
+		.leaflet-popup-content {
+			padding: 0px;
+			width: 400px !important;
+
+			.avatar {
+				position: absolute;
+				display: block;
+				width: 120px;
+				height: 120px;
+				background-color: #FFF;
+				float: left;
+				z-index: 1;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.15);
+			}
+
+			.infos {
+				padding-left: 150px;
+				padding-right: 30px;
+				line-height: 120px;
+  				height: 120px;
+
+  				.info-v-center {
+  					padding-top: 5px;
+					padding-bottom: 5px;
+  					display: inline-block;
+  					vertical-align: middle;
+
+					h2 {
+						font-weight: bold;
+						text-transform: uppercase;
+						margin-bottom: 10px;
+						font-size: 17px;
+					}
+
+					p {
+						color: #000;
+						font-size: 12px;
+						padding: 0px;
+						margin: 0px;
+					}
+				}
+			}
+		}
+	}
+}

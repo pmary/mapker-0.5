@@ -1,7 +1,7 @@
 <template name="modalChangeAvatar">
 	<div class="modal-dialog modal-change-avatar">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header {{#if eq modalResource.type 'place'}}place{{/if}} {{#if eq modalResource.type 'user'}}user{{/if}}">
 				<h4 class="modal-title" id="myModalLabel">Update your avatar</h4>
 			</div>
 			<div class="modal-body">
