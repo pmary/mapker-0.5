@@ -1,5 +1,5 @@
 <template name="userProfilePlaces">
-	<section class="user-profile-places">
+	<section class="col-md-8 col-md-offset-2 user-profile-places">
 		{{#each places}}
 			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="place">
@@ -30,6 +30,9 @@
 						<div class="result-data">
 							<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
 							<h2>{{split types}}</h2>
+							{{#if specialities}}
+							<p>{{splitByScore specialities}}</p>
+							{{/if}}
 						</div>
 					</section>
 				</div>
