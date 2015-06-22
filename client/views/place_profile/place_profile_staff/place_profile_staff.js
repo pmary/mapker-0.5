@@ -8,13 +8,77 @@ Template.placeProfileStaff.helpers({
 			return true;
 		else
 			return false;
-	},
-	errorMessage: function(field) {
-		if (Session.get('userProfileSkillsErrors'))
-			return Session.get('userProfileSkillsErrors')[field];
-	},
-	errorClass: function (field) {
-		if (Session.get('userProfileSkillsErrors'))
-			return !!Session.get('userProfileSkillsErrors')[field] ? 'has-error' : '';
-	},
+	}
+});
+
+Template.placeProfileStaff.helpers({
+	current: function () {
+		return Session.get('currentStaffUserSelected');
+	}
+});
+
+Template.placeProfileStaff.events({
+	'click .user-action-open-modal-invite-staff': function (e, t) {
+		// Open the modal
+		Session.set('activeModal', 'modalPlaceInviteStaffMembers');
+		$('#myModal').modal();
+	}
+});
+
+Template.placeProfileStaffAddMember.rendered = function () {
+	console.log('placeProfileStaffAddMember rendered');
+	// Clear the session var
+	Session.set('currentStaffUserSelected', null);
+
+	/**
+	 * @summary AutoComplete init. for the users input field
+	 * @see https://github.com/devbridge/jQuery-Autocomplete
+	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
+	 */
+	//this.autorun(function () {
+		var currentQueryString;
+		$('.place-profile-staff #input-who').autocomplete({
+			position: "absolute",
+			appendTo: $('.place-profile-staff #input-who-container'),
+			lookup: function(queryString, done) {
+				// Disable the add button until
+				$('.place-profile-staff .user-action-add-staff-member').addClass('disabled');
+
+				// No search if the query string lenght < 2 characters
+				// Or if the input text hasn't change
+				if (queryString.length < 2 || queryString == currentQueryString) return;
+				currentQueryString = queryString;
+
+				// Get the suggestions according to the queryString
+				Meteor.call('getUsersByFullname', queryString, function(error, result) {
+					// Display the error to the user and abort
+					if (error) return console.log(error.reason);
+
+					formatedResult = {
+						suggestions: $.map(result, function(dataItem) {
+							return { value: dataItem._source.name, data: dataItem._id };
+						})
+					};
+
+					done(formatedResult);
+				});
+			},
+			// Called before displaying the suggestions. You may manipulate suggestions DOM before it is displayed.
+			beforeRender: function (container) {
+				console.log($(container)[0]);
+				container[0].innerHTML = '<div><em>Hello</em></div>';
+			},
+			onSelect: function (suggestion) {
+				//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+				Session.set('currentStaffUserSelected', suggestion.data);
+				$('.place-profile-staff .user-action-add-staff-member').removeClass('disabled');
+			}
+		});
+	//});
+};
+
+Template.placeProfileStaffAddMember.events({
+	'click .user-action-add-staff-member': function (e, t) {
+		console.log( 'Will add: ' + Session.get('currentStaffUserSelected') );
+	}
 });

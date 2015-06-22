@@ -275,6 +275,51 @@ Meteor.ES.methods = {
 		} else {
 			callback( null, [] );
 		}
+	},
+	/**
+	 * @summary Query the resources index users type to get the users 
+	 * whose fullname match with the given string
+	 * @paramas {String} queryString
+	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
+	 */
+	getUsersByFullname: function(queryObject, callback) {
+		Meteor.ES.search({
+			index: 'resources',
+			type: 'user',
+			body: {
+				"query" : {
+					"bool": {
+						"must": [{
+							"match_phrase_prefix": {
+								"name": {
+									"query": queryObject.string,
+									"max_expansions": 50
+								}
+							}
+						}],
+						"must_not": {
+							"match": {
+								"_id": Meteor.user()._id
+							}
+						}
+					}
+				},
+				"filter": { 
+					"query": {
+						"ids":{
+							"values": queryObject.network
+						}
+					}
+				}
+			}
+		}, function(error, response) {
+			if (error) console.log(error);
+
+			if (response && response.hits)
+				callback( null, response.hits.hits );
+			else
+				callback(null, null);
+		});
 	}
 };
 
@@ -283,7 +328,7 @@ Meteor.methods({
 	 * @summary Get skills suggested by query string for autocompletion purpose
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
 	 */
-	getSkillsSuggestions: function(queryString) {
+	getSkillsSuggestions: function (queryString) {
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
@@ -295,7 +340,7 @@ Meteor.methods({
 	 * @summary Get activities suggested by query string for autocompletion purpose
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
 	 */
-	getActivitiesSuggestions: function(queryString) {
+	getActivitiesSuggestions: function (queryString) {
 		//console.log(queryString);
 		check(queryString, String);
 
@@ -307,7 +352,7 @@ Meteor.methods({
 	/**
 	 * @summary Restore the elasticsearch index
 	 */
-	resetElasticSearch: function() {
+	resetElasticSearch: function () {
 		// Check if the user is loged in
 		check(Meteor.userId(), String);
 		// Check if the user is an admin
@@ -324,7 +369,7 @@ Meteor.methods({
 		// Restore the users documents
 		//wrappedRestoreDocuments('');
 	},
-	getPlaces: function(queryObject) {
+	getPlaces: function (queryObject) {
 		check(queryObject, Object);
 
 		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces); 
@@ -332,17 +377,27 @@ Meteor.methods({
 		// console.log(results);
 		return results;
 	},
-	getUsers: function(queryObject) {
+	getUsers: function (queryObject) {
 		check(queryObject, Object);
 
 		var wrappedGetUsers = Meteor.wrapAsync(Meteor.ES.methods.getUsers); 
 		var results = wrappedGetUsers(queryObject);
 		return results;
 	},
+	getUsersByFullname: function (queryObject) {
+		check(queryObject, {
+			string: String,
+			network: Array
+		});
+
+		var wrappedGetUsersByFullname = Meteor.wrapAsync(Meteor.ES.methods.getUsersByFullname); 
+		var results = wrappedGetUsersByFullname(queryObject);
+		return results;
+	},
 	/**
 	 * @summary Update a user document in the ES 'resources' index
 	 */
-	updateUserESDocument: function(userId) {
+	updateUserESDocument: function (userId) {
 		check(userId, String);
 
 		// Get the user data
@@ -412,7 +467,7 @@ Meteor.methods({
 	/**
 	 * @summary Update a user document in the ES 'resources' index
 	 */
-	updatePlaceESDocument: function(placeId) {
+	updatePlaceESDocument: function (placeId) {
 		check(placeId, String);
 
 		// Get the place data
@@ -480,7 +535,7 @@ Meteor.methods({
 	 * @summary Get all the documents from the users collection
 	 * and insert them in the elasticsearch index
 	 */
-	restoreUsersDocuments: function() {
+	restoreUsersDocuments: function () {
 		// Get all the users
 		var users = Meteor.users.find().fetch();
 
@@ -554,7 +609,7 @@ Meteor.methods({
 	 * @summary Get all the documents from the users collection
 	 * and insert them in the elasticsearch index
 	 */
-	restorePlacesDocuments: function() {
+	restorePlacesDocuments: function () {
 		// Get all the places
 		var places = Places.find().fetch();
 		// Create the place documents
@@ -623,7 +678,7 @@ Meteor.methods({
 	/**
 	 * @summary Delete all the indexes, rebuild them and set their mapping
 	 */
-	restoreIndex: function() {
+	restoreIndex: function () {
 		// Delete all the indices
 		Meteor.ES.indices.delete({index: '_all'}, function (error, response) {
 			if (error) return console.log(error);

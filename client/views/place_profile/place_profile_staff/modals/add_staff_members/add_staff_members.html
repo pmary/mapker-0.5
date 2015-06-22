@@ -1,0 +1,49 @@
+<template name="modalPlaceInviteStaffMembers">
+	<div class="modal-dialog modal-place-invite-staff-members">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Invite your collaborators</h4>
+			</div>
+			<div class="modal-body">
+				<form class="staff-invitation-form form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-2 right">
+							{{#if currentUser.profile.avatar}}
+								<span class="avatar" style="background-image:url({{currentUser.profile.avatar.url}})"></span>
+							{{else}}
+								<span class="avatar" style="background-image:url(/images/avatar-user-default.png)"></span>
+							{{/if}}
+						</div>
+						<div class="col-sm-10 left">
+							<textarea id="" class="form-control" placeholder="A comment?"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group {{errorClass 'email'}}">
+						<label for="inputPassword3" class="col-sm-2 control-label">To:</label>
+						<div class="col-sm-8 left" id="input-who-container">
+							<input type="text" class="form-control" id="input-who" placeholder="+ Add names or email">
+							<span class="help-block">{{errorMessage 'email'}}</span>
+						</div>
+						<button class="btn btn-default col-sm-2 user-action-find-peoples" title="Find peoples">
+							<span class="glyphicon glyphicon-user" aria-hidden="true"><span>+</span></span>
+						</button>
+					</div>
+				</form>
+
+				<div class="list">
+					{{#each usersSelected}}
+						<div class="listitem">{{fullname}} <span class="glyphicon glyphicon-remove-circle user-action-remove-user-selected" aria-hidden="true" data-id="{{id}}"></span></div>
+					{{/each}}
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<div class="pull-right">
+					<button role="button" class="btn btn-default">Cancel</button>
+					<button role="button" class="btn btn-success user-action-send-invitations">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+</template>

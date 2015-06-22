@@ -28,3 +28,7 @@ less
 momentjs:moment
 jquery
 reactive-var
+meteorhacks:npm
+
+
+npm-container
