@@ -98,13 +98,13 @@ Template.modalPlaceInviteStaffMembers.events({
       }, 3000);
       return; // Abort the account creation due to errors
     }
-    console.log('will add the email to the list');
+
     // Add the email to the list
     var usersSelected = Session.get('currentStaffUsersSelected');
     if (! usersSelected)
-      usersSelected = [{ fullname: email, id: email }];
+      usersSelected = [{ email: email, id: email }];
     else
-      usersSelected.push({ fullname: email, id: email });
+      usersSelected.push({ email: email, id: email });
 
     Session.set('currentStaffUsersSelected', usersSelected);
     
@@ -129,6 +129,7 @@ Template.modalPlaceInviteStaffMembers.events({
    */
   'click .user-action-send-invitations': function (e, t) {
     var usersSelected = Session.get('currentStaffUsersSelected');
+    console.log('usersSelected', usersSelected);
     if (usersSelected) {
       Meteor.call('inviteStaffMembers', usersSelected, function(error, result) {
 
