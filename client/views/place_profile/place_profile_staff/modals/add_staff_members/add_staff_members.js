@@ -84,7 +84,6 @@ Template.modalPlaceInviteStaffMembers.events({
     e.preventDefault();
     var email = t.find('#input-who').value,
     errors = {};
-    console.log(email);
 
     // Check if the input is a valid email address
     var emailError = emailValidation(email);
@@ -93,11 +92,12 @@ Template.modalPlaceInviteStaffMembers.events({
     Session.set('modalAddPlaceInviteStaffMembersErrors', errors);
     if (Object.keys(errors).length) {
       Meteor.setTimeout(function () {
-        console.log("timeout");
         Session.set('modalAddPlaceInviteStaffMembersErrors', '');
       }, 3000);
-      return; // Abort the account creation due to errors
+      return;
     }
+
+    t.find('#input-who').value = '';
 
     // Add the email to the list
     var usersSelected = Session.get('currentStaffUsersSelected');

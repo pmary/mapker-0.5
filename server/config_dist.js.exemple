@@ -1,12 +1,34 @@
-/**
- * Copy this file, rename it as config.js and add you own configuration
- */
-Meteor.settings.AWSAccessKeyId = "YourAWSAccessKeyId";
-Meteor.settings.AWSSecretAccessKey = "YourAWSSecretAccessKey";
-Meteor.settings.bucket = "YourBucket";
-Meteor.settings.region = "YourRegion";
+//
+// Copy this file, rename it as config.js and add you own configuration
+//
+
+// Check if we are in production or development environement
+if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
+	Meteor.settings.AWSAccessKeyId = "YOURKEY";
+	Meteor.settings.AWSSecretAccessKey = "YOURKEY";
+	Meteor.settings.bucket = "bucket-name";
+	Meteor.settings.region = "eu-central-1";
+}
+else {
+	Meteor.settings.AWSAccessKeyId = "YOURKEY";
+	Meteor.settings.AWSSecretAccessKey = "YOURKEY";
+	Meteor.settings.bucket = "bucket-name";
+	Meteor.settings.region = "eu-central-1";
+}
+
+Meteor.fs = Npm.require('fs');
 
 Meteor.startup(function () {
+	/**
+	 * AWS S3 configuration
+	 */
+	AWS.config.update({
+		accessKeyId: Meteor.settings.AWSAccessKeyId,
+		secretAccessKey: Meteor.settings.AWSSecretAccessKey,
+		region: Meteor.settings.region // Like "eu-central-1"
+	});
+	s3 = new AWS.S3({params: {Bucket: Meteor.settings.bucket}});
+
 	/**
 	 * Customize the password reset system
 	 */
@@ -17,80 +39,42 @@ Meteor.startup(function () {
 	};
 	
 	/** 
-	 * Transactional email configuration. You can use MailGun service
+	 * Transactional email configuration.
+	 * You can use the Mandrill service or Mailgun for exemple
 	 * @doc: http://blog.ploki.info/send-email-with-meteor-mailgun/
 	 * @doc: http://docs.meteor.com/#/full/email
+	 * UsernameOrEmail should be URL enconde. Ex.: test@mapker.co => test%40mapker.co
 	 */
 	Accounts.emailTemplates.from = 'Mapker <no-reply@mapker.co>';
-	process.env.MAIL_URL = 'smtp://postmaster%40meteorize.mailgun.org:YOURPASSWORD@smtp.mailgun.org:587';
+	process.env.MAIL_URL = 'smtp://UsernameOrEmail:YOURKEY@smtp.mandrillapp.com:587';
 
 	/**
-	 * AWS SDK configuration (via the meteor-aws-sdk package)
-	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html
-	 * Direct download tuto: https://devcenter.heroku.com/articles/s3-upload-node
+	 * Loggly setup
+	 * @see https://www.loggly.com/blog/managing-a-meteor-application-in-production-three-real-log-management-use-cases/
 	 */
-	AWS.config.update({
-		accessKeyId: "YourAcessKeyID",
-		secretAccessKey: "YourSecretAccessKey",
-		region: "YouBucketRegion" // Like "eu-central-1"
-	});
-	s3 = new AWS.S3({params: {Bucket: 'YourBucketName'}});
+	Logger = new Loggly({
+    token: 'YOURKEY',
+    subdomain: 'YOURSUBMODAIN.loggly.com',
+    auth: {
+      username: 'YOURUSERNAME',
+      password: 'YOURPASSWORD'
+    },
+    //
+    // Optional: Tag to send with EVERY log message
+    //
+    tags: ['global-tag'],
+    // Optional: logs will be stored in JSON format
+    json: true
+  });
+  // From the server side, use this syntax:
+  // Logger.log('first log from meteor');
 
-	/* 
-	 * Demo: Put something in the bucket
-	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
-	 */
-	var params = {Key: 'myKey', Body: 'Hello!'};
-	s3.upload(params, function(err, data) {
-		if (err) {
-	    	console.warn("Error uploading data: ", err);
-		} else {
-	    	console.warn("Successfully uploaded data to myBucket/myKey");
-		}
-	 });
-
-	/**
-	 * Demo: Delete an object from the bucket
-	 * @doc: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObject-property
-	 */
-	var params = {
-		Bucket: Meteor.settings.bucket,
-		Key: "test" // The name of the object
-	};
-	s3.deleteObject(params, function(err, data) {
-		if (err) {
-			console.warn(err);
-		}else {
-			console.warn("Object deleted");
-			console.warn(data);
-		};
-	});
-});
-
-/**
- * A directive that controls upload access rules
- */
-Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
-	bucket: Meteor.settings.bucket,
-	region: Meteor.settings.region,
-	AWSAccessKeyId: Meteor.settings.AWSAccessKeyId,
-	AWSSecretAccessKey: Meteor.settings.AWSSecretAccessKey,
-
-	acl: "public-read",
-
-	authorize: function () {
-		//Deny uploads if user is not logged in.
-		if (!this.userId) {
-			var message = "Please login before posting files";
-			throw new Meteor.Error("Login Required", message);
-		}
-
-		return true;
-	},
-
-	key: function (file) {
-		//Store file into a directory by the user's username.
-		var user = Meteor.users.findOne(this.userId);
-		return user.username + "/" + file.name;
-	}
+  // To send log messages from the client
+  Meteor.methods({
+  	clientLog: function(message) { 
+      Logger.log(message, ['meteorClient']); 
+  	}
+  	// From the client side, use something like
+  	// Meteor.call('clientLog', 'this is a test');
+  });
 });

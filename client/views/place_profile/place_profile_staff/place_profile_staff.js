@@ -22,6 +22,7 @@ Template.placeProfileStaff.events({
 		// Open the modal
 		Session.set('activeModal', 'modalPlaceInviteStaffMembers');
 		$('#myModal').modal();
+		Template.modalPlaceInviteStaffMembers.rendered();
 	}
 });
 
