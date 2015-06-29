@@ -20,7 +20,8 @@ Template.userJoin.events({
 			lastname: t.find('#join-last-name').value,
 			email: t.find('#join-email').value,
 			password: t.find('#join-password').value,
-			passwordConfirmation: t.find('#join-confirm-password').value
+			passwordConfirmation: t.find('#join-confirm-password').value,
+			userLang: navigator.language || navigator.userLanguage
 		}
 
 		var errors = validateUserJoin(user);
@@ -30,11 +31,11 @@ Template.userJoin.events({
 
 		// If the form is valide
 		Accounts.createUser({
-			email: user.email, 
-			password: user.password, 
+			email: user.email,
+			password: user.password,
 			profile:{
-				fullname: user.firstname+ " " + user.lastname, 
-				firstname: user.firstname, 
+				fullname: user.firstname+ " " + user.lastname,
+				firstname: user.firstname,
 				lastname: user.lastname
 			}
 		}, function(error, result) {
@@ -42,8 +43,9 @@ Template.userJoin.events({
 				// Inform the user that account creation failed
 				Errors.throw(error.reason);
 			}else {
+				Meteor.call('userCreateAccount', user);
 				// Success. Account has been created and the user
-				// has logged in successfully. 
+				// has logged in successfully.
 
 				Router.go('userProfileBio', {_id: Meteor.user()._id});
 			}
