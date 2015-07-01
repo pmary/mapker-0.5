@@ -87,7 +87,7 @@ Template.modalPlaceInviteStaffMembers.events({
 
     // Check if the input is a valid email address
     var emailError = emailValidation(email);
-    if (emailError) 
+    if (emailError)
       var errors = { email: emailError };
     Session.set('modalAddPlaceInviteStaffMembersErrors', errors);
     if (Object.keys(errors).length) {
@@ -107,7 +107,6 @@ Template.modalPlaceInviteStaffMembers.events({
       usersSelected.push({ email: email, id: email });
 
     Session.set('currentStaffUsersSelected', usersSelected);
-    
   },
   /**
    * @summary Remove a user from the invitation list
@@ -129,10 +128,13 @@ Template.modalPlaceInviteStaffMembers.events({
    */
   'click .user-action-send-invitations': function (e, t) {
     var usersSelected = Session.get('currentStaffUsersSelected');
-    console.log('usersSelected', usersSelected);
-    if (usersSelected) {
-      Meteor.call('inviteStaffMembers', usersSelected, function(error, result) {
+    var placeId = Router.current().params._id;
+    //console.log('Router.current().params._id', Router.current().params._id);
 
+    if (usersSelected) {
+      Meteor.call('inviteStaffMembers', usersSelected, placeId, function(error, result) {
+        if (error) console.log(error);
+        console.log(result);
       });
     };
   }

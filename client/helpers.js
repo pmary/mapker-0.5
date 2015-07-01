@@ -1,4 +1,4 @@
-/** 
+/**
  * @todo refactorize and put in the client/helpers folder
  */
 
@@ -16,6 +16,19 @@ UI.registerHelper('splitByScore', function(activities) {
 	return activities.join(" - ");
 });
 
+UI.registerHelper('splitByScoreAndLimit', function(activities, maxLength) {
+	for (var i = 0; i < activities.length; i++) {
+		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
+	};
+	activities = activities.join(" - ");
+
+	// Limit the lenght of the string
+	if (activities.length > maxLength) {
+		activities = activities.substr(0,maxLength-1)+'...';
+	}
+	return activities;
+});
+
 // Helper to user test equality
 UI.registerHelper('eq', function(v1, v2, options) {
 	var result;
@@ -27,7 +40,7 @@ UI.registerHelper('eq', function(v1, v2, options) {
 			};
 		}
 		else {
-			if(v1 == v2){ result = true; } 
+			if(v1 == v2){ result = true; }
 			else { result = false; }
 		};
 	};
@@ -47,7 +60,7 @@ UI.registerHelper('inArray', function(value, array) {
 	}
 	else {
 		return false;
-	}	
+	}
 });
 
 // Check if the user have fill at least one social profile link
