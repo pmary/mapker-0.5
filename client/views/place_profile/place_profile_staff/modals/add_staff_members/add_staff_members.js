@@ -129,12 +129,12 @@ Template.modalPlaceInviteStaffMembers.events({
   'click .user-action-send-invitations': function (e, t) {
     var usersSelected = Session.get('currentStaffUsersSelected');
     var placeId = Router.current().params._id;
-    //console.log('Router.current().params._id', Router.current().params._id);
 
     if (usersSelected) {
-      Meteor.call('inviteStaffMembers', usersSelected, placeId, function(error, result) {
+      Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, function(error, result) {
         if (error) console.log(error);
         console.log(result);
+        $('#myModal').modal('hide');
       });
     };
   }

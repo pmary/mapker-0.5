@@ -8,12 +8,29 @@ Template.placeProfileStaff.helpers({
 			return true;
 		else
 			return false;
-	}
-});
-
-Template.placeProfileStaff.helpers({
+	},
 	current: function () {
 		return Session.get('currentStaffUserSelected');
+	},
+	/**
+	 * @summary Get the details of the staff members of the place
+	 */
+	staffMembers: function () {
+		// Get all the members
+		var place = Places.findOne({_id: Router.current().params._id, members: {$elemMatch: { staff: true }}}, {fields: {members: 1}});
+		console.log(place);
+		var members = place.members;
+		// Filter the staff members
+		var staffMembersIds = [];
+		for (var i = 0; i < members.length; i++) {
+			if (members[i].staff)
+				staffMembersIds.push(members[i].id);
+		}
+		// Get the staff members data
+		Meteor.subscribe('users', staffMembersIds);
+		return Meteor.users.find({ _id: { $in: staffMembersIds } }).fetch();
+		console.log(staffMembers);
+		console.log(staffMembersIds);
 	}
 });
 

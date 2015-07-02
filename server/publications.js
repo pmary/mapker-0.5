@@ -44,10 +44,11 @@ Meteor.publish("user", function (userId) {
 
 /**
  * @summary Publish users documents following the given array of ids
+ * @param {Array} userIds - An array of user ids
  */
 Meteor.publish('users', function (userIds) {
 	check(userIds, Array);
-	return Meteor.users.find({_id: { $in : userIds} });
+	return Meteor.users.find({_id: { $in : userIds} }, {fields: {emails: 0, services: 0, createdAt: 0}});
 });
 
 /*****************************************************************************/

@@ -16,4 +16,85 @@
 			height: 40px;
 		}
 	}
+
+	.user {
+		box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+		height: 190px;
+		background-color: #FFFFFF;
+		margin-bottom: 20px;
+		border-radius: 3px;
+		display: block;
+
+		header {
+			width: 190px;
+			height: 190px;
+			display: block;
+			float: left;
+			background-color: #FFFFFF;
+			border-top-left-radius: 3px;
+			border-bottom-left-radius: 3px;
+			z-index: 2;
+
+			.avatar {
+				display: block;
+				width: 190px;
+				height: 190px;
+				border-top-left-radius: 3px;
+				border-bottom-left-radius: 3px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: contain;
+			}
+		}
+
+		section {
+			display: block;
+			padding-left: 190px;
+			z-index: 1;
+
+			.cover {
+				height: 80px;
+
+				a {
+					height: 80px;
+					background-repeat: no-repeat;
+					background-size: cover;
+					background-position: center;
+					display: block;
+					border-top-right-radius: 3px;
+				}
+			}
+
+			.result-data {
+				padding-left: 25px;
+				padding-top: 25px;
+				height: 110px;
+				border-left: 1px solid #dfdfdf;
+
+				h1 {
+					margin-top: 0px;
+					margin-bottom: 5px;
+					font-size: 19px;
+					font-weight: bold;
+					text-transform: uppercase;
+
+					a {
+						&:hover {
+							text-decoration: none;
+						}
+
+						color: #1C1C1C;
+					}
+				}
+
+				h2 {
+					margin-top: 0px;
+					margin-bottom: 15px;
+					font-size: 14px;
+					color: #20DEC2;
+				}
+			}
+		}
+	}
+
 }

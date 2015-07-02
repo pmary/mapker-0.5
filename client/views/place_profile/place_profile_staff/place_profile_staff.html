@@ -1,8 +1,43 @@
 <template name="placeProfileStaff">
 	<section class="place-profile-staff">
+		<!-- Display the 'invite' button -->
 		{{#if isAdmin}}
 			<button type="button" class="btn btn-primary user-action-open-modal-invite-staff">Invite staff members</button>
 		{{/if}}
+
+		<!-- Display the staff members list -->
+		{{#each staffMembers}}
+			<div class="col-sd-12 col-md-6 col-lg-6">
+				<div class="user">
+					<header>
+						{{#if profile.avatar}}
+						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{profile.avatar.url}})">
+						</a>
+						{{else}}
+						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+						</a>
+						{{/if}}
+					</header>
+
+					<section>
+						{{#if profile.cover}}
+						<div class="cover">
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{profile.cover.url}})"></a>
+						</div>
+						{{else}}
+						<div class="cover">
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
+						</div>
+						{{/if}}
+						<div class="result-data">
+							<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
+							<h2>{{profile.activity}}</h2>
+						</div>
+					</section>
+				</div>
+			</div>
+		{{/each}}
+
 	</section>
 </template>
 
