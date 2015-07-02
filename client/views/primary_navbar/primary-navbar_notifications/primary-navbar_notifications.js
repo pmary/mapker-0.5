@@ -32,5 +32,15 @@ Template.primaryNavbarNotifications.events({
 		Meteor.call('userMaskNotifsAsRead', function(error, result) {
 			if (error) {console.log(error)};
 		});
+	},
+	/**
+	 * @summary Prevent the dropdown to close at click on a tab and switch to the
+	 * selected tab
+	 */
+	'click .tab a': function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		//$(this).tab('show');
+		$(e.currentTarget).tab('show');
 	}
 });

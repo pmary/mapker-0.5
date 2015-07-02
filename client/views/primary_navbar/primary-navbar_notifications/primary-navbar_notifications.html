@@ -5,36 +5,53 @@
 		<span class="badge notifs-count">{{notifsCount}}</span>
 		{{/if}}
 	</a>
+
 	<ul class="dropdown-menu" id="navbar-notifs-list">
-		<li>Notifications</li>
-		{{#each notifs}}
-			{{#if read}}
-			<li class="read">
-				{{#if eq from.resource 'users'}}
-				<span class="user-link" href="#">
-					{{{msg}}}
-				</span>
-				{{/if}}
-				{{#if eq from.resource 'places'}}
-				<span class="place-link" href="#">
-					{{{msg}}}
-				</span>
-				{{/if}}
-			</li>
-			{{else}}
-			<li class="unread">
-				{{#if eq from.resource 'users'}}
-				<span class="user-link" href="#">
-					{{{msg}}}
-				</span>
-				{{/if}}
-				{{#if eq from.resource 'places'}}
-				<span class="place-link" href="#">
-					{{{msg}}}
-				</span>
-				{{/if}}
-			</li>
-			{{/if}}
-		{{/each}}
+		<li class="nav-tabs-container">
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="tab active"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
+				<li role="presentation" class="tab"><a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">Requests</a></li>
+			</ul>
+		</li>
+		<li class="tab-content">
+				<li role="tabpanel" class="tab-pane item-list active" id="notifications">
+					<ul>
+					{{#each notifs}}
+						{{#if read}}
+						<li class="read">
+							{{#if eq from.resource 'users'}}
+							<span class="user-link" href="#">
+								{{{msg}}}
+							</span>
+							{{/if}}
+							{{#if eq from.resource 'places'}}
+							<span class="place-link" href="#">
+								{{{msg}}}
+							</span>
+							{{/if}}
+						</li>
+						{{else}}
+						<li class="unread">
+							{{#if eq from.resource 'users'}}
+							<span class="user-link" href="#">
+								{{{msg}}}
+							</span>
+							{{/if}}
+							{{#if eq from.resource 'places'}}
+							<span class="place-link" href="#">
+								{{{msg}}}
+							</span>
+							{{/if}}
+						</li>
+						{{/if}}
+					{{/each}}
+					</ul>
+				</li>
+				<li role="tabpanel" class="tab-pane item-list" id="requests">
+					<ul>
+						<li>Hello profile</li>
+					</ul>
+				</li>
+		</li>
 	</ul>
 </template>

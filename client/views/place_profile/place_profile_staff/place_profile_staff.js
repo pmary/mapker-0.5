@@ -18,7 +18,6 @@ Template.placeProfileStaff.helpers({
 	staffMembers: function () {
 		// Get all the members
 		var place = Places.findOne({_id: Router.current().params._id, members: {$elemMatch: { staff: true }}}, {fields: {members: 1}});
-		console.log(place);
 		var members = place.members;
 		// Filter the staff members
 		var staffMembersIds = [];
@@ -29,8 +28,6 @@ Template.placeProfileStaff.helpers({
 		// Get the staff members data
 		Meteor.subscribe('users', staffMembersIds);
 		return Meteor.users.find({ _id: { $in: staffMembersIds } }).fetch();
-		console.log(staffMembers);
-		console.log(staffMembersIds);
 	}
 });
 
