@@ -20,17 +20,17 @@ Template.UserProfileLayout.events({
 	/*****************************************************************************/
 	/* Social bar */
 	/*****************************************************************************/
-	'click .user-actions-follow-button': function(e, t) {
+	'click .user-actions-connect-button': function(e, t) {
 		// Get the user id
 		var resourceId = t.data.user._id;
 
 		// Check if the user is loged in
 		if (Meteor.user()) {
 			// If the user is loged in, connect him to the given user
-			Meteor.call('userFollow', resourceId, function(error, result) {
+			Meteor.call('userSendConnectionRequest', resourceId, function(error, result) {
 				if (error) { console.log(error) };
-
-				$('.user-actions-unfollow-button').html('Disconnect');
+				console.log(result);
+				//$('.user-actions-unfollow-button').html('Disconnect');
 			});
 		}
 		else {
@@ -44,13 +44,13 @@ Template.UserProfileLayout.events({
 		// Get the user id
 		console.log(t.data.user._id);
 	},
-	'mouseover .user-actions-unfollow-button': function(e, t) {
+	'mouseover .user-actions-unconnect-button': function(e, t) {
 		$('.user-actions-unfollow-button').html('Disconnect');
 	},
-	'mouseout .user-actions-unfollow-button': function(e, t) {
+	'mouseout .user-actions-unconnect-button': function(e, t) {
 		$('.user-actions-unfollow-button').html('Connected');
 	},
-	'click .user-actions-unfollow-button': function(e, t) {
+	'click .user-actions-unconnect-button': function(e, t) {
 		// Get the user id
 		var resourceId = t.data.user._id;
 
@@ -194,7 +194,7 @@ Template.userProfileIdentityEdition.events({
 		Session.set('userUpdateIdentityErrors', errors);
 		if (Object.keys(errors).length)
 			// Abort the account creation due to errors
-			return; 
+			return;
 
 		// Get the city center coordinates
 		var address = identity.city.replace(/ /g, "+");;
@@ -209,9 +209,9 @@ Template.userProfileIdentityEdition.events({
 					// Check if the value is a number
 					if (!isNaN(parseFloat(value)) && isFinite(value)) {
 						loc.push(value)
-					};					
+					};
 				};
-				
+
 				// If our coordinates have the right format, save the user identity
 				if (loc.length == 2) {
 					identity.loc = loc;
@@ -268,7 +268,7 @@ Template.userUpdateSocialProfiles.events({
 		Session.set('userUpdateSocialProfilesErrors', errors);
 		if (Object.keys(errors).length)
 			// Abort the account creation due to errors
-			return; 
+			return;
 
 		Meteor.call('userUpdateSocialProfiles', socialProfiles, function(error, result) {
 			// Display the error to the user and abort

@@ -27,7 +27,7 @@
 
     .nav-tabs {
       display: inline-block;
-      
+
       li {
         a {
           border: 1px solid #DDD;
@@ -63,6 +63,60 @@
       &:hover {
         background-color: #F7F7F7;
         cursor: pointer;
+      }
+
+      &.item {
+        padding: 15px 20px 15px 20px;
+        display: block;
+        text-align: center;
+        border-top: 1px solid #F2F2F2;
+
+        &:first-child {
+          border-top: none;
+          border: none;
+        }
+      }
+    }
+
+    &#requests {
+      .item {
+        padding: 0px;
+        display: flex;
+
+        .pull-left {
+          padding: 15px 20px 15px 20px;
+        }
+
+        .pull-right {
+          padding: 5px 0px 5px 20px;
+          right: 20px;
+          position: absolute;
+
+          button {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            background-color: #ffffff;
+            border: 1px solid #E5E5E5;
+            color: #545454;
+            padding: 0px;
+
+            &:hover {
+              &.primary {
+                color: #2C9FF2;
+              }
+
+              &.danger {
+                color: #FC7E7E;
+              }
+            }
+
+            span {
+              padding: 0px;
+              font-weight: normal;
+            }
+          }
+        }
       }
     }
   }

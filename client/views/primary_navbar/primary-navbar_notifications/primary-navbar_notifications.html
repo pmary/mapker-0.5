@@ -18,7 +18,7 @@
 					<ul>
 					{{#each notifs}}
 						{{#if read}}
-						<li class="read">
+						<li class="item read">
 							{{#if eq from.resource 'users'}}
 							<span class="user-link" href="#">
 								{{{msg}}}
@@ -31,7 +31,7 @@
 							{{/if}}
 						</li>
 						{{else}}
-						<li class="unread">
+						<li class="item unread">
 							{{#if eq from.resource 'users'}}
 							<span class="user-link" href="#">
 								{{{msg}}}
@@ -49,7 +49,27 @@
 				</li>
 				<li role="tabpanel" class="tab-pane item-list" id="requests">
 					<ul>
-						<li>Hello profile</li>
+						{{#each requests}}
+							{{#if read}}
+								<li class="item read">
+									{{#if eq from.resource 'users'}}
+										<div class="pull-left">
+											<a href="#">Axel Delbrayère</a>
+										</div>
+										<div class="pull-right">
+											<button class="btn danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<button class="btn primary user-action-accept-request"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+										</div>
+									{{/if}}
+								</li>
+							{{else}}
+								<li class="item unread">
+									{{#if eq from.resource 'users'}}
+										Hello connection
+									{{/if}}
+								</li>
+							{{/if}}
+						{{/each}}
 					</ul>
 				</li>
 		</li>
