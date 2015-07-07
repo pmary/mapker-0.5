@@ -50,25 +50,15 @@
 				<li role="tabpanel" class="tab-pane item-list" id="requests">
 					<ul>
 						{{#each requests}}
-							{{#if read}}
-								<li class="item read">
-									{{#if eq from.resource 'users'}}
-										<div class="pull-left">
-											<a href="#">Axel Delbrayère</a>
-										</div>
-										<div class="pull-right">
-											<button class="btn danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<button class="btn primary user-action-accept-request"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-										</div>
-									{{/if}}
-								</li>
-							{{else}}
-								<li class="item unread">
-									{{#if eq from.resource 'users'}}
-										Hello connection
-									{{/if}}
-								</li>
-							{{/if}}
+							<li class="item">
+								<div class="pull-left">
+									<a href="/user/{{id}}/bio">{{name}}</a>
+								</div>
+								<div class="pull-right">
+									<button class="btn danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+									<button class="btn primary user-action-accept-request"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+								</div>
+							</li>
 						{{/each}}
 					</ul>
 				</li>

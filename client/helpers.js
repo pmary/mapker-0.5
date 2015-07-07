@@ -63,6 +63,19 @@ UI.registerHelper('inArray', function(value, array) {
 	}
 });
 
+/**
+ * @summary Check if the given user id is in the giver array of object
+ */
+UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObjects) {
+	if (! index || ! value || ! arrayOfObjects) return false;
+	
+  var found = arrayOfObjects.some(function (el) {
+    return el[index] === value;
+  });
+  if (!found) return false;
+	else return true;
+});
+
 // Check if the user have fill at least one social profile link
 UI.registerHelper('hasSocialLink', function(links) {
 	var result = false;

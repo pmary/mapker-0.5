@@ -27,7 +27,7 @@ Template.UserProfileLayout.events({
 		// Check if the user is loged in
 		if (Meteor.user()) {
 			// If the user is loged in, connect him to the given user
-			Meteor.call('userSendConnectionRequest', resourceId, function(error, result) {
+			Meteor.call('userSendConnexionRequest', resourceId, function(error, result) {
 				if (error) { console.log(error) };
 				console.log(result);
 				//$('.user-actions-unfollow-button').html('Disconnect');
@@ -43,6 +43,15 @@ Template.UserProfileLayout.events({
 
 		// Get the user id
 		console.log(t.data.user._id);
+	},
+	/**
+	 * @summary Accept the user connexion request
+	 */
+	'click .user-action-accept-request': function (e, t) {
+		Meteor.call('userAcceptConnexionRequest', t.data.user._id, function (error, result) {
+			if (error) return console.log(error);
+			console.log(result);
+		});
 	},
 	'mouseover .user-actions-unconnect-button': function(e, t) {
 		$('.user-actions-unfollow-button').html('Disconnect');
