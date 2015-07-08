@@ -149,7 +149,11 @@
 												{{#if isValueInArrayOfObjects 'id' user._id currentUser.profile.network.users.pending_reponses}}
 													<button type="button" class="btn btn-primary btn-social-follow user-action-accept-request">Accept the connexion request</button>
 												{{else}}
-													<button type="button" class="btn btn-primary btn-social-follow user-actions-connect-button">Connect</button>
+													{{#if inArray user._id currentUser.profile.network.users.pending_requests}}
+													<button type="button" class="btn btn-primary btn-social-follow user-actions-cancel-connexion-request">Waiting for the response</button>
+													{{else}}
+														<button type="button" class="btn btn-primary btn-social-follow user-actions-connect-button">Connect</button>
+													{{/if}}
 												{{/if}}
 											{{/if}}
 										{{/if}}

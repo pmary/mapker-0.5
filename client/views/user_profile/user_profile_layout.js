@@ -45,6 +45,31 @@ Template.UserProfileLayout.events({
 		console.log(t.data.user._id);
 	},
 	/**
+	 * @summary When the cancel connexion request btn is hover, change the style and message
+	 */
+	'mouseover .user-actions-cancel-connexion-request': function (e, t) {
+		e.currentTarget.innerText = 'Cancel the connexion request';
+		$(e.currentTarget).removeClass('btn-primary').addClass('btn-danger');
+	},
+	/**
+	 * @summary When the cancel connexion request btn is mouseout, rollback to the default state
+	 */
+	'mouseout .user-actions-cancel-connexion-request': function (e, t) {
+		e.currentTarget.innerText = 'Waiting for the response';
+		$(e.currentTarget).removeClass('btn-danger').addClass('btn-primary');
+	},
+	/**
+	 * @summary Cancel the connexion request
+	 */
+	'click .user-actions-cancel-connexion-request': function (e, t) {
+		var userId = this.user._id;
+		console.log('userId', userId);
+		Meteor.call('userCancelConnexionRequest', userId, function (error, response) {
+			if (error) return console.log(error);
+			console.log(response);
+		});
+	},
+	/**
 	 * @summary Accept the user connexion request
 	 */
 	'click .user-action-accept-request': function (e, t) {

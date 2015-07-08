@@ -1,67 +1,77 @@
 <template name="primaryNavbarNotifications">
 	<a class="dropdown-toggle user-action-open-notifs-list" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 		<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-		{{#if notifsCount}}
-		<span class="badge notifs-count">{{notifsCount}}</span>
+		{{#if currentUser.profile.unread_notifs}}
+		<span class="badge notifs-count">{{currentUser.profile.unread_notifs}}</span>
 		{{/if}}
 	</a>
 
 	<ul class="dropdown-menu" id="navbar-notifs-list">
 		<li class="nav-tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="tab active"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
-				<li role="presentation" class="tab"><a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">Requests</a></li>
+				<li role="presentation" class="tab active"><a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">Requests</a></li>
+				<li role="presentation" class="tab"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
 			</ul>
 		</li>
-		<li class="tab-content">
-				<li role="tabpanel" class="tab-pane item-list active" id="notifications">
+		<li>
+			<ul class="tab-content">
+				<li role="tabpanel" class="tab-pane item-list active" id="requests">
 					<ul>
-					{{#each notifs}}
-						{{#if read}}
-						<li class="item read">
-							{{#if eq from.resource 'users'}}
-							<span class="user-link" href="#">
-								{{{msg}}}
-							</span>
-							{{/if}}
-							{{#if eq from.resource 'places'}}
-							<span class="place-link" href="#">
-								{{{msg}}}
-							</span>
-							{{/if}}
-						</li>
+						{{#if currentUser.profile.network.users.pending_reponses}}
+							{{#each currentUser.profile.network.users.pending_reponses}}
+								<li class="item">
+									<div class="pull-left">
+										<a href="/user/{{id}}/bio">{{name}}</a>
+									</div>
+									<div class="pull-right">
+										<button class="btn danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<button class="btn primary user-action-accept-request"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+									</div>
+								</li>
+							{{/each}}
 						{{else}}
-						<li class="item unread">
-							{{#if eq from.resource 'users'}}
-							<span class="user-link" href="#">
-								{{{msg}}}
-							</span>
-							{{/if}}
-							{{#if eq from.resource 'places'}}
-							<span class="place-link" href="#">
-								{{{msg}}}
-							</span>
-							{{/if}}
-						</li>
+						<li>You have no request</li>
 						{{/if}}
-					{{/each}}
 					</ul>
 				</li>
-				<li role="tabpanel" class="tab-pane item-list" id="requests">
+				<li role="tabpanel" class="tab-pane item-list" id="notifications">
 					<ul>
-						{{#each requests}}
-							<li class="item">
-								<div class="pull-left">
-									<a href="/user/{{id}}/bio">{{name}}</a>
-								</div>
-								<div class="pull-right">
-									<button class="btn danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-									<button class="btn primary user-action-accept-request"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-								</div>
+					{{#if notifs}}
+						{{#each notifs}}
+							{{#if read}}
+							<li class="item read">
+								{{#if eq from.resource 'users'}}
+								<span class="user-link" href="#">
+									{{{msg}}}
+								</span>
+								{{/if}}
+								{{#if eq from.resource 'places'}}
+								<span class="place-link" href="#">
+									{{{msg}}}
+								</span>
+								{{/if}}
 							</li>
+							{{else}}
+							<li class="item unread">
+								{{#if eq from.resource 'users'}}
+								<span class="user-link" href="#">
+									{{{msg}}}
+								</span>
+								{{/if}}
+								{{#if eq from.resource 'places'}}
+								<span class="place-link" href="#">
+									{{{msg}}}
+								</span>
+								{{/if}}
+							</li>
+							{{/if}}
 						{{/each}}
+					{{else}}
+						<li>You have no notification</li>
+					{{/if}}
 					</ul>
 				</li>
+			</ul>
 		</li>
 	</ul>
 </template>
