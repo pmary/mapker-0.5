@@ -164,6 +164,9 @@
 					</div>
 					{{else}}
 					<div class="profile-cover no-cover">
+						{{#if eq currentUser._id user._id}}
+						<button class="upload-cover-btn btn btn-primary" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">Upload a cover picture</button>
+						{{/if}}
 						<section class="row" id="social-bar">
 							<div class="col-md-12">
 								<div class="col-md-8 col-sm-offset-2">
