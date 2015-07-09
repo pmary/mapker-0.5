@@ -79,16 +79,16 @@ Template.UserProfileLayout.events({
 		});
 	},
 	'mouseover .user-actions-unconnect-button': function(e, t) {
-		$('.user-actions-unfollow-button').html('Disconnect');
+		$('.user-actions-unconnect-button').html('Disconnect');
 	},
 	'mouseout .user-actions-unconnect-button': function(e, t) {
-		$('.user-actions-unfollow-button').html('Connected');
+		$('.user-actions-unconnect-button').html('Connected');
 	},
 	'click .user-actions-unconnect-button': function(e, t) {
 		// Get the user id
-		var resourceId = t.data.user._id;
+		var userId = t.data.user._id;
 
-		Meteor.call('userUnfollow', resourceId, function(error, result) {
+		Meteor.call('userUnConnect', userId, function(error, result) {
 			if (error) { console.log(error) };
 		});
 	},

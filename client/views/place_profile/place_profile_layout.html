@@ -174,9 +174,9 @@
 					<div id="resource-infos-identity" class="col-sd-12 col-md-6">
 						{{#if isAdmin}}
 						<div id="identity-edit" role="button">
+							<span class="icon icon-place-dot"></span>
 							<div id="identity">
 								<h1>
-									<span class="icon icon-place-dot"></span>
 									<span id="user-name">{{place.name}}</span>
 									{{#if place.types}}
 									<span id="user-activity">- {{split place.types}}</span>
@@ -190,9 +190,9 @@
 							</div>
 						</div>
 						{{else}}
+						<span class="icon icon-place-dot"></span>
 						<div id="identity">
 							<h1>
-								<span class="icon icon-place-dot"></span>
 								<span id="user-name">{{place.name}}</span>
 								{{#if place.types}}
 								<span id="user-activity">- {{split place.types}}</span>
