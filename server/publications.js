@@ -19,14 +19,6 @@ Meteor.publish('userPlaces', function(userId) {
 });
 
 /**
- * @summary Publish all the users documents followed by the current user
- */
-Meteor.publish('followedUsers', function(userId) {
-	check(userId, String);
-	return Meteor.users.find({'profile.network.users.followers': userId});
-});
-
-/**
  * @summary Publish a place by it's id
  */
 Meteor.publish('place', function(placeId) {

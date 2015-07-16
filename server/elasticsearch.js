@@ -83,7 +83,7 @@ Meteor.ES.methods = {
 		});
 	},
 	/**
-	 * @summary Query the resources index places type to get the places 
+	 * @summary Query the resources index places type to get the places
 	 * with a particular activity and/or within the given location
 	 * @paramas {Object} queryObject
 	 * @params {String} queryString
@@ -121,7 +121,7 @@ Meteor.ES.methods = {
 							}
 						}
 					},
-					
+
 				}
 			}, function(error, response) {
 				if (response && response.hits)
@@ -171,7 +171,7 @@ Meteor.ES.methods = {
 								"right" : queryObject.bbox[2]
 							}
 						}
-					}		
+					}
 				}
 			}, function(error, response) {
 				if (response && response.hits)
@@ -182,7 +182,7 @@ Meteor.ES.methods = {
 		}
 	},
 	/**
-	 * @summary Query the resources index users type to get the users 
+	 * @summary Query the resources index users type to get the users
 	 * with a particular skills and/or within the given location
 	 * @paramas {Object} queryObject
 	 * @params {String} queryString
@@ -220,7 +220,7 @@ Meteor.ES.methods = {
 							}
 						}
 					},
-					
+
 				}
 			}, function(error, response) {
 				if (response && response.hits)
@@ -240,7 +240,7 @@ Meteor.ES.methods = {
 							]
 						}
 					},
-					
+
 				}
 			}, function(error, response) {
 				if (response && response.hits)
@@ -264,7 +264,7 @@ Meteor.ES.methods = {
 								"right" : queryObject.bbox[2]
 							}
 						}
-					}		
+					}
 				}
 			}, function(error, response) {
 				if (error) console.log(error);
@@ -277,12 +277,16 @@ Meteor.ES.methods = {
 		}
 	},
 	/**
-	 * @summary Query the resources index users type to get the users 
+	 * @summary Query the resources index users type to get the users
 	 * whose fullname match with the given string
 	 * @paramas {String} queryString
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
 	getUsersByFullname: function(queryObject, callback) {
+		if (! queryObject.exculdedIds) {
+			queryObject.exculdedIds = [];
+		}
+
 		Meteor.ES.search({
 			index: 'resources',
 			type: 'user',
@@ -298,13 +302,22 @@ Meteor.ES.methods = {
 							}
 						}],
 						"must_not": {
-							"match": {
-								"_id": Meteor.user()._id
+							"terms": {
+								"_id": queryObject.exculdedIds,
+								"minimum_should_match": 1
 							}
 						}
 					}
 				},
-				"filter": { 
+				/*"facets": {
+					"_id": {
+						"terms": {
+							"field": "_id",
+							"exclude": queryObject.exculdedIds
+						}
+					}
+				},*/
+				"filter": {
 					"query": {
 						"ids":{
 							"values": queryObject.network
@@ -332,7 +345,7 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getSkillsSuggestions); 
+		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getSkillsSuggestions);
 		var results = getSkillsSuggestionsAsync(queryString);
 		return results;
 	},
@@ -345,7 +358,7 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getActivitiesSuggestions); 
+		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getActivitiesSuggestions);
 		var results = getActivitiesSuggestionsAsync(queryString);
 		return results;
 	},
@@ -372,7 +385,7 @@ Meteor.methods({
 	getPlaces: function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces); 
+		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces);
 		var results = wrappedGetPlaces(queryObject);
 		// console.log(results);
 		return results;
@@ -380,17 +393,18 @@ Meteor.methods({
 	getUsers: function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetUsers = Meteor.wrapAsync(Meteor.ES.methods.getUsers); 
+		var wrappedGetUsers = Meteor.wrapAsync(Meteor.ES.methods.getUsers);
 		var results = wrappedGetUsers(queryObject);
 		return results;
 	},
 	getUsersByFullname: function (queryObject) {
 		check(queryObject, {
 			string: String,
-			network: Array
+			network: Array,
+			exculdedIds: Match.Optional(Array)
 		});
 
-		var wrappedGetUsersByFullname = Meteor.wrapAsync(Meteor.ES.methods.getUsersByFullname); 
+		var wrappedGetUsersByFullname = Meteor.wrapAsync(Meteor.ES.methods.getUsersByFullname);
 		var results = wrappedGetUsersByFullname(queryObject);
 		return results;
 	},
@@ -688,8 +702,8 @@ Meteor.methods({
 			 * and setup the completion suggester on the field we need to
 			 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
 			 */
-			Meteor.ES.indices.create({ 
-				index: "resources", 
+			Meteor.ES.indices.create({
+				index: "resources",
 				body: {
 					settings: {
 						"analysis" : {

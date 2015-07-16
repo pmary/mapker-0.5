@@ -4,10 +4,15 @@ Template.placeProfileTimetable.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function() {
-		if (this.place && Meteor.user() && this.place.administrators.indexOf(Meteor.user()._id) > -1)
-			return true;
-		else
-			return false;
+		if (this.place && Meteor.user()) {
+			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
+			if (isAdmin) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	},
 	errorMessage: function(field) {
 		return Session.get('placeProfileTimetableErrors')[field];
@@ -116,7 +121,7 @@ Template.placeProfileTimetable.events({
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 	},
 	/**
-	 * @summary When there is no opening hours filled yet, this action 
+	 * @summary When there is no opening hours filled yet, this action
 	 * allow the user to fill them
 	 */
 	'click .user-action-set-hours': function (e, t) {

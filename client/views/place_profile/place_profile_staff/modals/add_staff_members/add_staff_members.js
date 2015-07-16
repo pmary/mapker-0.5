@@ -14,8 +14,31 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
   // Clear the session var
   Session.set('currentStaffUsersSelected', null);
 
+  var userNetwork = [];
+
   // Get the user network
-  var userNetwork = Meteor.user().profile.network.users.followed.concat(Meteor.user().profile.network.users.followers);
+  if (Meteor.user() && Meteor.user().profile.network && Meteor.user().profile.network.users && Meteor.user().profile.network.users.connected) {
+    userNetwork = Meteor.user().profile.network.users.connected;
+  }
+  // Add the current user id to userNetwork to allow him to add himself if he is not member of the statff
+  userNetwork.push( Meteor.user()._id );
+
+  // Get the place staff members
+  var place = Places.findOne({_id: Router.current().params._id, members: {$elemMatch: { staff: true }}}, {fields: {members: 1}});
+  var exculdedIds = [];
+  if (place && place.members) {
+    var members = place.members;
+    // Filter the staff members
+    var staffMembersIds = [];
+    for (var i = 0; i < members.length; i++) {
+      if (members[i].staff)
+        staffMembersIds.push(members[i].id);
+    }
+
+    // Exclude the staff members from the search
+    exculdedIds = staffMembersIds;
+    console.log('exculdedIds', exculdedIds);
+  }
 
   /**
    * @summary AutoComplete init. for the users input field
@@ -34,7 +57,7 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
         currentQueryString = queryString;
 
         // Get the suggestions according to the queryString
-        Meteor.call('getUsersByFullname', {string: queryString, network: userNetwork}, function(error, result) {
+        Meteor.call('getUsersByFullname', {string: queryString, network: userNetwork, exculdedIds: exculdedIds}, function(error, result) {
           // Display the error to the user and abort
           if (error) return console.log(error.reason);
 
@@ -80,7 +103,7 @@ Template.modalPlaceInviteStaffMembers.events({
   /**
    * @summary Check if the input is a valid email address
    */
-  'submit .staff-invitation-form': function (e, t) {
+  /*'submit .staff-invitation-form': function (e, t) {
     e.preventDefault();
     var email = t.find('#input-who').value,
     errors = {};
@@ -107,7 +130,7 @@ Template.modalPlaceInviteStaffMembers.events({
       usersSelected.push({ email: email, id: email });
 
     Session.set('currentStaffUsersSelected', usersSelected);
-  },
+  },*/
   /**
    * @summary Remove a user from the invitation list
    */
@@ -127,11 +150,13 @@ Template.modalPlaceInviteStaffMembers.events({
    * @summary Send an invitation email to the users in the list
    */
   'click .user-action-send-invitations': function (e, t) {
-    var usersSelected = Session.get('currentStaffUsersSelected');
-    var placeId = Router.current().params._id;
+    var usersSelected = Session.get('currentStaffUsersSelected'),
+    message = t.find('#input-message').value,
+    placeId = Router.current().params._id;
+    console.log('message', message);
 
     if (usersSelected) {
-      Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, function(error, result) {
+      Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, message, function(error, result) {
         if (error) console.log(error);
         console.log(result);
         $('#myModal').modal('hide');

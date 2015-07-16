@@ -4,10 +4,15 @@ Template.placeProfileAbout.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function() {
-		if (this.place && Meteor.user() && this.place.administrators.indexOf(Meteor.user()._id) > -1)
-			return true;
-		else
-			return false;
+		if (this.place && Meteor.user()) {
+			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
+			if (isAdmin) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 });
 
@@ -38,7 +43,7 @@ Template.placeProfileAbout.events({
 			// display the error to the place and abort
 			if (error)
 				return console.log(error);
-			
+
 			// Close the edition
 			t.find('.user-bio-container').style.display = 'block';
 			t.find('.user-bio-edition').style.display = 'none';

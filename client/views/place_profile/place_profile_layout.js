@@ -4,10 +4,15 @@ Template.placeProfileLayout.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function() {
-		if (this.place && Meteor.user() && this.place.administrators.indexOf(Meteor.user()._id) > -1)
-			return true;
-		else
-			return false;
+		if (this.place && Meteor.user()) {
+			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
+			if (isAdmin) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 });
 
@@ -147,7 +152,6 @@ Template.placeProfileLayout.events({
 var typesSelectize, specialitiesSelectize;
 Template.placeProfileIdentityEdition.rendered = function() {
 	$('#edit-identity-form').popover();
-	console.log(this.data.place.specialities);
 	// Destroy the existing selectize instance on the types and specialities select fields to prevent errors
 	if (typesSelectize || specialitiesSelectize) {
 		typesSelectize[0].selectize.destroy();
@@ -248,7 +252,7 @@ Template.placeProfileIdentityEdition.events({
 		// Get the geocoding data
 		Meteor.http.get(url, function (error, result) {
 			if (error) return console.log(error);
-			
+
 			var data = result.data;
 
 			if (data.status == "OK") {
@@ -257,7 +261,7 @@ Template.placeProfileIdentityEdition.events({
 				place.formattedAddress = data.results[0].formatted_address;
 				// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
 				Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=288x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
-				
+
 				// Sanitize the place object
 				delete place.address; // No longer useful
 

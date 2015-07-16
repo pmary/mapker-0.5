@@ -4,7 +4,7 @@
 			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="place">
 					<header>
-						{{#if activated}}						
+						{{#if activated}}
 						{{else}}
 							<!-- <div class="validation-in-progess">Validation in progess</div> -->
 						{{/if}}
@@ -16,7 +16,7 @@
 						</a>
 						{{/if}}
 					</header>
-					
+
 					<section>
 						{{#if cover}}
 						<div class="cover">
@@ -31,7 +31,7 @@
 							<h1><a href="{{pathFor route='placeProfileAbout' _id=_id}}">{{name}}</a></h1>
 							<h2>{{split types}}</h2>
 							{{#if specialities}}
-							<p>{{splitByScore specialities}}</p>
+							<p>{{splitByScoreAndLimit specialities 55}}</p>
 							{{/if}}
 						</div>
 					</section>

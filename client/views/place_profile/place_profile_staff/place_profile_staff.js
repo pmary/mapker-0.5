@@ -4,10 +4,18 @@ Template.placeProfileStaff.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function() {
-		if (this.place && Meteor.user() && this.place.administrators.indexOf(Meteor.user()._id) > -1)
-			return true;
-		else
+		if (this.place && Meteor.user()) {
+			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
+			if (isAdmin) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
 			return false;
+		}
 	},
 	current: function () {
 		return Session.get('currentStaffUserSelected');

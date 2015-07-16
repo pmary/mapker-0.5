@@ -68,7 +68,7 @@ UI.registerHelper('inArray', function(value, array) {
  */
 UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObjects) {
 	if (! index || ! value || ! arrayOfObjects) return false;
-	
+
   var found = arrayOfObjects.some(function (el) {
     return el[index] === value;
   });
