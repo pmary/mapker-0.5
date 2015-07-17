@@ -482,6 +482,7 @@ Meteor.methods({
 	 * @summary Update a user document in the ES 'resources' index
 	 */
 	updatePlaceESDocument: function (placeId) {
+		console.log('updatePlaceESDocument placeId', placeId);
 		check(placeId, String);
 
 		// Get the place data

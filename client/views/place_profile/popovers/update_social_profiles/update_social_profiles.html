@@ -1,0 +1,61 @@
+<template name="placeUpdateSocialProfiles">
+  <div id="resource-infos-social-profiles" class="pull-right">
+    <div id="social-profiles">
+
+    {{#if place.links}}
+      {{#if place.links.facebook}}
+      <a href="{{place.links.facebook}}" target="_blank" class="social-icon-30-facebook"><span>Facebook</span></a>
+      {{/if}}
+      {{#if place.links.twitter}}
+      <a href="{{place.links.twitter}}" target="_blank" class="social-icon-30-twitter"><span>Twitter</span></a>
+      {{/if}}
+      {{#if place.links.flickr}}
+      <a href="{{place.links.flickr}}" target="_blank" class="social-icon-30-flickr"><span>Flickr</span></a>
+      {{/if}}
+      {{#if place.links.website}}
+      <a href="{{place.links.website}}" target="_blank" class="social-icon-30-website"><span>Personal website</span></a>
+      {{/if}}
+
+      {{#if isAdmin}}
+      <a href="#" id="edit-social-profiles" class="open-update-social-profile-popover">Edit</a>
+      {{/if}}
+    {{else}}
+      {{#if isAdmin}}
+      <div id="add-social-profiles" class="open-update-social-profile-popover">
+        Add your social profiles
+      </div>
+      {{/if}}
+    {{/if}}
+
+    {{#if isAdmin}}
+    <div class="popover popover-content update-social-profile-popover">
+      <form id='social-profiles-form'>
+        <div class='form-group {{errorClass "facebook"}}'>
+          <label for='edit-activity'>Facebook</label>
+          <input class='form-control' type='url' id='edit-facebook' value='{{place.links.facebook}}'>
+          <span class='help-block'>{{errorMessage 'facebook'}}</span>
+        </div>
+        <div class='form-group {{errorClass "flickr"}}'>
+          <label for='edit-activity'>Flickr</label>
+          <input class='form-control' type='url' id='edit-flickr' value='{{place.links.flickr}}'>
+          <span class='help-block'>{{errorMessage 'flickr'}}</span>
+        </div>
+        <div class='form-group {{errorClass "twitter"}}'>
+          <label for='edit-activity'>Twitter</label>
+          <input class='form-control' type='url' id='edit-twitter' value='{{place.links.twitter}}'>
+          <span class='help-block'>{{errorMessage 'twitter'}}</span>
+        </div>
+        <div class='form-group {{errorClass "website"}}'>
+          <label for='edit-activity'>Personal website</label>
+          <input class='form-control' type='url' id='edit-website' value='{{place.links.website}}'>
+          <span class='help-block'>{{errorMessage 'website'}}</span>
+        </div>
+        <button type='button' class='btn btn-default' id='close-update-social-profiles-popover'>Cancel</button>
+        <button type='submit' class='btn btn-primary' id='save-identity-btn'>Save</button>
+      </form>
+    </div>
+    {{/if}}
+
+    </div>
+  </div>
+</template>

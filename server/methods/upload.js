@@ -27,8 +27,7 @@ isUserResourceAdmin = function(resource, userId) {
 
 		case 'place':
 			// Check if the user id is in the 'administrators' resource array
-			var correspondingPlace = Places.findOne({ $and: [ {administrators: userId}, {_id: resource.id} ] });
-			if (correspondingPlace) result = true;
+			result = Meteor.call('canUserEditPlace', resource.id);
 			break;
 	}
 	return result;
@@ -52,7 +51,7 @@ Meteor.methods({
 		// Check if the user have sufficient rights to update the resource
 		if(!isUserResourceAdmin(img.resource, this.userId))
 			throw new Meteor.Error(401, "Bad credentials", "You are not authorized to update this resource");
-		
+
 		// Inster the post
 		if (img.resource.type == "user") {
 			Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover.focusX': img.focusX, 'profile.cover.focusY': img.focusY} });

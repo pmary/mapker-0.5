@@ -74,33 +74,6 @@
 	</form>
 </template>
 
-<template name="placeUpdateSocialProfiles">
-	<form id='social-profiles-form'>
-		<div class='form-group {{errorClass "facebook"}}'>
-			<label for='edit-activity'>Facebook</label>
-			<input class='form-control' type='url' id='edit-facebook' value='{{place.links.facebook}}'>
-			<span class='help-block'>{{errorMessage 'facebook'}}</span>
-		</div>
-		<div class='form-group {{errorClass "flickr"}}'>
-			<label for='edit-activity'>Flickr</label>
-			<input class='form-control' type='url' id='edit-flickr' value='{{place.links.flickr}}'>
-			<span class='help-block'>{{errorMessage 'flickr'}}</span>
-		</div>
-		<div class='form-group {{errorClass "twitter"}}'>
-			<label for='edit-activity'>Twitter</label>
-			<input class='form-control' type='url' id='edit-twitter' value='{{place.links.twitter}}'>
-			<span class='help-block'>{{errorMessage 'twitter'}}</span>
-		</div>
-		<div class='form-group {{errorClass "website"}}'>
-			<label for='edit-activity'>Personal website</label>
-			<input class='form-control' type='url' id='edit-website' value='{{place.links.website}}'>
-			<span class='help-block'>{{errorMessage 'website'}}</span>
-		</div>
-		<button type='button' class='btn btn-default' id='close-social-profiles-popover'>Cancel</button>
-		<button type='submit' class='btn btn-primary' id='save-identity-btn'>Save</button>
-	</form>
-</template>
-
 <template name="placeProfileLayout">
 	<div class="container-fluid profile-page" id="place-profile-page">
 		<div class="row">
@@ -169,27 +142,10 @@
 
 		<section class="row" id="resource-infos">
 			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-				<div class="row">
 
-					<div id="resource-infos-identity" class="col-sd-12 col-md-6">
-						{{#if isAdmin}}
-						<div id="identity-edit" role="button">
-							<span class="icon icon-place-dot"></span>
-							<div id="identity">
-								<h1>
-									<span id="user-name">{{place.name}}</span>
-									{{#if place.types}}
-									<span id="user-activity">- {{split place.types}}</span>
-									{{/if}}
-									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								</h1>
-
-								{{#if place.formattedAddress}}
-								<span id="user-area">{{place.formattedAddress}}</span>
-								{{/if}}
-							</div>
-						</div>
-						{{else}}
+				<div id="resource-infos-identity" class="pull-left">
+					{{#if isAdmin}}
+					<div id="identity-edit" role="button">
 						<span class="icon icon-place-dot"></span>
 						<div id="identity">
 							<h1>
@@ -197,47 +153,32 @@
 								{{#if place.types}}
 								<span id="user-activity">- {{split place.types}}</span>
 								{{/if}}
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							</h1>
 
 							{{#if place.formattedAddress}}
 							<span id="user-area">{{place.formattedAddress}}</span>
 							{{/if}}
 						</div>
+					</div>
+					{{else}}
+					<span class="icon icon-place-dot"></span>
+					<div id="identity">
+						<h1>
+							<span id="user-name">{{place.name}}</span>
+							{{#if place.types}}
+							<span id="user-activity">- {{split place.types}}</span>
+							{{/if}}
+						</h1>
+
+						{{#if place.formattedAddress}}
+						<span id="user-area">{{place.formattedAddress}}</span>
 						{{/if}}
 					</div>
-
-					<div id="resource-infos-social-profiles" class="col-sd-12 col-md-6">
-						<div id="social-profiles">
-
-						{{#if place.links}}
-							{{#if place.links.facebook}}
-							<a href="{{place.links.facebook}}" target="_blank"><span class="social-icon-25 social-icon-25-facebook"></span></a>
-							{{/if}}
-							{{#if place.links.twitter}}
-							<a href="{{place.links.twitter}}" target="_blank"><span class="social-icon-25 social-icon-25-twitter"></span></a>
-							{{/if}}
-							{{#if place.links.flickr}}
-							<a href="{{place.links.flickr}}" target="_blank"><span class="social-icon-25 social-icon-25-flickr"></span></a>
-							{{/if}}
-							{{#if place.links.website}}
-							<a href="{{place.links.website}}" target="_blank"><span class="social-icon-25 social-icon-25-website"></span></a>
-							{{/if}}
-
-							{{#if isAdmin}}
-							<a href="#" id="edit-social-profiles">Edit</a>
-							{{/if}}
-						{{else}}
-							{{#if isAdmin}}
-							<div id="add-social-profiles">
-								Add your social profiles
-							</div>
-							{{/if}}
-						{{/if}}
-
-						</div>
-					</div>
-
+					{{/if}}
 				</div>
+
+				{{> placeUpdateSocialProfiles isAdmin=isAdmin place=place}}
 			</div>
 		</section>
 

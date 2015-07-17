@@ -107,31 +107,6 @@ Template.placeProfileLayout.events({
 		}
 	},
 	/*****************************************************************************/
-	/* Social profiles UI */
-	/*****************************************************************************/
-	/**
-	 * @summary Init and open the social profiles popover
-	 * @param {Object} [e] The current event
-	 * @param {Object} [t] The current template instance object
-	 */
-	'click #add-social-profiles, click #edit-social-profiles' : function(e, t) {
-		if (t.find('#resource-infos-social-profiles .popover')) {
-			// Render the social profiles edition template to the popover.
-			// Be sure to always call Blaze.remove when the View is no longer needed.
-			// Doc: http://docs.meteor.com/#/full/blaze_renderwithdata
-			Blaze.renderWithData(Template.placeUpdateSocialProfiles, t.data, t.find('#resource-infos-social-profiles .popover-content'));
-		} else {
-			// Clean the errors and prevent undefined session var
-			Session.set('placeUpdateSocialProfilesErrors', {});
-			// Init the popover with empty content
-			$(t.find('#social-profiles')).popover({html: true, content: " ", placement: "bottom"});
-			// Show the popover
-			$(t.find('#social-profiles')).popover('show');
-			// Render the placeUpdateSocialProfiles template in the popover with the current template data
-			Blaze.renderWithData(Template.placeUpdateSocialProfiles, t.data, t.find('#resource-infos-social-profiles .popover-content'));
-		}
-	},
-	/*****************************************************************************/
 	/* Social bar UI */
 	/*****************************************************************************/
 	/**
@@ -282,57 +257,6 @@ Template.placeProfileIdentityEdition.events({
 				};
 			};
 
-		});
-	}
-})
-
-Template.placeUpdateSocialProfiles.helpers({
-	errorMessage: function(field) {
-		return Session.get('placeUpdateSocialProfilesErrors')[field];
-	},
-	errorClass: function (field) {
-		return !!Session.get('placeUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
-	}
-});
-
-Template.placeUpdateSocialProfiles.events({
-	/**
-	 * @summary Remove the social profiles popover template instance and destroy the popover
-	 * @param {Object} [e] The current event
-	 * @param {Object} [t] The current template instance object
-	 */
-	'click #close-social-profiles-popover': function (e, t) {
-		// Destroy the view and the popover
-		Blaze.remove(t.view);
-		$('#social-profiles').popover('destroy');
-	},
-	/**
-	 * @summary Check and update the place's social profiles, then close the popover
-	 * @param {Object} [e] The current event
-	 * @param {Object} [t] The current template instance object
-	 */
-	'submit #social-profiles-form' : function(e, t) {
-		var socialProfiles = {
-			id: t.data.place._id,
-			facebook: t.find('#edit-facebook').value,
-			flickr: t.find('#edit-flickr').value,
-			twitter: t.find('#edit-twitter').value,
-			website: t.find('#edit-website').value
-		};
-
-		// Check the form values
-		var errors = validateUsersocialProfiles(socialProfiles);
-		Session.set('placeUpdateSocialProfilesErrors', errors);
-		// Abort the update due to errors
-		if (Object.keys(errors).length) return;
-
-		// Update the place document
-		Meteor.call('placeUpdateSocialProfiles', socialProfiles, function(error, result) {
-			if (error) return console.log(error); // Display the error to the user and abort
-
-			// Destroy the view and the popover
-			Blaze.remove(t.view);
-			$('#social-profiles').popover('destroy');
 		});
 	}
 });
