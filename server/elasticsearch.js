@@ -482,11 +482,15 @@ Meteor.methods({
 	 * @summary Update a user document in the ES 'resources' index
 	 */
 	updatePlaceESDocument: function (placeId) {
-		console.log('updatePlaceESDocument placeId', placeId);
 		check(placeId, String);
 
 		// Get the place data
 		var place = Places.findOne({_id: placeId});
+
+		if (! place) {
+			console.warn('No place find');
+			return false;
+		}
 
 		// Create the place documents
 		var id = place._id;

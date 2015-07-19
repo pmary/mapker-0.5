@@ -1,79 +1,3 @@
-<template name="placeProfileIdentityEdition">
-	<form id='edit-identity-form'>
-		<div class='form-group {{errorClass "name"}}'>
-			<label for='input-name'>Name</label>
-			<input class='form-control' type="text" value="{{place.name}}" id="input-name">
-			<span class='help-block'>{{errorMessage 'name'}}</span>
-		</div>
-		<div class="form-group {{errorClass 'types'}}">
-			<label for="select-types">Types <em>(3 max)</em></label>
-			<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the type of your" data-trigger="hover click"></span>
-			<select id="select-types" name="types[]" multiple class="demo-default" placeholder="Select a type...">
-				<option value="">Select a type...</option>
-				<option value="coworking">Coworking</option>
-				<option value="fablab">Fablab</option>
-				<option value="hackerspace">Hackerspace</option>
-				<option value="school">School</option>
-			</select>
-			<span class="help-block">{{errorMessage 'types'}}</span>
-		</div>
-		<div class="form-group {{errorClass 'specialities'}}">
-			<label for="select-specialities">Specialities <em>(5 max)</em></label>
-			<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 5 terms max to descibe the specialities of your place" data-trigger="hover click"></span>
-			<select id="select-specialities" name="specialities[]" multiple class="demo-default" placeholder="Select a speciality...">
-				<option value="">Select a speciality...</option>
-				<option value="architecture">Architecture</option>
-				<option value="art">Art</option>
-				<option value="beauty">Beauty</option>
-				<option value="biology">Biology</option>
-				<option value="chemistry">Chemistry</option>
-				<option value="craft">Craft</option>
-				<option value="design">Design</option>
-				<option value="digital">Digital</option>
-				<option value="drone">Drone</option>
-				<option value="ecology">Ecology</option>
-				<option value="electronics">Electronics</option>
-				<option value="environment">Environment</option>
-				<option value="fashion design">Fashion design</option>
-				<option value="graphism">Graphism</option>
-				<option value="health">Health</option>
-				<option value="mechanic">Mechanic</option>
-				<option value="metal">Metal</option>
-				<option value="photography">Photography</option>
-				<option value="physics">Physics</option>
-				<option value="plastic">Plastic</option>
-				<option value="print">Print</option>
-				<option value="space">Space</option>
-				<option value="upcycling">Upcycling</option>
-				<option value="video">Video</option>
-				<option value="wood">Wood</option>
-			</select>
-			<span class="help-block">{{errorMessage 'specialities'}}</span>
-		</div>
-		<div class="form-group {{errorClass 'address'}}">
-			<label for="input-street-number">Address</label>
-			<input type="number" class="form-control" id="input-street-number" placeholder="N°" value="{{place.streetNumber}}">
-
-			<input type="text" class="form-control" id="input-street-name" placeholder="Street" value="{{place.streetName}}">
-
-			<input type="text" class="form-control" id="input-zipcode" placeholder="Zipecode" value="{{place.zipcode}}">
-
-			<input type="text" class="form-control" id="input-city" placeholder="City" value="{{place.city}}">
-
-			<select id="select-country" class="form-control">
-				<option value="fr">France</option>
-				<option value="sw">Suisse</option>
-			</select>
-
-			<span class="help-block col-sm-offset-2 col-sm-10">{{errorMessage 'address'}}</span>
-			{{{staticMapUrl}}}
-		</div>
-		<button type='button' class='btn btn-default' id='close-identity-edit-popover'>Cancel</button>
-		<button type='button' class='btn btn-primary' id="check-location">Check your location</button>
-		<button type='submit' class='btn btn-success' id="submit-identity">Save</button>
-	</form>
-</template>
-
 <template name="placeProfileLayout">
 	<div class="container-fluid profile-page" id="place-profile-page">
 		<div class="row">
@@ -142,42 +66,10 @@
 
 		<section class="row" id="resource-infos">
 			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+				<!-- Include the place infos template -->
+				{{> placeProfileIdentityEdition isAdmin=isAdmin place=place}}
 
-				<div id="resource-infos-identity" class="pull-left">
-					{{#if isAdmin}}
-					<div id="identity-edit" role="button">
-						<span class="icon icon-place-dot"></span>
-						<div id="identity">
-							<h1>
-								<span id="user-name">{{place.name}}</span>
-								{{#if place.types}}
-								<span id="user-activity">- {{split place.types}}</span>
-								{{/if}}
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							</h1>
-
-							{{#if place.formattedAddress}}
-							<span id="user-area">{{place.formattedAddress}}</span>
-							{{/if}}
-						</div>
-					</div>
-					{{else}}
-					<span class="icon icon-place-dot"></span>
-					<div id="identity">
-						<h1>
-							<span id="user-name">{{place.name}}</span>
-							{{#if place.types}}
-							<span id="user-activity">- {{split place.types}}</span>
-							{{/if}}
-						</h1>
-
-						{{#if place.formattedAddress}}
-						<span id="user-area">{{place.formattedAddress}}</span>
-						{{/if}}
-					</div>
-					{{/if}}
-				</div>
-
+				<!-- Include the social profiles links template -->
 				{{> placeUpdateSocialProfiles isAdmin=isAdmin place=place}}
 			</div>
 		</section>

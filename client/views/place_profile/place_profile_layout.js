@@ -82,31 +82,6 @@ Template.placeProfileLayout.events({
 		setModalData(t);
 	},
 	/*****************************************************************************/
-	/* Identity edition UI */
-	/*****************************************************************************/
-	/**
-	 * @summary Open the upload modal and give it the needed data
-	 * @param {Object} [e] The current event
-	 * @param {Object} [t] The current template instance object
-	 */
-	'click #identity-edit' : function(e, t) {
-		if (t.find('#resource-infos-identity .popover')) {
-			// Render the identity edition template to the popover.
-			// Be sure to always call Blaze.remove when the View is no longer needed.
-			// Doc: http://docs.meteor.com/#/full/blaze_renderwithdata
-			Blaze.renderWithData(Template.placeProfileIdentityEdition, t.data, t.find('#resource-infos-identity .popover-content'));
-		} else {
-			// Clean the errors and prevent undefined session var
-			Session.set('userUpdateIdentityErrors', {});
-			// Init the popover with empty content
-			$(t.find('#identity-edit')).popover({html: true, content: " ", placement: "bottom"});
-			// Show the popover
-			$(t.find('#identity-edit')).popover('show');
-			// Render the placeProfileIdentityEdition template in the popover with the current template data
-			Blaze.renderWithData(Template.placeProfileIdentityEdition, t.data, t.find('#resource-infos-identity .popover-content'));
-		}
-	},
-	/*****************************************************************************/
 	/* Social bar UI */
 	/*****************************************************************************/
 	/**
@@ -124,81 +99,35 @@ Template.placeProfileLayout.events({
 	}
 });
 
-var typesSelectize, specialitiesSelectize;
-Template.placeProfileIdentityEdition.rendered = function() {
-	$('#edit-identity-form').popover();
-	// Destroy the existing selectize instance on the types and specialities select fields to prevent errors
-	if (typesSelectize || specialitiesSelectize) {
-		typesSelectize[0].selectize.destroy();
-		specialitiesSelectize[0].selectize.destroy();
-	};
-
-	// Set a new selectize instance for the types select field
-	var typesSelectize = $('#edit-identity-form select#select-types').selectize({
-		maxItems: 3
-	});
-	// Set current types by default
-	var types = this.data.place.types;
-	for (var i = 0; i < types.length; i++) {
-		types[i] = types[i].toLowerCase();
-	};
-	typesSelectize[0].selectize.setValue( types );
-
-	// Set a new selectize instance for the specialities select field
-	var specialitiesSelectize = $('#edit-identity-form select#select-specialities').selectize({
-		maxItems: 5
-	});
-	// Set current specialities by default
-	var specialities = this.data.place.specialities;
-	for (var i = 0; i < specialities.length; i++) {
-		specialities[i] = specialities[i].toLowerCase();
-	};
-	specialitiesSelectize[0].selectize.setValue( specialities );
-
-	Session.set('staticMapUrl', "");
-}
-
-Template.placeProfileIdentityEdition.helpers({
-	staticMapUrl: function() {
-		return Session.get('staticMapUrl');
-	},
-	errorMessage: function(field) {
-		return Session.get('userUpdateIdentityErrors')[field];
-	},
-	errorClass: function (field) {
-		return !!Session.get('userUpdateIdentityErrors')[field] ? 'has-error' : '';
-	}
-});
-
 Template.placeProfileIdentityEdition.events({
 	/**
 	 * @summary Init and open the social profiles popover
 	 * @param {Object} [e] The current event
 	 * @param {Object} [t] The current template instance object
 	 */
-	'click #close-identity-edit-popover': function (e, t) {
+	/*'click #close-identity-edit-popover': function (e, t) {
 		// Destroy the view and the popover
 		Blaze.remove(t.view);
 		$('#edit-identity-form').popover('destroy');
-	},
+	},*/
 	/**
 	 * @summary Because the address has changed, force the user to recheck it before he can submit
 	 * @param {Object} [e] The current event
 	 * @param {Object} [t] The current template instance object
 	 */
-	'change #input-street-number, keypress #input-street-number, keypress #input-street-name, keypress #input-zipcode, keypress #input-city, change #select-country' : function(e,t) {
+	/*'change #input-street-number, keypress #input-street-number, keypress #input-street-name, keypress #input-zipcode, keypress #input-city, change #select-country' : function(e,t) {
 		// Hide the submit btn, display the check one
 		t.find('#submit-identity').style.display = "none";
 		t.find('#check-location').style.display = "inline-block";
 		// Remove the map because it's no longer displaying the right address
 		Session.set('staticMapUrl', "");
-	},
+	},*/
 	/**
 	 * @summary Check the location and if it's already ok, update the place document
 	 * @param {Object} [e] The current event
 	 * @param {Object} [t] The current template instance object
 	 */
-	'click #check-location, submit #edit-identity-form' : function(e, t) {
+	/*'click #check-location, submit #edit-identity-form' : function(e, t) {
 		e.preventDefault();
 
 		var place = {
@@ -258,5 +187,5 @@ Template.placeProfileIdentityEdition.events({
 			};
 
 		});
-	}
+	}*/
 });
