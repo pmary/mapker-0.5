@@ -6,6 +6,15 @@ var editPopoverClickListener = function () {
   firstClick = true;
 };
 
+Template.placeProfileIdentityEdition.helpers({
+	errorMessage: function(field) {
+		return Session.get('placeUpdateSocialProfilesErrors')[field];
+	},
+	errorClass: function (field) {
+		return !!Session.get('placeUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
+	}
+});
+
 Template.placeProfileIdentityEdition.onDestroyed(function () {
   // Cancel the click listener
   document.body.removeEventListener('click', editPopoverClickListener, false);

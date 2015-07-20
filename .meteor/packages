@@ -33,3 +33,5 @@ meteorhacks:npm
 npm-container
 miktam:loggly
 meteorhacks:kadira-profiler
+mapker:machines
+kadira:debug

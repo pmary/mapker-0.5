@@ -34,7 +34,7 @@
     	<form id='edit-identity-form'>
     		<div class='form-group {{errorClass "name"}}'>
     			<label for='input-name'>Name</label>
-    			<input class='form-control' type="text" value="{{place.name}}" id="input-name">
+    			<input class='form-control' type="text" value="{{place.name}}" id="input-name" required="required">
     			<span class='help-block'>{{errorMessage 'name'}}</span>
     		</div>
     		<div class="form-group {{errorClass 'types'}}">

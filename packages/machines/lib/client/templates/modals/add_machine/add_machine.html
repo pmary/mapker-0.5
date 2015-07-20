@@ -1,0 +1,171 @@
+<template name="modalAddMachine">
+  <div class="modal-dialog modal-place-add-machine">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Add a machine to your place</h4>
+			</div>
+			<div class="modal-body">
+				<p class="validation-message"><b>Your machine will be added after a validation by us</b></p>
+
+        <form class="add-machine-form">
+          <div class="form-group {{errorClass 'name'}}">
+						<label for="input-name">Name</label>
+						<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Ex.: Replicator 2" data-trigger="hover click"></span>
+						<input type="text" class="form-control" id="input-name" placeholder="">
+						<span class="help-block">{{errorMessage 'name'}}</span>
+					</div>
+
+          <div class="form-group {{errorClass 'type'}}">
+						<label for="select-type">Type</label>
+						<select class="form-control" id="select-type" name="type" placeholder="Select a type...">
+							<option value="">Select a type...</option>
+              <option value="">3D printer</option>
+              <option value="">Laser cut</option>
+              <option value="">Numerical milling machine</option>
+              <option value="">Digital milling machine</option>
+              <option value="">Lapidary</option>
+              <option value="">Digital lathe</option>
+              <option value="">Drill</option>
+              <option value="">Table saw</option>
+              <option value="">Panel saw</option>
+              <option value="">Band saw</option>
+              <option value="">Planer</option>
+              <option value="">Jointer</option>
+              <option value="">Router</option>
+              <option value="">Vynile cur</option>
+              <option value="">Sewing machine </option>
+              <option value="">Thermoforming machine</option>
+              <option value="">Vessels under vacuum</option>
+              <option value="">Mill</option>
+              <option value="">Welder</option>
+              <option value="">Press</option>
+              <option value="">Kiln</option>
+              <option value="">Plasma cutting</option>
+              <option value="">Painting cabin</option>
+              <option value="">Resin cabin</option>
+              <option value="">Roll machine</option>
+              <option value="">Folder</option>
+              <option value="">Grinder</option>
+              <option value="">Saw blade</option>
+              <option value="">Shear</option>
+              <option value="">Mechanical arm</option>
+              <option value="">Bending machine</option>
+              <option value="">Forming machine</option>
+              <option value="">Sharpening machine</option>
+              <option value="">Boring machine</option>
+              <option value="">Forge</option>
+              <option value="">Grinding machine</option>
+              <option value="">Water jet cutting machine</option>
+              <option value="">Spark erosion machine</option>
+						</select>
+						<span class="help-block">{{errorMessage 'type'}}</span>
+					</div>
+
+          <div class="form-group {{errorClass 'type'}}">
+						<label for="select-brand">Brand</label>
+						<select class="form-control" id="select-brand" name="brand" placeholder="Select a brand...">
+							<option value="">Select a brand...</option>
+              <option value="">Makerbot</option>
+              <option value="">Zortrax</option>
+              <option value="">Roland</option>
+              <option value="">Trotec</option>
+              <option value="">Beeverycreative</option>
+              <option value="">Atom</option>
+              <option value="">Shopbot</option>
+              <option value="">Ultimaking</option>
+              <option value="">Formlabs</option>
+              <option value="">Dremel</option>
+              <option value="">Sunwin</option>
+              <option value="">3DYAYA</option>
+              <option value="">WobbleWorks LLC</option>
+              <option value="">Solidoodle</option>
+              <option value="">MakiBox</option>
+              <option value="">Airwolf 3D</option>
+              <option value="">Pirate3D</option>
+              <option value="">ChefJet</option>
+              <option value="">Leapfrog</option>
+              <option value="">Cubify</option>
+              <option value="">DeltaPrintr</option>
+              <option value="">Tinkerine Studio</option>
+              <option value="">3D Freesculpt</option>
+              <option value="">FABtotum</option>
+              <option value="">Marek Senický</option>
+              <option value="">3D system</option>
+              <option value="">Filastruder</option>
+              <option value="">Fuel3D</option>
+              <option value="">Mixshop</option>
+              <option value="">AIO Robotics</option>
+              <option value="">Leapfrog</option>
+              <option value="">Filabot</option>
+              <option value="">PP3DP</option>
+              <option value="">Occipital</option>
+              <option value="">Solidoodle</option>
+              <option value="">Printrbot</option>
+              <option value="">Cubify</option>
+              <option value="">Solidoodle</option>
+              <option value="">SeeMeCNC</option>
+              <option value="">Cel-UK</option>
+              <option value="">MakeMendel</option>
+              <option value="">MakeMendel</option>
+              <option value="">QU-BD</option>
+              <option value="">Mixshop</option>
+              <option value="">Stratasys</option>
+              <option value="">FSL3D</option>
+              <option value="">Printrbot</option>
+              <option value="">Mixshop</option>
+              <option value="">Reprap</option>
+              <option value="">MakeMendel</option>
+              <option value="">Magicfirm</option>
+              <option value="">Matterform</option>
+              <option value="">Tinkerine Studio</option>
+              <option value="">Kevvox</option>
+              <option value="">Afinia</option>
+              <option value="">Objet</option>
+						</select>
+						<span class="help-block">{{errorMessage 'brand'}}</span>
+					</div>
+
+          <div class="form-group {{errorClass 'type'}}">
+						<label for="select-workshop">Workshop</label>
+						<select class="form-control" id="select-workshop" name="workshop" placeholder="Select a workshop...">
+							<option value="">Select a workshop...</option>
+              <option value="">Wood</option>
+              <option value="">Metal</option>
+              <option value="">Numerical</option>
+              <option value="">Textile/leather</option>
+              <option value="">Video</option>
+              <option value="">Electronic</option>
+              <option value="">Plastic/elastomer</option>
+              <option value="">2D printing</option>
+              <option value="">Mineral</option>
+						</select>
+						<span class="help-block">{{errorMessage 'workshop'}}</span>
+					</div>
+
+          <label for="input-width">Input size</label>
+          <div class="form-inline">
+            <div class="form-group {{errorClass 'width'}} col-xs-12 col-sd-12 col-md-4 col-lg-4">
+              <input type="number" class="form-control" id="input-width" placeholder="Width">
+              <span class="help-block">{{errorMessage 'width'}}</span>
+            </div>
+            <div class="form-group {{errorClass 'length'}} col-xs-12 col-sd-12 col-md-4 col-lg-4">
+              <input type="number" class="form-control" id="input-length" placeholder="Length">
+              <span class="help-block">{{errorMessage 'length'}}</span>
+            </div>
+            <div class="form-group {{errorClass 'height'}} col-xs-12 col-sd-12 col-md-4 col-lg-4">
+              <input type="number" class="form-control" id="input-height" placeholder="Height">
+              <span class="help-block">{{errorMessage 'height'}}</span>
+            </div>
+          </div>
+        </form>
+			</div>
+
+			<div class="modal-footer">
+				<div class="pull-right">
+					<button role="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button role="button" class="btn btn-success user-action-send-invitations">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

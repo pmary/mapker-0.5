@@ -39,7 +39,7 @@
 				"skills": [
 					{
 			            "title" : "Développement web"
-			        }, 
+			        },
 			        {
 			            "title" : "UX design"
 			        }
@@ -48,8 +48,8 @@
 		            "countryCode" : "FR",
 		            "zipcode" : "75008",
 		            "city" : "Paris",
-		            "loc" : { 
-		                "lat": 48.8718722, 
+		            "loc" : {
+		                "lat": 48.8718722,
 		                "lon": 2.31764320000002
 		            }
 		        },
@@ -85,7 +85,7 @@
 		            "bcrypt" : "$2a$10$R5KsPj8VPSAe9ak8boIa2ulgz9XAxourReWKsc0D/zDPWBt9hIV/K"
 		        },
 		        "resume" : {
-		            "loginTokens" : [ 
+		            "loginTokens" : [
 		                {
 		                    "when" : Date("2015-04-20T19:33:59.029Z"),
 		                    "hashedToken" : "UKyLUckPyjNcXHDL/CMw6rtNBv9NE58LUEtjr/Lh4Pk="
@@ -93,7 +93,7 @@
 		            ]
 		        }
 		    },
-		    "emails" : [ 
+		    "emails" : [
 		        {
 		            "address" : "axel.delbrayere@gmail.com",
 		            "verified" : false
@@ -105,10 +105,10 @@
 		        "lastname" : "Delbrayère",
 		        "activity" : "Designer",
 		        "bio" : "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. ",
-		        "skills" : [ 
+		        "skills" : [
 		            {
 		                "title" : "Découper des trucs"
-		            }, 
+		            },
 		            {
 		                "title" : "Design d'objet industriel"
 		            }
@@ -118,7 +118,7 @@
 		            "zipcode" : "75007",
 		            "city" : "Paris",
 		            "loc" : {
-		                "lat": 48.8718722, 
+		                "lat": 48.8718722,
 		                "lon": 2.31764320000002
 		            }
 		        },
@@ -143,7 +143,7 @@
 		            "loginTokens" : []
 		        }
 		    },
-		    "emails" : [ 
+		    "emails" : [
 		        {
 		            "address" : "mario.simon@free.fr",
 		            "verified" : false
@@ -177,25 +177,25 @@
 		            "twitter" : "",
 		            "website" : "http://www.mariosimonpictures.tumblr.com"
 		        },
-		        "skills" : [ 
+		        "skills" : [
 		            {
 		                "title" : "Portraits"
-		            }, 
+		            },
 		            {
 		                "title" : "Photoshop"
-		            }, 
+		            },
 		            {
 		                "title" : "Studio"
-		            }, 
+		            },
 		            {
 		                "title" : "natural light"
-		            }, 
+		            },
 		            {
 		                "title" : "life"
-		            }, 
+		            },
 		            {
 		                "title" : "fashion"
-		            }, 
+		            },
 		            {
 		                "title" : "objects"
 		            }
@@ -209,9 +209,9 @@
 		// Insert some fake lab data
 	};
 
-	if (Machines.find().count() === 0) {
+	/**if (Machines.find().count() === 0) {
 		// Insert some fake machine data
-	};
+	};**/
 
 	if (Places.find().count() === 0) {
 		// Insert some fake place data
@@ -219,13 +219,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkj",
 		    "name" : "L'Usine IO",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "prototypage", 
+		    "activities" : [
+		        "prototypage",
 		        "incubation"
 		    ],
 		    "role" : "Administrateur",
@@ -235,12 +235,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8884512, 
+		        "lat": 48.8884512,
 		        "lon": 2.312168
 		    } ,
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -265,13 +265,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bka",
 		    "name" : "Le fabshop",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "prototypage"
 		    ],
 		    "role" : "Administrateur",
@@ -281,12 +281,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8184512, 
+		        "lat": 48.8184512,
 		        "lon": 2.332168
 		    } ,
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -303,13 +303,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkb",
 		    "name" : "ICI Montreuil",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "aerospatial"
 		    ],
 		    "role" : "Administrateur",
@@ -318,13 +318,13 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : { 
-		        "lat": 48.8484512, 
+		    "loc" : {
+		        "lat": 48.8484512,
 		        "lon": 2.392168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -349,13 +349,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkc",
 		    "name" : "L'Electrolab",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "Electronique", 
+		    "activities" : [
+		        "Electronique",
 		        "automatisation"
 		    ],
 		    "role" : "Administrateur",
@@ -364,13 +364,13 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : { 
-		        "lat": 48.8384512, 
+		    "loc" : {
+		        "lat": 48.8384512,
 		        "lon": 2.282168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -395,14 +395,14 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkd",
 		    "name" : "AutoLab",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "carosserie", 
-		        "réparation", 
+		    "activities" : [
+		        "carosserie",
+		        "réparation",
 		        "mécanique"
 		    ],
 		    "role" : "Administrateur",
@@ -411,13 +411,13 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : { 
-		        "lat": 48.8584512, 
+		    "loc" : {
+		        "lat": 48.8584512,
 		        "lon": 2.322168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -442,13 +442,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bke",
 		    "name" : "Lorem ipsum",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "aerospatial"
 		    ],
 		    "role" : "Administrateur",
@@ -458,12 +458,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8324512, 
+		        "lat": 48.8324512,
 		        "lon": 2.341168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -480,13 +480,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkf",
 		    "name" : "Sit amet",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "aerospatial"
 		    ],
 		    "role" : "Administrateur",
@@ -496,12 +496,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8434512, 
+		        "lat": 48.8434512,
 		        "lon": 2.322168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -518,13 +518,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkg",
 		    "name" : "FakeLab",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "prototypage"
 		    ],
 		    "role" : "Administrateur",
@@ -534,12 +534,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8584512, 
+		        "lat": 48.8584512,
 		        "lon": 2.343168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -564,13 +564,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkh",
 		    "name" : "Le bricro-garage",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "automobile", 
+		    "activities" : [
+		        "automobile",
 		        "mécanique"
 		    ],
 		    "role" : "Administrateur",
@@ -580,12 +580,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8534512, 
+		        "lat": 48.8534512,
 		        "lon": 2.372168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -602,14 +602,14 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bki",
 		    "name" : "L'ornithoptère",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "fusée", 
-		        "hélicoptère", 
+		    "activities" : [
+		        "fusée",
+		        "hélicoptère",
 		        "ornithologie"
 		    ],
 		    "role" : "Administrateur",
@@ -618,13 +618,13 @@
 		    "zipcode" : "75002",
 		    "countryCode" : "fr",
 		    "city" : "Paris",
-		    "loc" : { 
-		        "lat": 48.8784512, 
+		    "loc" : {
+		        "lat": 48.8784512,
 		        "lon": 2.331168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -641,13 +641,13 @@
 		Places.insert({
 		    "_id" : "ZMLHc88hxncfC6bkz",
 		    "name" : "La Paillasse",
-		    "themes" : [ 
-		        "biologie", 
-		        "aerospatial", 
+		    "themes" : [
+		        "biologie",
+		        "aerospatial",
 		        "océan"
 		    ],
-		    "activities" : [ 
-		        "co-working", 
+		    "activities" : [
+		        "co-working",
 		        "aerospatial"
 		    ],
 		    "role" : "Administrateur",
@@ -657,12 +657,12 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8684512, 
+		        "lat": 48.8684512,
 		        "lon": 2.352168
 		    },
 		    "formattedAddress" : "226 Rue Saint-Denis, 75002 Paris, France",
-		    "administrators" : [ 
-		        "cAqconthf92Yrnutf", 
+		    "administrators" : [
+		        "cAqconthf92Yrnutf",
 		        "i4FxWHYGyQr3LyN4x"
 		    ],
 		    "activated" : false,
@@ -687,10 +687,10 @@
 		Places.insert({
 		    "_id" : "sEJKLQfXWmffogyt4",
 		    "name" : "aaa",
-		    "themes" : [ 
+		    "themes" : [
 		        "aaa"
 		    ],
-		    "activities" : [ 
+		    "activities" : [
 		        "aaa"
 		    ],
 		    "role" : "aaa",
@@ -700,11 +700,11 @@
 		    "countryCode" : "fr",
 		    "city" : "Paris",
 		    "loc" : {
-		        "lat": 48.8580654, 
+		        "lat": 48.8580654,
 		        "lon": 2.3695263
 		    },
 		    "formattedAddress" : "40 Rue Saint-Sabin, 75011 Paris, France",
-		    "administrators" : [ 
+		    "administrators" : [
 		        "cAqconthf92Yrnutf"
 		    ],
 		    "activated" : false,
