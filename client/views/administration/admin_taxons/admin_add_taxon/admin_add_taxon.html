@@ -1,0 +1,29 @@
+<template name="adminAddTaxon">
+  <h1>Taxons management</h1>
+  <h2>Add a taxon</h2>
+
+  <form class="add-taxon-form">
+    <div class="form-group">
+      <label for="input-name">Name</label>
+      <input type="text" class="form-control" id="input-name" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label for="select-collection">Collection</label>
+      <select class="form-control" id="select-collection">
+        <option value="machines">Machines</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="select-category">Category</label>
+      <select class="form-control" id="select-category">
+        <option value="type">Type</option>
+        <option value="brand">Brand</option>
+        <option value="workshop">Workshop</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
+  </form>
+</template>

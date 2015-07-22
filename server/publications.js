@@ -73,3 +73,13 @@ Meteor.publish("placesToValidate", function () {
 Meteor.publish("allUsers", function() {
 	return Meteor.users.find({}, { fields: { 'profile.fullname': 1}});
 })
+
+/*****************************************************************************/
+/* Taxons publications */
+/*****************************************************************************/
+/**
+ * @summary Get all the taxons
+ */
+ Meteor.publish("allTaxons", function() {
+ 	return Taxons.find({});
+ })

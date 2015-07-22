@@ -1,0 +1,24 @@
+<template name="adminTaxons">
+	<h1>Taxons management</h1>
+
+	<a href="{{pathFor route='adminAddTaxon'}}"><button class="btn btn-primary">Add a taxon</button></a>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Collection</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each taxons}}
+			<tr>
+				<th>{{name}}</th>
+				<th>{{collection}}</th>
+				<th>{{category}}</th>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</template>

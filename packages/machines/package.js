@@ -28,8 +28,9 @@ Package.onUse(function (api) {
   api.imply('templating');
 
   api.addFiles([
-    'lib/machines.js',
     'lib/namespace.js',
+    'lib/helpers.js',
+    'lib/machines.js',
     'lib/routes.js'
   ], ['client', 'server']);
 
@@ -38,6 +39,10 @@ Package.onUse(function (api) {
     'lib/client/templates/modals/add_machine/add_machine.js',
     'lib/client/templates/modals/add_machine/add_machine.less'
   ], ['client']);
+
+  api.addFiles([
+    'lib/server/publications.js'
+  ], ['server']);
 
   api.export('Machines');
 });
