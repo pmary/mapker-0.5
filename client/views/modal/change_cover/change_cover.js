@@ -1,13 +1,11 @@
-var coverHelperContainer;
-
-Template.modalChangeCover.rendered = function() {
-}
+Template.modalChangeCover.rendered = function () {
+};
 
 Template.modalChangeCover.helpers({
-	modalResource: function() {
+	modalResource: function () {
 		return Session.get('modalResource');
 	},
-	errorMessage: function(field) {
+	errorMessage: function (field) {
 		return Session.get('modalChangeCoverErrors')[field];
 	},
 	errorClass: function (field) {
@@ -16,24 +14,24 @@ Template.modalChangeCover.helpers({
 });
 
 Template.modalChangeCover.events({
-	'click .image-upload' : function(e, t){
+	'click .image-upload' : function (e, t) {
 		// Reset the input file by delete and re-create the node
 		$(t.find('.modal-change-cover .modal-body #input-cover')).remove();
 		$(t.find('.modal-change-cover .modal-body')).append('<input type="file" id="input-cover">');
 		// Open the upload file browser
 		$('#input-cover').click();
 	},
-	'click #cancel-modal-cover': function(e, t) {
+	'click #cancel-modal-cover': function () {
 		// Close the modal
 		$('#myModal').modal('hide');
 	},
-	'change #input-cover': function(e, t) {
+	'change #input-cover': function (e, t) {
 		// Once a file to upload is picked
 		var file = e.target.files[0];
 		// If our file is an image, display it in the cover
 		if (file && file.size >= 2097152)
 			return Session.set('modalChangeCoverErrors', {image: 'The weight of your image must be less than 2 MB'});
-		if (file && !file.type.match('image.*') && file.type != "image/jpeg" && file.type != "image/png")
+		if (file && !file.type.match('image.*') && file.type !== "image/jpeg" && file.type !== "image/png")
 			return Session.set('modalChangeCoverErrors', {image: 'Only png and jpg images are authorized'});
 		Session.set('modalChangeCoverErrors', {});
 
@@ -44,7 +42,7 @@ Template.modalChangeCover.events({
 				reader.readAsDataURL(file);
 
 				// Closure to capture the file information
-				reader.onloadend = function(e) {
+				reader.onloadend = function (e) {
 					// Hide the crop zone for the time of the cropper init
 					// to prevent a quick jump of the image
 					$('.modal-change-cover .image-upload-container').css('display', 'none');
@@ -69,30 +67,24 @@ Template.modalChangeCover.events({
 						autoCrop: true,
 						guides: false,
 						dragCrop: false,
-						resizable: false,
-						crop: function(data) {
-							// Output the result data for cropping image.
-						}
+						resizable: false
 					});
 
-					Meteor.setTimeout(function() {
+					Meteor.setTimeout(function () {
 						$('#cover-helper-tool-img').cropper('move', 1, 0);
 						$('.modal-change-cover .image-upload-container').css('display', 'block');
 					}, 200);
-					
+
 					// Remove the first-upload UI
-					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';};
-					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';};
-				}
+					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'none';}
+					if (t.find('#change-image')) {t.find('#change-image').style.display = 'inline-block';}
+				};
 			}
-		}
-		else {
 		}
 	},
 	'click #save-cover, click #update-cover': function(e, t) {
 		var canvas = $('.helper-tool > img').cropper('getCroppedCanvas', { fillColor: "#ffffff" } );
 
-		var resource = Session.get('modalResource');
 		var file = document.getElementById('input-cover').files[0];
 
 		if (file) {
@@ -111,9 +103,11 @@ Template.modalChangeCover.events({
 					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "cover", // Can be cover or avatar
-				}
+				};
 				Meteor.call('uploadToS3', uploadedFile, function(error, imageUrl) {
-					if (error) { console.log(error) }
+					if (error) {
+						throw error;
+					}
 
 					// Close the modal
 					$('#myModal').modal('hide');
@@ -131,16 +125,16 @@ Template.modalChangeCover.events({
 					// Show the upload btn and hide the helper tool
 					$('.modal-change-cover .image-upload-container').css('display', 'none');
 					// Remove the first-upload UI
-					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'inline-block';};
-					if (t.find('#change-image')) {t.find('#change-image').style.display = 'none';};
+					if (t.find('#first-upload')) {t.find('#first-upload').style.display = 'inline-block';}
+					if (t.find('#change-image')) {t.find('#change-image').style.display = 'none';}
 				});
-			}
-		};
+			};
+		}
 	},
-	'click .cropper-zoom-in': function(e, t){
+	'click .cropper-zoom-in': function () {
 		$('.helper-tool > img').cropper("zoom", 0.1);
 	},
-	'click .cropper-zoom-out': function(e, t){
+	'click .cropper-zoom-out': function () {
 		$('.helper-tool > img').cropper("zoom", -0.1);
 	}
 });

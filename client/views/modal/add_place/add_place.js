@@ -1,12 +1,8 @@
-Template.modalAddPlace.created = function() {
-}
+Template.modalAddPlace.created = function () {
+};
 
-Template.modalAddPlace.rendered = function() {
+Template.modalAddPlace.rendered = function () {
 	$('.modal-add-place [data-toggle="popover"]').popover();
-
-	// Init the tags input
-	//$('input#input-activities').tagsinput('destroy');
-	//$("input#input-activities").tagsinput('items');
 
 	$('select#select-types').selectize({
 		maxItems: 3
@@ -15,13 +11,13 @@ Template.modalAddPlace.rendered = function() {
 	$('select#select-specialities').selectize({
 		maxItems: 5
 	});
-}
+};
 
 Template.modalAddPlace.helpers({
-	staticMapUrl: function() {
+	staticMapUrl: function () {
 		return Session.get('staticMapUrl');
 	},
-	errorMessage: function(field) {
+	errorMessage: function (field) {
 		return Session.get('modalAddPlaceErrors')[field];
 	},
 	errorClass: function (field) {
@@ -29,7 +25,7 @@ Template.modalAddPlace.helpers({
 	}
 });
 
-var checkPlaceData = function(t, step) {
+var checkPlaceData = function (t, step) {
 	var place = {
 		name: t.find('#input-name').value,
 		specialities: $('#select-specialities').val(),
@@ -41,7 +37,7 @@ var checkPlaceData = function(t, step) {
 		zipcode: t.find('#input-zipcode').value,
 		countryCode: t.find('#select-country').value,
 		city: t.find('#input-city').value
-	}
+	};
 
 	place.address = place.streetNumber+ "+" + place.streetName + "+" +place.city;
 	place.address = place.address.replace(/ /g, '+');
@@ -63,16 +59,16 @@ var checkPlaceData = function(t, step) {
 			//console.log(result);
 			var data = result.data;
 
-			if (data.status == "OK") {
+			if (data.status === "OK") {
 				place.loc = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
 				// Get the static map. See: https://developers.google.com/maps/documentation/staticmaps
 				Session.set('staticMapUrl', "<img class='static-map' alt='" + place.name + " map' src='https://maps.googleapis.com/maps/api/staticmap?center=" + place.address + "&zoom=13&size=600x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_place.png%7C" + data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + "'>");
-				
+
 				// Display the submit btn
 				t.find('#submit-place').style.display = "inline-block";
 				t.find('#check-location').style.display = "none";
 
-				if (step == "submit") {
+				if (step === "submit") {
 					// Insert the place in the db
 					// Set the formated address
 					place.formattedAddress = data.results[0].formatted_address;
@@ -80,9 +76,9 @@ var checkPlaceData = function(t, step) {
 					// Sanitize the place object
 					delete place.address;
 
-					console.log(place);
+					//console.log(place);
 
-					Meteor.call('placeInsert', place, function(error, result) {
+					Meteor.call('placeInsert', place, function(error) {
 						// Display the error to the user and abort
 						if (error)
 							return console.log(error.reason);
@@ -92,11 +88,11 @@ var checkPlaceData = function(t, step) {
 						// Close the modal
 						$('#myModal').modal('hide');
 					});
-				};
+				}
 			}
 		}
 	});
-}
+};
 
 Template.modalAddPlace.events({
 	'keypress #input-street-number, change #input-street-number, keypress #input-street-name, keypress #input-city, change #select-country' : function(e, t){
@@ -107,13 +103,12 @@ Template.modalAddPlace.events({
 		checkPlaceData(t, "submit");
 	},
 	'click #check-location' : function(e, t){
-		console.log('check loc');
 		checkPlaceData(t, "check");
 	},
-	'focus .bootstrap-tagsinput input' : function(e, t){
+	'focus .bootstrap-tagsinput input' : function (e) {
 		e.target.parentNode.className += " focus-input-tag";
 	},
-	'focusout .bootstrap-tagsinput input' : function(e, t){
+	'focusout .bootstrap-tagsinput input' : function (e){
 		var parrentClass = e.target.parentNode.className;
 		e.target.parentNode.className = parrentClass.replace(" focus-input-tag", "");
 	}

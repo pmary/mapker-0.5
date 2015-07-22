@@ -1,103 +1,4 @@
 /**
- * @todo refactorize and put in the client/helpers folder
- */
-
-UI.registerHelper('split', function(activities) {
-	for (var i = 0; i < activities.length; i++) {
-		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
-	};
-	return activities.join(", ");
-});
-
-UI.registerHelper('splitByScore', function(activities) {
-	for (var i = 0; i < activities.length; i++) {
-		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
-	};
-	return activities.join(" - ");
-});
-
-UI.registerHelper('splitByScoreAndLimit', function(activities, maxLength) {
-	for (var i = 0; i < activities.length; i++) {
-		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
-	};
-	activities = activities.join(" - ");
-
-	// Limit the lenght of the string
-	if (activities.length > maxLength) {
-		activities = activities.substr(0,maxLength-1)+'...';
-	}
-	return activities;
-});
-
-// Helper to user test equality
-UI.registerHelper('eq', function(v1, v2, options) {
-	var result;
-	if (v1 != null) {
-		if (v2 instanceof Array) {
-			for (var i = 0; i < v2.length; i++) {
-				if(v1.indexOf(v2[i]) > -1){ result = true; }
-				else { result = false; }
-			};
-		}
-		else {
-			if(v1 == v2){ result = true; }
-			else { result = false; }
-		};
-	};
-
-	return result;
-});
-
-// Check if a value exist in the given array
-UI.registerHelper('inArray', function(value, array) {
-	if (value && array && array.constructor === Array) {
-		if (array.indexOf(value) > -1) {
-		return true
-		}
-		else {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
-});
-
-/**
- * @summary Check if the given user id is in the giver array of object
- */
-UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObjects) {
-	if (! index || ! value || ! arrayOfObjects) return false;
-
-  var found = arrayOfObjects.some(function (el) {
-    return el[index] === value;
-  });
-  if (!found) return false;
-	else return true;
-});
-
-// Check if the user have fill at least one social profile link
-UI.registerHelper('hasSocialLink', function(links) {
-	var result = false;
-
-	if (links) {
-		if (links.facebook || links.flickr || links.twitter || links.website) {
-			result = true;
-		};
-	};
-
-	return result;
-});
-
-// replace \n and \r bu a <br> tag
-UI.registerHelper('htmlLineBreack', function(text) {
-	if (text!=null){
-		text = text.replace(/\r?\n/g, '<br>');
-	}
-	return text;
-});
-
-/**
  * @summary Check if the user already have the submited skill
  * @locus Anywhere
  * @params {String} value - The string we are looking for
@@ -112,7 +13,7 @@ isDuplicateSkillValidation = function(value, array) {
 			result = "You already have this skill";
 	}
 	return result;
-}
+};
 
 isStringValidation = function(value) {
 	if (typeof value == 'string') {
@@ -121,7 +22,7 @@ isStringValidation = function(value) {
 	else {
 		return "Required field";
 	}
-}
+};
 
 isArrayValidation = function(value) {
 	if (Array.isArray(value) && value.length) {
@@ -130,7 +31,7 @@ isArrayValidation = function(value) {
 	else {
 		return "Required field";
 	}
-}
+};
 
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {
@@ -139,8 +40,8 @@ isFilledValidation = function(value) {
 		return "Required field";
 	} else {
 		return false;
-	};
-}
+	}
+};
 
 isFilledTagsinputValidation = function(value) {
 	if (value.constructor === Array && !value.length) {
@@ -148,14 +49,14 @@ isFilledTagsinputValidation = function(value) {
 	} else if (value.constructor === Array && value.length) {
 		return false;
 	}
-	if (value.objectItems == undefined) {
+	if (value.objectItems === undefined) {
 		return "Required field";
 	}
 	if (!value) {
 		return "Required field";
 	}
 	return false;
-}
+};
 
 nameValidation = function(value) {
 	if (!value) {
@@ -173,25 +74,25 @@ nameValidation = function(value) {
 	}else {
 		return false;
 	}
-}
+};
 
 emailValidation = function(value) {
 	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (!re.test(value)) {
-		return "Email invalide"
+		return "Email invalide";
 	} else {
 		return false;
 	}
-}
+};
 
 phoneValidation = function(value) {
 	var re = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
 	if (!re.test(value)) {
-		return "Phone number invalide"
+		return "Phone number invalide";
 	} else {
 		return false;
 	}
-}
+};
 
 passwordValidation = function(value) {
 	if (!value) {
@@ -210,25 +111,25 @@ passwordValidation = function(value) {
 	} else {
 		return false;
 	}
-}
+};
 
 matchingValidation = function(value1, value2) {
 	if (value1 && value2 && value1 != value2) {
 		return "Password and confirmation doesn't match";
 	} else {
 		return false;
-	};
-}
+	}
+};
 
 numberValidation = function(value) {
 	if (!value) {
 		return "Required field";
 	} else if (value != parseInt(value, 10)) {
-		return "Must be a number"
+		return "Must be a number";
 	} else {
 		return false;
 	}
-}
+};
 
 urlValidation = function(value) {
 	var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -242,4 +143,4 @@ urlValidation = function(value) {
 	} else {
 		return false;
 	}
-}
+};

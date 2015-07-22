@@ -3,7 +3,7 @@ Template.placeProfileLayout.helpers({
 	 * @summary Return if whether or not the current user is administrator of the place
 	 * @return {Boolean}
 	 */
-	isAdmin: function() {
+	isAdmin: function () {
 		if (this.place && Meteor.user()) {
 			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
 			if (isAdmin) {
@@ -34,9 +34,9 @@ var setModalData = function(t) {
 		cover: t.data.place.cover,
 		avatar: t.data.place.avatar,
 		type: 'place'
-	}
+	};
 	Session.set('modalResource', resource);
-}
+};
 
 Template.placeProfileLayout.events({
 	/*****************************************************************************/
@@ -47,7 +47,7 @@ Template.placeProfileLayout.events({
 	 * @param {Object} [e] The current event
 	 * @param {Object} [t] The current template instance object
 	 */
-	'click #inner-nav a' : function(e, t){
+	'click #inner-nav a' : function (e) {
 		$('#inner-nav li').removeClass('active');
 		e.target.parentNode.className = 'active';
 	},

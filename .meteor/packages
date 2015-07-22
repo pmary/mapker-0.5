@@ -5,28 +5,18 @@
 # but you can also edit it by hand.
 
 meteor-platform
-iron:router
-accounts-password
-email
 mike:mocha
 velocity:nightwatch-framework
 velocity:html-reporter
 peerlibrary:aws-sdk
-twbs:bootstrap
 pmary:errors
 pmary:tagsinput
-audit-argument-checks
 msavin:mongol
 pmary:mapbox
-http
 meteorhacks:kadira
 pmary:elasticsearch
 pmary:cropper
-grigio:babel
-less
 momentjs:moment
-jquery
-reactive-var
 meteorhacks:npm
 
 
@@ -35,3 +25,5 @@ miktam:loggly
 meteorhacks:kadira-profiler
 mapker:machines
 kadira:debug
+mapker:lib
+mapker:core

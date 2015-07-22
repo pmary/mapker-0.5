@@ -30,21 +30,21 @@ Template.placeProfileTimetable.helpers({
 });
 
 
-openingHours = new ReactiveVar();
+var openingHours = new ReactiveVar();
 Template.placeProfileTimetable.created = function () {
 	// here 'this' refers to template instance
 	this.openingHours = new ReactiveVar();
-	this.autorun(_.bind(function(){
+	this.autorun(_.bind(function () {
 		var place = Places.findOne({'_id': Router.current().params._id});
 		if (place && place.openingHours) {
 			this.openingHours.set(place.openingHours);
 			Session.set('openingHours', place.openingHours);
-		};
+		}
 	},this));
 };
 
-Template.placeProfileTimetable.rendered = function (argument) {
-}
+Template.placeProfileTimetable.rendered = function () {
+};
 
 var datepair;
 /**
@@ -55,7 +55,7 @@ Template.placeProfileTimetable.events({
 	/**
 	 * @summary Display and init the edition UI for the selected day
 	 */
-	'click .timerange-display.editable': function (e, t) {
+	'click .timerange-display.editable': function (e) {
 		// Remove the 'active' class from every days
 		$('.user-profile-timetable .hour').removeClass('active');
 		// Hide the 'Cancel' and 'Save' btns
@@ -80,40 +80,38 @@ Template.placeProfileTimetable.events({
 		// Set the focus on the first input
 		$(e.currentTarget).parent().find('.timerange-edit').find('input[type="text"]:first').focus();
 	},
-	'change .time': function (e, t) {
+	'change .time': function (e) {
 		var $hourContainer = $(e.target).parent().parent(),
 		$editingContainer = $hourContainer.find('.timerange-edit');
 
 		var openingHours = Session.get('openingHours');
 		for (var i = 0; i < openingHours.length; i++) {
-			if(openingHours[i].d == this.d) {
+			if(openingHours[i].d === this.d) {
 				if (openingHours[i].c) delete openingHours[i].c;
 				openingHours[i].s = $editingContainer.find('.time.start').val();
 				openingHours[i].e = $editingContainer.find('.time.end').val();
 				Session.set('openingHours', openingHours);
 			}
-		};
+		}
 	},
-	'click .user-action-cancel-hour': function (e, t) {
+	'click .user-action-cancel-hour': function () {
 		$('.user-profile-timetable .hour').removeClass('active');
 	},
-	'click .user-action-set-closed': function (e, t) {
+	'click .user-action-set-closed': function () {
 		// Display the 'Cancel' and 'Save' btns
 		$('.user-profile-timetable .pull-right').css('display', 'block');
 
 		var openingHours = Session.get('openingHours');
 		for (var i = 0; i < openingHours.length; i++) {
-			if(openingHours[i].d == this.d) {
+			if(openingHours[i].d === this.d) {
 				delete openingHours[i].s;
 				delete openingHours[i].e;
 				openingHours[i].c = true;
 				Session.set('openingHours', openingHours);
 			}
-		};
+		}
 	},
 	'click .user-action-cancel': function (e, t) {
-		//console.log(Router.current().params._id);
-		console.log(t.openingHours.get());
 		//Places.findOne({'_id': Router.current().params._id});
 		Session.set('openingHours', t.openingHours.get());
 
@@ -124,8 +122,7 @@ Template.placeProfileTimetable.events({
 	 * @summary When there is no opening hours filled yet, this action
 	 * allow the user to fill them
 	 */
-	'click .user-action-set-hours': function (e, t) {
-		console.log('set default opening hour');
+	'click .user-action-set-hours': function () {
 		Session.set('openingHours', [
 			{d : "mo", c: true},
 			{d : "tu", c: true},
@@ -139,10 +136,9 @@ Template.placeProfileTimetable.events({
 	'click .user-action-save': function (e, t) {
 		var openingHours = Session.get('openingHours');
 
-		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error, result) {
+		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
 			if (error)
-				console.log(error);
-			console.log(result);
+			throw error;
 		});
 
 		$('.user-profile-timetable .hour').removeClass('active');

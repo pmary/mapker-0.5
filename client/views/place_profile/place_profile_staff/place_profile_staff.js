@@ -3,7 +3,7 @@ Template.placeProfileStaff.helpers({
 	 * @summary Return if whether or not the current user is administrator of the place
 	 * @return {Boolean}
 	 */
-	isAdmin: function() {
+	isAdmin: function () {
 		if (this.place && Meteor.user()) {
 			var isAdmin = Places.findOne({_id: this.place._id, members: { $elemMatch: { id: Meteor.user()._id, admin: true } } });
 			if (isAdmin) {
@@ -40,7 +40,7 @@ Template.placeProfileStaff.helpers({
 });
 
 Template.placeProfileStaff.events({
-	'click .user-action-open-modal-invite-staff': function (e, t) {
+	'click .user-action-open-modal-invite-staff': function () {
 		// Open the modal
 		Session.set('activeModal', 'modalPlaceInviteStaffMembers');
 		$('#myModal').modal();
@@ -49,7 +49,6 @@ Template.placeProfileStaff.events({
 });
 
 Template.placeProfileStaffAddMember.rendered = function () {
-	console.log('placeProfileStaffAddMember rendered');
 	// Clear the session var
 	Session.set('currentStaffUserSelected', null);
 
@@ -63,22 +62,24 @@ Template.placeProfileStaffAddMember.rendered = function () {
 		$('.place-profile-staff #input-who').autocomplete({
 			position: "absolute",
 			appendTo: $('.place-profile-staff #input-who-container'),
-			lookup: function(queryString, done) {
+			lookup: function (queryString, done) {
 				// Disable the add button until
 				$('.place-profile-staff .user-action-add-staff-member').addClass('disabled');
 
 				// No search if the query string lenght < 2 characters
 				// Or if the input text hasn't change
-				if (queryString.length < 2 || queryString == currentQueryString) return;
+				if (queryString.length < 2 || queryString === currentQueryString) return;
 				currentQueryString = queryString;
 
 				// Get the suggestions according to the queryString
-				Meteor.call('getUsersByFullname', queryString, function(error, result) {
+				Meteor.call('getUsersByFullname', queryString, function (error, result) {
 					// Display the error to the user and abort
-					if (error) return console.log(error.reason);
+					if (error) {
+						throw error;
+					}
 
-					formatedResult = {
-						suggestions: $.map(result, function(dataItem) {
+					var formatedResult = {
+						suggestions: $.map(result, function (dataItem) {
 							return { value: dataItem._source.name, data: dataItem._id };
 						})
 					};
@@ -101,7 +102,6 @@ Template.placeProfileStaffAddMember.rendered = function () {
 };
 
 Template.placeProfileStaffAddMember.events({
-	'click .user-action-add-staff-member': function (e, t) {
-		console.log( 'Will add: ' + Session.get('currentStaffUserSelected') );
+	'click .user-action-add-staff-member': function () {
 	}
 });

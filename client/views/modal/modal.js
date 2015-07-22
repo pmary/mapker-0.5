@@ -1,7 +1,7 @@
 Template.modal.created = function() {
-}
+};
 
-Template.modal.helpers({  
+Template.modal.helpers({
 	activeModal: function() {
 		return Session.get('activeModal');
 	}

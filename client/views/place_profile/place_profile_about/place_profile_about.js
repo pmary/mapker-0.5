@@ -39,7 +39,7 @@ Template.placeProfileAbout.events({
 			about: t.find('#input-place-about').value
 		};
 
-		Meteor.call('placeUpdateAbout', place, function(error, result) {
+		Meteor.call('placeUpdateAbout', place, function(error) {
 			// display the error to the place and abort
 			if (error)
 				return console.log(error);

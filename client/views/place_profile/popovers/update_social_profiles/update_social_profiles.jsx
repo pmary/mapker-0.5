@@ -10,13 +10,13 @@ var checkLocation = function (t) {
   // Return a new promise
   return new Promise(function (resolve, reject) {
     var place = {
-      id: t.data.place._id,
-      streetNumber: t.find('#input-street-number').value,
-      streetName: t.find('#input-street-name').value,
-      city: t.find('#input-city').value,
-      zipcode: t.find('#input-zipcode').value,
-      countryCode: t.find('#select-country').value
-    }
+      id            : t.data.place._id,
+      streetNumber  : t.find('#input-street-number').value,
+      streetName    : t.find('#input-street-name').value,
+      city          : t.find('#input-city').value,
+      zipcode       : t.find('#input-zipcode').value,
+      countryCode   : t.find('#select-country').value
+    };
 
     // Concatenate the location informations
     place.address = place.streetNumber+ "+" + place.streetName + "+" + place.zipcode + "+" + place.city;
@@ -60,7 +60,7 @@ var checkLocation = function (t) {
         reject('No data found for this location');
       }
 
-    })
+    });
   });
 };
 
@@ -226,7 +226,7 @@ Template.placeUpdateSocialProfiles.events({
         document.body.removeEventListener('click', editPlaceLocationClickListener, false);
       });
     }, function(error) {
-      console.error('Error', error);
+      throw error;
     });
 
   }

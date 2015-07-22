@@ -14,10 +14,7 @@ Template.modalSendMessage.helpers({
 });
 
 Template.modalSendMessage.rendered = function () {
-	this.autorun(function () {
-		
-	});
-}
+};
 
 Template.modalSendMessage.events({
 	'click .user-action-send-message': function (e, t) {
@@ -31,21 +28,21 @@ Template.modalSendMessage.events({
 				id: Router.current().params._id,
 				resource: 'place'
 			}
-		}
+		};
 
 		var errors = validateMessage(message);
 		Session.set('modalSendMessage', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
 
-		Meteor.call('sendMessage', message, function (error, result) {
+		Meteor.call('sendMessage', message, function (error) {
 			if (error) {
 				$('.modal-send-message .user-action-send-message').removeClass('btn-loader');
-				console.log(error);
+				throw error;
 			}
 
 			Session.set('messageSent', true);
-			
+
 			Meteor.setTimeout(function () {
 				$('#myModal').modal('hide');
 				Session.set('messageSent', false);

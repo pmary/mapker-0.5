@@ -1,24 +1,20 @@
 Template.modalCreateProfile.created = function() {
-}
+};
 
-Template.modalCreateProfile.rendered = function() {
+Template.modalCreateProfile.rendered = function () {
 	$('.modal-create-profile [data-toggle="popover"]').popover();
 
 	$('#input-activity').focus();
-
-	// Init the tags input
-	/*$("input#input-themes").tagsinput('items');
-	$("input#input-activities").tagsinput('items');*/
-}
+};
 
 Template.modalCreateProfile.helpers({
-	errorMessage: function(field) {
+	errorMessage: function (field) {
 		return Session.get('modalCreateProfileErrors')[field];
 	},
-	errorClass: function(field) {
+	errorClass: function (field) {
 		return !!Session.get('modalCreateProfileErrors')[field] ? 'has-error' : '';
 	},
-	localities: function() {
+	localities: function () {
 		return Session.get('localities');
 	}
 });
@@ -38,7 +34,7 @@ Template.modalCreateProfile.events({
 		// Get results by postal code and region iso code
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({ 'componentRestrictions': { 'postalCode': zipcode }, region: countryCode }, function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
+			if (status === google.maps.GeocoderStatus.OK) {
 				// Get the city from the results
 				for (var i = 0; i < results[0].address_components.length; i++) {
 					// If there is postcode localities it mean that there is many locality matching
@@ -55,7 +51,7 @@ Template.modalCreateProfile.events({
 							//$('#create-profile-form #select-city').focus();
 						}
 					}
-				};
+				}
 			} else {
 				Session.set('localities', null);
 				console.log('Geocode was not successful for the following reason: ' + status);
@@ -89,20 +85,19 @@ Template.modalCreateProfile.events({
 					var value = results[0].geometry.location[key];
 					// Check if the value is a number
 					if (!isNaN(parseFloat(value)) && isFinite(value)) {
-						loc.push(value)
-					};					
-				};
-				
+						loc.push(value);
+					}
+				}
+
 				// If our coordinates have the right format, save the user profile
-				if (loc.length == 2) {
+				if (loc.length === 2) {
 					profile.loc = loc;
-					Meteor.call('userCreateProfile', profile, function(error, result) {
+					Meteor.call('userCreateProfile', profile, function(error) {
 						// display the error to the user and abort
 						if (error) {
-							console.log(error);
-							return alert(error.reason);
+							throw error;
 						}
-						
+
 						// Clear the session var
 						Session.set('localities', null);
 
@@ -113,8 +108,8 @@ Template.modalCreateProfile.events({
 						});
 						$('#myModal').modal('hide');
 				    });
-				};
-			};
+				}
+			}
 		});
 	}
 });

@@ -1,6 +1,9 @@
 var firstClick = true;
 var editPopoverClickListener = function () {
-  if (firstClick) { return firstClick = false; }
+  if (firstClick) {
+    firstClick = false;
+    return false;
+  }
 
   $('.place-profile-infos .identity-edition-popover').css('display', 'none');
   firstClick = true;
@@ -46,7 +49,7 @@ Template.placeProfileIdentityEdition.events({
   	var types = t.data.place.types;
   	for (var i = 0; i < types.length; i++) {
   		types[i] = types[i].toLowerCase();
-  	};
+  	}
   	typesSelectize[0].selectize.setValue( types );
 
   	// Set a new selectize instance for the specialities select field
@@ -55,15 +58,15 @@ Template.placeProfileIdentityEdition.events({
   	});
   	// Set current specialities by default
   	var specialities = t.data.place.specialities;
-  	for (var i = 0; i < specialities.length; i++) {
-  		specialities[i] = specialities[i].toLowerCase();
-  	};
+  	for (var y = 0; y < specialities.length; y++) {
+  		specialities[y] = specialities[y].toLowerCase();
+  	}
   	specialitiesSelectize[0].selectize.setValue( specialities );
   },
   /**
    * @summary Prevent the popover to close if the user click inside
    */
-  'click .identity-edition-popover': function (e, t) {
+  'click .identity-edition-popover': function (e) {
     e.stopPropagation();
   },
   /**
@@ -80,7 +83,6 @@ Template.placeProfileIdentityEdition.events({
     firstClick = true;
   },
   'submit #edit-identity-form' : function(e, t) {
-    console.log('submit');
 		e.preventDefault();
 
     // Switch the button to the load state
@@ -91,10 +93,12 @@ Template.placeProfileIdentityEdition.events({
 			name: t.find('#input-name').value,
 			types: $('#edit-identity-form #select-types').val(),
 			specialities: $('#edit-identity-form #select-specialities').val()
-		}
+		};
 
-    Meteor.call('placeIdentityUpdate', place, function(error, result) {
-      if (error) return console.log(error.reason);
+    Meteor.call('placeIdentityUpdate', place, function(error) {
+      if (error) {
+        throw error;
+      }
 
       // Hide the popover
       t.find('.identity-edition-popover').style.display = 'none';
