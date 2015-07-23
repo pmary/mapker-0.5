@@ -2,7 +2,7 @@
 /* Local function declaration */
 /*****************************************************************************/
 /**
- * @summary Find the places that are within the current map viewable zone and that one 
+ * @summary Find the places that are within the current map viewable zone and that one
  * of it's activities match with the given keywords
  * @param {Object} searchObject - Contain the search parameters
  * @param {String} searchObject.keywords - Activities keywords
@@ -11,13 +11,13 @@
 var searchPlacesByActivitiesAndBbox = function(searchObject) {
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
-	Meteor.call('getPlaces', searchObject, function(error, result) {		
+	Meteor.call('getPlaces', searchObject, function(error, result) {
 		if (error) return console.log(error);
 
 		//console.log(result);
 
 		// If there is no result
-		if (!result.length) 
+		if (!result.length)
 			return Session.set('searchPlacesResults', "no-result");
 
 		// Format the results
@@ -25,14 +25,14 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 		for (var i = 0; i < result.length; i++) {
 			result[i]._source._id = result[i]._id;
 			places.push(result[i]._source);
-		};
+		}
 
 		Session.set('searchPlacesResults', places);
 
 		// Display the results on the map
-		for (var i = 0; i < places.length; i++) {
+		for (var y = 0; y < places.length; y++) {
 			//console.log(places[i]);
-			var resource = places[i];
+			var resource = places[y];
 			var latlng = new L.LatLng(resource.loc.lat, resource.loc.lon);
 			var marker = new L.Marker(latlng, {
 				_id: resource._id,
@@ -42,7 +42,7 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 			markers.push(marker);
 
 			addPopup(marker, resource);
-							
+
 			addMarker(marker);
 		}
 
@@ -50,9 +50,9 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 		if (!searchObject.bbox) {
 			var group = new L.featureGroup(markers);
 			map.fitBounds(group.getBounds(), {paddingTopLeft: [750, 30], paddingBottomRight: [30, 30]});
-		};
+		}
 	});
-}
+};
 
 /**
  * @summary Prepare the UI and create the search object for the query
@@ -72,7 +72,7 @@ var buildAndFiresSearch = function() {
 	// Get the input values
 	var location = $('.search-place #input-where').val(),
 	keywords = $('.search-place #input-what').val(),
-	searchObject;	
+	searchObject;
 	if (location.length > 2) {
 		console.log('has location');
 		var query = location.replace(/ /g, "+");
@@ -95,7 +95,7 @@ var buildAndFiresSearch = function() {
 
 					searchObject = {queryString: keywords, bbox: bbox};
 					searchPlacesByActivitiesAndBbox(searchObject);
-				};
+				}
 			}
 		});
 	}
@@ -107,11 +107,11 @@ var buildAndFiresSearch = function() {
 		top = map.getBounds().getNorth(),
 		bbox = [ left, bottom, right, top ];
 		console.log(bbox);*/
-		
+
 		searchObject = {queryString: keywords/*, bbox: bbox*/};
 		searchPlacesByActivitiesAndBbox(searchObject);
 	}
-}
+};
 
 var createIcon = function(resource) {
 	return L.divIcon({
@@ -121,7 +121,7 @@ var createIcon = function(resource) {
 		html: '<span class="pin place-pin"></span>',
 		className: 'leaflet-place-icon'
 	});
-}
+};
 
 var addMarker = function(marker) {
 	// Get the layer in which added the marker
@@ -130,11 +130,11 @@ var addMarker = function(marker) {
 	markerLayerGroup.addLayer(marker);
 	// Index the marker to access it easily after
 	//markers[marker.options._id] = marker;
-}
+};
 
 var clearMap = function() {
 	markerLayerGroup.clearLayers();
-}
+};
 
 var addPopup = function(marker, resource) {
 	if (resource.avatar) {
@@ -159,7 +159,7 @@ var addPopup = function(marker, resource) {
 			</div>
 		</div>`);
 	}
-	
+
 }
 
 
@@ -186,15 +186,13 @@ Template.searchPlaces.helpers({
 var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
+	console.log('Template.searchPlaces.rendered');
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
 
 	// Set the focus on the what input field
 	$('.search-place #input-what').focus();
 
-	/**
-	 * @todo Try to move the accessToken declaration server side only to keep it private
-	 */
 	this.autorun(function () {
 		// Set the menu item as active
 		$('#primary-navbar #main-menu li').removeClass('active');
@@ -238,7 +236,7 @@ Template.searchPlaces.rendered = function() {
 
 			// Search places matching with the current input values
 			buildAndFiresSearch();
-			
+
 			// Get the suggestions according to the queryString
 			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
@@ -285,7 +283,7 @@ Template.searchPlaces.rendered = function() {
 					if (content.features && content.features.length) {
 						console.log(content.features);
 						var results = content.features.slice(0, 10);
-						
+
 						var formatedResult = {
 							suggestions: $.map(results, function(dataItem) {
 								return { value: dataItem.place_name, data: dataItem.place_name };

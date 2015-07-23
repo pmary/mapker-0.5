@@ -8,22 +8,19 @@ meteor-platform
 mike:mocha
 velocity:nightwatch-framework
 velocity:html-reporter
-peerlibrary:aws-sdk
 pmary:errors
 pmary:tagsinput
-msavin:mongol
-pmary:mapbox
 meteorhacks:kadira
 pmary:elasticsearch
 pmary:cropper
-momentjs:moment
 meteorhacks:npm
 
 
 npm-container
-miktam:loggly
 meteorhacks:kadira-profiler
 mapker:machines
 kadira:debug
 mapker:lib
 mapker:core
+mapker:third-party
+mapker:places

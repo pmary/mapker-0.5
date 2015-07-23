@@ -1,8 +1,8 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.0.1',
+  version: '0.6.0',
   summary: 'Mapker core package',
-  git: 'https://github.com/pmary/mapker',
+  git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
 });
 
@@ -12,6 +12,7 @@ Package.onUse(function(api) {
 
   var packages = [
     'mapker:lib',     // no dependencies
+    'mapker:places',  // lib
     'mapker:machines' // lib
   ];
 
@@ -24,6 +25,7 @@ Package.onUse(function(api) {
     'lib/client/main.html',
     'lib/client/main.scss',
     'lib/client/main.js',
+    // Administration
     'lib/client/templates/administration/admin_main.html',
     'lib/client/templates/administration/admin_places.html',
     'lib/client/templates/administration/admin_place_edit/admin_place_edit.html',
@@ -41,18 +43,23 @@ Package.onUse(function(api) {
     'lib/client/templates/administration/sidebar/sidebar.html',
     'lib/client/templates/administration/sidebar/sidebar.css',
     'lib/client/templates/administration/sidebar/sidebar.js',
+    // Footer
     'lib/client/templates/footer/footer.html',
     'lib/client/templates/footer/footer.css',
     'lib/client/templates/footer/footer.js',
+    // Home
     'lib/client/templates/home/home.html',
     'lib/client/templates/home/home.scss',
     'lib/client/templates/home/home.js',
+    // Includes
     'lib/client/templates/includes/404.html',
     'lib/client/templates/includes/access_denied.html',
     'lib/client/templates/includes/loader.html',
+    // Legal
     'lib/client/templates/legal/dmca/dmca.html',
     'lib/client/templates/legal/privacy/privacy.html',
     'lib/client/templates/legal/terms_of_service/terms_of_service.html',
+    // Primary navbar
     'lib/client/templates/primary_navbar/primary_navbar.html',
     'lib/client/templates/primary_navbar/primary_navbar.scss',
     'lib/client/templates/primary_navbar/primary_navbar.js',
