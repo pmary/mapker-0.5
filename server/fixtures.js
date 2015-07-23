@@ -203,17 +203,17 @@
 		        "bio" : "I'm a parisian photographer"
 		    }
 		});
-	};
+	}
 
 	if (Labs.find().count() === 0) {
 		// Insert some fake lab data
-	};
+	}
 
 	/**if (Machines.find().count() === 0) {
 		// Insert some fake machine data
 	};**/
 
-	if (Places.find().count() === 0) {
+	/*if (Places.find().count() === 0) {
 		// Insert some fake place data
 
 		Places.insert({
@@ -720,9 +720,9 @@
 		    },
 		    "about" : "                \n\n\n                         cfscefv vfvdfv fdvdfv"
 		});
-	};
+	};*/
 
 	if (Projects.find().count() === 0) {
 		// Insert some fake project data
-	};
+	}
 });

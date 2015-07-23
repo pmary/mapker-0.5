@@ -60,7 +60,7 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
  */
 var buildAndFiresSearch = function() {
 	// Remove the no-search class from #search-container to display the result area
-	$('.search-place#search-container').removeClass('no-search');
+	$('.mapker-place-search#search-container').removeClass('no-search');
 
 	// Clear map
 	clearMap();
@@ -70,11 +70,10 @@ var buildAndFiresSearch = function() {
 	Session.set('searchPlacesResults', '');
 
 	// Get the input values
-	var location = $('.search-place #input-where').val(),
-	keywords = $('.search-place #input-what').val(),
+	var location = $('.mapker-place-search #mapker-places-input-where').val(),
+	keywords = $('.mapker-place-search #mapker-places-input-what').val(),
 	searchObject;
 	if (location.length > 2) {
-		console.log('has location');
 		var query = location.replace(/ /g, "+");
 		// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
 		var queryUrl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + query + '.json?access_token=pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
@@ -138,29 +137,29 @@ var clearMap = function() {
 
 var addPopup = function(marker, resource) {
 	if (resource.avatar) {
-		marker.bindPopup(`<div class="popup">
-			<div class="avatar" style="background-image: url( ${resource.avatar.url} )"></div>
-			<div class="infos">
-				<div class="info-v-center">
-					<h2>${resource.name}</h2>
-					<p>${resource.formattedAddress}</p>
-				</div>
-			</div>
-		</div>`);
+		marker.bindPopup('<div class="popup">' +
+			'<div class="avatar" style="background-image: url(' + resource.avatar.url + ' )"></div>' +
+			'<div class="infos">' +
+				'<div class="info-v-center">' +
+					'<h2>' + resource.name + '</h2>' +
+					'<p>' + resource.formattedAddress + '</p>' +
+				'</div>' +
+			'</div>' +
+		'</div>');
 	}
 	else {
-		marker.bindPopup(`<div class="popup">
-			<div class="avatar" style="background-image: url( /images/avatar-place-default.png )"></div>
-			<div class="infos">
-				<div class="info-v-center">
-					<h2>${resource.name}</h2>
-					<p>${resource.formattedAddress}</p>
-				</div>
-			</div>
-		</div>`);
+		marker.bindPopup('<div class="popup">' +
+			'<div class="avatar" style="background-image: url( /images/avatar-place-default.png )"></div>' +
+			'<div class="infos">' +
+				'<div class="info-v-center">' +
+					'<h2>' + resource.name + '</h2>' +
+					'<p>' + resource.formattedAddress + '</p>' +
+				'</div>' +
+			'</div>' +
+		'</div>');
 	}
 
-}
+};
 
 
 /*****************************************************************************/
@@ -186,12 +185,11 @@ Template.searchPlaces.helpers({
 var map, markerLayerGroup;
 var markers = []; // Our marker list
 Template.searchPlaces.rendered = function() {
-	console.log('Template.searchPlaces.rendered');
 	// Clear the session var to prevent displaying results from an old search
 	Session.set("searchPlacesResults", []);
 
 	// Set the focus on the what input field
-	$('.search-place #input-what').focus();
+	$('.mapker-place-search #mapker-places-input-what').focus();
 
 	this.autorun(function () {
 		// Set the menu item as active
@@ -201,7 +199,7 @@ Template.searchPlaces.rendered = function() {
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized
-			map = L.mapbox.map('map', 'examples.map-i86nkdio', {zoomControl: false})
+			map = L.mapbox.map('mapker-places-search-map', 'examples.map-i86nkdio', {zoomControl: false})
 			.setView([40, -20.50], 3);
 			//map.addLayer("placeLayer");
 
@@ -215,7 +213,7 @@ Template.searchPlaces.rendered = function() {
 			markerLayerGroup = L.layerGroup([]);
 			map.addLayer(markerLayerGroup);
 
-			console.log(map.getBounds());
+			//console.log(map.getBounds());
 		}
 	});
 
@@ -225,9 +223,9 @@ Template.searchPlaces.rendered = function() {
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentWhatQueryString;
-	$('.search-place #input-what').autocomplete({
+	$('.mapker-place-search #mapker-places-input-what').autocomplete({
 		position: "absolute",
-		appendTo: $('.search-place #input-what-container'),
+		appendTo: $('.mapker-place-search .input-what-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
@@ -240,7 +238,9 @@ Template.searchPlaces.rendered = function() {
 			// Get the suggestions according to the queryString
 			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
-				if (error) return console.log(error.reason);
+				if (error) {
+						throw error;
+				}
 
 				var formatedResult = {
 					suggestions: $.map(result, function(dataItem) {
@@ -252,7 +252,7 @@ Template.searchPlaces.rendered = function() {
 			});
 		},
 		onSelect: function (suggestion) {
-			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 			// Search places matching with the current input values
 			buildAndFiresSearch();
 		}
@@ -264,9 +264,9 @@ Template.searchPlaces.rendered = function() {
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentLocationQueryString;
-	$('.search-place #input-where').autocomplete({
+	$('.mapker-place-search #mapker-places-input-where').autocomplete({
 		position: "absolute",
-		appendTo: $('.search-place #input-where-container'),
+		appendTo: $('.mapker-place-search .input-where-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
@@ -281,7 +281,7 @@ Template.searchPlaces.rendered = function() {
 				if (!error) {
 					var content = JSON.parse(result.content);
 					if (content.features && content.features.length) {
-						console.log(content.features);
+						//console.log(content.features);
 						var results = content.features.slice(0, 10);
 
 						var formatedResult = {
@@ -291,24 +291,25 @@ Template.searchPlaces.rendered = function() {
 						};
 
 						done(formatedResult);
-					};
+					}
 				}
 			});
 		},
 		onSelect: function (suggestion) {
-			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 			// Search places matching with the current input values
 			buildAndFiresSearch();
 		}
 	});
-}
+};
 
 
 /*****************************************************************************/
 /* Meteor events */
 /*****************************************************************************/
 Template.searchPlaces.events({
-	'submit #search-form': function(e,t) {
+	'submit #mapker-places-search-form': function(e,t) {
+		console.log('submit .search-form');
 		e.preventDefault();
 		// Search places matching with the current input values
 		buildAndFiresSearch();
@@ -319,7 +320,7 @@ Template.searchPlaces.events({
 			if(markers[i].options._id == resourceId) {
 				markers[i]._icon.firstElementChild.className = "pin pin-place-hover";
 			}
-		};
+		}
 	},
 	'mouseout .result': function(e,t) {
 		var resourceId = e.currentTarget.dataset.id;
@@ -327,10 +328,9 @@ Template.searchPlaces.events({
 			if(markers[i].options._id == resourceId) {
 				markers[i]._icon.firstElementChild.className = "pin pin-place";
 			}
-		};
+		}
 	},
-	'click .user-action-zoom-to': function(e,t) {
-		console.log('pan to');
+	'click .user-action-zoom-to': function(e, t) {
 		var resourceId = e.currentTarget.dataset.id;
 		for (var i = 0; i < markers.length; i++) {
 			if(markers[i].options._id == resourceId) {
@@ -339,6 +339,6 @@ Template.searchPlaces.events({
 				markers[i]._icon.firstElementChild.className = "pin pin-place-hover";
 				markers[i].openPopup();
 			}
-		};
+		}
 	}
 });

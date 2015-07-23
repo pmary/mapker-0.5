@@ -19,8 +19,15 @@ Package.onUse(function(api) {
   api.imply(packages);
 
   api.addFiles([
+    'lib/client/templates/search/search_places.html',
+    'lib/client/templates/search/search_places.scss',
+    'lib/client/templates/search/search_places.js',
+  ], ['client']);
+
+  api.addFiles([
     'lib/namespace.js',
-    'lib/places.js'
+    'lib/places.js',
+    'lib/routes.js'
   ], ['client', 'server']);
 
   api.addFiles([
