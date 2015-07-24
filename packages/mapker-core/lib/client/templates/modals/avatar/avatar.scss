@@ -1,0 +1,66 @@
+.modal-change-avatar {
+	text-align: center;
+}
+
+.modal-change-avatar em {
+	margin-bottom: 15px;
+	display: block;
+}
+
+.modal-change-avatar #input-avatar,
+.modal-change-avatar .cropper-controls {
+	display: none;
+}
+
+.modal-change-avatar .image-upload {
+	margin-top: 10px;
+}
+
+.modal-change-avatar .cropper-controls {
+	margin-bottom: 10px;
+}
+
+.modal-change-avatar .image-upload-container,
+.modal-change-avatar .image-update-container {
+	text-align: center;
+}
+
+.modal-change-avatar #first-upload {
+	background-color: #f6f6f6;
+	height: 180px;
+	border: 2px dashed #c9c9c9;
+	border-radius: 3px;
+	font-size: 16px;
+	color: #c9c9c9;
+	line-height: 180px;
+	width: 100%;
+}
+
+.modal-change-avatar #first-upload:hover {
+	cursor: pointer;
+}
+
+.image-upload-container #change-image {
+	display: none;
+}
+
+.image-upload-container .cropper-controls {
+}
+
+.modal-change-avatar .image-upload-container .helper-tool {
+	display: none;
+	height: 320px;
+	width: 320px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modal-change-avatar .modal-header.user {
+	background-color: #20dec2;
+	color: #FFFFFF;
+}
+
+.modal-change-avatar .modal-header.place {
+	background-color: #FC3975;
+	color: #FFFFFF;
+}

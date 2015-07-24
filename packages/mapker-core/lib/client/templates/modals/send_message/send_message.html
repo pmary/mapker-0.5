@@ -1,0 +1,35 @@
+<template name="modalSendMessage">
+	<div class="modal-dialog modal-send-message">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">New message</h4>
+			</div>
+			{{#if messageSent}}
+			<div class="modal-body">
+				<h4>Your message was successfully sent</h4>
+			</div>
+			{{else}}
+			<div class="modal-body">
+				To: {{modalMessage.place.name}}
+				<form>
+					<div class="form-group {{errorClass 'subject'}}">
+						<input type="text" class="form-control" id="message-subject" placeholder="Subject">
+						<span class="help-block">{{errorMessage 'subject'}}</span>
+					</div>
+					<div class="{{errorClass 'subject'}}">
+						<textarea class="form-control" id="message-text" placeholder="Message"></textarea>
+						<span class="help-block">{{errorMessage 'subject'}}</span>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary user-action-send-message">
+					<span>Send</span>
+					{{> loader}}
+				</button>
+			</div>
+			{{/if}}
+		</div>
+	</div>
+</template>

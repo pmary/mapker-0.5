@@ -1,0 +1,61 @@
+.modal-change-cover {
+	text-align: center;
+}
+
+.modal-change-cover em {
+	margin-bottom: 15px;
+	display: block;
+}
+
+.modal-change-cover #input-cover {
+	display: none;
+}
+
+.modal-change-cover .image-upload {
+	margin-top: 10px;
+}
+
+.modal-change-cover .cropper-controls {
+	margin-bottom: 10px;
+}
+
+.modal-change-cover .image-upload-container {
+	text-align: center;
+	display: none;
+}
+
+.modal-change-cover #first-upload {
+	background-color: #f6f6f6;
+	height: 180px;
+	border: 2px dashed #c9c9c9;
+	border-radius: 3px;
+	font-size: 16px;
+	color: #c9c9c9;
+	line-height: 180px;
+	width: 100%;
+}
+
+.modal-change-cover #first-upload:hover {
+	cursor: pointer;
+}
+
+.image-upload-container #change-image {
+	display: none;
+}
+
+.image-upload-container .cropper-controls {
+}
+
+.modal-change-cover .image-upload-container .helper-tool {
+	display: block !important;
+	height: 200px;
+	width: 422px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px;
+}
+
+.modal-change-cover .modal-header {
+	background-color: #20dec2;
+	color: #FFFFFF;
+}

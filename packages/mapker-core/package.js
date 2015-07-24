@@ -12,6 +12,7 @@ Package.onUse(function(api) {
 
   var packages = [
     'mapker:lib',       // no dependencies
+    'mapker:users',     // lib
     'mapker:places',    // lib
     'mapker:machines',  // lib
     'mapker:search'     // lib
@@ -66,7 +67,26 @@ Package.onUse(function(api) {
     'lib/client/templates/primary_navbar/primary_navbar.js',
     'lib/client/templates/primary_navbar/notifications/notifications.html',
     'lib/client/templates/primary_navbar/notifications/notifications.scss',
-    'lib/client/templates/primary_navbar/notifications/notifications.js'
+    'lib/client/templates/primary_navbar/notifications/notifications.js',
+    // Modals
+      // Avatar
+      'lib/client/templates/modals/avatar/avatar.html',
+      'lib/client/templates/modals/avatar/avatar.scss',
+      'lib/client/templates/modals/avatar/avatar.js',
+      // Cover
+      'lib/client/templates/modals/cover/cover.html',
+      'lib/client/templates/modals/cover/cover.css',
+      'lib/client/templates/modals/cover/cover.js',
+      // Create profile
+      'lib/client/templates/modals/create_profile/create_profile.html',
+      'lib/client/templates/modals/create_profile/create_profile.js',
+      // Login required
+      'lib/client/templates/modals/login_required/login_required.html',
+      'lib/client/templates/modals/login_required/login_required.scss',
+      'lib/client/templates/modals/login_required/login_required.js',
+      // Send message
+      'lib/client/templates/modals/send_message/send_message.html',
+      'lib/client/templates/modals/send_message/send_message.js'
   ], ['client']);
 
   api.addFiles([

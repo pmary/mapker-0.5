@@ -1,0 +1,42 @@
+.modal-login-required {
+	color: #66757f;
+	border-color: #e1e8ed;
+
+	.user-actions-join-btn {
+		position: relative;
+		width: 260px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.modal-header {
+		height: 40px;
+		padding: 9px;
+
+		h4 {
+			font-size: 16px;
+			font-weight: normal;
+			line-height: 22px;
+			color: #8899a6;
+		}
+	}
+
+	.modal-body {
+		text-align: center;
+	}
+
+	.modal-footer {
+		color: #8899a6;
+		font-weight: 400;
+		font-size: 14px;
+		text-align: center;
+		padding: 15px;
+	}
+}

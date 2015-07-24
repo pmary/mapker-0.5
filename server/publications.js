@@ -2,11 +2,6 @@
  * Meteor publcations
  * @doc: http://docs.meteor.com/#/full/dataandsecurity
  */
-
-/*****************************************************************************/
-/* Public Places publications */
-/*****************************************************************************/
-
 /*****************************************************************************/
 /* Public Users publications */
 /*****************************************************************************/
@@ -37,33 +32,3 @@ Meteor.publish('pubUserNotifs', function(userId) {
 	check(userId, String);
 	return Notifications.find({to: userId}, {reactive: false});
 });
-
-/*****************************************************************************/
-/* Admin Places publications */
-/*****************************************************************************/
-/**
- * @summary Publish all the places waiting for validation
- */
-Meteor.publish("placesToValidate", function () {
-	return Places.find({activated: false});
-});
-
-/*****************************************************************************/
-/* Admin Users publications */
-/*****************************************************************************/
-/**
- * @summary Publish all the users fullname
- */
-Meteor.publish("allUsers", function() {
-	return Meteor.users.find({}, { fields: { 'profile.fullname': 1}});
-})
-
-/*****************************************************************************/
-/* Taxons publications */
-/*****************************************************************************/
-/**
- * @summary Get all the taxons
- */
- Meteor.publish("allTaxons", function() {
- 	return Taxons.find({});
- })
