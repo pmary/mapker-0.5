@@ -1,16 +1,3 @@
-Router.route('/search/places', {
-  name: 'searchPlaces',
-  template: 'searchPlaces',
-  waitOn: function () {
-  },
-  data: function () {
-  },
-  after: function () {
-    // Send the pageview to GA
-    ga('send', 'pageview', '/search/places');
-  }
-});
-
 Router.route('/places/:_id', {
   name: 'placeProfile',
   template: 'placeProfileLayout',

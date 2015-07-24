@@ -12,7 +12,9 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
 	Meteor.call('getPlaces', searchObject, function(error, result) {
-		if (error) return console.log(error);
+		if (error) {
+      throw error;
+    }
 
 		//console.log(result);
 

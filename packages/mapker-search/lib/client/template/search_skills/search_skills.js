@@ -11,24 +11,27 @@
 var searchUsersBySkillsAndBbox = function(searchObject) {
 	// Query the ES index via the Meteor method and return the results
 	Meteor.call('getUsers', searchObject, function(error, result) {
-		if (error) return console.log(error);
+		if (error) {
+      throw error;
+    }
 
-		console.log(result);
+		//console.log(result);
 
 		// If there is no result
-		if (!result.length) 
+		if (!result.length) {
 			return Session.set('searchUsersResults', "no-result");
-		
+    }
+
 		// Format the results
 		var users = [];
 		for (var i = 0; i < result.length; i++) {
 			result[i]._source._id = result[i]._id;
 			users.push(result[i]._source);
-		};
+		}
 
 		Session.set('searchUsersResults', users);
 	});
-}
+};
 
 /**
  * @summary Prepare the UI and create the search object for the query
@@ -36,11 +39,11 @@ var searchUsersBySkillsAndBbox = function(searchObject) {
  */
 var buildAndFiresSearch = function() {
 	// Remove the no-search class from #search-container to display the result area
-	$('.search-skills#search-container').removeClass('no-search');
+	$('.mapker-search-skills .mapker-search-skills').removeClass('no-search');
 
 	// Get the input values
-	var keywords = $('.search-skills #input-skills').val(),
-	location = $('.search-skills #input-where').val();
+	var keywords = $('.mapker-search-skills .input-skills').val(),
+	location = $('.mapker-search-skills .input-where').val();
 
 	if (location.length > 2) {
 		var query = location.replace(/ /g, "+");
@@ -55,7 +58,7 @@ var buildAndFiresSearch = function() {
 					var bbox = content.features[0].bbox;
 					var searchObject = {queryString: keywords, bbox: bbox};
 					searchUsersBySkillsAndBbox(searchObject);
-				};
+				}
 			}
 		});
 	}
@@ -64,7 +67,7 @@ var buildAndFiresSearch = function() {
 		var searchObject = {queryString: keywords};
 		searchUsersBySkillsAndBbox(searchObject);
 	}
-}
+};
 
 /*****************************************************************************/
 /* Meteor helpers */
@@ -88,7 +91,7 @@ Template.searchSkills.rendered = function() {
 	});
 
 	// Set the focus on the what input field
-	$('.search-skills #input-skills').focus();
+	$('.mapker-search-skills .input-skills').focus();
 
 	/**
 	 * @summary AutoComplete init. for the skills input field
@@ -96,9 +99,9 @@ Template.searchSkills.rendered = function() {
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentQueryString;
-	$('.search-skills #input-skills').autocomplete({
+	$('.mapker-search-skills .input-skills').autocomplete({
 		position: "absolute",
-		appendTo: $('.search-skills #input-what-container'),
+		appendTo: $('.mapker-search-skills .input-what-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
@@ -107,7 +110,7 @@ Template.searchSkills.rendered = function() {
 
 			// Search users matching with the current input values
 			buildAndFiresSearch();
-			
+
 			// Get the suggestions according to the queryString
 			Meteor.call('getSkillsSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
@@ -123,21 +126,21 @@ Template.searchSkills.rendered = function() {
 			});
 		},
 		onSelect: function (suggestion) {
-			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 			// Search users matching with the current input values
 			buildAndFiresSearch();
 		}
 	});
- 
+
 	/**
 	 * @summary AutoComplete init. for the location input field
 	 * @see https://github.com/devbridge/jQuery-Autocomplete
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentLocationQueryString;
-	$('.search-skills #input-where').autocomplete({
+	$('.mapker-search-skills .input-where').autocomplete({
 		position: "absolute",
-		appendTo: $('.search-skills #input-where-container'),
+		appendTo: $('.mapker-search-skills .input-where-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
@@ -153,7 +156,7 @@ Template.searchSkills.rendered = function() {
 					var content = JSON.parse(result.content);
 					if (content.features && content.features.length) {
 						var results = content.features.slice(0, 10);
-						
+
 						var formatedResult = {
 							suggestions: $.map(results, function(dataItem) {
 								return { value: dataItem.place_name, data: dataItem.place_name };
@@ -161,20 +164,20 @@ Template.searchSkills.rendered = function() {
 						};
 
 						done(formatedResult);
-					};
+					}
 				}
 			});
 		},
 		onSelect: function (suggestion) {
-			console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 			// Search users matching with the current input values
 			buildAndFiresSearch();
 		}
 	});
-}
+};
 
 Template.searchSkills.events({
-	'submit #search-form': function(e,t) {
+	'submit .mapker-search-skills-form': function(e,t) {
 		e.preventDefault();
 
 		// Search users matching with the current input values

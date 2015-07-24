@@ -11,9 +11,7 @@ velocity:html-reporter
 pmary:errors
 pmary:tagsinput
 meteorhacks:kadira
-pmary:elasticsearch
 pmary:cropper
-meteorhacks:npm
 
 
 npm-container
@@ -24,3 +22,5 @@ mapker:lib
 mapker:core
 mapker:third-party
 mapker:places
+mapker:search
+mapker:users

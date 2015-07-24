@@ -54,15 +54,15 @@ mapker:core@0.6.0
 mapker:lib@0.0.1
 mapker:machines@0.0.1
 mapker:places@0.0.1
+mapker:search@0.0.1
 mapker:third-party@0.0.1
+mapker:users@0.0.1
 meteor@1.1.6
 meteor-platform@1.2.2
-meteorhacks:async@1.0.0
 meteorhacks:kadira@2.20.6
 meteorhacks:kadira-binary-deps@1.4.0
 meteorhacks:kadira-profiler@1.1.0
 meteorhacks:meteorx@1.3.1
-meteorhacks:npm@1.3.0
 meteortoys:toykit@0.5.0
 mike:mocha@0.5.4
 miktam:loggly@1.0.0
@@ -83,7 +83,6 @@ pauloborges:mapbox@2.1.5
 peerlibrary:aws-sdk@2.1.17_1
 peerlibrary:blocking@0.5.2
 pmary:cropper@0.0.1
-pmary:elasticsearch@0.0.1
 pmary:errors@0.0.1
 pmary:tagsinput@0.5.0
 practicalmeteor:chai@1.9.2_3

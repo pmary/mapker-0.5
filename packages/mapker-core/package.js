@@ -11,9 +11,10 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
 
   var packages = [
-    'mapker:lib',     // no dependencies
-    'mapker:places',  // lib
-    'mapker:machines' // lib
+    'mapker:lib',       // no dependencies
+    'mapker:places',    // lib
+    'mapker:machines',  // lib
+    'mapker:search'     // lib
   ];
 
   api.use(packages);
@@ -90,6 +91,10 @@ Package.onUse(function(api) {
     'public/images/social_icons_transp.svg',
     'public/images/spinner.gif'
   ], ['client']);
+
+  api.addFiles([
+    'lib/routes.js'
+  ], ['client', 'server']);
 
 });
 

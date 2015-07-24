@@ -3,11 +3,12 @@
  * @summury Indexes set up and helpers
  * @see http://blog.qbox.io/quick-and-dirty-autocomplete-with-elasticsearch-completion-suggest for autocomplete exemple
  */
+Elasticsearch = Npm.require('elasticsearch');
 
 // Check if we are in production or development environement
 if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
 	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-	Meteor.ES = new Elasticsearch.Client({
+	Search = new Elasticsearch.Client({
 		host: 'https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com',
 		sniffOnStart: true,
 		sniffInterval: 60000,
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
 }
 else {
 	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-	Meteor.ES = new Elasticsearch.Client({
+	Search = new Elasticsearch.Client({
 		host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
 		sniffOnStart: true,
 		sniffInterval: 60000,
@@ -30,11 +31,10 @@ else {
 	});
 }
 
-
 /*****************************************************************************/
 /* Methods */
 /*****************************************************************************/
-Meteor.ES.methods = {
+Search.methods = {
 	/**
 	 * @summary Delete a user document from the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
@@ -48,7 +48,7 @@ Meteor.ES.methods = {
 	 */
 	getSkillsSuggestions: function(queryString, callback) {
 		// Get suggestions
-		Meteor.ES.suggest({
+		Search.suggest({
 			index: 'resources',
 			body: {
 				skills_suggester: {
@@ -72,7 +72,7 @@ Meteor.ES.methods = {
 	 */
 	getActivitiesSuggestions: function(queryString, callback) {
 		// Get suggestions
-		Meteor.ES.suggest({
+		Search.suggest({
 			index: 'resources',
 			body: {
 				activities_suggester: {
@@ -104,7 +104,7 @@ Meteor.ES.methods = {
 		if (queryObject.queryString && queryObject.bbox) {
 			//console.log('Query the activities and the location');
 			// Query the activities and the location
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'place',
 				body: {
@@ -138,7 +138,7 @@ Meteor.ES.methods = {
 		} else if(queryObject.queryString && !queryObject.bbox) {
 			//console.log('Query on the activities only');
 			// Query on the activities only
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'place',
 				body: {
@@ -163,7 +163,7 @@ Meteor.ES.methods = {
 		} else if(!queryObject.queryString && queryObject.bbox) {
 			//console.log('Query the location only');
 			// Query the location only
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'place',
 				body: {
@@ -202,7 +202,7 @@ Meteor.ES.methods = {
 
 		if (queryObject.queryString && queryObject.bbox) {
 			// Query the skill and the location
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'user',
 				body: {
@@ -236,7 +236,7 @@ Meteor.ES.methods = {
 			});
 		} else if(queryObject.queryString && !queryObject.bbox) {
 			// Query on the skill only
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'user',
 				body: {
@@ -256,7 +256,7 @@ Meteor.ES.methods = {
 			});
 		} else if(!queryObject.queryString && queryObject.bbox) {
 			// Query the location only
-			Meteor.ES.search({
+			Search.search({
 				index: 'resources',
 				type: 'user',
 				body: {
@@ -295,7 +295,7 @@ Meteor.ES.methods = {
 			queryObject.exculdedIds = [];
 		}
 
-		Meteor.ES.search({
+		Search.search({
 			index: 'resources',
 			type: 'user',
 			body: {
@@ -353,7 +353,7 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getSkillsSuggestions);
+		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Search.methods.getSkillsSuggestions);
 		var results = getSkillsSuggestionsAsync(queryString);
 		return results;
 	},
@@ -366,7 +366,7 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Meteor.ES.methods.getActivitiesSuggestions);
+		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Search.methods.getActivitiesSuggestions);
 		var results = getActivitiesSuggestionsAsync(queryString);
 		return results;
 	},
@@ -393,7 +393,7 @@ Meteor.methods({
 	getPlaces: function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetPlaces = Meteor.wrapAsync(Meteor.ES.methods.getPlaces);
+		var wrappedGetPlaces = Meteor.wrapAsync(Search.methods.getPlaces);
 		var results = wrappedGetPlaces(queryObject);
 		// console.log(results);
 		return results;
@@ -401,7 +401,7 @@ Meteor.methods({
 	getUsers: function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetUsers = Meteor.wrapAsync(Meteor.ES.methods.getUsers);
+		var wrappedGetUsers = Meteor.wrapAsync(Search.methods.getUsers);
 		var results = wrappedGetUsers(queryObject);
 		return results;
 	},
@@ -412,7 +412,7 @@ Meteor.methods({
 			exculdedIds: Match.Optional(Array)
 		});
 
-		var wrappedGetUsersByFullname = Meteor.wrapAsync(Meteor.ES.methods.getUsersByFullname);
+		var wrappedGetUsersByFullname = Meteor.wrapAsync(Search.methods.getUsersByFullname);
 		var results = wrappedGetUsersByFullname(queryObject);
 		return results;
 	},
@@ -437,9 +437,9 @@ Meteor.methods({
 			body.skills = [];
 			for (var y = 0; y < user.profile.skills.length; y++) {
 				body.skills.push(user.profile.skills[y].title);
-			};
+			}
 			body.skills_suggest.input = body.skills;
-		};
+		}
 
 		if (user.profile.fullname) {
 			body.name = user.profile.fullname;
@@ -466,9 +466,9 @@ Meteor.methods({
 				w: (user.profile.cover.w ? user.profile.cover.w : undefined),
 				h: (user.profile.cover.h ? user.profile.cover.h : undefined)
 			};
-		};
+		}
 
-		Meteor.ES.index({
+		Search.index({
 			index: 'resources',
 			type: 'user',
 			id: id, // User id
@@ -476,7 +476,7 @@ Meteor.methods({
 		}, function (error, response) {
 			//console.log(response);
 			console.log(error);
-			/*Meteor.ES.get({
+			/*Search.get({
 			  index: 'resources',
 			  type: 'user',
 			  id: id
@@ -504,7 +504,7 @@ Meteor.methods({
 		var id = place._id;
 
 		// Init the body object
-		var body = {}
+		var body = {};
 
 		var autocompleteFields = [];
 		if (place.name) {
@@ -538,9 +538,9 @@ Meteor.methods({
 				w: (place.cover.w ? place.cover.w : undefined),
 				h: (place.cover.h ? place.cover.h : undefined)
 			};
-		};
+		}
 
-		Meteor.ES.index({
+		Search.index({
 			index: 'resources',
 			type: 'place',
 			id: id, // User id
@@ -548,7 +548,7 @@ Meteor.methods({
 		}, function (error, response) {
 			/*console.log(response);
 			console.log(error);*/
-			/*Meteor.ES.get({
+			/*Search.get({
 			  index: 'resources',
 			  type: 'place',
 			  id: id
@@ -581,9 +581,9 @@ Meteor.methods({
 				body.skills = [];
 				for (var y = 0; y < user.profile.skills.length; y++) {
 					body.skills.push(user.profile.skills[y].title);
-				};
+				}
 				body.skills_suggest.input = body.skills;
-			};
+			}
 
 			if (user.profile.fullname) {
 				body.name = user.profile.fullname;
@@ -610,9 +610,9 @@ Meteor.methods({
 					w: (user.profile.cover.w ? user.profile.cover.w : undefined),
 					h: (user.profile.cover.h ? user.profile.cover.h : undefined)
 				};
-			};
+			}
 
-			Meteor.ES.index({
+			Search.index({
 				index: 'resources',
 				type: 'user',
 				id: id, // User id
@@ -620,7 +620,7 @@ Meteor.methods({
 			}, function (error, response) {
 				//console.log(response);
 				console.log(error);
-				/*Meteor.ES.get({
+				/*Search.get({
 				  index: 'resources',
 				  type: 'user',
 				  id: id
@@ -629,7 +629,7 @@ Meteor.methods({
 					console.log(error);
 				});*/
 			});
-		};
+		}
 		console.log( users.length + " users indexed!" );
 	},
 	/**
@@ -646,7 +646,7 @@ Meteor.methods({
 			var place = places[i];
 
 			// Init the body object
-			var body = {}
+			var body = {};
 
 			var autocompleteFields = [];
 			if (place.name) {
@@ -680,9 +680,9 @@ Meteor.methods({
 					w: (place.cover.w ? place.cover.w : undefined),
 					h: (place.cover.h ? place.cover.h : undefined)
 				};
-			};
+			}
 
-			Meteor.ES.index({
+			Search.index({
 				index: 'resources',
 				type: 'place',
 				id: id, // User id
@@ -690,7 +690,7 @@ Meteor.methods({
 			}, function (error, response) {
 				/*console.log(response);
 				console.log(error);*/
-				/*Meteor.ES.get({
+				/*Search.get({
 				  index: 'resources',
 				  type: 'place',
 				  id: id
@@ -699,7 +699,7 @@ Meteor.methods({
 					console.log(error);
 				});*/
 			});
-		};
+		}
 		console.log( places.length + " places indexed!" );
 	},
 	/**
@@ -707,7 +707,7 @@ Meteor.methods({
 	 */
 	restoreIndex: function () {
 		// Delete all the indices
-		Meteor.ES.indices.delete({index: '_all'}, function (error, response) {
+		Search.indices.delete({index: '_all'}, function (error, response) {
 			if (error) return console.log(error);
 			console.log('Delete indices:' + response.acknowledged);
 			/**
@@ -715,7 +715,7 @@ Meteor.methods({
 			 * and setup the completion suggester on the field we need to
 			 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
 			 */
-			Meteor.ES.indices.create({
+			Search.indices.create({
 				index: "resources",
 				body: {
 					settings: {
@@ -804,7 +804,7 @@ Meteor.methods({
 						}
 					}
 				};
-				Meteor.ES.indices.putMapping({index:"resources", type:"place", body:placesBody}, function(error, response) {
+				Search.indices.putMapping({index:"resources", type:"place", body:placesBody}, function(error, response) {
 					if (error) return console.log(error);
 					console.log('Put place mapping:' + response.acknowledged);
 					var usersBody = {
@@ -853,7 +853,7 @@ Meteor.methods({
 							}
 						}
 					};
-					Meteor.ES.indices.putMapping({index:"resources", type:"user", body:usersBody}, function(error, response) {
+					Search.indices.putMapping({index:"resources", type:"user", body:usersBody}, function(error, response) {
 						if (error) return console.log(error);
 						console.log('Put user mapping:' + response.acknowledged);
 

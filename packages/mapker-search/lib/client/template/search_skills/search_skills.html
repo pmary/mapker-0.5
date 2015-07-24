@@ -1,0 +1,71 @@
+<template name="searchSkills">
+  <div class="mapker-search-skills">
+  	<div class="no-search search-skills">
+  		<div>
+  			<section class="search-parameters">
+  				<img class="search-icon" src="/images/search-skills-icon.png" alt="Search a place">
+  				<form class="row mapker-search-skills-form">
+  					<div class="form-group input-what-container">
+  						<input type="text" class="form-control input-skills" placeholder="What are you looking for?" autocomplete="off">
+  					</div>
+  					<div class="form-group input-where-container">
+  						<input type="text" class="form-control input-where" placeholder="Where?" autocomplete="off">
+  					</div>
+  					<div class="form-group">
+  						<button class="btn user-action-search"><span class="glyphicon glyphicon-search"></span></button>
+  					</div>
+  				</form>
+  				{{#if users}}
+  					{{#if eq users "no-result"}}
+  					<!-- <div class="alert-container">
+  						<div class="alert alert-danger" role="alert">
+  							No skill were found for your search.
+  						</div>
+  					</div> -->
+  					{{/if}}
+  				{{else}}
+  					{{> loader}}
+  				{{/if}}
+  			</section>
+  		</div>
+
+
+  		<section class="search-results">
+  			<div class="results-container">
+  				{{#if users}}
+  					{{#if eq users "no-result"}}
+  					{{else}}
+  						{{#each users}}
+  							<div class="result" data-id="{{_id}}">
+  								<header>
+  									{{#if avatar}}
+  									<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
+  									</a>
+  									{{else}}
+  									<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+  									</a>
+  									{{/if}}
+  								</header>
+
+  								<section>
+  									<div class="cover">
+  										{{#if cover}}
+  										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{cover.url}})"></a>
+  										{{else}}
+  										<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
+  										{{/if}}
+  									</div>
+  									<div class="result-data">
+  										<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{name}}</a></h1>
+  										<h2>{{activity}}</h2>
+  									</div>
+  								</section>
+  							</div>
+  						{{/each}}
+  					{{/if}}
+  				{{/if}}
+  			</div>
+  		</section>
+  	</div>
+  </div>
+</template>
