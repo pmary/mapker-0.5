@@ -69,6 +69,9 @@ Package.onUse(function(api) {
     'lib/client/templates/primary_navbar/notifications/notifications.scss',
     'lib/client/templates/primary_navbar/notifications/notifications.js',
     // Modals
+      // Layout
+      'lib/client/templates/modals/modal.html',
+      'lib/client/templates/modals/modal.js',
       // Avatar
       'lib/client/templates/modals/avatar/avatar.html',
       'lib/client/templates/modals/avatar/avatar.scss',
