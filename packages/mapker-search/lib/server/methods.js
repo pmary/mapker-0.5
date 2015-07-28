@@ -20,14 +20,14 @@ else {
 		host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
 		sniffOnStart: true,
 		sniffInterval: 60000,
-		apiVersion: '1.5',
+		apiVersion: '1.5'/*, 
 		log: [
 			{
 	    	type: 'file',
 	    	level: 'trace',
 	    	path: '../../../log/elasticsearch.log'
 	  	}
-		]
+		]*/
 	});
 }
 

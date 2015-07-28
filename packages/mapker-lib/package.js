@@ -27,7 +27,7 @@ Package.onUse(function(api) {
     'check',
     'reactive-var',                 // https://atmospherejs.com/meteor/reactive-var
     'audit-argument-checks',        // https://atmospherejs.com/meteor/audit-argument-checks
-    'babel-compiler@5.8.3_1',       // https://atmospherejs.com/meteor/babel-compiler
+    'babel-compiler',       // https://atmospherejs.com/meteor/babel-compiler
     'msavin:mongol',                // https://atmospherejs.com/msavin/mongol
     'pauloborges:mapbox',           // https://atmospherejs.com/pauloborges/mapbox
     'momentjs:moment',              // https://atmospherejs.com/momentjs/moment
