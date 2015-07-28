@@ -1,3 +1,75 @@
+/////////////
+//  Hooks  //
+/////////////
+needToCreateProfile = function() {
+  var params = this.params;
+  var id = params._id;
+  if (Meteor.user() && id == Meteor.user()._id) {
+    var currentUser = Meteor.user();
+    if (
+      !currentUser.profile.activity ||
+      !currentUser.profile.address.countryCode ||
+      !currentUser.profile.address.zipcode ||
+      !currentUser.profile.address.city ||
+      !currentUser.profile.address.loc
+    ) {
+      Session.set('modalCreateProfileErrors', {});
+
+      //console.log("Open modal " + t.$(event.target).data('modal-template'));
+      // Open the create profile modal
+      Session.set('activeModal', "modalCreateProfile");
+
+      $('#myModal').modal({
+        backdrop: 'static',
+          keyboard: false
+      });
+    }
+  }
+};
+
+//////////////////////////////////////////////////////////////
+//  Account creation / connexion / password lost and reset  //
+//////////////////////////////////////////////////////////////
+/**
+ * Doc: https://github.com/iron-meteor/iron-router/blob/devel/Guide.md
+ */
+Router.route('/login', {
+	name: 'UserLogin',
+	template: 'UserLogin',
+	after: function () {
+		// Send the pageview to GA
+		ga('send', 'pageview', '/login');
+	}
+});
+
+Router.route('/logout', function () {
+	Meteor.logout();
+ 	//this.render('Home');
+ 	Router.go('Home');
+});
+
+Router.route('/join', {
+ 	name: 'userJoin',
+	template: 'userJoin',
+	after: function () {
+		// Send the pageview to GA
+		ga('send', 'pageview', '/join');
+	}
+});
+
+Router.route('/reset-password', function () {
+	this.render('UserForgotPassword');
+});
+
+Router.route('/reset-password/:resetToken', function () {
+	this.render('UserForgotPassword');
+},{
+	name: 'reset-password.token'
+});
+
+////////////////////
+//  User profile  //
+////////////////////
 /**
  * Doc: https://github.com/iron-meteor/iron-router/blob/devel/Guide.md
  */

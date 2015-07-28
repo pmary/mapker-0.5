@@ -2,6 +2,24 @@
  * Doc: https://github.com/iron-meteor/iron-router/blob/devel/Guide.md
  */
 
+setActiveMenuItem = function() {
+   // Set the menu item as active
+   $('#primary-navbar #main-menu li').removeClass('active');
+   $('#primary-navbar').removeClass('home-ui');
+   switch(this.url) {
+     case '/search/places':
+     break;
+
+     case '/search/skills':
+     break;
+
+     default:
+
+     break;
+   }
+ };
+ Router.onAfterAction(setActiveMenuItem);
+
 //////////////////////
 //  General routes  //
 //////////////////////
