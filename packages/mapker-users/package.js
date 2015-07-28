@@ -45,7 +45,8 @@ Package.onUse(function(api) {
   ], ['client']);
 
   api.addFiles([
-    'lib/namespace.js'
+    'lib/namespace.js',
+    'lib/routes.js'
   ], ['client', 'server']);
 
   api.addFiles([
@@ -55,7 +56,10 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use('mike:mocha-package');
+  api.use('xolvio:cucumber');
   api.use('mapker:users');
-  api.addFiles('users-tests.js', ['client', 'server']);
+  api.addFiles([
+    'tests/cucumber/package.json',
+    'tests/cucumber/features/loging.feature'
+  ], ['client', 'server']);
 });
