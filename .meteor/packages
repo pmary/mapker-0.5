@@ -6,7 +6,6 @@
 
 meteor-platform
 mike:mocha
-velocity:nightwatch-framework
 velocity:html-reporter
 pmary:errors
 pmary:tagsinput
@@ -24,3 +23,5 @@ mapker:third-party
 mapker:places
 mapker:search
 mapker:users
+xolvio:cucumber
+sanjo:jasmine

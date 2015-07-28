@@ -55,7 +55,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
+  api.use('mike:mocha-package');
   api.use('mapker:users');
-  api.addFiles('users-tests.js');
+  api.addFiles('users-tests.js', ['client', 'server']);
 });
