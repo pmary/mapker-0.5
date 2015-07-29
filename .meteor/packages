@@ -22,3 +22,4 @@ mapker:places
 mapker:search
 mapker:users
 xolvio:cucumber
+velocity:console-reporter

@@ -1,4 +1,5 @@
 module.exports = function () {
+  var url = require('url');
 
   this.Given(/^I have created a login page with a login form$/, function (callback) {
     // Test if a route for /login exist
@@ -19,12 +20,12 @@ module.exports = function () {
       keys(['Enter']);
   });
 
-  this.Then(/^he should be redirected to hise profile page$/, function (callback) {
-    // Write code here that turns the phrase above into concrete actions
-    //console.log( 'this.driver.getCurrentUrl()', this.driver.getCurrentUrl() );
-    console.log('hello');
-    //return this.driver.
-      //getCurrentUrl();
+  this.Then(/^he should be redirected to is profile page$/, function (callback) {
+    // Get the current url
+    return this.client.url(function(err,res) {
+      //console.log('current url: ', res.value);
+      // Check if it's the good one
+      return expect(res.value).to.equal(process.env.ROOT_URL + 'login');
+    });
   });
-
 };

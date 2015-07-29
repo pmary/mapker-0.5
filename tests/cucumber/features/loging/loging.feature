@@ -9,4 +9,4 @@ Feature: Login system
       Given I have created a login page with a login form
       When a user navigates to the login page, he can see the heading "Sign In"
       And fill the form and submit it
-      Then he should be redirected to hise profile page
+      Then he should be redirected to is profile page
