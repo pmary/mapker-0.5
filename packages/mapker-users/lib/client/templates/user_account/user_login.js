@@ -32,8 +32,11 @@ Template.userLogin.events({
 		// If the form is valide log the user in
 		Meteor.loginWithPassword(credentials.email, credentials.password, function(error){
 			if (error){
-				// Display the related error message
-				Errors.throw(error.reason);
+				if (error.error === 403) {
+					// Display the related error message
+					Errors.throw('Invalid login or password');
+				}
+
 				// Cancel the loader state
 				$('#login-button').removeClass('btn-loader');
 			}else {

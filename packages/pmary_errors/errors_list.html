@@ -1,5 +1,5 @@
 <template name="meteorErrors">
-  <div class="errors">
+  <div class="mapker-errors">
     {{#each errors}}
       {{> meteorError}}
     {{/each}}
@@ -9,6 +9,6 @@
 <template name="meteorError">
   <div class="alert alert-danger alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{message}}
+    <span class="message">{{message}}</span>
   </div>
 </template>

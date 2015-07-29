@@ -9,13 +9,13 @@
 						<h3>Sign In</h3>
 					</div>
 					<div class="panel-body">
-						<form id="login-form" action="action">
+						<form id="login-form" novalidate>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group {{errorClass 'email'}}">
 										<label for="login-email">Email</label>
 										<input class="form-control" type="email" id="login-email" name="login-email" />
-										<span class="help-block">{{errorMessage 'email'}}</span>
+										<span id="login-email-help-block" class="help-block">{{errorMessage 'email'}}</span>
 									</div>
 								</div>
 							</div>
@@ -24,7 +24,7 @@
 									<div class="form-group {{errorClass 'password'}}">
 										<label for="login-password">Password <a href="/reset-password">(forgot password ?)</a></label>
 										<input class="form-control" type="password" id="login-password" name="login-password" />
-										<span class="help-block">{{errorMessage 'password'}}</span>
+										<span id="login-password-help-block" class="help-block">{{errorMessage 'password'}}</span>
 									</div>
 								</div>
 							</div>
