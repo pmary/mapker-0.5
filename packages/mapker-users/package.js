@@ -46,6 +46,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'lib/namespace.js',
+    'lib/helpers.js',
     'lib/routes.js'
   ], ['client', 'server']);
 

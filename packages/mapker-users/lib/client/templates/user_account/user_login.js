@@ -21,7 +21,7 @@ Template.userLogin.events({
 			password: t.find('#login-password').value
 		};
 
-		var errors = validateUserLogin(credentials);
+		var errors = Users.validateUserLogin(credentials);
 		Session.set('userLoginErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors

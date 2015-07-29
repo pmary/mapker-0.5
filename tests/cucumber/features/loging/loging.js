@@ -6,6 +6,10 @@ module.exports = function () {
     return this.client.url(process.env.ROOT_URL + 'login');
   });
 
+  this.Given(/^a user has created an account$/, function (callback) {
+    return this.server.call('user/create');
+  });
+
   this.When(/^a user navigates to the login page, he can see the heading "([^"]*)"$/, function (heading) {
     return this.client.
       waitForExist('h3').
@@ -20,12 +24,25 @@ module.exports = function () {
       keys(['Enter']);
   });
 
-  this.Then(/^he should be redirected to is profile page$/, function (callback) {
-    // Get the current url
-    return this.client.url(function(err,res) {
-      //console.log('current url: ', res.value);
-      // Check if it's the good one
-      return expect(res.value).to.equal(process.env.ROOT_URL + 'login');
-    });
+  this.When(/^the user is logeded in, he can see the logout button$/, function (callback) {
+    // Check if the logout button exist
+    return this.client.
+      waitForExist('#logout-btn').
+      isExisting('#logout-btn');
+  });
+
+  this.When(/^he can access to his profile page$/, function (callback) {
+    // Test if we can reach the profile page of the user
+    return this.client.url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio');
+  });
+
+  this.Then(/^he should see his user name on his profile page$/, function (callback) {
+    // Check if the username is well displayed
+    return this.client.
+      waitForExist('#user-name').
+      waitForText('#user-name').
+      getText('#user-name').then(function (text) {
+        return expect(text).to.equal('PIERRE MARY');
+      });
   });
 };
