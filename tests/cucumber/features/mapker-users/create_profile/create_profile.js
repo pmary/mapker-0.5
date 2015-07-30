@@ -25,23 +25,25 @@ module.exports = function () {
 
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
-      waitForExist('h4.modal-title').
+      waitForExist('h4.modal-title', 5000).
       getText('h4.modal-title').should.become(heading);
   });
 
   this.When(/^I fill and submit the form$/, function (heading) {
+    var self = this;
     return this.client.
-      setValue('input[name="input-activity"]', 'Testeur').
       selectByValue('#select-country', 'FR').
       setValue('input[name="input-zipcode"]', '75002').
       waitUntil(function() {
         return this.getText('#select-city option:first-child').then(function(text) {
           //console.log('text', text);
-          return text === 'Paris';
+          if (text === 'Paris') {
+            return self.client.selectByValue('#select-city', 'Paris').
+              setValue('input[name="input-activity"]', 'Testeur').
+              click('.modal-create-profile .modal-footer input[type="submit"]');
+          }
         });
-      }, 5000).
-      selectByValue('#select-city', 'Paris').
-      click('.modal-create-profile .modal-footer input[type="submit"]');
+      }, 5000);
   });
 
   this.Then(/^My informations should be updated on my profile$/, function (heading) {
