@@ -32,9 +32,12 @@ module.exports = function () {
   this.When(/^I fill and submit the form$/, function (heading) {
     var self = this;
     return this.client.
-      setValue('input[name="input-zipcode"]', '75002').
+      setValue('input[name="input-zipcode"]', '7500').
       selectByValue('#select-country', 'FR').
       setValue('input[name="input-activity"]', 'Testeur').
+      pause(1000).
+      addValue('input[name="input-zipcode"]', '2').
+      pause(2000).
       selectByIndex('#select-city', 0).
       submitForm('#create-profile-form');
   });
@@ -49,7 +52,7 @@ module.exports = function () {
       waitForExist('#user-area').
       waitForText('#user-area').
       getText('#user-area').then(function (text) {
-        return text != '';
+        return text === 'Paris';
       });
   });
 }
