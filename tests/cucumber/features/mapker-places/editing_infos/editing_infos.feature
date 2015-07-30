@@ -4,6 +4,6 @@ Feature: Edit place informations
   I want to go to the profile page of my place
   So that I can perform edit it's informations
 
-    @dev
+    #@dev
     Scenario: Edit the name types and specialities
     Given I have created a place

@@ -24,7 +24,7 @@ Template.userJoin.events({
 			userLang: navigator.language || navigator.userLanguage
 		}
 
-		var errors = validateUserJoin(user);
+		var errors = Users.validateUserJoin(user);
 		Session.set('userJoinErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors

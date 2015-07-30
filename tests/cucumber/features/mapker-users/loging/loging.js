@@ -13,7 +13,7 @@ module.exports = function () {
   //  Scenario: Connect to an existing account  //
   ////////////////////////////////////////////////
   this.Given(/^a user has created an account$/, function (callback) {
-    return this.server.call('user/create');
+    return this.server.call('cucumber/user/create-full-profile');
   });
 
   this.When(/^a user navigates to the login page, he can see the heading "([^"]*)"$/, function (heading) {

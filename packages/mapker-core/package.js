@@ -80,9 +80,6 @@ Package.onUse(function(api) {
       'lib/client/templates/modals/cover/cover.html',
       'lib/client/templates/modals/cover/cover.css',
       'lib/client/templates/modals/cover/cover.js',
-      // Create profile
-      'lib/client/templates/modals/create_profile/create_profile.html',
-      'lib/client/templates/modals/create_profile/create_profile.js',
       // Login required
       'lib/client/templates/modals/login_required/login_required.html',
       'lib/client/templates/modals/login_required/login_required.scss',

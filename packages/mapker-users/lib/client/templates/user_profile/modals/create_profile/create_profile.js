@@ -68,7 +68,7 @@ Template.modalCreateProfile.events({
 			city: t.find('#select-city').value
 		};
 
-		var errors = validateAddProfile(profile);
+		var errors = Users.validateAddProfile(profile);
 		Session.set('modalCreateProfileErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors

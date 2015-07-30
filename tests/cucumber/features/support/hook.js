@@ -1,5 +1,5 @@
 module.exports = function () {
   this.Before(function () {
-    return this.server.call('reset');
+    return this.server.call('cucumber/reset');
   });
 };

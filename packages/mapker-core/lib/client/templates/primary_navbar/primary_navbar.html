@@ -52,7 +52,7 @@
 					</li>
 					<li id="logout-btn"><a href="/logout" data-toggle="tooltip" data-placement="bottom" title="Sign out"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
 					{{else}}
-					<li class="signup"><a href="{{pathFor route='UserLogin'}}">Login</a></li>
+					<li class="signup"><a id="login-btn" href="{{pathFor route='UserLogin'}}">Login</a></li>
 					<!--<li class="signup"><a href="{{pathFor route='userJoin'}}">Sign up</a></li>-->
 					{{/if}}
 				</ul>

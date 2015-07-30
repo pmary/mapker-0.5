@@ -41,11 +41,17 @@ Package.onUse(function(api) {
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.js',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.html',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.css',
-    'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js'
+    'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js',
+      // Modals
+      // Create profile
+      'lib/client/templates/user_profile/modals/create_profile/create_profile.html',
+      'lib/client/templates/user_profile/modals/create_profile/create_profile.scss',
+      'lib/client/templates/user_profile/modals/create_profile/create_profile.js',
   ], ['client']);
 
   api.addFiles([
     'lib/namespace.js',
+    'lib/methods.js',
     'lib/helpers.js',
     'lib/routes.js'
   ], ['client', 'server']);

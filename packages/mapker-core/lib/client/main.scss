@@ -88,7 +88,10 @@ form small.error {
 
 .btn-default,
 .btn-default:hover,
-.btn-default:focus {
+.btn-default:focus,
+.btn-default:active,
+.btn-default:active:hover,
+.btn-default:active:focus {
 	color: #000000;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
@@ -96,7 +99,10 @@ form small.error {
 
 .btn-primary,
 .btn-primary:hover,
-.btn-primary:focus {
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:hover,
+.btn-primary:active:focus {
 	color: #2c9ff2;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
@@ -104,7 +110,10 @@ form small.error {
 
 .btn-success,
 .btn-success:hover,
-.btn-success:focus {
+.btn-success:focus,
+.btn-success:active,
+.btn-success:active:hover,
+.btn-success:active:focus {
 	color: #56db7e;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
@@ -112,7 +121,10 @@ form small.error {
 
 .btn-info,
 .btn-info:hover,
-.btn-info:focus {
+.btn-info:focus,
+.btn-info:active,
+.btn-info:active:hover,
+.btn-info:active:focus {
 	color: #4cd6ff;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
@@ -120,7 +132,10 @@ form small.error {
 
 .btn-warning,
 .btn-warning:hover,
-.btn-warning:focus {
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning:active:hover,
+.btn-warning:active:focus {
 	color: #fcb77e;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
@@ -128,7 +143,10 @@ form small.error {
 
 .btn-danger,
 .btn-danger:hover,
-.btn-danger:focus {
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger:active:hover,
+.btn-danger:active:focus {
 	color: #fc7e7e;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
