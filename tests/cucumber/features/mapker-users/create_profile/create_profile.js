@@ -39,7 +39,7 @@ module.exports = function () {
           //console.log('text', text);
           return text === 'Paris';
         });
-      }).
+      }, 5000).
       selectByValue('#select-city', 'Paris').
       click('.modal-create-profile .modal-footer input[type="submit"]');
   });
