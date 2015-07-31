@@ -16,13 +16,18 @@ module.exports = function () {
     return this.server.call('cucumber/user/create-full-profile');
   });
 
-  this.When(/^a user navigates to the login page, he can see the heading "([^"]*)"$/, function (heading) {
+  this.When(/^a user go to the login page, he can see the heading "([^"]*)"$/, function (heading) {
+    //console.log('When heading', heading);
     return this.client.
       waitForExist('h3').
-      getText('h3').should.become(heading);
+      waitForText('h3').
+      getText('h3').
+      then(function (text) {
+        return text === heading;
+      });
   });
 
-  this.When(/^fill the form and submit it$/, function (callback) {
+  this.When(/^fill the eamil and password fields and submit the form$/, function (callback) {
     // Write code here that turns the phrase above into concrete actions
     return this.client.
       setValue('input[name="login-email"]', 'contact@pierre-mary.fr').
@@ -56,8 +61,10 @@ module.exports = function () {
   //  Scenario: Try to connect with invalide data  //
   ///////////////////////////////////////////////////
   this.Given(/^a user navigates to the login page, he can see the heading "([^"]*)"$/, function (heading) {
+    console.log('Given heading', heading);
     return this.client.
       waitForExist('h3').
+      waitForText('h3').
       getText('h3').should.become(heading);
   });
 

@@ -4,15 +4,17 @@ Feature: Login system
   I want to be connected with my account
   So that I can perform actions that require to be logged on
 
+    #@dev
     Scenario: Connect to an existing account
       Given I have created a login page with a login form
       And a user has created an account
-      When a user navigates to the login page, he can see the heading "Sign In"
-      And fill the form and submit it
+      When a user go to the login page, he can see the heading "Sign In"
+      And fill the eamil and password fields and submit the form
       When the user is logeded in, he can see the logout button
       And he can access to his profile page
       Then he should see his user name on his profile page
 
+    #@dev
     Scenario: Try to connect with invalide data
       Given I have created a login page with a login form
       And a user navigates to the login page, he can see the heading "Sign In"
