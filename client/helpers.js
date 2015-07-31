@@ -10,7 +10,7 @@ isDuplicateSkillValidation = function(value, array) {
 	var result = false;
 	for (var i = 0; i < array.length; i++) {
 		if (array[i].title.toLowerCase() == value.toLowerCase())
-			result = "You already have this skill";
+			result = 'You already have this skill';
 	}
 	return result;
 };
@@ -20,7 +20,7 @@ isStringValidation = function(value) {
 		return false;
 	}
 	else {
-		return "Required field";
+		return 'Required field';
 	}
 };
 
@@ -29,15 +29,15 @@ isArrayValidation = function(value) {
 		return false;
 	}
 	else {
-		return "Required field";
+		return 'Required field';
 	}
 };
 
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {
-		return "Required field";
+		return 'Required field';
 	} else if (!value) {
-		return "Required field";
+		return 'Required field';
 	} else {
 		return false;
 	}
@@ -45,32 +45,32 @@ isFilledValidation = function(value) {
 
 isFilledTagsinputValidation = function(value) {
 	if (value.constructor === Array && !value.length) {
-		return "Required field";
+		return 'Required field';
 	} else if (value.constructor === Array && value.length) {
 		return false;
 	}
 	if (value.objectItems === undefined) {
-		return "Required field";
+		return 'Required field';
 	}
 	if (!value) {
-		return "Required field";
+		return 'Required field';
 	}
 	return false;
 };
 
 nameValidation = function(value) {
 	if (!value) {
-		return "Required field";
+		return 'Required field';
 	} else if (value.length < 2) {
-		return "Ce champ doit contenir au moins 2 caractères";
+		return 'This field must contain at least 2 characters';
 	} else if (value.length > 50) {
-		return "Ce champ ne doit pas comporter plus de 50 caractères";
+		return 'This field must not contain more than 50 characters';
 	} else if (value.search(/\d/) != -1) {
-		return "Ce champ ne doit pas contenir de chiffre";
+		return 'This field should not contain digit';
 	} else if (value.search(/[a-zA-Z]/) == -1) {
-		return "Ce champ doit contenir au moins une lettre";
+		return 'This field must contain at least one letter';
 	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-		return "Caractère invalide dans le nom d'utilisateur";
+		return 'Invalid character in the user name';
 	}else {
 		return false;
 	}
@@ -79,7 +79,7 @@ nameValidation = function(value) {
 emailValidation = function(value) {
 	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (!re.test(value)) {
-		return "Email invalide";
+		return 'Email invalide';
 	} else {
 		return false;
 	}
@@ -88,7 +88,7 @@ emailValidation = function(value) {
 phoneValidation = function(value) {
 	var re = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
 	if (!re.test(value)) {
-		return "Phone number invalide";
+		return 'Phone number invalide';
 	} else {
 		return false;
 	}
@@ -96,15 +96,15 @@ phoneValidation = function(value) {
 
 passwordValidation = function(value) {
 	if (!value) {
-		return "Required field";
+		return 'Required field';
 	} else if (value.length < 6) {
-		return "Votre mot de passe doit contenir au moins 6 caractères";
+		return 'This field must contain at least 6 characters';
 	} else if (value.length > 50) {
-		return "Votre mot de passe ne doit pas comporter plus de 50 caractères";
+		return 'This field must not contain more than 50 characters';
 	} else if (value.search(/\d/) == -1) {
-		return "Votre mot de passe doit contenir au moins un chiffre";
+		return 'Your password must contain at least one digit';
 	} else if (value.search(/[a-zA-Z]/) == -1) {
-		return "Votre mot de passe doit contenir au moins une lettre";
+		return 'Your password must contain at least one letter';
 	/*} else if (fields[i].node.value.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
 		isValidePassword = false;
 		passErrorMsg = "bad_char";*/
@@ -115,7 +115,7 @@ passwordValidation = function(value) {
 
 matchingValidation = function(value1, value2) {
 	if (value1 && value2 && value1 != value2) {
-		return "Password and confirmation doesn't match";
+		return 'Password and confirmation doesn\'t match';
 	} else {
 		return false;
 	}
@@ -123,9 +123,9 @@ matchingValidation = function(value1, value2) {
 
 numberValidation = function(value) {
 	if (!value) {
-		return "Required field";
+		return 'Required field';
 	} else if (value != parseInt(value, 10)) {
-		return "Must be a number";
+		return 'Must be a number';
 	} else {
 		return false;
 	}

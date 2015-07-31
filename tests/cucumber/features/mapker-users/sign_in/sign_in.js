@@ -70,9 +70,18 @@ module.exports = function () {
       });
   });
 
-  this.When(/^I submit the account creation form firstname field with "([^"]*)"$/, function (value) {
+  this.When(/^I submit the account creation with "([^"]*)" filled with "([^"]*)"$/, function (selector, value) {
     return this.client.
-      setValue('input[name="join-first-name"]', value).
+      setValue(selector, value).
       submitForm('#join-form');
+  });
+
+  this.Then(/^I should see the following message under the firstname field "([^"]*)" "([^"]*)"$/, function (selector, message) {
+    return this.client.
+      waitForExist(selector).
+      waitForText(selector).
+      getText(selector).then(function (text) {
+        return expect(text).to.equal(message);
+      });
   });
 };

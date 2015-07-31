@@ -4,7 +4,7 @@ Feature: Create a profile
   I go to my profile page and I have not yet created my profile
   So that a modal with a form is display for that
 
-    @dev
+    #@dev
     Scenario: Create a profile with right data
       Given I have an account and not set my activity countryCode zipcode city or loc
       And I'm loged in
