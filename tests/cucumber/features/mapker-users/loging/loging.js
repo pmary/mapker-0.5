@@ -55,7 +55,7 @@ module.exports = function () {
   ///////////////////////////////////////////////////
   //  Scenario: Try to connect with invalide data  //
   ///////////////////////////////////////////////////
-  this.Given(/^a user navigates to the login page, he can see the heading$/, function (heading) {
+  this.Given(/^a user navigates to the login page, he can see the heading "([^"]*)"$/, function (heading) {
     return this.client.
       waitForExist('h3').
       getText('h3').should.become(heading);
