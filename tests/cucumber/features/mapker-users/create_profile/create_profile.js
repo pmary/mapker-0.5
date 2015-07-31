@@ -1,8 +1,8 @@
 module.exports = function () {
 
-  ////////////////////////////////////////
-  //  Create a profile with right data  //
-  ////////////////////////////////////////
+  //////////////
+  //  Common  //
+  //////////////
   this.Given(/^I have an account and not set my activity countryCode zipcode city or loc$/, function (callback) {
     return this.server.call('cucumber/user/create-with-no-profile');
   });
@@ -33,8 +33,10 @@ module.exports = function () {
       getText('h4.modal-title').should.become(heading);
   });
 
+  ////////////////////////////////////////
+  //  Create a profile with right data  //
+  ////////////////////////////////////////
   this.When(/^I fill and submit the form$/, function (heading) {
-    var self = this;
     return this.client.
       setValue('input[name="input-zipcode"]', '7500').
       selectByValue('#select-country', 'FR').
@@ -57,6 +59,32 @@ module.exports = function () {
       waitForText('#user-area').
       getText('#user-area').then(function (text) {
         return text === 'Paris';
+      });
+  });
+
+  ////////////////////////////////////////
+  //  Create a profile with wrong data  //
+  ////////////////////////////////////////
+  this.When(/^I submit the profil creation form empty$/, function (callback) {
+    return this.client.submitForm('#create-profile-form');
+  });
+
+  this.Then(/^I can see the message "([^"]*)" under the main activity, zip code and city fields$/, function (message) {
+    return this.client.
+      waitForExist('#input-activity-help-block').
+      waitForText('#input-activity-help-block').
+      getText('#input-activity-help-block').then(function (text) {
+        return expect(text).to.equal(message);
+      }).
+      waitForExist('#input-zipcode-help-block').
+      waitForText('#input-zipcode-help-block').
+      getText('#input-zipcode-help-block').then(function (text) {
+        return expect(text).to.equal(message);
+      }).
+      waitForExist('#select-city-help-block').
+      waitForText('#select-city-help-block').
+      getText('#select-city-help-block').then(function (text) {
+        return expect(text).to.equal(message);
       });
   });
 };

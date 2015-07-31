@@ -8,7 +8,7 @@
 				<div class="form-group {{errorClass 'activity'}}">
 					<label for="input-activity">Your main activity</label>
 					<input class="form-control" type="text" id="input-activity" name="input-activity">
-					<span class="help-block">{{errorMessage 'activity'}}</span>
+					<span id="input-activity-help-block" class="help-block">{{errorMessage 'activity'}}</span>
 				</div>
 				<div class="form-group {{errorClass 'country'}}">
 					<label for="input-country">Country</label>
@@ -16,12 +16,12 @@
 						<option value="FR">France</option>
 						<option value="SW">Suisse</option>
 					</select>
-					<span class="help-block">{{errorMessage 'country'}}</span>
+					<span id="select-country-help-block" class="help-block">{{errorMessage 'country'}}</span>
 				</div>
 				<div class="form-group {{errorClass 'zipcode'}}">
 					<label for="input-zipcode">Zip code</label>
 					<input class="form-control" type="text" name="input-zipcode" id="input-zipcode">
-					<span class="help-block">{{errorMessage 'zipcode'}}</span>
+					<span id="input-zipcode-help-block" class="help-block">{{errorMessage 'zipcode'}}</span>
 				</div>
 				<div class="form-group {{errorClass 'city'}}">
 					<label for="select-city">City</label>
@@ -38,7 +38,7 @@
 						</select>
 					</fieldset>
 					{{/if}}
-					<span class="help-block">{{errorMessage 'city'}}</span>
+					<span id="select-city-help-block" class="help-block">{{errorMessage 'city'}}</span>
 				</div>
 			</div>
 			<div class="modal-footer">

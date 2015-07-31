@@ -11,7 +11,6 @@ Feature: Sign in form
       And fill the form and submit it
       Then he is redirected to his new profile page
 
-    @dev
     Scenario: Try to create an account with invalid data
       Given I'm on the account creation page and I can see the heading "Sign Up"
       When I submit the account creation form empty
