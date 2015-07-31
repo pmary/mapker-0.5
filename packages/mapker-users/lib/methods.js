@@ -12,6 +12,11 @@ Meteor.methods({
 			userLang : String
 		});
 
+		// Prevent email sending when runing test
+		if (user.email === 'noreply@mapker.co') {
+			return false;
+		}
+
 		if (Meteor.isServer) {
 			Meteor.defer(function() {
 				var templateName = 'welcome-mail-en';

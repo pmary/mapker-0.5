@@ -1,4 +1,8 @@
 module.exports = function () {
+
+  ////////////////////////////////////////
+  //  Create a profile with right data  //
+  ////////////////////////////////////////
   this.Given(/^I have an account and not set my activity countryCode zipcode city or loc$/, function (callback) {
     return this.server.call('cucumber/user/create-with-no-profile');
   });
@@ -55,4 +59,4 @@ module.exports = function () {
         return text === 'Paris';
       });
   });
-}
+};
