@@ -5,5 +5,5 @@ Feature: Edit place informations
   So that I can perform edit it's informations
 
     #@dev
-    Scenario: Edit the name types and specialities
-      Given I have created a place
+    #Scenario: Edit the name types and specialities
+      #Given I have created a place

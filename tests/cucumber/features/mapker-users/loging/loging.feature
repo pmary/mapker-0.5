@@ -4,7 +4,7 @@ Feature: Login system
   I want to be connected with my account
   So that I can perform actions that require to be logged on
 
-    #@dev
+    @dev
     Scenario: Connect to an existing account
       Given I have created a login page with a login form
       And a user has created an account
@@ -14,7 +14,7 @@ Feature: Login system
       And he can access to his profile page
       Then he should see his user name on his profile page
 
-    #@dev
+    @dev
     Scenario: Try to connect with invalide data
       Given I have created a login page with a login form
       And a user navigates to the login page, he can see the heading "Sign In"
