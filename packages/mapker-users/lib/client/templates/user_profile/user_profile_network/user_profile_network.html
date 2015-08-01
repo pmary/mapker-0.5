@@ -1,5 +1,18 @@
 <template name="userProfileNetwork">
 	<section class="col-md-8 col-md-offset-2 user-profile-network">
+
+		<!-- Display a message if the user have no network yet -->
+		{{#if eq currentUser._id user._id}}
+			{{#if isArrayEmpty places}}
+			place
+			{{else}}
+				<p class="no-network-message">
+					Makers are waiting for you <br>
+					<a href="{{pathFor route='searchSkills'}}">Find others makers to connect</a>
+				</p>
+			{{/if}}
+		{{/if}}
+
 		{{#each userNetwork}}
 			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="user">

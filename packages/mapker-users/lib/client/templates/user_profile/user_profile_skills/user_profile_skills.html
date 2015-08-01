@@ -10,6 +10,13 @@
 		</form>
 		{{/if}}
 
+		<!-- Display a message if the user have no skill -->
+		{{#if eq currentUser._id user._id}}
+			{{#if user.profile.skills}}
+			{{else}}
+				<p class="no-skill-message">You haven't shared your skills</p>
+			{{/if}}
+		{{/if}}
 
 		{{#if eq currentUser._id user._id}}
 			<div class="user-skills">

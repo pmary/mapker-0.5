@@ -15,7 +15,6 @@ Template.primaryNavbar.events({
 		Session.set('staticMapUrl', "");
 		Session.set('modalAddPlaceErrors', {});
 
-		//console.log("Open modal " + t.$(event.target).data('modal-template'));
 		// Open the add place modal
 		Session.set('activeModal', 'modalAddPlace');
 		$('#myModal').modal();

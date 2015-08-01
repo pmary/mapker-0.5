@@ -2,6 +2,12 @@
 	padding-left: 0px;
 	padding-right: 0px;
 
+	.no-place-message {
+		text-align: center;
+		font-size: 16px;
+		color: #999999;
+	}
+
 	.place {
 		box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 		height: 190px;
@@ -9,7 +15,7 @@
 		margin-bottom: 20px;
 		border-radius: 3px;
 		display: block;
-		
+
 		header {
 			width: 190px;
 			height: 190px;

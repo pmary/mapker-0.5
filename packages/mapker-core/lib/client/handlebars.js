@@ -72,6 +72,21 @@ UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObje
 	else return true;
 });
 
+/**
+ * @summary Check if the given array is empty
+ */
+UI.registerHelper('isArrayEmpty', function (array) {
+	if (! array || ! array.length) {
+		return false
+	}
+	else if (array.length) {
+		return true
+	}
+	else {
+		return false;
+	}
+});
+
 // Check if the user have fill at least one social profile link
 UI.registerHelper('hasSocialLink', function(links) {
 	var result = false;
