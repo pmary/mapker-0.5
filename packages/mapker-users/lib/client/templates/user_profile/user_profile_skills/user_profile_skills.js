@@ -30,7 +30,7 @@ Template.userProfileSkills.events({
 		var skill = t.find('#input-skill').value;
 		var skills = t.data.user.profile.skills;
 
-		var errors = validateUserAddSkill(skill, skills);
+		var errors = Users.validateUserAddSkill(skill, skills);
 		Session.set('userProfileSkillsErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
@@ -76,7 +76,7 @@ Template.userProfileSkills.events({
 		Meteor.call('userUpdateSkills', Session.get('userEditedSkills'), function(error, result) {
 			if (error)
 				console.log(error);
-			
+
 			t.find('.user-skills').style.display = 'block';
 			t.find('.edit-user-skills').style.display = 'none';
 		});
