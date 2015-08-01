@@ -158,6 +158,10 @@
   border-bottom: 1px solid #F2F2F2;
 }
 
+#navbar-notifs-list li:last-child {
+  border-bottom: none;
+}
+
 #navbar-notifs-list li span {
   padding: 15px 20px 15px 20px;
   display: block;

@@ -329,16 +329,16 @@
 		<nav class="row" id="inner-nav">
 			<div class="col-md-8 col-md-offset-2">
 				<ul class="nav nav-pills">
-					<li role="presentation" class="active">
+					<li id="nav-bio" role="presentation" class="active">
 						<a href="{{pathFor route='userProfileBio' _id=user._id}}">Bio</a>
 					</li>
-					<li>
+					<li id="nav-skills">
 						<a href="{{pathFor route='userProfileSkills' _id=user._id}}">Skills</a>
 					</li>
-					<li>
+					<li id="nav-places">
 						<a href="{{pathFor route='userProfilePlaces' _id=user._id}}">Places</a>
 					</li>
-					<li>
+					<li id="nav-network">
 						<a href="{{pathFor route='userProfileNetwork' _id=user._id}}">Network</a>
 					</li>
 				</ul>

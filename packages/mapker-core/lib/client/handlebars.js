@@ -76,7 +76,7 @@ UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObje
  * @summary Check if the given array is empty
  */
 UI.registerHelper('isArrayEmpty', function (array) {
-	if (! array || ! array.length) {
+	if (! array || ! array.length || array.constructor != 'Array') {
 		return false
 	}
 	else if (array.length) {

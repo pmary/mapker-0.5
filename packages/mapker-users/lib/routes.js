@@ -108,6 +108,10 @@ Router.route('/user/:_id/bio', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/user/'+this.params._id+'/bio');
+
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-bio').addClass('active');
   }
 });
 
@@ -128,6 +132,10 @@ Router.route('/user/:_id/skills', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/user/'+this.params._id+'/skills');
+
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-skills').addClass('active');
   }
 });
 
@@ -150,6 +158,10 @@ Router.route('/user/:_id/places', {
     // Send the pageview to GA
     ga('send', 'pageview', '/user/'+this.params._id+'/places');
 
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-places').addClass('active');
+
     return Meteor.subscribe('userPlaces', this.params._id);
   }
 });
@@ -171,6 +183,10 @@ Router.route('/user/:_id/network', {
   after: function() {
     // Send the pageview to GA
     ga('send', 'pageview', '/user/'+this.params._id+'/network');
+
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-network').addClass('active');
 
     return Meteor.subscribe('followedUsers', this.params._id);
   }
