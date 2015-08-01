@@ -13,7 +13,7 @@ Feature: Create a profile
       When I fill and submit the form
       Then My informations should be updated on my profile
 
-    @dev
+    #@dev
     Scenario: Create a profile with wrong data
       Given I have an account and not set my activity countryCode zipcode city or loc
       And I'm loged in

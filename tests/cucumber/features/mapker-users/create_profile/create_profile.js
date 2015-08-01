@@ -13,9 +13,6 @@ module.exports = function () {
       setValue('input[name="login-email"]', 'contact@pierre-mary.fr').
       setValue('input[name="login-password"]', 'mapker42').
       keys(['Enter']);
-    /*var login = this.client.call('cucumber/login');
-    console.log(JSON.stringify(login));
-    return login;*/
   });
 
   this.Then(/^it redirect me to my profile page$/, function (callback) {

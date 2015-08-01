@@ -47,6 +47,30 @@ Meteor.methods({
       }
     });
   },
+  'cucumber/user/create-with-no-bio': function () {
+    Meteor.users.insert({
+      "_id": "i4FxWHYGyQr3LyN4x",
+      "emails": [ {   "address": "contact@pierre-mary.fr", "verified": false } ],
+      "profile": {
+        "fullname": "Pierre Mary",
+        "firstname": "Pierre",
+        "lastname": "Mary",
+        "activity": "Développeur",
+        "address" : {
+          "countryCode" : "FR",
+          "zipcode" : "75008",
+          "city" : "Paris",
+          "loc" : {  "lat": 48.8718722, "lon": 2.31764320000002 }
+        }
+      },
+      "createdAt": "2015-04-07T13:55:07.055Z",
+      "services": {
+        "password": {
+          "bcrypt": "$2a$10$R5KsPj8VPSAe9ak8boIa2ulgz9XAxourReWKsc0D/zDPWBt9hIV/K"
+        }
+      }
+    });
+  },
   'cucumber/user/create-with-no-profile': function () {
     Meteor.users.insert({
       "_id": "i4FxWHYGyQr3LyN4x",
