@@ -64,6 +64,8 @@ module.exports = function () {
       pause(500).
       waitForExist('.user-skills .user-skill .skill-title').
       getText('.user-skills .user-skill .skill-title').then(function (text) {
+        console.log('text', text);
+        console.log('value', value);
         return expect(text).to.equal(value);
       });
   });
@@ -92,4 +94,4 @@ module.exports = function () {
     });
 
   });
-}
+};
