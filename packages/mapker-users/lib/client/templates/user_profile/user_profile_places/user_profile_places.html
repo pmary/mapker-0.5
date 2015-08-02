@@ -3,8 +3,6 @@
 		<!-- Display a message if the user have no place yet -->
 		{{#if eq currentUser._id user._id}}
 			{{#if isArrayEmpty places}}
-			place
-			{{else}}
 				<p class="no-place-message">
 					You have no place yet <br>
 					You can <a href="#" class="open-modal-add-place">create one</a> or <a href="{{pathFor route='searchPlaces'}}">search for one to join</a>

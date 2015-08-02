@@ -3,9 +3,7 @@
 
 		<!-- Display a message if the user have no network yet -->
 		{{#if eq currentUser._id user._id}}
-			{{#if isArrayEmpty places}}
-			place
-			{{else}}
+			{{#if isArrayEmpty userNetwork}}
 				<p class="no-network-message">
 					Makers are waiting for you <br>
 					<a href="{{pathFor route='searchSkills'}}">Find others makers to connect</a>

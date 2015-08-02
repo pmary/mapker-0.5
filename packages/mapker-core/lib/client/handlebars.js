@@ -76,15 +76,29 @@ UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObje
  * @summary Check if the given array is empty
  */
 UI.registerHelper('isArrayEmpty', function (array) {
-	if (! array || ! array.length || array.constructor != 'Array') {
-		return false
+	//console.log('isArrayEmpty array', array);
+	//console.log(Object.prototype.toString.call( array ));
+
+	if (! array) {
+		return true;
 	}
-	else if (array.length) {
-		return true
+
+	var proto = Object.prototype.toString.call( array );
+
+	if (proto === '[object Array]') {
+		if (array.length) {
+			return false;
+		}
 	}
-	else {
-		return false;
+	else if (proto === '[object Object]') {
+		// Check if its a MongoDB cursor
+		if (array.collection) {
+			return false;
+		}
 	}
+
+	// By default, return false
+	return true;
 });
 
 // Check if the user have fill at least one social profile link

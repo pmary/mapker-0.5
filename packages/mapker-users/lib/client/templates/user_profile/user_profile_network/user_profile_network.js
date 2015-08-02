@@ -9,13 +9,13 @@ Template.userProfileNetwork.helpers({
      if (this.user) {
        var user = this.user,
        userNetwork = [];
-       console.log('user', user);
+       
        if ( user && user.profile.network && user.profile.network.users && user.profile.network.users.connected ) {
          // Subscribe to users
          Meteor.subscribe("users", user.profile.network.users.connected);
-         console.log('This user have a network');
+         //console.log('This user have a network');
          userNetwork = Meteor.users.find({ _id: { $in: user.profile.network.users.connected } }).fetch();
-         console.log('userNetwork', userNetwork);
+         //console.log('userNetwork', userNetwork);
        }
        return userNetwork;
      }

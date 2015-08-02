@@ -248,6 +248,8 @@ Meteor.methods({
 			'profile.links.vimeo': userSocialProfiles.vimeo,
 			'profile.links.website': userSocialProfiles.website
 		} });
+
+		return userId;
 	},
 	/**
 	 * @summary Send a connection request to the given user

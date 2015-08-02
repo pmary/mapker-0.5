@@ -11,10 +11,14 @@ var editPopoverClickListener = function () {
 
 Template.placeProfileIdentityEdition.helpers({
 	errorMessage: function(field) {
-		return Session.get('placeUpdateSocialProfilesErrors')[field];
+    if (Session.get('placeUpdateSocialProfilesErrors')) {
+      return Session.get('placeUpdateSocialProfilesErrors')[field];
+    }
 	},
 	errorClass: function (field) {
-		return !!Session.get('placeUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
+    if (Session.get('placeUpdateSocialProfilesErrors')) {
+		  return !!Session.get('placeUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
+    }
 	}
 });
 

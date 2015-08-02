@@ -1,9 +1,9 @@
 Template.userProfilePlaces.rendered = function() {
 	this.autorun(function () {
-		console.log(this);
+		//console.log(this);
 		//Meteor.subscribe('place', this.params._id);
 	});
-}
+};
 
 Template.userProfilePlaces.events({
 	'click .open-modal-add-place' : function (e, t) {

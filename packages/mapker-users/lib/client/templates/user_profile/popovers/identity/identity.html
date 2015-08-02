@@ -1,0 +1,99 @@
+<template name="userProfileIdentityEdition">
+  <div class="pull-left user-profile-infos">
+    <div id="resource-infos-identity" class="open-identity-edition-popover">
+      {{#if eq currentUser._id user._id}}
+      <div class="open-identity-edition-popover" id="identity-edit" role="button">
+        <span class="icon icon-user-dot"></span>
+        <div id="identity">
+          <h1>
+            <span id="user-name">{{user.profile.fullname}}</span>
+            {{#if user.profile.activity}}
+            <span id="user-activity"> {{user.profile.activity}}</span>
+            {{/if}}
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </h1>
+
+          {{#if user.profile.address.city}}
+          <span id="user-area">{{user.profile.address.city}}</span>
+          {{/if}}
+        </div>
+      </div>
+      {{else}}
+      <span class="icon icon-user-dot"></span>
+      <div id="identity">
+        <h1>
+          <span id="user-name">{{user.profile.firstname}} {{user.profile.lastname}}</span>
+          {{#if user.profile.activity}}
+          <span id="user-activity"> {{user.profile.activity}}</span>
+          {{/if}}
+        </h1>
+
+        {{#if user.profile.address.city}}
+        <span id="user-area">{{user.profile.address.city}}</span>
+        {{/if}}
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if eq currentUser._id user._id}}
+    <div class="popover popover-content identity-edition-popover">
+      <form id='identity-form'>
+    		<div class='row'>
+    			<div class='col-md-6'>
+    				<div class="form-group {{errorClass 'firstname'}}">
+    					<label for='edit-first-name'>First name</label>
+    					<input class='form-control' type='text' id='edit-first-name' name='edit-first-name' value='{{user.profile.firstname}}' />
+    					<span class='help-block'>{{errorMessage 'firstname'}}</span>
+    				</div>
+    			</div>
+    			<div class='col-md-6'>
+    				<div class='form-group {{errorClass 'lastname'}}'>
+    					<label for='edit-last-name'>Last name</label>
+    					<input class='form-control' type='text' id='edit-last-name' name='edit-last-name' value='{{user.profile.lastname}}' />
+    					<span class='help-block'>{{errorMessage 'lastname'}}</span>
+    				</div>
+    			</div>
+    		</div>
+    		<div class='form-group {{errorClass "activity"}}'>
+    			<label for='edit-activity'>Your main activity</label>
+    			<input class='form-control' type='text' id='edit-activity' value='{{user.profile.activity}}'>
+    			<span class='help-block'>{{errorMessage 'activity'}}</span>
+    		</div>
+    		<div class='form-group {{errorClass "country"}}'>
+    			<label for='input-country'>Country</label>
+    			<select class='form-control' id='edit-select-country'>
+    				<option value='{{user.profile.address.countryCode}}' selected='selected'>{{user.profile.address.countryCode}}</option>
+    				<option value='FR'>France</option>
+    				<option value='SW'>Suisse</option>
+    			</select>
+    			<span class='help-block'>{{errorMessage 'country'}}</span>
+    		</div>
+    		<div class='form-group {{errorClass "zipcode"}}'>
+    			<label for='edit-zipcode'>Zip code</label>
+    			<input class='form-control' type='text' name='zipcode' id='edit-zipcode' value='{{user.profile.address.zipcode}}'>
+    			<span class='help-block'>{{errorMessage 'zipcode'}}</span>
+    		</div>
+    		<div class="form-group {{errorClass 'city'}}">
+    			<label for="select-city">City</label>
+    			{{#if localities}}
+    			<select class="form-control" id="edit-select-city">
+    				{{#each localities}}
+    				<option value="{{this}}">{{this}}</option>
+    				{{/each}}
+    			</select>
+    			{{else}}
+    			<select class="form-control" id="edit-select-city">
+    				<option value="{{user.profile.address.city}}">{{user.profile.address.city}}</option>
+    			</select>
+    			{{/if}}
+    		</div>
+    		<button type='button' class='btn btn-default close-identity-edition-popover'>Cancel</button>
+        <button type='submit' class='btn btn-primary submit-identity-form'>
+          <span>Save</span>
+          {{> loader}}
+        </button>
+    	</form>
+    </div>
+    {{/if}}
+  </div>
+</template>
