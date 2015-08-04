@@ -304,6 +304,13 @@
 #primary-navbar.home-ui {
 	border-color: transparent;
 	background: transparent;
+
+	.navbar-right > li:hover,
+	#main-menu li:hover {
+		a {
+			background-color: rgba(255,255,255,0.10);
+		}
+	}
 }
 
 #primary-navbar.home-ui.withBg {

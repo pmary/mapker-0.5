@@ -62,7 +62,7 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
  */
 var buildAndFiresSearch = function() {
 	// Remove the no-search class from #search-container to display the result area
-	$('.mapker-place-search#search-container').removeClass('no-search');
+	$('.mapker-search-places#search-container').removeClass('no-search');
 
 	// Clear map
 	clearMap();
@@ -72,8 +72,8 @@ var buildAndFiresSearch = function() {
 	Session.set('searchPlacesResults', '');
 
 	// Get the input values
-	var location = $('.mapker-place-search #mapker-places-input-where').val(),
-	keywords = $('.mapker-place-search #mapker-places-input-what').val(),
+	var location = $('.mapker-search-places #mapker-places-input-where').val(),
+	keywords = $('.mapker-search-places #mapker-places-input-what').val(),
 	searchObject;
 	if (location.length > 2) {
 		var query = location.replace(/ /g, "+");
@@ -191,7 +191,7 @@ Template.searchPlaces.rendered = function() {
 	Session.set("searchPlacesResults", []);
 
 	// Set the focus on the what input field
-	$('.mapker-place-search #mapker-places-input-what').focus();
+	$('.mapker-search-places #mapker-places-input-what').focus();
 
 	this.autorun(function () {
 		// Set the menu item as active
@@ -225,9 +225,9 @@ Template.searchPlaces.rendered = function() {
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentWhatQueryString;
-	$('.mapker-place-search #mapker-places-input-what').autocomplete({
+	$('.mapker-search-places #mapker-places-input-what').autocomplete({
 		position: "absolute",
-		appendTo: $('.mapker-place-search .input-what-container'),
+		appendTo: $('.mapker-search-places .input-what-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
@@ -266,9 +266,9 @@ Template.searchPlaces.rendered = function() {
 	 * @see https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 	 */
 	var currentLocationQueryString;
-	$('.mapker-place-search #mapker-places-input-where').autocomplete({
+	$('.mapker-search-places #mapker-places-input-where').autocomplete({
 		position: "absolute",
-		appendTo: $('.mapker-place-search .input-where-container'),
+		appendTo: $('.mapker-search-places .input-where-container'),
 		lookup: function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change

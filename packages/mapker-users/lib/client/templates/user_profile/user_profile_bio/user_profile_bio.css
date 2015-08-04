@@ -1,5 +1,17 @@
-.user-profile-bio {
+.user-profile-bio .text-add-bio {
+	display: block;
+	text-align: center;
+  font-size: 16px;
+  color: #999999;
+}
 
+.user-profile-bio .no-bio {
+	text-align: center;
+}
+
+.user-profile-bio .no-bio .mapker-picto-bio {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .user-profile-bio .user-bio-content {
@@ -25,17 +37,21 @@
 .user-profile-bio .add-user-bio {
 	cursor: pointer;
 	width: 100%;
-	height: 125px;
 	border: 1px dashed #c9c9c9;
 	border-radius: 3px;
 	text-align: center;
 	font-size: 16px;
 	color: #999999;
-	line-height: 125px;
+	padding-top: 15px;
+  padding-bottom: 35px;
 }
 
 .user-profile-bio .add-user-bio:hover {
 	border: 1px dashed #20dec2;
+	color: #20dec2;
+}
+
+.user-profile-bio .add-user-bio:hover .text-add-bio {
 	color: #20dec2;
 }
 

@@ -95,6 +95,27 @@ Users.validateUserAddSkill = function (skill, skills) {
 	return errors;
 };
 
+Users.validateUserLocation = function (location) {
+	console.log(location);
+	var errors = {};
+
+	var zipcodeError = isFilledValidation(location.zipcode);
+	if (zipcodeError) { errors.zipcode = zipcodeError; }
+
+	var countryCodeError = isFilledValidation(location.countryCode);
+	if (countryCodeError) { errors.countryCode = countryCodeError; }
+
+	var cityError = isFilledValidation(location.city);
+	if (cityError) { errors.city = cityError; }
+
+	// If there is no error, reset the object to clear the eventual previous errors
+	if (!Object.keys(errors).length) {
+		errors = {};
+	}
+
+	return errors;
+};
+
 Users.validateUserIdentity = function (identity) {
 	var errors = {};
 
@@ -107,18 +128,10 @@ Users.validateUserIdentity = function (identity) {
 	var activityError = isFilledValidation(identity.activity);
 	if (activityError) { errors.activity = activityError; }
 
-	var zipcodeError = isFilledValidation(identity.zipcode);
-	if (zipcodeError) { errors.zipcode = zipcodeError; }
-
-	var countryCodeError = isFilledValidation(identity.countryCode);
-	if (countryCodeError) { errors.countryCode = countryCodeError; }
-
-	var cityError = isFilledValidation(identity.city);
-	if (cityError) { errors.city = cityError; }
-
 	// If there is no error, reset the object to clear the eventual previous errors
-	if (!Object.keys(errors).length)
+	if (!Object.keys(errors).length) {
 		errors = {};
+	}
 
 	return errors;
 };

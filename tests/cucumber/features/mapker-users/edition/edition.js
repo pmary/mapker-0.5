@@ -45,15 +45,16 @@ module.exports = function () {
   ////////////////////////////////
   //  Scenario: Edit my skills  //
   ////////////////////////////////
-  this.When(/^I go to my skills page$/, function (callback) {
+  this.When(/^I go to my skills page and click on the "([^"]*)" element$/, function (selector) {
     return this.client.
       pause(1000).
-      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills');
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills').
+      pause(500).
+      click('.user-add-bio-message');
   });
 
   this.When(/^submit the skill "([^"]*)"$/, function (text) {
     return this.client.
-      pause(1000).
       waitForExist('#input-skill').
       setValue('#input-skill', text).
       submitForm('#add-skill-form');
@@ -64,8 +65,8 @@ module.exports = function () {
       pause(500).
       waitForExist('.user-skills .user-skill .skill-title').
       getText('.user-skills .user-skill .skill-title').then(function (text) {
-        console.log('text', text);
-        console.log('value', value);
+        //console.log('text', text);
+        //console.log('value', value);
         return expect(text).to.equal(value);
       });
   });

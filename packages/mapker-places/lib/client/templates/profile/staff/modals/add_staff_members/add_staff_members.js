@@ -2,11 +2,18 @@ Template.modalPlaceInviteStaffMembers.helpers({
   usersSelected: function () {
     return Session.get('currentStaffUsersSelected');
   },
+  inviteByEmail: function () {
+    return Session.get('inviteByEmail');
+  },
   errorMessage: function(field) {
-    return Session.get('modalAddPlaceInviteStaffMembersErrors')[field];
+    if (Session.get('modalAddPlaceInviteStaffMembersErrors')) {
+      return Session.get('modalAddPlaceInviteStaffMembersErrors')[field];
+    }
   },
   errorClass: function (field) {
-    return !!Session.get('modalAddPlaceInviteStaffMembersErrors')[field] ? 'has-error' : '';
+    if (Session.get('modalAddPlaceInviteStaffMembersErrors')) {
+      return !!Session.get('modalAddPlaceInviteStaffMembersErrors')[field] ? 'has-error' : '';
+    }
   }
 });
 
@@ -37,7 +44,7 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
 
     // Exclude the staff members from the search
     exculdedIds = staffMembersIds;
-    console.log('exculdedIds', exculdedIds);
+    //console.log('exculdedIds', exculdedIds);
   }
 
   /**
@@ -117,14 +124,60 @@ Template.modalPlaceInviteStaffMembers.events({
     var usersSelected = Session.get('currentStaffUsersSelected'),
     message = t.find('#input-message').value,
     placeId = Router.current().params._id;
-    console.log('message', message);
+    //console.log('message', message);
 
     if (usersSelected) {
       Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, message, function(error, result) {
-        if (error) console.log(error);
+        if (error) {
+          console.log(error);
+        }
         console.log(result);
         $('#myModal').modal('hide');
       });
+    }
+  },
+  /**
+   * At every user keyup, check if the input is a valide email
+   * And if yes, display an option to invite this person via email
+   */
+  'keyup #input-who': function (e, t) {
+    var email = t.find('#input-who').value;
+    var emailError = emailValidation(email);
+
+    // If the email isn't valid, dislay an error message
+    if (!emailError) {
+      Session.set('inviteByEmail', email);
+    }
+    else {
+      Session.set('inviteByEmail', null);
+    }
+  },
+  /**
+   * @summary Prevent the default form behavior at submit
+   * and check if the input is a valid email
+   */
+  'submit .staff-invitation-form': function (e, t) {
+    e.preventDefault();
+
+    // Reset the errors
+    Session.set('modalAddPlaceInviteStaffMembersErrors', {});
+
+    var email = t.find('#input-who').value;
+    var emailError = emailValidation(email);
+
+    // If the email isn't valid, dislay an error message
+    if (emailError) {
+      var errors = {};
+      errors.email = emailError;
+      Session.set('modalAddPlaceInviteStaffMembersErrors', errors);
+      // Hide the error in 3 secondes
+      setTimeout(function () {
+        Session.set('modalAddPlaceInviteStaffMembersErrors', {});
+      }, 3000);
+    }
+    else {
+      // Add the email to the list
+      Session.set('modalAddPlaceInviteStaffMembersErrors', {});
     }
   }
 });

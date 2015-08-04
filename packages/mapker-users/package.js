@@ -40,15 +40,21 @@ Package.onUse(function(api) {
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.scss',
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.js',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.html',
-    'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.css',
+    'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.scss',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js',
       // Popovers
+      // Identity
       'lib/client/templates/user_profile/popovers/identity/identity.html',
       'lib/client/templates/user_profile/popovers/identity/identity.scss',
       'lib/client/templates/user_profile/popovers/identity/identity.js',
+      // Social profiles
       'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.html',
       'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.scss',
       'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.js',
+      // Location
+      'lib/client/templates/user_profile/popovers/location/location.html',
+      'lib/client/templates/user_profile/popovers/location/location.scss',
+      'lib/client/templates/user_profile/popovers/location/location.js',
       // Modals
       // Create profile
       'lib/client/templates/user_profile/modals/create_profile/create_profile.html',

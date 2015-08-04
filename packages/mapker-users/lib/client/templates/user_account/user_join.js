@@ -22,12 +22,13 @@ Template.userJoin.events({
 			password: t.find('#join-password').value,
 			passwordConfirmation: t.find('#join-confirm-password').value,
 			userLang: navigator.language || navigator.userLanguage
-		}
+		};
 
 		var errors = Users.validateUserJoin(user);
 		Session.set('userJoinErrors', errors);
-		if (Object.keys(errors).length)
+		if (Object.keys(errors).length) {
 			return; // Abort the account creation due to errors
+		}
 
 		// If the form is valide
 		Accounts.createUser({

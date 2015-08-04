@@ -1,3 +1,37 @@
+.user-profile-bio {
+	.user-add-bio-message {
+		cursor: pointer;
+    width: 100%;
+    border: 1px dashed #c9c9c9;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
+
+		&:hover {
+			border: 1px dashed #20dec2;
+    	color: #20dec2;
+
+			.text-add-skills {
+				color: #20dec2;
+			}
+		}
+
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
+	}
+
+	.user-add-bio-form {
+		display: none;
+	}
+}
+
 .user-profile-bio a#user-add-skill {
 	color: #1abda4;
 	text-decoration: underline;
@@ -15,11 +49,6 @@
 	margin-right: auto;
 	position: relative;
 	margin-bottom: 15px;
-}
-
-.user-profile-bio form#add-skill-form button {
-	position: absolute;
-	height: 40px;
 }
 
 .user-profile-bio #input-skill {

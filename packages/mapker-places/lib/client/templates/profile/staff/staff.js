@@ -26,16 +26,18 @@ Template.placeProfileStaff.helpers({
 	staffMembers: function () {
 		// Get all the members
 		var place = Places.findOne({_id: Router.current().params._id, members: {$elemMatch: { staff: true }}}, {fields: {members: 1}});
-		var members = place.members;
-		// Filter the staff members
-		var staffMembersIds = [];
-		for (var i = 0; i < members.length; i++) {
-			if (members[i].staff)
-				staffMembersIds.push(members[i].id);
+		if (place) {
+			var members = place.members;
+			// Filter the staff members
+			var staffMembersIds = [];
+			for (var i = 0; i < members.length; i++) {
+				if (members[i].staff)
+					staffMembersIds.push(members[i].id);
+			}
+			// Get the staff members data
+			Meteor.subscribe('users', staffMembersIds);
+			return Meteor.users.find({ _id: { $in: staffMembersIds } }).fetch();
 		}
-		// Get the staff members data
-		Meteor.subscribe('users', staffMembersIds);
-		return Meteor.users.find({ _id: { $in: staffMembersIds } }).fetch();
 	}
 });
 

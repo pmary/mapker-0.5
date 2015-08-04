@@ -98,5 +98,9 @@ Router.route('/places/:_id/staff', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/places'+this.params._id+'/staff');
+    
+    // Set the tab as active
+    $('.place-profile-page .nav li').removeClass('active');
+    $('.place-profile-page .nav li#nav-bio').addClass('active');
   }
 });

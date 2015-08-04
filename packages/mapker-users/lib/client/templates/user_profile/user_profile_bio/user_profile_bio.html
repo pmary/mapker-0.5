@@ -9,13 +9,19 @@
 					</div>
 				{{else}}
 				<div id="update-user-bio" class="add-user-bio">
-					Talk about you
+					<span class="mapker-picto-bio"></span>
+					<span class="text-add-bio">Talk about you</span>
 				</div>
 				{{/if}}
 			{{else}}
 				{{#if user.profile.bio}}
 					<div class="user-bio-content">
 					{{{htmlLineBreack user.profile.bio}}}
+					</div>
+				{{else}}
+					<div class="no-bio">
+						<span class="mapker-picto-bio"></span>
+						<span class="text-add-bio">No bio yet</span>
 					</div>
 				{{/if}}
 			{{/if}}

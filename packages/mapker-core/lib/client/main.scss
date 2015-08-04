@@ -293,6 +293,10 @@ form small.error {
 .profile-page #cover-avatar {
 	height: 420px;
 	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+
+	@media screen and (max-width: 1440px) {
+		height: 360px;
+	}
 }
 
 .profile-page .profile-cover {
@@ -302,6 +306,10 @@ form small.error {
 	background-position: center;
 	width: 100%;
 	box-shadow: 0px 0px 110px 21px rgba(0, 0, 0, 0.5) inset;
+
+	@media screen and (max-width: 1440px) {
+		height: 360px;
+	}
 }
 
 .profile-page #profile-cover-bg {
@@ -309,6 +317,10 @@ form small.error {
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+
+	@media screen and (max-width: 1440px) {
+		height: 360px;
+	}
 }
 
 .profile-page #profile-avatar-bg {
@@ -1116,6 +1128,24 @@ form small.error {
 	}
 }
 
+.mapker-picto-bio {
+	display: inline-block;
+	position: relative;
+	width: 193px;
+	height: 122px;
+	background: url(/images/mapker-pictos.svg);
+	background-position: 1351px 0px;
+}
+
+.mapker-picto-skills {
+	display: inline-block;
+	position: relative;
+	width: 193px;
+	height: 122px;
+	background: url(/images/mapker-pictos.svg);
+	background-position: 193px 0px;
+}
+
 /* Resource icons */
 .resource-icon {
 	width: 14px;
@@ -1280,6 +1310,10 @@ form small.error {
 	-webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
 	-moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
 	box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
+
+	&:hover {
+		background-color: #F0F0F0;
+	}
 }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
 .autocomplete-no-suggestion { padding: 2px 5px;}

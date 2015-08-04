@@ -1,0 +1,48 @@
+.user-location-infos {
+  position: relative;
+  display: block;
+  clear: both;
+  cursor: pointer;
+
+  .glyphicon.glyphicon-pencil {
+    padding: 10px;
+    position: absolute;
+    right: -28px;
+    top: -5px;
+    text-decoration: none;
+    color: #1C1C1C;
+    cursor: pointer;
+    font-size: 10px;
+  }
+
+  #user-area {
+    text-align: right;
+    display: block;
+    clear: both;
+  }
+
+  .popover {
+  	width: 320px;
+
+    &.update-user-location-popover {
+      right: auto;
+      left: 2px;
+      top: 27px;
+
+      &:before {
+        position: absolute;
+        content: "\e253";
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        top: -10px;
+        left: 37px;
+        color: #FAFAFC;
+        text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+  }
+}

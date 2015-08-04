@@ -22,8 +22,18 @@
 					<div class="form-group {{errorClass 'email'}}">
 						<label for="inputPassword3" class="col-sm-2 control-label">To:</label>
 						<div class="col-sm-10 left" id="input-who-container">
-							<input type="text" class="form-control" id="input-who" placeholder="+ Add users from your network">
+							<input type="text" class="form-control" id="input-who" placeholder="+ Invite users from your network or via email">
+							{{#if errorMessage 'email'}}
 							<span class="help-block">{{errorMessage 'email'}}</span>
+							{{/if}}
+
+							{{#if inviteByEmail}}
+								<div class="autocomplete-suggestions">
+									<div class="autocomplete-suggestion email-invitation">
+										Send an email to <strong>{{inviteByEmail}}</strong>
+									</div>
+								</div>
+							{{/if}}
 						</div>
 						<!--<button class="btn btn-default col-sm-2 user-action-find-peoples" title="Find peoples">
 							<span class="glyphicon glyphicon-user" aria-hidden="true"><span>+</span></span>

@@ -1,0 +1,52 @@
+<template name="userUpdateLocation">
+  <div class="user-location-infos">
+    {{#if user.profile.address.city}}
+      {{#if eq currentUser._id user._id}}
+        <p id="user-area" class="user-open-location-popover">{{user.profile.address.city}}</p>
+        <span class="glyphicon glyphicon-pencil user-open-location-popover" aria-hidden="true"></span>
+      {{else}}
+        <p id="user-area">{{user.profile.address.city}}</p>
+      {{/if}}
+    {{/if}}
+
+    {{#if eq currentUser._id user._id}}
+    <div class="popover popover-content update-user-location-popover">
+      <form id="update-user-location-form">
+        <div class='form-group {{errorClass "country"}}'>
+          <label for='input-country'>Country</label>
+          <select class='form-control' id='edit-select-country'>
+            <option value='{{user.profile.address.countryCode}}' selected='selected'>{{user.profile.address.countryCode}}</option>
+            <option value='FR'>France</option>
+            <option value='SW'>Suisse</option>
+          </select>
+          <span class='help-block'>{{errorMessage 'country'}}</span>
+        </div>
+        <div class='form-group {{errorClass "zipcode"}}'>
+          <label for='edit-zipcode'>Zip code</label>
+          <input class='form-control' type='text' name='zipcode' id='edit-zipcode' value='{{user.profile.address.zipcode}}'>
+          <span class='help-block'>{{errorMessage 'zipcode'}}</span>
+        </div>
+        <div class="form-group {{errorClass 'city'}}">
+          <label for="select-city">City</label>
+          {{#if localities}}
+          <select class="form-control" id="edit-select-city">
+            {{#each localities}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <select class="form-control" id="edit-select-city">
+            <option value="{{user.profile.address.city}}">{{user.profile.address.city}}</option>
+          </select>
+          {{/if}}
+        </div>
+        <button type='button' class='btn btn-default close-update-user-location-popover'>Cancel</button>
+        <button type='submit' class='btn btn-primary submit-location-form'>
+          <span>Save</span>
+          {{> loader}}
+        </button>
+      </form>
+    </div>
+    {{/if}}
+  </div>
+</template>

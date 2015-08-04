@@ -16,6 +16,10 @@
 		padding-right: 0px;
 		padding-left: 0px;
 
+		@media screen and (max-width: 1440px) {
+			top: 90px;
+		}
+
 		.edit-cover-icon {
 			top: 69px;
 		}
@@ -58,7 +62,7 @@
 					  display: block;
 					  position: absolute;
 					  background-color: #FC3975;
-					  bottom: -4px;
+					  bottom: -5px;
 					}
 				}
 			}
@@ -97,6 +101,10 @@
 	min-height: 100%;
 	max-height: none;
 	max-width: none;
+
+	@media screen and (max-width: 1440px) {
+		top: 100px;
+	}
 }
 
 #place-profile-page .popover #submit-identity {

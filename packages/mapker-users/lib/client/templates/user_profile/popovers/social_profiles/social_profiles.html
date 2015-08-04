@@ -51,12 +51,14 @@
       {{/if}}
     {{else}}
       {{#if eq currentUser._id user._id}}
-      <div id="add-social-profiles">
+      <div class="open-update-social-profile-popover" id="add-social-profiles">
         Add your social profiles
       </div>
       {{/if}}
     {{/if}}
     </div>
+
+    {{> userUpdateLocation user=user}}
 
     {{#if eq currentUser._id user._id}}
     <div class="popover popover-content update-social-profile-popover">

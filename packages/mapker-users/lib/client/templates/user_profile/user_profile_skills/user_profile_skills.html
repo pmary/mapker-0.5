@@ -1,20 +1,36 @@
 <template name="userProfileSkills">
 	<section class="col-md-8 col-md-offset-2 user-profile-bio">
 		{{#if eq currentUser._id user._id}}
-		<form class="form-inline" id="add-skill-form">
-			<div class="form-group {{errorClass 'skill'}}">
-				<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
-				<span class="help-block">{{errorMessage 'skill'}}</span>
-			</div>
-			<button type="submit" class="btn btn-primary">Add</button>
-		</form>
-		{{/if}}
-
-		<!-- Display a message if the user have no skill -->
-		{{#if eq currentUser._id user._id}}
 			{{#if user.profile.skills}}
-			{{else}}
-				<p class="no-skill-message">You haven't shared your skills</p>
+			<form class="form-inline" id="add-skill-form">
+				<div class="form-group {{errorClass 'skill'}}">
+					<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
+				</div>
+				<button type="submit" class="btn btn-primary">Add</button>
+				{{#if errorMessage 'skill'}}
+					<span class="has-error">
+						<span class="help-block">{{errorMessage 'skill'}}</span>
+					</span>
+				{{/if}}
+			</form>
+		{{else}}
+			<div class="user-add-bio-message">
+				<span class="mapker-picto-skills"></span>
+				<span class="text-add-skills">Share your skills</span>
+			</div>
+			<div class="user-add-bio-form">
+				<form class="form-inline" id="add-skill-form">
+					<div class="form-group {{errorClass 'skill'}}">
+						<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
+					</div>
+					<button type="submit" class="btn btn-primary">Add</button>
+					{{#if errorMessage 'skill'}}
+						<span class="has-error">
+							<span class="help-block">{{errorMessage 'skill'}}</span>
+						</span>
+					{{/if}}
+				</form>
+			</div>
 			{{/if}}
 		{{/if}}
 

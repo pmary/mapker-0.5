@@ -192,26 +192,41 @@ Meteor.methods({
 			_id: userId
 		};
 	},
-	userUpdateIdentity: function (userIdentity) {
+	userUpdateLocation: function (userLocation) {
 		check(Meteor.userId(), String);
-		check(userIdentity, {
-			firstname: String,
-			lastname: String,
-			activity: String,
+		check(userLocation, {
 			countryCode: String,
 			zipcode: String,
 			city: String,
 			loc: Array
 		});
+
+		var user = Meteor.user();
+		var userId = Meteor.users.update({_id: user._id}, { $set: {
+			'profile.address.countryCode': userLocation.countryCode,
+			'profile.address.zipcode': userLocation.zipcode,
+			'profile.address.city': userLocation.city,
+			'profile.address.loc': userLocation.loc
+		} });
+
+		// Update the user ElasticSearch document
+		Meteor.call('updateUserESDocument', Meteor.userId());
+
+		return {_id: userId};
+	},
+	userUpdateIdentity: function (userIdentity) {
+		check(Meteor.userId(), String);
+		check(userIdentity, {
+			firstname: String,
+			lastname: String,
+			activity: String
+		});
 		var user = Meteor.user();
 		var userId = Meteor.users.update({_id: user._id}, { $set: {
 			'profile.firstname': userIdentity.firstname,
 			'profile.lastname': userIdentity.lastname,
-			'profile.activity': userIdentity.activity,
-			'profile.address.countryCode': userIdentity.countryCode,
-			'profile.address.zipcode': userIdentity.zipcode,
-			'profile.address.city': userIdentity.city,
-			'profile.address.loc': userIdentity.loc
+			'profile.fullname': userIdentity.firstname + ' ' + userIdentity.lastname,
+			'profile.activity': userIdentity.activity
 		} });
 
 		// Update the user ElasticSearch document

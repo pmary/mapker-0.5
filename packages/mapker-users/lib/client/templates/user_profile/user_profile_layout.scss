@@ -41,7 +41,7 @@
 					  display: block;
 					  position: absolute;
 					  background-color: #20DEC2;
-					  bottom: -4px;
+					  bottom: -5px;
 					}
 				}
 			}
@@ -81,6 +81,10 @@
 	text-align: center;
 	border: 2px solid #FAFAFC;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+
+	@media screen and (max-width: 1440px) {
+		top: 90px;
+	}
 }
 
 #user-profile-page .profile-avatar.no-avatar {

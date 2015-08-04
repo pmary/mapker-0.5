@@ -1,8 +1,13 @@
 UI.registerHelper('split', function(activities) {
-	for (var i = 0; i < activities.length; i++) {
-		activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
+	if (activities && activities.length) {
+		for (var i = 0; i < activities.length; i++) {
+			activities[i] = activities[i].charAt(0).toUpperCase() + activities[i].slice(1);
+		}
+		return activities.join(", ");
 	}
-	return activities.join(", ");
+	else {
+		return;
+	}
 });
 
 UI.registerHelper('splitByScore', function(activities) {
@@ -91,10 +96,7 @@ UI.registerHelper('isArrayEmpty', function (array) {
 		}
 	}
 	else if (proto === '[object Object]') {
-		// Check if its a MongoDB cursor
-		if (array.collection) {
-			return false;
-		}
+		return false;
 	}
 
 	// By default, return false

@@ -16,24 +16,36 @@ Template.userProfileSkills.helpers({
 });
 
 Template.userProfileSkills.rendered = function() {
-}
+};
 
 
 var userEditedSkills, userOriginalSkills;
 
 Template.userProfileSkills.events({
 	/**
+	 * @summary When the user have no skill and click on the message, it hide the
+	 * message and display the add skill form
+	 */
+	'click .user-add-bio-message': function (e, t) {
+		$('.user-profile-bio .user-add-bio-message').css('display', 'none');
+		$('.user-profile-bio .user-add-bio-form').css('display', 'block');
+	},
+	/**
 	 * @summary Add a skill
 	 */
-	'submit #add-skill-form' : function(e, t) {
+	'submit #add-skill-form': function(e, t) {
 		e.preventDefault();
 		var skill = t.find('#input-skill').value;
 		var skills = t.data.user.profile.skills;
 
 		var errors = Users.validateUserAddSkill(skill, skills);
 		Session.set('userProfileSkillsErrors', errors);
-		if (Object.keys(errors).length)
+		if (Object.keys(errors).length) {
+			setTimeout(function () {
+				//Session.set('userProfileSkillsErrors', {});
+			}, 2500);
 			return; // Abort the account creation due to errors
+		}
 
 		Meteor.call('userAddSkill', skill, function(error, result) {
 			if (error)
