@@ -26,6 +26,7 @@ module.exports = function () {
 
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
+      pause(500).
       waitForExist('h4.modal-title', 5000).
       getText('h4.modal-title').should.become(heading);
   });
