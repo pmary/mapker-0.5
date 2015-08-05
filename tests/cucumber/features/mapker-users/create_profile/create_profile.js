@@ -16,21 +16,20 @@ module.exports = function () {
   });
 
   this.Then(/^it redirect me to my profile page$/, function (callback) {
-    return this.client.
-      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
-      waitForExist('#user-name').
-      waitForText('#user-name').
-      getText('#user-name').then(function (text) {
-        return expect(text).to.equal('PIERRE MARY');
-      });
+    return this.browser.
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio');
   });
 
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
-      pause(500).
+      pause(1500).
       waitForExist('h4.modal-title').
-      pause(500).
-      getText('h4.modal-title').should.become(heading); 
+      waitForText('h4.modal-title').
+      getText('h4.modal-title').then(function (text) {
+        //console.log('text', text);
+        //console.log('heading', heading);
+        return text === heading;
+      });
   });
 
   ////////////////////////////////////////
