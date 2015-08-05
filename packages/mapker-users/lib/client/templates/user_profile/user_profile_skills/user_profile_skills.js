@@ -77,7 +77,7 @@ Template.userProfileSkills.events({
 		var sessionSkills = Session.get('userEditedSkills');
 		var newUserEditedSkills = sessionSkills.filter(function (el) {
 			return el.title !== e.currentTarget.dataset.skillTitle;
-		})
+		});
 		Session.set('userEditedSkills', newUserEditedSkills);
 
 		// Remove the item node from the dom
@@ -93,8 +93,9 @@ Template.userProfileSkills.events({
 	'submit #edit-user-skills-form' : function(e,t) {
 		e.preventDefault();
 		Meteor.call('userUpdateSkills', Session.get('userEditedSkills'), function(error, result) {
-			if (error)
-				console.log(error);
+			if (error) {
+				console.log('submit #edit-user-skills-form error', error);
+			}
 
 			t.find('.user-skills').style.display = 'block';
 			t.find('.edit-user-skills').style.display = 'none';

@@ -170,25 +170,26 @@ Meteor.methods({
 		check(Meteor.userId(), String);
 		check(userSkill, String);
 		var user = Meteor.user();
-		var userId = Meteor.users.update({_id: user._id}, { $push: {'profile.skills': {'title': userSkill}  } });
+		var updateResult;
+		if (user && user._id) {
+			updateResult = Meteor.users.update({_id: user._id}, { $push: {'profile.skills': {'title': userSkill}  } });
+		}
 
 		// Update the user ElasticSearch document
 		Meteor.call('updateUserESDocument', Meteor.userId());
 
-		return {
-			_id: userId
-		};
+		return updateResult;
 	},
 	userUpdateSkills: function (userSkills) {
 		check(Meteor.userId(), String);
 		check(userSkills, Array);
 		var user = Meteor.user();
-		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.skills': userSkills  } });
+		var updateResult = Meteor.users.update({_id: user._id}, { $set: {'profile.skills': userSkills  } });
 
 		// Update the user ElasticSearch document
 		Meteor.call('updateUserESDocument', Meteor.userId());
 
-		return true;
+		return updateResult;
 	},
 	userUpdateLocation: function (userLocation) {
 		check(Meteor.userId(), String);

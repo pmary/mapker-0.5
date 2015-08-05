@@ -4,7 +4,7 @@ Meteor.methods({
   },
   'cucumber/login': function (done) {
     //if (Meteor.isClient) {
-      console.log('login call');
+      //console.log('login call');
       Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', done);
     //}
   },

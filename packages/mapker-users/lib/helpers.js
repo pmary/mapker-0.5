@@ -96,7 +96,7 @@ Users.validateUserAddSkill = function (skill, skills) {
 };
 
 Users.validateUserLocation = function (location) {
-	console.log(location);
+	console.log('validateUserLocation location: ', location);
 	var errors = {};
 
 	var zipcodeError = isFilledValidation(location.zipcode);
