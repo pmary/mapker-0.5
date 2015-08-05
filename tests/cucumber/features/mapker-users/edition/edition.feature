@@ -3,7 +3,7 @@ Feature: Edit user informations
   As a user
   I want to edit my profile
 
-    @dev
+    #@dev
     Scenario: Edit my bio
       Given I have an account and not set my bio
       And I'm loged in

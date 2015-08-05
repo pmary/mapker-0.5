@@ -17,6 +17,7 @@ module.exports = function () {
 
   this.Then(/^it redirect me to my profile page$/, function (callback) {
     return this.client.
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
       waitForExist('#user-name').
       waitForText('#user-name').
       getText('#user-name').then(function (text) {
@@ -27,8 +28,9 @@ module.exports = function () {
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
       pause(500).
-      waitForExist('h4.modal-title', 5000).
-      getText('h4.modal-title').should.become(heading);
+      waitForExist('h4.modal-title').
+      pause(500).
+      getText('h4.modal-title').should.become(heading); 
   });
 
   ////////////////////////////////////////
