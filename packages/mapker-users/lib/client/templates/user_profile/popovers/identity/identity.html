@@ -37,21 +37,21 @@
     				<div class="form-group {{errorClass 'firstname'}}">
     					<label for='edit-first-name'>First name</label>
     					<input class='form-control' type='text' id='edit-first-name' name='edit-first-name' value='{{user.profile.firstname}}' />
-    					<span class='help-block'>{{errorMessage 'firstname'}}</span>
+    					<span id="first-name-help-block" class='help-block'>{{errorMessage 'firstname'}}</span>
     				</div>
     			</div>
     			<div class='col-md-6'>
     				<div class='form-group {{errorClass 'lastname'}}'>
     					<label for='edit-last-name'>Last name</label>
     					<input class='form-control' type='text' id='edit-last-name' name='edit-last-name' value='{{user.profile.lastname}}' />
-    					<span class='help-block'>{{errorMessage 'lastname'}}</span>
+    					<span id="last-name-help-block" class='help-block'>{{errorMessage 'lastname'}}</span>
     				</div>
     			</div>
     		</div>
     		<div class='form-group {{errorClass "activity"}}'>
     			<label for='edit-activity'>Your main activity</label>
     			<input class='form-control' type='text' id='edit-activity' name="edit-activity" value='{{user.profile.activity}}'>
-    			<span class='help-block'>{{errorMessage 'activity'}}</span>
+    			<span id="activity-help-block" class='help-block'>{{errorMessage 'activity'}}</span>
     		</div>
     		<button type='button' class='btn btn-default close-identity-edition-popover'>Cancel</button>
         <button type='submit' class='btn btn-primary submit-identity-form'>

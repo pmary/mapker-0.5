@@ -22,6 +22,8 @@ Feature: Edit user informations
       When I go to my skills page and click on the ".user-add-bio-message" element
       And submit the skill "Developer"
       Then I can see the skill "Developer" in the list
+      When I click on th edit button of a skill in the list, remove the only one and cancel
+      Then I can see the skill "Developer" in the list
       When I click on th edit button of a skill in the list, remove the only one and save
       Then my skills list should be empty
 
@@ -32,3 +34,30 @@ Feature: Edit user informations
       When I go to my profile and click on ".open-identity-edition-popover" to open the form
       And enter "John" as firstname, "Doe" as lastname and "Blacksmith" as activity and submit
       Then I can see that my name and activity has changed accordingly
+
+    @dev
+    Scenario: Edit my name and activity with wrong data
+      Given I have an account and not set my bio
+      And I'm loged in
+      When I go to my profile and click on ".open-identity-edition-popover" to open the form
+      # Firstname field test
+      And enter "J" in the field "input[name='edit-first-name']" and submit
+      Then I can read the text "This field must contain at least 2 characters" in "#first-name-help-block"
+      And enter "J2" in the field "input[name='edit-first-name']" and submit
+      Then I can read the text "This field should not contain digit" in "#first-name-help-block"
+      And enter "azertyuiopazertyuiopazertyuiopazertyuiopazertyuiopc" in the field "input[name='edit-first-name']" and submit
+      Then I can read the text "This field must not contain more than 50 characters" in "#first-name-help-block"
+      And enter "John@" in the field "input[name='edit-first-name']" and submit
+      Then I can read the text "Invalid character in the user name" in "#first-name-help-block"
+      # Lastname field test
+      When enter "J" in the field "input[name='edit-last-name']" and submit
+      Then I can read the text "This field must contain at least 2 characters" in "#last-name-help-block"
+      And enter "J2" in the field "input[name='edit-last-name']" and submit
+      Then I can read the text "This field should not contain digit" in "#last-name-help-block"
+      And enter "azertyuiopazertyuiopazertyuiopazertyuiopazertyuiopc" in the field "input[name='edit-last-name']" and submit
+      Then I can read the text "This field must not contain more than 50 characters" in "#last-name-help-block"
+      And enter "John@" in the field "input[name='edit-last-name']" and submit
+      Then I can read the text "Invalid character in the user name" in "#last-name-help-block"
+      # Activity
+      When enter " " in the field "input[name='edit-activity']" and submit
+      Then I can read the text "Required field" in "#activity-help-block"

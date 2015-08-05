@@ -78,6 +78,9 @@ module.exports = function () {
       });
   });
 
+  /////////////////////////////////////////////////
+  //  Edit my name and activity with valid data  //
+  /////////////////////////////////////////////////
   this.When(/^I click on th edit button of a skill in the list, remove the only one and cancel$/, function (callback) {
     return this.client.
       click('.user-skills .user-skill:first-child').
@@ -130,6 +133,25 @@ module.exports = function () {
         return this.getText('#user-activity').then(function (text) {
           //console.log('text', text);
           return text === 'Blacksmith';
+        });
+      });
+  });
+
+  /////////////////////////////////////////////////
+  //  Edit my name and activity with wrong data  //
+  /////////////////////////////////////////////////
+  this.When(/^enter "([^"]*)" in the field "([^"]*)" and submit$/, function (value, fieldSelector, callback) {
+    return this.client.
+      setValue(fieldSelector, value).
+      submitForm('#identity-form');
+  });
+
+  this.Then(/^I can read the text "([^"]*)" in "([^"]*)"$/, function (textToFind, selector, callback) {
+    return this.client.
+      waitUntil(function() {
+        return this.getText(selector).then(function (text) {
+          //console.log('text', text);
+          return text === textToFind;
         });
       });
   });

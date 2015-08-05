@@ -36,7 +36,7 @@ isArrayValidation = function(value) {
 isFilledValidation = function(value) {
 	if (value && value.constructor === Array && !value.length) {
 		return 'Required field';
-	} else if (!value) {
+	} else if (!value || ! /\S/.test(value)) {
 		return 'Required field';
 	} else {
 		return false;
