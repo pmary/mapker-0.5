@@ -8,11 +8,16 @@ module.exports = function () {
   });
 
   this.Given(/^I'm loged in$/, function (callback) {
-    return this.client.url(process.env.ROOT_URL + 'login').
-      waitForExist('h3').
-      setValue('input[name="login-email"]', 'contact@pierre-mary.fr').
-      setValue('input[name="login-password"]', 'mapker42').
-      keys(['Enter']);
+    return this.client.executeAsync(function (done) {
+      Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', function (err, res) {
+        if (err) {
+          done();
+        }
+        else {
+          done(res);
+        }
+      });
+    });
   });
 
   this.Then(/^it redirect me to my profile page$/, function (callback) {

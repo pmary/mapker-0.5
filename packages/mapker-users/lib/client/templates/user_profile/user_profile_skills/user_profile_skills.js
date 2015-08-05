@@ -36,7 +36,13 @@ Template.userProfileSkills.events({
 	'submit #add-skill-form': function(e, t) {
 		e.preventDefault();
 		var skill = t.find('#input-skill').value;
-		var skills = t.data.user.profile.skills;
+
+		var skills = [];
+		// Get the user existing skills
+		var user = Meteor.user();
+		if (user && user.profile && user.profile.skills) {
+			skills = user.profile.skills;
+		}
 
 		var errors = Users.validateUserAddSkill(skill, skills);
 		Session.set('userProfileSkillsErrors', errors);

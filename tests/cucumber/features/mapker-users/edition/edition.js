@@ -8,11 +8,16 @@ module.exports = function () {
   });
 
   this.Given(/^I'm loged in$/, function (callback) {
-    return this.client.url(process.env.ROOT_URL + 'login').
-      waitForExist('h3').
-      setValue('input[name="login-email"]', 'contact@pierre-mary.fr').
-      setValue('input[name="login-password"]', 'mapker42').
-      keys(['Enter']);
+    return this.client.executeAsync(function (done) {
+      Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', function (err, res) {
+        if (err) {
+          done();
+        }
+        else {
+          done(res);
+        }
+      });
+    });
   });
 
   ////////////////////////////////
@@ -50,8 +55,9 @@ module.exports = function () {
       pause(1000).
       url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills').
       pause(500).
-      click('.user-add-bio-message');
-  });
+      waitForExist(selector).
+      click(selector);
+  }); 
 
   this.When(/^submit the skill "([^"]*)"$/, function (text) {
     return this.client.

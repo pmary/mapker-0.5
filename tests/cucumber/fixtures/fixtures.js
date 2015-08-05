@@ -4,13 +4,7 @@ Meteor.methods({
   },
   'cucumber/login': function () {
     if (Meteor.isClient) {
-      return Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', function(error){
-  			if (error){
-          return error;
-  			}else {
-  				console.log('no-login error');
-  			}
-  		});
+      return Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42');
     }
   },
   'cucumber/user/create-full-profile': function () {
