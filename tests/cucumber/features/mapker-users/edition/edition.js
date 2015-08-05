@@ -70,8 +70,8 @@ module.exports = function () {
   this.Then(/^I can see the skill "([^"]*)" in the list$/, function (value) {
     return this.client.
       pause(500).
-      waitForExist('.user-skills .user-skill .skill-title').
-      getText('.user-skills .user-skill .skill-title').then(function (text) {
+      waitForExist('.user-skills .user-skill:first-child .skill-title').
+      getText('.user-skills .user-skill:first-child .skill-title').then(function (text) {
         //console.log('text', text);
         //console.log('value', value);
         return expect(text).to.equal(value);
