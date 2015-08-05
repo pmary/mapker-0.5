@@ -2,10 +2,11 @@ Meteor.methods({
   'cucumber/reset': function () {
     Meteor.users.remove({});
   },
-  'cucumber/login': function () {
-    if (Meteor.isClient) {
-      return Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42');
-    }
+  'cucumber/login': function (done) {
+    //if (Meteor.isClient) {
+      console.log('login call');
+      Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', done);
+    //}
   },
   'cucumber/user/create-full-profile': function () {
     Meteor.users.insert({
