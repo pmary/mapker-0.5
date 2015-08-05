@@ -50,7 +50,7 @@
     		</div>
     		<div class='form-group {{errorClass "activity"}}'>
     			<label for='edit-activity'>Your main activity</label>
-    			<input class='form-control' type='text' id='edit-activity' value='{{user.profile.activity}}'>
+    			<input class='form-control' type='text' id='edit-activity' name="edit-activity" value='{{user.profile.activity}}'>
     			<span class='help-block'>{{errorMessage 'activity'}}</span>
     		</div>
     		<button type='button' class='btn btn-default close-identity-edition-popover'>Cancel</button>

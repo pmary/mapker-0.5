@@ -102,9 +102,35 @@ module.exports = function () {
     });
   });
 
-  this.When(/^I click on "([^"]*)" to open the form$/, function (selector) {
-    return this.client
-      .click(selector).
+  this.When(/^I go to my profile and click on "([^"]*)" to open the form$/, function (selector) {
+    return this.client.
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
+      waitForExist(selector).
+      click(selector).
       waitForVisible('.identity-edition-popover');
+  });
+
+  this.When(/^enter "([^"]*)" as firstname, "([^"]*)" as lastname and "([^"]*)" as activity and submit$/, function (firstname, lastname, activity) {
+    return this.client.
+      setValue('input[name="edit-first-name"]', firstname).
+      setValue('input[name="edit-last-name"]', lastname).
+      setValue('input[name="edit-activity"]', activity).
+      submitForm('#identity-form');
+  });
+
+  this.Then(/^I can see that my name and activity has changed accordingly$/, function (callback) {
+    return this.client.
+      waitUntil(function() {
+        return this.getText('#user-name').then(function (text) {
+          //console.log('text', text);
+          return text === 'JOHN DOE';
+        });
+      }).
+      waitUntil(function() {
+        return this.getText('#user-activity').then(function (text) {
+          //console.log('text', text);
+          return text === 'Blacksmith';
+        });
+      });
   });
 };
