@@ -23,6 +23,12 @@ module.exports = function () {
   ////////////////////////////////
   //  Scenario: Edit my bio  //
   ////////////////////////////////
+  this.When(/^I go to my bio page$/, function (callback){
+    return this.client.
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
+      pause(500);
+  });
+
   this.When(/^I click on the "([^"]*)" element and type "([^"]*)" and submit the form$/, function (selector, text) {
     return this.client.
       waitForExist('.user-profile-bio').
@@ -57,7 +63,7 @@ module.exports = function () {
       pause(500).
       waitForExist(selector).
       click(selector);
-  }); 
+  });
 
   this.When(/^submit the skill "([^"]*)"$/, function (text) {
     return this.client.
@@ -99,6 +105,11 @@ module.exports = function () {
     return this.client.getText('.user-skills').then(function (text) {
       return expect(text).to.equal('');
     });
+  });
 
+  this.When(/^I click on "([^"]*)" to open the form$/, function (selector) {
+    return this.client
+      .click(selector).
+      waitForVisible('.identity-edition-popover');
   });
 };
