@@ -53,9 +53,9 @@ module.exports = function () {
   ////////////////////////////////
   this.When(/^I go to my skills page and click on the "([^"]*)" element$/, function (selector) {
     return this.client.
-      pause(1000).
+      //pause(1000).
       url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills').
-      pause(500).
+      //pause(500).
       waitForExist(selector).
       click(selector);
   });
@@ -72,7 +72,7 @@ module.exports = function () {
       waitForExist('.user-skills .user-skill:first-child .skill-title').
       waitUntil(function() {
         return this.getText('.user-skills .user-skill:first-child .skill-title').then(function (text) {
-          console.log('text', text);
+          //console.log('text', text);
           return text === value;
         });
       });

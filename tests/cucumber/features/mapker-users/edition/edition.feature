@@ -15,7 +15,7 @@ Feature: Edit user informations
       When I click on the "#update-user-bio" element and type "" and submit the form
       Then I can see the text "Talk about you" in the "#update-user-bio" element
 
-    #@dev
+    @dev
     Scenario: Edit my skills
       Given I have an account and not set my bio
       And I'm loged in
@@ -35,7 +35,7 @@ Feature: Edit user informations
       And enter "John" as firstname, "Doe" as lastname and "Blacksmith" as activity and submit
       Then I can see that my name and activity has changed accordingly
 
-    @dev
+    #@dev
     Scenario: Edit my name and activity with wrong data
       Given I have an account and not set my bio
       And I'm loged in
