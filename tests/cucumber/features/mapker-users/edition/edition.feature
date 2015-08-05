@@ -25,7 +25,7 @@ Feature: Edit user informations
       When I click on th edit button of a skill in the list, remove the only one and save
       Then my skills list should be empty
 
-    @dev
+    #@dev
     Scenario: Edit my name and activity with valid data
       Given I have an account and not set my bio
       And I'm loged in
