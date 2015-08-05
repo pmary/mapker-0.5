@@ -54,10 +54,11 @@ Template.userProfileSkills.events({
 		}
 
 		Meteor.call('userAddSkill', skill, function(error, result) {
-			if (error)
-				return console.log(error);
+			if (error) {
+				throw error;
+			}
 			t.find('#input-skill').value = "";
-	    });
+	  });
 	},
 	/**
 	 * @summary Display the skill edition UI and set the helpers

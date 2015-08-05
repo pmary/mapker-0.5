@@ -188,9 +188,7 @@ Meteor.methods({
 		// Update the user ElasticSearch document
 		Meteor.call('updateUserESDocument', Meteor.userId());
 
-		return {
-			_id: userId
-		};
+		return true;
 	},
 	userUpdateLocation: function (userLocation) {
 		check(Meteor.userId(), String);
