@@ -67,18 +67,6 @@ module.exports = function () {
       submitForm('#add-skill-form');
   });
 
-  this.Then(/^I can see the skill "([^"]*)" in the list$/, function (value) {
-    return this.client.
-      pause(1000).
-      waitForExist('.user-skills .user-skill:first-child .skill-title').
-      waitUntil(function() {
-        return this.getText('.user-skills .user-skill:first-child .skill-title').then(function (text) {
-          //console.log('text', text);
-          return text === value;
-        });
-      });
-  });
-
   /////////////////////////////////////////////////
   //  Edit my name and activity with valid data  //
   /////////////////////////////////////////////////

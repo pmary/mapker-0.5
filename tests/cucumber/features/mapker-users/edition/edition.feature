@@ -21,9 +21,9 @@ Feature: Edit user informations
       And I'm loged in
       When I go to my skills page and click on the ".user-add-bio-message" element
       And submit the skill "Developer"
-      Then I can see the skill "Developer" in the list
+      Then I can read the text "Developer" in ".user-skills .user-skill:first-child .skill-title"
       When I click on th edit button of a skill in the list, remove the only one and cancel
-      Then I can see the skill "Developer" in the list
+      Then I can read the text "Developer" in ".user-skills .user-skill:first-child .skill-title"
       When I click on th edit button of a skill in the list, remove the only one and save
       Then my skills list should be empty
 
