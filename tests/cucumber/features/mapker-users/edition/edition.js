@@ -51,20 +51,28 @@ module.exports = function () {
   ////////////////////////////////
   //  Scenario: Edit my skills  //
   ////////////////////////////////
-  this.When(/^I go to my skills page and click on the "([^"]*)" element$/, function (selector) {
-    return this.client.
-      //pause(1000).
+  this.When(/^I go to my skills page and click on the "([^"]*)" element$/, function (selector, callback) {
+    this.client.
       url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills').
-      //pause(500).
       waitForExist(selector).
-      click(selector);
+      click(selector).
+      waitForVisible('.user-add-bio-form').then(function (res) {
+        //console.log('^I go to my skills page and... res: ', res);
+        if (res) {
+          callback();
+        }
+      });
   });
 
-  this.When(/^submit the skill "([^"]*)"$/, function (text) {
-    return this.client.
-      waitForExist('#input-skill').
-      setValue('#input-skill', text).
-      submitForm('#add-skill-form');
+  this.When(/^submit the skill "([^"]*)"$/, function (text, callback) {
+    this.client.
+      waitForExist('input[name="input-skill"]').
+      setValue('input[name="input-skill"]', text).
+      submitForm('#add-skill-form').then(function (res) {
+        if (res.state === 'success') {
+          callback();
+        }
+      });
   });
 
   /////////////////////////////////////////////////
@@ -111,6 +119,7 @@ module.exports = function () {
   });
 
   this.Then(/^I can see that my name and activity has changed accordingly$/, function (callback) {
+    console.log('Will lokk for Developer');
     return this.client.
       waitUntil(function() {
         return this.getText('#user-name').then(function (text) {
@@ -130,12 +139,17 @@ module.exports = function () {
   //  Edit my name and activity with wrong data  //
   /////////////////////////////////////////////////
   this.When(/^enter "([^"]*)" in the field "([^"]*)" and submit$/, function (value, fieldSelector, callback) {
-    return this.client.
+    this.client.
       setValue(fieldSelector, value).
-      submitForm('#identity-form');
+      submitForm('#identity-form').then(function (res) {
+        if (res.state === 'success') {
+          callback();
+        }
+      });
   });
 
   this.Then(/^I can read the text "([^"]*)" in "([^"]*)"$/, function (textToFind, selector, callback) {
+    //console.log('I can read the text ', textToFind);
     return this.client.
       waitUntil(function() {
         return this.getText(selector).then(function (text) {

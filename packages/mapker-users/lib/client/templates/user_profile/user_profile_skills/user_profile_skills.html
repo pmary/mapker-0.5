@@ -4,7 +4,7 @@
 			{{#if user.profile.skills}}
 			<form class="form-inline" id="add-skill-form">
 				<div class="form-group {{errorClass 'skill'}}">
-					<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
+					<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill" name="input-skill">
 				</div>
 				<button type="submit" class="btn btn-primary">Add</button>
 				{{#if errorMessage 'skill'}}
@@ -21,7 +21,7 @@
 			<div class="user-add-bio-form">
 				<form class="form-inline" id="add-skill-form">
 					<div class="form-group {{errorClass 'skill'}}">
-						<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill">
+						<input type="text" class="form-control" placeholder="Add a new skill" id="input-skill" name="input-skill">
 					</div>
 					<button type="submit" class="btn btn-primary">Add</button>
 					{{#if errorMessage 'skill'}}
