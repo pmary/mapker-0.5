@@ -151,6 +151,7 @@ module.exports = function () {
   this.Then(/^I can read the text "([^"]*)" in "([^"]*)"$/, function (textToFind, selector, callback) {
     //console.log('I can read the text ', textToFind);
     return this.client.
+      waitForExist(selector).
       waitUntil(function() {
         return this.getText(selector).then(function (text) {
           //console.log('text', text);
