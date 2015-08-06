@@ -23,3 +23,6 @@ mapker:search
 mapker:users
 xolvio:cucumber
 velocity:console-reporter
+mapker:i18n
+msavin:mongol
+msavin:jetsetter

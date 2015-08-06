@@ -16,7 +16,6 @@
  * 13 - Popover
  */
 body, html {
-	height: 100%;
 }
 
 body {
@@ -32,6 +31,10 @@ body {
 
 .modal {
 	z-index: 2050;
+}
+
+.fullheight {
+	height: 100%;
 }
 
 /**

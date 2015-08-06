@@ -27,8 +27,8 @@ Package.onUse(function(api) {
     'check',
     'reactive-var',                 // https://atmospherejs.com/meteor/reactive-var
     'audit-argument-checks',        // https://atmospherejs.com/meteor/audit-argument-checks
-    'babel-compiler',       // https://atmospherejs.com/meteor/babel-compiler
-    //'msavin:mongol',                // https://atmospherejs.com/msavin/mongol
+    'babel-compiler',               // https://atmospherejs.com/meteor/babel-compiler
+    //'msavin:mongol',              // https://atmospherejs.com/msavin/mongol
     'pauloborges:mapbox',           // https://atmospherejs.com/pauloborges/mapbox
     'momentjs:moment',              // https://atmospherejs.com/momentjs/moment
     'peerlibrary:aws-sdk',          // https://atmospherejs.com/peerlibrary/aws-sdk
@@ -39,6 +39,8 @@ Package.onUse(function(api) {
     'iron:router@1.0.9',            // https://atmospherejs.com/iron/router
     'fourseven:scss@2.1.1',         // https://atmospherejs.com/fourseven/scss
     'twbs:bootstrap@3.3.5',         // https://atmospherejs.com/twbs/bootstrap
+    'tap:i18n',                     // https://atmospherejs.com/tap/i18n-ui
+    'tap:i18n-db',                  // https://atmospherejs.com/tap/i18n-db
     'mapker:third-party'
   ];
 
