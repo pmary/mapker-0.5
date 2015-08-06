@@ -8,16 +8,20 @@ module.exports = function () {
   });
 
   this.Given(/^I'm loged in$/, function (callback) {
-    return this.browser.
+    this.browser.
       url(process.env.ROOT_URL).
       executeAsync(function(done) {
         Meteor.loginWithPassword('contact@pierre-mary.fr', 'mapker42', done);
+      }).then(function (res) {
+        if (res.state === 'success') {
+          callback();
+        }
       });
   });
 
-  ////////////////////////////////
+  /////////////////////////////
   //  Scenario: Edit my bio  //
-  ////////////////////////////////
+  /////////////////////////////
   this.When(/^I go to my bio page$/, function (callback){
     return this.client.
       url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
@@ -54,6 +58,7 @@ module.exports = function () {
   this.When(/^I go to my skills page and click on the "([^"]*)" element$/, function (selector, callback) {
     this.client.
       url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/skills').
+      pause(1000).
       waitForExist(selector).
       click(selector).
       waitForVisible('.user-add-bio-form').then(function (res) {
@@ -119,7 +124,7 @@ module.exports = function () {
   });
 
   this.Then(/^I can see that my name and activity has changed accordingly$/, function (callback) {
-    console.log('Will lokk for Developer');
+    //console.log('Will lokk for Developer');
     return this.client.
       waitUntil(function() {
         return this.getText('#user-name').then(function (text) {
