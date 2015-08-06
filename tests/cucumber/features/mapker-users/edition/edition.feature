@@ -15,7 +15,7 @@ Feature: Edit user informations
       When I click on the "#update-user-bio" element and type "" and submit the form
       Then I can see the text "Talk about you" in the ".text-add-bio" element
 
-    @dev
+    #@dev
     Scenario: Edit my skills
       Given I have an account and not set my bio
       And I'm loged in
