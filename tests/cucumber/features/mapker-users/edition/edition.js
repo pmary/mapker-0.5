@@ -164,4 +164,30 @@ module.exports = function () {
         });
       });
   });
+
+  ///////////////////////////////////////////
+  //  Upload a cover for the first time  //
+  ///////////////////////////////////////////
+  this.Given(/^I have an account and no avatar or cover$/, function () { 
+    return this.server.call('cucumber/user/create-with-no-avatar-or-cover');
+  });
+
+  this.When(/^I open the avatar upload form$/, function (callback) {
+    return this.client.
+      url(process.env.ROOT_URL + 'user/i4FxWHYGyQr3LyN4x/bio').
+      waitForExist('.profile-cover').
+      execute(function () {
+        $('.profile-page .profile-cover .upload-cover-btn').css('display', 'block');
+      }).
+      click('.profile-cover .upload-cover-btn').
+      waitForVisible('#myModal');
+  });
+
+  this.When(/^I upload a file and save$/, function (callback) {
+    return this.client.
+      chooseFile('.modal-change-cover #input-cover', process.env.PWD + '/tests/cucumber/fixtures/images/cover.jpg').
+      click('#save-cover');
+  });
+
+  //.sendKeys("localPath");
 };

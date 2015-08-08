@@ -13,8 +13,9 @@
 				<div class="form-group {{errorClass 'country'}}">
 					<label for="input-country">Country</label>
 					<select class="form-control" id="select-country" name="select-country">
-						<option value="FR">France</option>
-						<option value="SW">Suisse</option>
+						{{#each countries}}
+              <option value='{{code}}'>{{name}}</option>
+            {{/each}}
 					</select>
 					<span id="select-country-help-block" class="help-block">{{errorMessage 'country'}}</span>
 				</div>

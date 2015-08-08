@@ -61,3 +61,11 @@ Feature: Edit user informations
       # Activity
       When enter " " in the field "input[name='edit-activity']" and submit
       Then I can read the text "Required field" in "#activity-help-block"
+
+    #@dev
+    Scenario: Upload a cover for the first time
+      Given I have an account and no avatar or cover
+      And I'm loged in
+      When I open the avatar upload form
+      And I upload a file and save
+      #Then I must see my cover appear

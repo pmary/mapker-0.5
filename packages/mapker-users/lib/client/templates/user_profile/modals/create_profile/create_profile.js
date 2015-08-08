@@ -1,11 +1,4 @@
-Template.modalCreateProfile.created = function() {
-};
-
-Template.modalCreateProfile.rendered = function () {
-	$('.modal-create-profile [data-toggle="popover"]').popover();
-
-	$('#input-activity').focus();
-};
+var selectizeCountry = null;
 
 Template.modalCreateProfile.helpers({
 	errorMessage: function (field) {
@@ -16,7 +9,57 @@ Template.modalCreateProfile.helpers({
 	},
 	localities: function () {
 		return Session.get('localities');
-	}
+	},
+	countries: function () {
+    if (Session.get('countries')) {
+      return Session.get('countries');
+    }
+    else {
+      return [];
+    }
+  }
+});
+
+Template.modalCreateProfile.created = function() {
+};
+
+Template.modalCreateProfile.rendered = function () {
+	$('.modal-create-profile [data-toggle="popover"]').popover();
+
+	$('#input-activity').focus();
+
+	this.autorun(function (computation) {
+		// If there is no selectize instance on the country select
+		if (! selectizeCountry) {
+			// Get the countries
+			var countries = Countries.find().fetch();
+
+			//console.log('Countries length: ', countries.length);
+
+			// If all the countries has been retrieved
+			if (countries.length == 245) {
+				// Stop the tracker
+				computation.stop();
+
+				Session.set('countries', countries);
+
+				setTimeout(function () {
+					// Init a selectize instance on the country select
+					var $selectContry = $('.modal-create-profile select#select-country').selectize({
+						maxItems: 1
+					});
+
+					selectizeCountry = $selectContry[0].selectize;
+				}, 0);
+			}
+		}
+	});
+};
+
+Template.modalCreateProfile.onDestroyed(function () {
+  // Destroy the selectize instance on the country select
+  selectizeCountry.destroy();
+  selectizeCountry = null;
 });
 
 Template.modalCreateProfile.events({
@@ -74,7 +117,7 @@ Template.modalCreateProfile.events({
 			return; // Abort the account creation due to errors
 
 		// Get the city center coordinates
-		var address = profile.city.replace(/ /g, "+");;
+		var address = profile.city.replace(/ /g, "+");
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({"address": address, 'componentRestrictions': { 'postalCode': profile.zipcode }, region: profile.countryCode }, function(results, status) {
 			// Test if there is a location

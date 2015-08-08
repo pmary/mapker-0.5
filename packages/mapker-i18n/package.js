@@ -10,7 +10,14 @@ Package.onUse(function(api) {
 
   api.versionsFrom('1.1.0.2');
 
-  api.use(['mapker:lib']);
+  var packages = [
+    'mapker:lib'
+  ];
+
+  api.use(packages);
+
+  api.imply(packages);
+
 
   api.use(["session"], "client");
 
@@ -26,6 +33,7 @@ Package.onUse(function(api) {
 
   api.export([
     'i18n',
+    'TAPi18n',
     'Countries'
   ]);
 });

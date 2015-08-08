@@ -55,7 +55,7 @@
 							<option value="space">Space</option>
 							<option value="upcycling">Upcycling</option>
 							<option value="video">Video</option>
-							<option value="wood">Wood</option>							
+							<option value="wood">Wood</option>
 						</select>
 						<span class="help-block">{{errorMessage 'specialities'}}</span>
 					</div>
@@ -88,8 +88,9 @@
 						</div>
 						<div class="col-sm-4" id="country">
 							<select id="select-country" class="form-control">
-								<option value="fr">France</option>
-								<option value="sw">Suisse</option>
+								{{#each countries}}
+		              <option value='{{code}}'>{{name}}</option>
+		            {{/each}}
 							</select>
 						</div>
 						<span class="help-block col-sm-offset-2 col-sm-10">{{errorMessage 'address'}}</span>
@@ -105,5 +106,5 @@
 				<button type="button" class="btn btn-success" id="submit-place">Submit</button>
 			</div>
 		</div>
-	</div>	
+	</div>
 </template>

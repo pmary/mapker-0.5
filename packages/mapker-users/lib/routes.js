@@ -98,7 +98,12 @@ Router.route('/user/:_id/bio', {
   yieldRegions: {
     'UserProfileBio': {to: 'content'}
   },
-  waitOn: function () { return Meteor.subscribe('user', this.params._id); },
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe("countriesList")
+    ];
+  },
   data: function () {
     templateData = {
       user: Meteor.users.findOne({_id: this.params._id})
@@ -112,6 +117,8 @@ Router.route('/user/:_id/bio', {
     // Set the tab as active
     $('.user-profile-page .nav li').removeClass('active');
     $('.user-profile-page .nav li#nav-bio').addClass('active');
+
+    //TAPi18n.subscribe("countriesList");
   }
 });
 
@@ -122,7 +129,12 @@ Router.route('/user/:_id/skills', {
   yieldRegions: {
     'UserProfileSkills': {to: 'content'}
   },
-  waitOn: function () { return Meteor.subscribe('user', this.params._id); },
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe("countriesList")
+    ];
+  },
   data: function () {
     templateData = {
       user: Meteor.users.findOne({_id: this.params._id})
@@ -146,7 +158,12 @@ Router.route('/user/:_id/places', {
   yieldRegions: {
     'userProfilePlaces': {to: 'content'}
   },
-  waitOn: function () { return Meteor.subscribe('user', this.params._id); },
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe("countriesList")
+    ];
+  },
   data: function () {
     templateData = {
       user: Meteor.users.findOne({_id: this.params._id}),
@@ -173,7 +190,12 @@ Router.route('/user/:_id/network', {
   yieldRegions: {
     'userProfileNetwork': {to: 'content'}
   },
-  waitOn: function () { return Meteor.subscribe('user', this.params._id); },
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe("countriesList")
+    ];
+  },
   data: function () {
     templateData = {
       user: Meteor.users.findOne({_id: this.params._id})

@@ -1,29 +1,4 @@
-Template.modalAddPlace.created = function () {
-};
-
-Template.modalAddPlace.rendered = function () {
-	$('.modal-add-place [data-toggle="popover"]').popover();
-
-	$('select#select-types').selectize({
-		maxItems: 3
-	});
-
-	$('select#select-specialities').selectize({
-		maxItems: 5
-	});
-};
-
-Template.modalAddPlace.helpers({
-	staticMapUrl: function () {
-		return Session.get('staticMapUrl');
-	},
-	errorMessage: function (field) {
-		return Session.get('modalAddPlaceErrors')[field];
-	},
-	errorClass: function (field) {
-		return !!Session.get('modalAddPlaceErrors')[field] ? 'has-error' : '';
-	}
-});
+var selectizeCountry = null;
 
 var checkPlaceData = function (t, step) {
 	var place = {
@@ -93,6 +68,77 @@ var checkPlaceData = function (t, step) {
 		}
 	});
 };
+
+Template.modalAddPlace.helpers({
+	staticMapUrl: function () {
+		return Session.get('staticMapUrl');
+	},
+	errorMessage: function (field) {
+		return Session.get('modalAddPlaceErrors')[field];
+	},
+	errorClass: function (field) {
+		return !!Session.get('modalAddPlaceErrors')[field] ? 'has-error' : '';
+	},
+	countries: function () {
+    if (Session.get('countries')) {
+      return Session.get('countries');
+    }
+    else {
+      return [];
+    }
+  }
+});
+
+Template.modalAddPlace.created = function () {
+};
+
+Template.modalAddPlace.rendered = function () {
+	$('.modal-add-place [data-toggle="popover"]').popover();
+
+	$('select#select-types').selectize({
+		maxItems: 3
+	});
+
+	$('select#select-specialities').selectize({
+		maxItems: 5
+	});
+
+	// Subscribe to the Countries
+	Meteor.subscribe("countriesList");
+
+	this.autorun(function (computation) {
+		// If there is no selectize instance on the country select
+		if (! selectizeCountry) {
+			// Get the countries
+			var countries = Countries.find().fetch();
+
+			//console.log('Countries length: ', countries.length);
+
+			// If all the countries has been retrieved
+			if (countries.length == 245) {
+				// Stop the tracker
+				computation.stop();
+
+				Session.set('countries', countries);
+
+				setTimeout(function () {
+					// Init a selectize instance on the country select
+					var $selectContry = $('.modal-add-place select#select-country').selectize({
+						maxItems: 1
+					});
+
+					selectizeCountry = $selectContry[0].selectize;
+				}, 0);
+			}
+		}
+	});
+};
+
+Template.modalAddPlace.onDestroyed(function () {
+  // Destroy the selectize instance on the country select
+  selectizeCountry.destroy();
+  selectizeCountry = null;
+});
 
 Template.modalAddPlace.events({
 	'keypress #input-street-number, change #input-street-number, keypress #input-street-name, keypress #input-city, change #select-country' : function(e, t){

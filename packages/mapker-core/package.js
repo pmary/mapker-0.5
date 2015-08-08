@@ -15,7 +15,8 @@ Package.onUse(function(api) {
     'mapker:users',     // lib
     'mapker:places',    // lib
     'mapker:machines',  // lib
-    'mapker:search'     // lib
+    'mapker:search',    // lib
+    'mapker:i18n'
   ];
 
   api.use(packages);
