@@ -42,8 +42,10 @@ Template.userUpdateLocation.onDestroyed(function () {
   document.body.removeEventListener('click', editPopoverClickListener, false);
 
   // Destroy the selectize instance on the country select
-  selectizeCountry.destroy();
-  selectizeCountry = null;
+  if (selectizeCountry) {
+    selectizeCountry.destroy();
+    selectizeCountry = null;
+  }
 });
 
 Template.userUpdateLocation.events({

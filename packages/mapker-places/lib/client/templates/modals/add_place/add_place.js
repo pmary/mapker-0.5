@@ -136,8 +136,10 @@ Template.modalAddPlace.rendered = function () {
 
 Template.modalAddPlace.onDestroyed(function () {
   // Destroy the selectize instance on the country select
-  selectizeCountry.destroy();
-  selectizeCountry = null;
+	if (selectizeCountry) {
+  	selectizeCountry.destroy();
+  	selectizeCountry = null;
+	}
 });
 
 Template.modalAddPlace.events({

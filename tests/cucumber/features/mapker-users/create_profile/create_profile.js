@@ -22,7 +22,14 @@ module.exports = function () {
 
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
-      pause(1500).
+      pause(3000).
+      execute(function () {
+        $('#myModal').modal('show');
+        $('#myModal').css({
+          'display': 'block',
+          'opacity': '1'
+        });
+      }).
       waitForExist('h4.modal-title').
       waitForText('h4.modal-title').
       getText('h4.modal-title').then(function (text) {
@@ -38,11 +45,12 @@ module.exports = function () {
   this.When(/^I fill and submit the form$/, function (heading) {
     return this.client.
       setValue('input[name="input-zipcode"]', '7500').
-      selectByValue('#select-country', 'FR').
+      setValue('.selectize-input > input', ''). // To focus on the input
+      keys(['\uE003']).
+      setValue('.selectize-input > input', 'Fra').
+      keys(['\uE007']).
       setValue('input[name="input-activity"]', 'Testeur').
-      pause(1000).
       addValue('input[name="input-zipcode"]', '2').
-      pause(2000).
       selectByIndex('#select-city', 0).
       submitForm('#create-profile-form');
   });

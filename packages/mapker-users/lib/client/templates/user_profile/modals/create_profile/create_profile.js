@@ -58,8 +58,10 @@ Template.modalCreateProfile.rendered = function () {
 
 Template.modalCreateProfile.onDestroyed(function () {
   // Destroy the selectize instance on the country select
-  selectizeCountry.destroy();
-  selectizeCountry = null;
+  if (selectizeCountry) {
+		selectizeCountry.destroy();
+  	selectizeCountry = null;
+	}
 });
 
 Template.modalCreateProfile.events({
