@@ -161,13 +161,14 @@ Router.route('/user/:_id/places', {
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
-      Meteor.subscribe("countriesList")
+      Meteor.subscribe('countriesList'),
+      Meteor.subscribe('userPlaces', this.params._id)
     ];
   },
   data: function () {
     templateData = {
       user: Meteor.users.findOne({_id: this.params._id}),
-      places: Places.find({administrators: this.params._id})
+      places: Places.find()
     };
     return templateData;
   },
@@ -179,7 +180,7 @@ Router.route('/user/:_id/places', {
     $('.user-profile-page .nav li').removeClass('active');
     $('.user-profile-page .nav li#nav-places').addClass('active');
 
-    return Meteor.subscribe('userPlaces', this.params._id);
+    //return Meteor.subscribe('userPlaces', this.params._id);
   }
 });
 

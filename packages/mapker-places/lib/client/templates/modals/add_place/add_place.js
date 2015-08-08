@@ -1,4 +1,6 @@
 var selectizeCountry = null;
+var selectizeTypes = null;
+var selectizeSpecialities = null;
 
 var checkPlaceData = function (t, step) {
 	var place = {
@@ -55,13 +57,26 @@ var checkPlaceData = function (t, step) {
 
 					Meteor.call('placeInsert', place, function(error) {
 						// Display the error to the user and abort
-						if (error)
+						if (error) {
 							return console.log(error.reason);
+						}
 
 						// Redirect to the user places page
 						Router.go('userProfilePlaces', {_id: Meteor.user()._id});
 						// Close the modal
 						$('#myModal').modal('hide');
+
+						// Clear the form
+						t.find('#input-name').value = '';
+						selectizeSpecialities.clear(true);
+						t.find('#input-phone').value = '';
+						selectizeTypes.clear(true);
+						t.find('#input-role').value = '';
+						t.find('#input-street-number').value = '';
+						t.find('#input-street-name').value = '';
+						t.find('#input-zipcode').value = '';
+						selectizeCountry.clear(true);
+						t.find('#input-city').value = '';
 					});
 				}
 			}
@@ -95,13 +110,15 @@ Template.modalAddPlace.created = function () {
 Template.modalAddPlace.rendered = function () {
 	$('.modal-add-place [data-toggle="popover"]').popover();
 
-	$('select#select-types').selectize({
+	var $selectTypes = $('select#select-types').selectize({
 		maxItems: 3
 	});
+	selectizeTypes = $selectTypes[0].selectize;
 
-	$('select#select-specialities').selectize({
+	var $selectSpecialities = $('select#select-specialities').selectize({
 		maxItems: 5
 	});
+	selectizeSpecialities = $selectSpecialities[0].selectize;
 
 	// Subscribe to the Countries
 	Meteor.subscribe("countriesList");
@@ -139,6 +156,16 @@ Template.modalAddPlace.onDestroyed(function () {
 	if (selectizeCountry) {
   	selectizeCountry.destroy();
   	selectizeCountry = null;
+	}
+
+	if (selectizeTypes) {
+		selectizeTypes.destroy();
+  	selectizeTypes = null;
+	}
+
+	if (selectizeSpecialities) {
+		selectizeSpecialities.destroy();
+  	selectizeSpecialities = null;
 	}
 });
 

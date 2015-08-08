@@ -88,6 +88,10 @@
 				p {
 					font-size: 12px;
 					color: #FC3975;
+					text-overflow: ellipsis;
+			    white-space: nowrap;
+			    overflow: hidden;
+			    padding-right: 25px
 				}
 			}
 		}

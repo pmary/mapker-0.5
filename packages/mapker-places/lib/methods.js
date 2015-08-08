@@ -25,8 +25,22 @@ Meteor.methods({
 			submittedAt: new Date()
 		});
 		place.loc = { lat: place.loc[0], lon: place.loc[1] };
+
 		// Inster the post
 		var placeId = Places.insert(place);
+
+		// Update the user
+		var userUpdate = Meteor.users.update(
+			{_id: user._id},
+			{
+				$addToSet: {
+					'profile.network.places': {
+						id: placeId,
+						admin: true
+					}
+				}
+			}
+		);
 
 		// Notify the admin that he have a new place to validate by email
 		Meteor.defer(function () {
