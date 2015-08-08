@@ -1,3 +1,9 @@
+Template.userProfilePlaces.helpers({
+	hasPlaces: function(field) {
+		return Places.find().count();
+	}
+});
+
 Template.userProfilePlaces.rendered = function() {
 	this.autorun(function () {
 		//console.log(this);
@@ -14,5 +20,8 @@ Template.userProfilePlaces.events({
 		// Open the add place modal
 		Session.set('activeModal', 'modalAddPlace');
 		$('#myModal').modal();
+	},
+	'click .no-place-message': function () {
+		Router.go('searchPlaces');
 	}
 });

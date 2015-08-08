@@ -81,7 +81,7 @@ UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObje
  * @summary Check if the given array is empty
  */
 UI.registerHelper('isArrayEmpty', function (array) {
-	//console.log('isArrayEmpty array', array);
+	console.log('isArrayEmpty array', array);
 	//console.log(Object.prototype.toString.call( array ));
 
 	if (! array) {

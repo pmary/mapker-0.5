@@ -194,12 +194,21 @@ Router.route('/user/:_id/network', {
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
-      Meteor.subscribe("countriesList")
+      Meteor.subscribe('countriesList'),
+      Meteor.subscribe('userNetwork', this.params._id)
     ];
   },
   data: function () {
+    var user = Meteor.users.findOne({_id: this.params._id}),
+    network = [];
+    // If the user has a network
+    if ( user && user.profile.network && user.profile.network.users && user.profile.network.users.connected ) {
+      network = user.profile.network.users.connected;
+    }
+
     templateData = {
-      user: Meteor.users.findOne({_id: this.params._id})
+      user: user,
+      userNetwork: Meteor.users.find({_id: { $in: network}})
     };
     return templateData;
   },

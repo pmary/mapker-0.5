@@ -2,14 +2,15 @@
 	<section class="col-md-8 col-md-offset-2 user-profile-places">
 		<!-- Display a message if the user have no place yet -->
 		{{#if eq currentUser._id user._id}}
-			{{#if isArrayEmpty places}}
-				<p class="no-place-message">
-					You have no place yet <br>
-					You can <a href="#" class="open-modal-add-place">create one</a> or <a href="{{pathFor route='searchPlaces'}}">search for one to join</a>
-				</p>
+			{{#if hasPlaces}}
+			{{else}}
+				<div class="no-place-message">
+					<span class="mapker-picto-places"></span>
+					<p>You have no place yet <br>
+					Start searching for one to join</p>
+				</div>
 			{{/if}}
 		{{/if}}
-
 
 		{{#each places}}
 			<div class="col-sd-12 col-md-6 col-lg-6">

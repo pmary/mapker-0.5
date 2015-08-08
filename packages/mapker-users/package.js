@@ -70,6 +70,7 @@ Package.onUse(function(api) {
   ], ['client', 'server']);
 
   api.addFiles([
+    'lib/server/publications.js'
   ], ['server']);
 
   api.export('Users');

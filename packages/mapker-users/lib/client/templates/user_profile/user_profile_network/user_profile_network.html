@@ -3,11 +3,13 @@
 
 		<!-- Display a message if the user have no network yet -->
 		{{#if eq currentUser._id user._id}}
-			{{#if isArrayEmpty userNetwork}}
-				<p class="no-network-message">
-					Makers are waiting for you <br>
-					<a href="{{pathFor route='searchSkills'}}">Find others makers to connect</a>
-				</p>
+			{{#if hasConnexions}}
+			{{else}}
+				<div class="no-network-message">
+					<span class="mapker-picto-network"></span>
+					<p>Makers are waiting for you <br>
+					Find others makers to connect</p>
+				</div>
 			{{/if}}
 		{{/if}}
 

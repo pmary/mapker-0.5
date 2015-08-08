@@ -5,23 +5,18 @@ Template.userProfileNetwork.helpers({
   /**
    * @summary Get the data of the connected users
    */
-   userNetwork: function () {
+   hasConnexions: function () {
      if (this.user) {
-       var user = this.user,
-       userNetwork = [];
-       
+       var user = this.user;
        if ( user && user.profile.network && user.profile.network.users && user.profile.network.users.connected ) {
-         // Subscribe to users
-         Meteor.subscribe("users", user.profile.network.users.connected);
-         //console.log('This user have a network');
-         userNetwork = Meteor.users.find({ _id: { $in: user.profile.network.users.connected } }).fetch();
-         //console.log('userNetwork', userNetwork);
+         return user.profile.network.users.connected.length;
        }
-       return userNetwork;
      }
    }
 });
 
 Template.userProfileNetwork.events({
-
+  'click .no-network-message': function () {
+    Router.go('searchSkills');
+  }
 });

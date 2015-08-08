@@ -3,26 +3,6 @@
  * @doc: http://docs.meteor.com/#/full/dataandsecurity
  */
 /*****************************************************************************/
-/* Public Users publications */
-/*****************************************************************************/
-/**
- * @summary Publish a user document by it's id
- */
-Meteor.publish("user", function (userId) {
-	check(userId, String);
-    return Meteor.users.find({_id: userId});
-});
-
-/**
- * @summary Publish users documents following the given array of ids
- * @param {Array} userIds - An array of user ids
- */
-Meteor.publish('users', function (userIds) {
-	check(userIds, Array);
-	return Meteor.users.find({_id: { $in : userIds} }, {fields: {emails: 0, services: 0, createdAt: 0}});
-});
-
-/*****************************************************************************/
 /* Public Notifications publications */
 /*****************************************************************************/
 /**
