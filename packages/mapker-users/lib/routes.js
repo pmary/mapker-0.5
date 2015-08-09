@@ -98,6 +98,7 @@ Router.route('/user/:_id/bio', {
   yieldRegions: {
     'UserProfileBio': {to: 'content'}
   },
+  loadingTemplate: 'loader',
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -117,8 +118,6 @@ Router.route('/user/:_id/bio', {
     // Set the tab as active
     $('.user-profile-page .nav li').removeClass('active');
     $('.user-profile-page .nav li#nav-bio').addClass('active');
-
-    //TAPi18n.subscribe("countriesList");
   }
 });
 
@@ -129,6 +128,7 @@ Router.route('/user/:_id/skills', {
   yieldRegions: {
     'UserProfileSkills': {to: 'content'}
   },
+  loadingTemplate: 'loader',
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -158,6 +158,7 @@ Router.route('/user/:_id/places', {
   yieldRegions: {
     'userProfilePlaces': {to: 'content'}
   },
+  loadingTemplate: 'loader',
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -179,8 +180,6 @@ Router.route('/user/:_id/places', {
     // Set the tab as active
     $('.user-profile-page .nav li').removeClass('active');
     $('.user-profile-page .nav li#nav-places').addClass('active');
-
-    //return Meteor.subscribe('userPlaces', this.params._id);
   }
 });
 
@@ -191,6 +190,7 @@ Router.route('/user/:_id/network', {
   yieldRegions: {
     'userProfileNetwork': {to: 'content'}
   },
+  loadingTemplate: 'loader',
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -219,7 +219,5 @@ Router.route('/user/:_id/network', {
     // Set the tab as active
     $('.user-profile-page .nav li').removeClass('active');
     $('.user-profile-page .nav li#nav-network').addClass('active');
-
-    return Meteor.subscribe('followedUsers', this.params._id);
   }
 });

@@ -3,10 +3,14 @@ Template.modalSendMessage.helpers({
 		return Session.get('modalMessage');
 	},
 	errorMessage: function (field) {
-		return Session.get('modalSendMessage')[field];
+		if (Session.get('modalSendMessage')) {
+			return Session.get('modalSendMessage')[field];
+		}
 	},
 	errorClass: function (field) {
-		return !!Session.get('modalSendMessage')[field] ? 'has-error' : '';
+		if (Session.get('modalSendMessage')) {
+			return !!Session.get('modalSendMessage')[field] ? 'has-error' : '';
+		}
 	},
 	messageSent: function () {
 		return Session.get('messageSent');

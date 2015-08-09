@@ -249,6 +249,7 @@ Meteor.methods({
     }
 	},
 	placeUpdateOpeningHours: function (openingHours, placeId) {
+		//console.log('placeUpdateOpeningHours openingHours', openingHours);
 		// Data check
 		check(Meteor.userId(), String);  // Check if the user is loged in
 		check(placeId, String);
@@ -261,13 +262,21 @@ Meteor.methods({
 			check(openingHours[i].s, Match.Optional(String));
 		}
 
-		var result = Places.update({ $and: [ {administrators: Meteor.userId()}, {_id: placeId} ] }, { $set: {
-			'openingHours': openingHours
-		} });
+		if (Meteor.isServer) {
+			// Check if the user have admin rights
+			var isAdmin = Meteor.call('canUserEditPlace', placeId);
 
-		return {
-			_id: placeId
-		};
+			if (isAdmin) {
+				var result = Places.update({_id: placeId}, { $set: {
+					'openingHours': openingHours
+				} });
+
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	},
 	/**
 	 * @summary Send an invitation email to the given users and email address
@@ -278,7 +287,9 @@ Meteor.methods({
 		check(message, String);
 
 		// Check if the user has the admin rigths over the place
-		if (! Meteor.call('canUserEditPlace', placeId)) return false;
+		if (! Meteor.call('canUserEditPlace', placeId)) {
+			return false;
+		}
 
 		// Get the user who send the invitation
 		var user = Meteor.user();

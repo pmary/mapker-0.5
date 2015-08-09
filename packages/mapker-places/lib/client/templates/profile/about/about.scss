@@ -6,21 +6,31 @@
 	}
 
 	.add-place-about {
+		cursor: pointer;
+    width: 100%;
+    border: 1px dashed #c9c9c9;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
 
 		&:hover {
 			border: 1px dashed #FC3975;
 			color: #FC3975;
+
+			.text-add-skills {
+				color: #20dec2;
+			}
 		}
 
-		cursor: pointer;
-		width: 100%;
-		height: 125px;
-		border: 1px dashed #c9c9c9;
-		border-radius: 3px;
-		text-align: center;
-		font-size: 16px;
-		color: #191919;
-		line-height: 125px;
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
 	}
 
 	.place-about-content {

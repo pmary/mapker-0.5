@@ -15,10 +15,14 @@ Template.placeProfileTimetable.helpers({
 		}
 	},
 	errorMessage: function(field) {
-		return Session.get('placeProfileTimetableErrors')[field];
+		if (Session.get('placeProfileTimetableErrors')) {
+			return Session.get('placeProfileTimetableErrors')[field];
+		}
 	},
 	errorClass: function (field) {
-		return !!Session.get('placeProfileTimetableErrors')[field] ? 'has-error' : '';
+		if (Session.get('placeProfileTimetableErrors')) {
+			return !!Session.get('placeProfileTimetableErrors')[field] ? 'has-error' : '';
+		}
 	},
 	/**
 	 * @summary Get the current place opening hours data
@@ -137,8 +141,9 @@ Template.placeProfileTimetable.events({
 		var openingHours = Session.get('openingHours');
 
 		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
-			if (error)
-			throw error;
+			if (error) {
+				throw error;
+			}
 		});
 
 		$('.user-profile-timetable .hour').removeClass('active');
