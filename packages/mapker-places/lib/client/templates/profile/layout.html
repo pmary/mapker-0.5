@@ -77,16 +77,16 @@
 		<nav class="row" id="inner-nav">
 			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
 				<ul class="nav nav-pills">
-					<li role="presentation" class="active">
+					<li id="nav-about" role="presentation" class="active">
 						<a href="{{pathFor route='placeProfileAbout' _id=place._id}}">About</a>
 					</li>
-					<li role="presentation">
+					<li id="nav-opening-hours" role="presentation">
 						<a href="{{pathFor route='placeProfileTimetable' _id=place._id}}">Opening hours</a>
 					</li>
-					<li role="presentation">
+					<li id="nav-machines" role="presentation">
 						<a href="{{pathFor route='placeProfileMachines' _id=place._id}}">Machines</a>
 					</li>
-					<li role="presentation">
+					<li id="nav-staff" role="presentation">
 						<a href="{{pathFor route='placeProfileStaff' _id=place._id}}">Staff</a>
 					</li>
 					<!--<li>

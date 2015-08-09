@@ -32,6 +32,10 @@ Router.route('/places/:_id/about', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/places/'+this.params._id+'/about');
+
+    // Set the tab as active
+    $('.place-profile-page .nav li').removeClass('active');
+    $('.place-profile-page .nav li#nav-about').addClass('active');
   }
 });
 
@@ -54,6 +58,10 @@ Router.route('/places/:_id/opening-hours', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/places'+this.params._id+'/opening-hours');
+
+    // Set the tab as active
+    $('.place-profile-page .nav li').removeClass('active');
+    $('.place-profile-page .nav li#nav-opening-hours').addClass('active');
   }
 });
 
@@ -76,6 +84,10 @@ Router.route('/places/:_id/machines', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/places'+this.params._id+'/machines');
+
+    // Set the tab as active
+    $('.place-profile-page .nav li').removeClass('active');
+    $('.place-profile-page .nav li#nav-machines').addClass('active');
   }
 });
 
@@ -98,9 +110,9 @@ Router.route('/places/:_id/staff', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/places'+this.params._id+'/staff');
-    
+
     // Set the tab as active
     $('.place-profile-page .nav li').removeClass('active');
-    $('.place-profile-page .nav li#nav-bio').addClass('active');
+    $('.place-profile-page .nav li#nav-staff').addClass('active');
   }
 });
