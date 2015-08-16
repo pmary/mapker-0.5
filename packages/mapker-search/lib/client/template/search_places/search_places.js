@@ -201,7 +201,7 @@ Template.searchPlaces.rendered = function() {
 		if (Mapbox.loaded()) {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized
-			map = L.mapbox.map('mapker-places-search-map', 'examples.map-i86nkdio', {zoomControl: false})
+			map = L.mapbox.map('mapker-places-search-map', 'mapbox.streets', {zoomControl: false})
 			.setView([40, -20.50], 3);
 			//map.addLayer("placeLayer");
 

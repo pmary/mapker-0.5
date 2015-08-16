@@ -5,10 +5,14 @@
  */
 s3Upload = function(params, callback) {
 	s3.upload(params, function(err, data) {
-		if (err) console.warn("Error uploading data: ", err);
-		else callback && callback( null, data.Location );
+		if (err) {
+			console.warn("Error uploading data: ", err);
+		}
+		else {
+			callback( null, data.Location );
+		}
 	});
-}
+};
 
 /**
  * @summary Check if the user has sufficient rights over the resource to perform the requested action
@@ -31,7 +35,7 @@ isUserResourceAdmin = function(resource, userId) {
 			break;
 	}
 	return result;
-}
+};
 
 /**
  * @summary Upload an image to a S3 bucket
@@ -64,7 +68,7 @@ Meteor.methods({
 
 			// Update the place ElasticSearch document
 			Meteor.call('updatePlaceESDocument', place.id);
-		};
+		}
 
 		return {
 			result: "Image updated"
@@ -99,12 +103,12 @@ Meteor.methods({
 
 		// Remove the old file if there is one
 		if (img.resource[img.role]) {
-			var deletionParams = {Key: img.resource[img.role].name}
+			var deletionParams = {Key: img.resource[img.role].name};
 			s3.deleteObject(deletionParams, function(err, data) {
 				if (err) console.log(err, err.stack); // an error occurred
 				else     console.log(data);           // successful response
 			});
-		};
+		}
 
 		//console.log(url);
 
@@ -132,7 +136,7 @@ Meteor.methods({
 
 			// Update the user ElasticSearch document
 			Meteor.call('updatePlaceESDocument', img.resource.id);
-		};
+		}
 
 		return url;
 	}

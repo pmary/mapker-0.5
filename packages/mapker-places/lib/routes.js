@@ -51,7 +51,7 @@ Router.route('/places/:_id/opening-hours', {
   },
   data: function () {
     templateData = {
-      place: Places.findOne({_id: this.params._id}, {reactive: false})
+      place: Places.findOne({_id: this.params._id})
     };
     return templateData;
   },
@@ -77,7 +77,7 @@ Router.route('/places/:_id/machines', {
   },
   data: function () {
     templateData = {
-      place: Places.findOne({_id: this.params._id}, {reactive: false})
+      place: Places.findOne({_id: this.params._id})
     };
     return templateData;
   },
@@ -103,7 +103,7 @@ Router.route('/places/:_id/staff', {
   },
   data: function () {
     templateData = {
-      place: Places.findOne({_id: this.params._id}, {reactive: false})
+      place: Places.findOne({_id: this.params._id})
     };
     return templateData;
   },

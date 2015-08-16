@@ -30,27 +30,49 @@ Template.userJoin.events({
 			return; // Abort the account creation due to errors
 		}
 
-		// If the form is valide
-		Accounts.createUser({
-			email: user.email,
-			password: user.password,
-			profile:{
-				fullname: user.firstname+ " " + user.lastname,
-				firstname: user.firstname,
-				lastname: user.lastname
-			}
-		}, function(error, result) {
-			if (error) {
-				// Inform the user that account creation failed
-				Errors.throw(error.reason);
-			}else {
-				Meteor.call('userCreateAccount', user);
-				// Success. Account has been created and the user
-				// has logged in successfully.
+		// If there if a token, it mean it's a pre-created account
+		if (t.data && t.data.token) {
+			console.log('has a toke');
+			// Activate the pre-created account
+			Meteor.call('userActivatePreCreatedAccount', t.data.token, user, function (err, res) {
+				if (err) {
+					console.log(err);
+				}
 
-				Router.go('userProfileBio', {_id: Meteor.user()._id});
-			}
-		});
+				// Log the user in
+				Meteor.loginWithPassword(user.email, user.password, function (err, res) {
+					if (err) {
+						console.log(err);
+					}
+					
+					// Redirect the user on his profile
+					Router.go('userProfileBio', {_id: Meteor.user()._id});
+				});
+			});
+		}
+		else {
+			// If the form is valide
+			Accounts.createUser({
+				email: user.email,
+				password: user.password,
+				profile:{
+					fullname: user.firstname+ " " + user.lastname,
+					firstname: user.firstname,
+					lastname: user.lastname
+				}
+			}, function(error, result) {
+				if (error) {
+					// Inform the user that account creation failed
+					Errors.throw(error.reason);
+				}else {
+					Meteor.call('userCreateAccount', user);
+					// Success. Account has been created and the user
+					// has logged in successfully.
+
+					Router.go('userProfileBio', {_id: Meteor.user()._id});
+				}
+			});
+		}
 
 		return false;
 	}

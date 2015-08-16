@@ -281,8 +281,8 @@ Meteor.methods({
 	/**
 	 * @summary Send an invitation email to the given users and email address
 	 */
-	invitePlaceStaffMembers: function (usersArray, placeId, message) {
-		check(usersArray, Array);
+	invitePlaceStaffMembers: function (itemsArray, placeId, message) {
+		check(itemsArray, Array);
 		check(placeId, String);
 		check(message, String);
 
@@ -301,44 +301,151 @@ Meteor.methods({
 
 				// Get the users
 				var users = [];
-				for (var y = 0; y < usersArray.length; y++) {
-					check(usersArray[y], {
+				var emails = [];
+				var alreadyMember;
+
+				for (var y = 0; y < itemsArray.length; y++) {
+					/*check(itemsArray[y], {
 						fullname: Match.Optional(String),
 						email: Match.Optional(String),
 						id: String
-					});
+					});*/
 
-					if (usersArray[y].fullname) {
-							// Get the user email
-							var newUser = Meteor.users.findOne({_id: usersArray[i].id});
-							users.push( newUser ); // Add this user to the users array
+					// If its a user already registered, add him to the staff
+					// and send him a notification
+					if (itemsArray[y].type === 'user') {
+						// Get the user email
+						var newUser = Meteor.users.findOne({_id: itemsArray[i].id});
+						users.push( newUser ); // Add this user to the users array
+
+						// Check if the user was already a member of the place and update him
+						alreadyMember = Places.findOne({_id: placeId, members: {$elemMatch: { id: newUser._id }} });
+						if (alreadyMember) {
+							// Update the member by setting the 'staff' to true
+							Places.update(
+								{_id: placeId, members: {$elemMatch: { id: newUser._id }} },
+								{
+									$set: {
+										'members.$.staff': true,
+										'members.$.role': itemsArray[y].role
+									}
+								}
+							);
+						}
+						else {
+							// Add the user as member and set him staff to true
+							Places.update(
+								{_id: placeId},
+								{
+									$addToSet: {
+										members: {
+											id: newUser._id,
+											staff: true,
+											role: itemsArray[y].role
+										}
+									}
+								}
+							);
+						}
+					}
+					// If its just an email, pre-create an account with a activation token
+					// and send him an invitation to register with a link
+					else if (itemsArray[y].type === 'email') {
+						// Check that the email isn't already associated to an account
+						var existingAccount = Meteor.users.findOne({ emails: { $elemMatch: { address: itemsArray[y].email } } });
+
+						// If it exist, add him to the place staff
+						// and send him a notification email
+						if (existingAccount) {
+							console.log('existingAccount: ', existingAccount);
+							users.push( existingAccount ); // Add this user to the users array
 
 							// Check if the user was already a member of the place and update him
-							var alreadyMember = Places.findOne({_id: placeId, members: {$elemMatch: { id: newUser._id }} });
+							alreadyMember = Places.findOne({_id: placeId, members: {$elemMatch: { id: existingAccount._id }} });
 							if (alreadyMember) {
-								// Update the member by setting the 'staff' to true
-								Places.update({_id: placeId, members: {$elemMatch: { id: newUser._id }} }, { $set: { 'members.$.staff': true } });
+								// Update the member by setting his role and 'staff' to true
+								Places.update(
+									{_id: placeId, members: {$elemMatch: { id: existingAccount._id }} },
+									{ $set:
+										{
+											'members.$.staff': true,
+											'members.$.role': itemsArray[y].role
+										}
+									}
+								);
 							}
 							else {
 								// Add the user as member and set him staff to true
-								Places.update({_id: placeId}, { $addToSet: { members: {id: newUser._id, staff: true} } });
+								Places.update(
+									{_id: placeId},
+									{
+										$addToSet: {
+											members: {
+												id: existingAccount._id,
+												staff: true,
+												role: itemsArray[y].role
+											}
+										}
+									}
+								);
 							}
-					}
+						}
+						// Else, pre-create a new account
+						else {
+							var profile = {
+								fullname: itemsArray[y].firstname + itemsArray[y].lastname,
+								firstname: itemsArray[y].firstname,
+								lastname: itemsArray[y].lastname,
+								network: {
+									places: [
+										{
+											id: placeId,
+											staff: true,
+											role: itemsArray[y].role
+										}
+									]
+								}
+							};
 
-					/* @todo Be able to send an invitation to an email address */
-					// and generate a token to allow a the email owner to automaticaly
-					// be linked with the place that invited him
-					/*else if (users[i].email) {
-							emails.push( users[i].email );
-					}*/
+							// Pre-create the account
+							var newUserId = Meteor.call('userPreCreateAccount', itemsArray[y].email, profile);
+							// Add him an activation token
+							var activationToken = Core.randomString(32) + (new Date().getTime()) + placeId;
+							Meteor.users.update({_id: newUserId}, {$set: {activationToken: activationToken}});
+							console.log('newUserId', newUserId);
+
+							// Add the new user as member of the place and set him staff to true
+							Places.update(
+								{_id: placeId},
+								{
+									$addToSet: {
+										members: {
+											id: newUserId,
+											staff: true,
+											role: itemsArray[y].role
+										}
+									}
+								}
+							);
+
+							// Set the activation url
+							itemsArray[y].activationUrl = 'http://localhost:3000/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname;
+							//console.log('activation url: http://localhost:3000/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname);
+							emails.push(itemsArray[y]); // Add this user to the emails array
+						}
+					}
 				}
 
-				// Send the emails
-				for (var i = 0; i < users.length; i++) {
-					var templateName = 'join-place-staff-en';
-					var subject = user.profile.firstname + ' has indicated that you are a member of his staff of ' + place.name;
-					var userAvatar = 'http://mapker.co/images/avatar-user-default.png';
-					var placeAvatar = 'http://mapker.co/images/avatar-place-default.png';
+				// Send the notification emails
+				var i = 0;
+				var templateName;
+				var subject;
+				var userAvatar = 'http://mapker.co/images/avatar-user-default.png';
+				var placeAvatar = 'http://mapker.co/images/avatar-place-default.png';
+
+				for (i = 0; i < users.length; i++) {
+					templateName = 'join-place-staff-en';
+					subject = user.profile.firstname + ' has indicated that you are a staff member of ' + place.name;
 
 					// Sanitize the message input if necessary
 					if (message) {
@@ -351,11 +458,13 @@ Meteor.methods({
 					}
 
 					// Get the avatar of the user who send the invitation
-					if (user.profile.avatar)
+					if (user.profile.avatar) {
 						userAvatar = user.profile.avatar.url;
+					}
 
-					if (place.avatar)
+					if (place.avatar) {
 						placeAvatar = place.avatar.url;
+					}
 
 					HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
 		      	{
@@ -376,11 +485,60 @@ Meteor.methods({
 						      "global_merge_vars": [
 										{ "name": "USERAVATAR", "content": userAvatar },
 										{ "name": "MESSAGE", "content": message },
-										{ "name": "USERLINK", "content": 'http://mapker.co/user/' + users[i]._id + '/bio' },
+										{ "name": "USERLINK", "content": 'http://mapker.co/user/' + user._id + '/bio' },
 										{ "name": "USERNAME", "content": user.profile.firstname },
 										{ "name": "PLACEAVATAR", "content": placeAvatar },
 										{ "name": "PLACELINK", "content": 'http://mapker.co/places/' + place._id + '/about' },
 										{ "name": "PLACENAME", "content": place.name },
+						      ], "tags": [ "welcome-mail" ]
+						    }, "async": false, "ip_pool": "Main Pool"
+							}
+						});
+				}
+
+				for (i = 0; i < emails.length; i++) {
+					templateName = 'invitation-to-join-place-staff-en';
+					subject = user.profile.firstname + ' invite you to join the team of ' + place.name;
+
+					// Sanitize the message input if necessary
+					if (message) {
+						message = Mapker.utils.removeTags(message);
+					}
+
+					if (user.profile.address.countryCode == 'FR') {
+						templateName = 'invitation-to-join-place-staff-fr';
+						subject = user.profile.firstname + ' vous invite à rejoindre l\'équipe de ' + place.name;
+					}
+
+					if (place.avatar) {
+						placeAvatar = place.avatar.url;
+					}
+
+					HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
+		      	{
+							data: {
+						    "key": "OfKzISRCtJJLFJmGi-k9kA",
+						    "template_name": templateName,
+								"template_content": [],
+						    "message": {
+									"subject": subject,
+			        		"from_email": "noreply@example.com",
+			        		"from_name": "Mapker",
+						      "to": [
+						        { "email": emails[i].email, "name": emails[i].firstname, "type": "to" }
+						      ],
+						      "headers": { "Reply-To": "noreply@example.com" },
+						      "important": false,"track_clicks": true,"auto_text": false,
+						      "auto_html": false,"merge": true,"merge_language": "mailchimp",
+						      "global_merge_vars": [
+										{ "name": "USERAVATAR", "content": userAvatar },
+										{ "name": "MESSAGE", "content": message },
+										{ "name": "USERLINK", "content": 'http://mapker.co/user/' + user._id + '/bio' },
+										{ "name": "USERNAME", "content": user.profile.firstname },
+										{ "name": "PLACEAVATAR", "content": placeAvatar },
+										{ "name": "PLACELINK", "content": 'http://mapker.co/places/' + place._id + '/about' },
+										{ "name": "PLACENAME", "content": place.name },
+										{ "name": "JOINLINK", "content": emails[i].activationUrl },
 						      ], "tags": [ "welcome-mail" ]
 						    }, "async": false, "ip_pool": "Main Pool"
 							}

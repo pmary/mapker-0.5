@@ -1,5 +1,5 @@
 Template.footer.rendered = function() {
-	this.autorun(function () {
+	/*this.autorun(function () {
 		if (Meteor.user()) {
 			window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
 			d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
@@ -17,5 +17,5 @@ Template.footer.rendered = function() {
 				});
 			}
 		}
-	});
+	});*/
 };

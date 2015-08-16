@@ -61,6 +61,65 @@ Meteor.methods({
 
     return true;
 	},
+	userPreCreateAccount: function (email, profile) {
+		check(email, String);
+		check(profile, Object);
+
+		// Create the account with the given profile
+		var newUser = Accounts.createUser(
+			{ email: email, /*password: user.password,*/ profile: profile }
+		);
+
+		return newUser;
+	},
+	/**
+	 * @summary Activate a pre-created account by updating the password
+	 * and his profile if necessary.
+	 * The account is activated if the given email and tokens match
+	 * @param {String} token - The auth token required to acivate the account
+	 * @param {Object} user - The firstname, lastname and password of the user
+	 */
+	userActivatePreCreatedAccount: function (token, user) {
+		check(token, String);
+		check(user, {
+			firstname: String,
+			lastname: String,
+			email: String,
+			password: String,
+			passwordConfirmation: String,
+			userLang : String
+		});
+
+		// Check if the given token and email match with the pre-created account
+		var isMatching = Meteor.users.findOne(
+			{
+				emails: { $elemMatch: { address: user.email } },
+				activationToken: token
+			}
+		);
+
+		if (isMatching) {
+			// Update the user profile and remove the token
+			Meteor.users.update({ _id: isMatching._id },
+				{
+					$set: {
+						'profile.firstname': user.firstname,
+						'profile.lastname': user.lastname
+					},
+					$unset: {
+						activationToken: ''
+					}
+				}
+			);
+
+			// Change the password by the given one
+			return Accounts.setPassword(isMatching._id, user.password);
+		}
+		else {
+			console.log('User account can\'t be activated');
+			return false;
+		}
+	},
 	userCreateProfile: function (profileAttributes) {
 		// Data check
 		check(Meteor.userId(), String); // Check if the user is loged in
@@ -83,7 +142,11 @@ Meteor.methods({
 				'profile.address.zipcode': profile.zipcode,
 				'profile.address.city': profile.city,
 				'profile.address.loc': profile.loc
-			} });
+			} }
+		);
+
+		// Update the user ElasticSearch document
+		Meteor.call('updateUserESDocument', Meteor.userId());
 
 		return {
 			_id: userId

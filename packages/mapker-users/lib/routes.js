@@ -57,6 +57,24 @@ Router.route('/join', {
 	}
 });
 
+Router.route('/join/:token/:email/:firstname/:lastname', {
+ 	name: 'userJoinViaInvitation',
+	template: 'userJoin',
+  data: function () {
+    templateData = {
+      token: this.params.token,
+      email: this.params.email,
+      firstname: this.params.firstname,
+      lastname: this.params.lastname
+    };
+    return templateData;
+  },
+	after: function () {
+		// Send the pageview to GA
+		ga('send', 'pageview', '/join');
+	}
+});
+
 Router.route('/reset-password', function () {
 	this.render('UserForgotPassword');
 });

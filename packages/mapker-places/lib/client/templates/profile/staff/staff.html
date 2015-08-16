@@ -35,7 +35,11 @@
 						{{/if}}
 						<div class="result-data">
 							<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
-							<h2>{{profile.activity}}</h2>
+							{{#if place_memberRole profile}}
+								<h2>{{place_memberRole profile}}</h2>
+							{{else}}
+								<h2>{{profile.activity}}</h2>
+							{{/if}}
 						</div>
 					</section>
 				</div>

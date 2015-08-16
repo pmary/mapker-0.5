@@ -19,7 +19,7 @@ Template.modalPlaceInviteStaffMembers.helpers({
 
 Template.modalPlaceInviteStaffMembers.rendered = function () {
   // Clear the session var
-  Session.set('currentStaffUsersSelected', null);
+  Session.set('currentStaffUsersSelected', []);
 
   var userNetwork = [];
 
@@ -63,10 +63,18 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
         if (queryString.length < 2 || queryString === currentQueryString) return;
         currentQueryString = queryString;
 
+        //console.log('queryString', queryString);
+        //console.log('userNetwork', userNetwork);
+        //console.log('exculdedIds', exculdedIds);
+
         // Get the suggestions according to the queryString
         Meteor.call('getUsersByFullname', {string: queryString, network: userNetwork, exculdedIds: exculdedIds}, function(error, result) {
           // Display the error to the user and abort
-          if (error) return console.log(error.reason);
+          if (error) {
+            return console.log(error.reason);
+          }
+
+          //console.log(result);
 
           var formatedResult = {
             suggestions: $.map(result, function(dataItem) {
@@ -90,10 +98,11 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
         //console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
         var usersSelected = Session.get('currentStaffUsersSelected');
 
-        if (! usersSelected)
-          usersSelected = [{ fullname: suggestion.value, id: suggestion.data }];
-        else
-          usersSelected.push({ fullname: suggestion.value, id: suggestion.data });
+        usersSelected.push({
+          type: 'user',
+          fullname: suggestion.value,
+          id: suggestion.data
+        });
 
         Session.set('currentStaffUsersSelected', usersSelected);
       }
@@ -124,14 +133,40 @@ Template.modalPlaceInviteStaffMembers.events({
     var usersSelected = Session.get('currentStaffUsersSelected'),
     message = t.find('#input-message').value,
     placeId = Router.current().params._id;
-    //console.log('message', message);
+
+    // Get the empty fields
+    var emptyFields = $('.modal-place-invite-staff-members .list input:text').filter(function () { return $(this).val() === ""; });
+    // Get the fulfilled fields
+    var fulfilledFields = $('.modal-place-invite-staff-members .list input:text').filter(function () { return $(this).val() !== ""; });
+
+    // Display the error if their is empty fields
+    if (emptyFields && emptyFields.length) {
+      // Display the error message
+      $('.invitation-error').css('display', 'block');
+
+      for (var i = 0; i < emptyFields.length; i++) {
+        $(emptyFields[i]).parent().addClass('has-error');
+      }
+
+      return false;
+    }
+    else {
+      $('.invitation-error').css('display', 'none');
+    }
+
+    // Remove the error class on the fulfilled fields if necessary
+    if (fulfilledFields && fulfilledFields.length) {
+      for (var y = 0; y < fulfilledFields.length; y++) {
+        $(fulfilledFields[y]).parent().removeClass('has-error');
+      }
+    }
 
     if (usersSelected) {
       Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, message, function(error, result) {
         if (error) {
           console.log(error);
         }
-        console.log(result);
+
         $('#myModal').modal('hide');
       });
     }
@@ -151,6 +186,47 @@ Template.modalPlaceInviteStaffMembers.events({
     else {
       Session.set('inviteByEmail', null);
     }
+  },
+  /**
+   * @summary Add an email to the invitation list
+   */
+  'click .email-invitation': function (e, t) {
+    // Get the email to add
+    var email = Session.get('inviteByEmail');
+
+    var usersSelected = Session.get('currentStaffUsersSelected');
+
+    usersSelected.push({
+      type: 'email',
+      email: email,
+      id: email
+    });
+
+    Session.set('currentStaffUsersSelected', usersSelected);
+
+    // Hide the "Send an email to" message
+    Session.set('inviteByEmail', null);
+  },
+  /**
+   * @summary Update the role, firstname or lastname field for the given item
+   */
+  'keyup .listitem input[type="text"]': function (e, t) {
+    var itemId = e.target.dataset.id,
+    itemField = e.target.dataset.field,
+    value = e.target.value;
+
+    // Get the current invitation list
+    var usersSelected = Session.get('currentStaffUsersSelected');
+    // Find the one corresponding
+    for (var i = 0; i < usersSelected.length; i++) {
+      if (usersSelected[i].id === itemId) {
+        // Set him the new value for the edited field
+        usersSelected[i][itemField] = value;
+      }
+    }
+
+    // Save the updated list
+    Session.set('currentStaffUsersSelected', usersSelected);
   },
   /**
    * @summary Prevent the default form behavior at submit

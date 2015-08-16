@@ -14,7 +14,7 @@
 								<div class="col-md-6">
 									<div class="form-group {{errorClass 'firstname'}}">
 										<label for="join-first-name">First name</label>
-										<input class="form-control" type="text" id="join-first-name" name="join-first-name" />
+										<input class="form-control" type="text" id="join-first-name" name="join-first-name" value="{{firstname}}" />
 										<span id="join-firstname-help-block" class="help-block">{{errorMessage 'firstname'}}</span>
 
 									</div>
@@ -22,7 +22,7 @@
 								<div class="col-md-6">
 									<div class="form-group {{errorClass 'lastname'}}">
 										<label for="join-last-name">Last name</label>
-										<input class="form-control" type="text" id="join-last-name" name="join-last-name" />
+										<input class="form-control" type="text" id="join-last-name" name="join-last-name" value="{{lastname}}" />
 										<span id="join-lastname-help-block" class="help-block">{{errorMessage 'lastname'}}</span>
 									</div>
 								</div>
@@ -31,7 +31,7 @@
 								<div class="col-md-12">
 									<div class="form-group {{errorClass 'email'}}">
 										<label for="join-email">Email</label>
-										<input class="form-control" type="email" id="join-email" name="join-email" />
+										<input class="form-control" type="email" id="join-email" name="join-email" value="{{email}}" />
 										<span id="join-email-help-block" class="help-block">{{errorMessage 'email'}}</span>
 									</div>
 								</div>

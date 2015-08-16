@@ -114,9 +114,12 @@ Package.onUse(function(api) {
   ], ['client']);
 
   api.addFiles([
+    'lib/namespace.js',
+    'lib/helpers.js',
     'lib/routes.js'
   ], ['client', 'server']);
 
+  api.export('Core');
 });
 
 Package.onTest(function(api) {

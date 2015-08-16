@@ -30,7 +30,8 @@
 							{{#if inviteByEmail}}
 								<div class="autocomplete-suggestions">
 									<div class="autocomplete-suggestion email-invitation">
-										Send an email to <strong>{{inviteByEmail}}</strong>
+										<span class="glyphicon glyphicon-envelope email-icon" aria-hidden="true"></span>
+										<p>Send an email to <strong>{{inviteByEmail}}</strong></p>
 									</div>
 								</div>
 							{{/if}}
@@ -42,8 +43,40 @@
 				</form>
 
 				<div class="list">
+					<div class="invitation-error">All fields must be filled</div>
+
 					{{#each usersSelected}}
-						<div class="listitem">{{fullname}}{{email}} <span class="glyphicon glyphicon-remove-circle user-action-remove-user-selected" aria-hidden="true" data-id="{{id}}"></span></div>
+						{{#if fullname}}
+							<div class="listitem">
+								<div class="form-inline">
+									<div class="form-group">
+										<span class="name">{{fullname}}</span>
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" data-id="{{id}}" data-field="role" placeholder="Role">
+									</div>
+								</div>
+								<span class="glyphicon glyphicon-remove-circle user-action-remove-user-selected" aria-hidden="true" data-id="{{id}}"></span>
+							</div>
+						{{else}}
+							<div class="listitem email">
+								<div class="form-inline">
+									<div class="form-group">
+										<span class="name">{{email}}</span>
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" data-id="{{id}}" data-field="firstname" name="firstname" placeholder="Firstname">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" data-id="{{id}}" data-field="lastname" name="lastname" placeholder="Lastname">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" data-id="{{id}}" data-field="role" name="role" placeholder="Role">
+									</div>
+								</div>
+								<span class="glyphicon glyphicon-remove-circle user-action-remove-user-selected" aria-hidden="true" data-id="{{id}}"></span>
+							</div>
+						{{/if}}
 					{{/each}}
 				</div>
 

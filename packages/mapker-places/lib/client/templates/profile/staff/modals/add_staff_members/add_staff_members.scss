@@ -17,6 +17,27 @@
 		padding-right: 0px;
 	}
 
+	.staff-invitation-form {
+		.autocomplete-suggestions {
+			.email-invitation {
+				cursor: pointer;
+
+				.email-icon {
+					font-size: 31px;
+			    float: left;
+			    margin-right: 10px;
+			    color: #20DEC2;
+				}
+
+				p {
+					position: relative;
+					top: 6px;
+					color: #525252;
+				}
+			}
+		}
+	}
+
 	.user-action-find-peoples {
 		border: none;
 		background-color: transparent;
@@ -44,27 +65,75 @@
 	}
 
 	.list {
+		.invitation-error {
+			color: #a94442;
+			text-align: center;
+			margin-bottom: 10px;
+			display: none;
+		}
+
 		.listitem {
+			position: relative;
 			background-color: #20DEC2;
 			display: inline-block;
-			border-radius: 15px;
+			border-radius: 25px;
 			color: #FFF;
-			height: 28px;
-			padding: 4px 10px 6px 10px;
+			padding: 4px 25px 6px 10px;
 			font-size: 13px;
 			margin: 2px;
 
-			span {
+			.name {
 				position: relative;
 				color: #2E4264;
 				font-size: 15px;
 				font-weight: normal;
-				top: 4px;
+				top: 1px;
 				left: 2px;
+				margin-right: 5px;
 				cursor: pointer;
 
 				&:hover {
 					color: #28303B;
+				}
+			}
+
+			.form-group {
+
+				&.has-error {
+					.form-control {
+						border: 1px solid #a94442;
+					}
+				}
+
+				.form-control {
+					height: 30px;
+					background-color: rgba(255, 255, 255, 0.48);
+	    		border: none;
+				}
+
+			}
+
+			.user-action-remove-user-selected {
+				position: absolute;
+				color: #2E4264;
+				font-size: 16px;
+				font-weight: normal;
+				cursor: pointer;
+				right: 6px;
+				top: 13px;
+			}
+
+			&.email {
+				.form-inline {
+					.form-group:first-child {
+						display: block;
+						margin-bottom: 5px;
+
+					}
+				}
+
+				.form-control {
+					max-width: 134px;
 				}
 			}
 		}

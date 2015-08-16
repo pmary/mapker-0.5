@@ -19,6 +19,7 @@ Package.onUse(function(api) {
   api.imply(packages);
 
   api.addFiles([
+    'lib/client/handlebars.js',
     // Profile
       // Layout
       'lib/client/templates/profile/layout.html',
