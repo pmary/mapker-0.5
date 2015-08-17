@@ -429,8 +429,8 @@ Meteor.methods({
 							);
 
 							// Set the activation url
-							itemsArray[y].activationUrl = 'http://localhost:3000/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname;
-							//console.log('activation url: http://localhost:3000/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname);
+							itemsArray[y].activationUrl = 'http://mapker.co/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname;
+							//console.log('activation url: http://mapker.co/join/' + activationToken + '/' + itemsArray[y].email + '/' + itemsArray[y].firstname + '/' + itemsArray[y].lastname);
 							emails.push(itemsArray[y]); // Add this user to the emails array
 						}
 					}
@@ -546,5 +546,27 @@ Meteor.methods({
 				}
 			});
 		}
+	},
+	/**
+	 * @summary Remove the user from the staff
+	 */
+	place_userLeaveStaff: function (placeId) {
+		check(placeId, String);
+
+		var user = Meteor.user();
+
+		// Update the place
+		Places.update(
+			{_id: placeId, members: {$elemMatch: { id: user._id }} },
+			{ $unset:
+				{
+					'members.$.staff': '',
+					'members.$.role': ''
+				}
+			}
+		);
+
+		// Update the user
+		//Meteor.users.update({_id: user._id});
 	}
 });

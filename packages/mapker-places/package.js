@@ -54,7 +54,10 @@ Package.onUse(function(api) {
       // Add place
       'lib/client/templates/modals/add_place/add_place.html',
       'lib/client/templates/modals/add_place/add_place.scss',
-      'lib/client/templates/modals/add_place/add_place.js'
+      'lib/client/templates/modals/add_place/add_place.js',
+      // Confirm leave staff
+      'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.html',
+      'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.js'
   ], ['client']);
 
   api.addFiles([

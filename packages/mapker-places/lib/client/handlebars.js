@@ -18,3 +18,24 @@ UI.registerHelper('place_memberRole', function(memberProfile) {
   }
   return false;
 });
+
+/**
+ * @summary Check if the user is a place staff member or not
+ * @param {Array} placeMembers
+ */
+UI.registerHelper('place_isStaffMember', function (placeMembers) {
+  var user = Meteor.user();
+  if (
+    user &&
+    placeMembers &&
+    placeMembers.length
+  ) {
+    for (var i = 0; i < placeMembers.length; i++) {
+      if (placeMembers[i].id === user._id && placeMembers[i].staff === true) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+});

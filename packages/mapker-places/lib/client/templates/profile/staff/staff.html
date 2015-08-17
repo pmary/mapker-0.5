@@ -1,13 +1,18 @@
 <template name="placeProfileStaff">
 	<section class="place-profile-staff">
-		<!-- Display the 'invite' button -->
-		{{#if isAdmin}}
 		<div class="staff-admin-actions-bar col-sd-12 col-md-12 col-lg-12">
-			<div class="col-sd-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+			<div class="pull-left">
+			{{#if isAdmin}}
+				<!-- Display the 'invite' button -->
 				<button type="button" class="btn btn-primary user-action-open-modal-invite-staff">Invite staff members</button>
+			{{/if}}
+			</div>
+			<div class="pull-right">
+			{{#if place_isStaffMember place.members}}
+				<button type="button" class="btn btn-warning user-action-open-leave-staff-modal">Leave the staff</button>
+			{{/if}}
 			</div>
 		</div>
-		{{/if}}
 
 		<!-- Display the staff members list -->
 		{{#each staffMembers}}

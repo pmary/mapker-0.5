@@ -104,9 +104,6 @@ Template.modalAddPlace.helpers({
   }
 });
 
-Template.modalAddPlace.created = function () {
-};
-
 Template.modalAddPlace.rendered = function () {
 	$('.modal-add-place [data-toggle="popover"]').popover();
 

@@ -21,6 +21,9 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
   // Clear the session var
   Session.set('currentStaffUsersSelected', []);
 
+  // Hide the error message
+  $('.invitation-error').css('display', 'none');
+
   var userNetwork = [];
 
   // Get the user network

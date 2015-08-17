@@ -47,6 +47,14 @@ Template.placeProfileStaff.events({
 		Session.set('activeModal', 'modalPlaceInviteStaffMembers');
 		$('#myModal').modal();
 		Template.modalPlaceInviteStaffMembers.rendered();
+	},
+	/**
+	 * @summary Open the confirmation modal to leave the place staff
+	 */
+	'click .user-action-open-leave-staff-modal': function (e, t) {
+		// Open the moda
+		Session.set('activeModal', 'place_modalLeaveStaff');
+		$('#myModal').modal();
 	}
 });
 
@@ -102,8 +110,3 @@ Template.placeProfileStaffAddMember.rendered = function () {
 		});
 	//});
 };
-
-Template.placeProfileStaffAddMember.events({
-	'click .user-action-add-staff-member': function () {
-	}
-});
