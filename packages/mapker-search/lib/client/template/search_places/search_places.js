@@ -311,7 +311,6 @@ Template.searchPlaces.rendered = function() {
 /*****************************************************************************/
 Template.searchPlaces.events({
 	'submit #mapker-places-search-form': function(e,t) {
-		console.log('submit .search-form');
 		e.preventDefault();
 		// Search places matching with the current input values
 		buildAndFiresSearch();

@@ -87,7 +87,7 @@ Template.placeProfileStaff.events({
 	'click .admin-action-save-edit-role': function (e, t) {
 		var placeId = Router.current().params._id,
 		userId = this._id,
-		role = t.find('.place-profile-staff #user-' + userId).value;
+		role = t.find('.place-profile-staff #user-' + userId + ' input[name="input-staff-member-role"]').value;
 
 		Meteor.call('place_updateStaffMemberRole', role, userId, placeId, function (err, res) {
 			if (err) {

@@ -677,17 +677,17 @@ Meteor.methods({
 		if (isAdmin) {
 			// Update the member in the place document
 			Places.update(
-				{_id: placeId, members: {$elemMatch: { id: existingAccount._id }} },
+				{_id: placeId, members: {$elemMatch: { id: userId }} },
 				{ $set:
 					{
 						'members.$.role': role
 					}
 				}
 			);
-			
+
 			// Update the place in the member document
 			Meteor.users.update(
-				{_id: existingAccount._id, 'profile.network.places.id': placeId},
+				{_id: userId, 'profile.network.places.id': placeId},
 				{ $set:
 					{
 						'profile.network.places.$.role': role
