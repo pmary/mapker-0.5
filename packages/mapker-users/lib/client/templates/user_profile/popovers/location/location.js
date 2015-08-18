@@ -35,6 +35,41 @@ Template.userUpdateLocation.helpers({
 });
 
 Template.userUpdateLocation.rendered = function () {
+  // If there is no selectize instance on the country select
+  this.autorun( function () {
+    if (! selectizeCountry) {
+      // Get the countries
+      var countries = Countries.find().fetch();
+      var isSelectCountry = $('.user-location-infos select#edit-select-country option').length;
+
+      //console.log('Countries length: ', countries.length);
+
+      // If all the countries has been retrieved
+      if (countries.length == 245) {
+        // Set the session var with the countries to display them in the select options
+        Session.set('countries', countries);
+
+        // If all the countries are loaded in the DOM
+        if (isSelectCountry == 245) {
+          // Init a selectize instance on the country select
+          if ( isSelectCountry ) {
+            var $selectContry = $('.user-location-infos select#edit-select-country').selectize({
+              maxItems: 1
+            });
+
+            selectizeCountry = $selectContry[0].selectize;
+
+            // Select by default the current user country
+            selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
+          }
+        }
+      }
+    }
+    else {
+      // Select by default the current user country
+      selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
+    }
+  });
 };
 
 Template.userUpdateLocation.onDestroyed(function () {
@@ -55,6 +90,8 @@ Template.userUpdateLocation.events({
    * @param {Object} [t] The current template instance object
    */
   'click .user-open-location-popover': function(e, t) {
+    //console.log('t', t);
+    //console.log('t.view.isRendered: ' + t.view.isRendered);
     e.preventDefault();
 
     // Switch the button to is default state if necessary
@@ -65,35 +102,6 @@ Template.userUpdateLocation.events({
 
     // Set a click event listener on the body to close the popover when the user click outstide
     document.body.addEventListener('click', editPopoverClickListener, false);
-
-    // If there is no selectize instance on the country select
-    if (! selectizeCountry) {
-      // Get the countries
-      var countries = Countries.find().fetch();
-
-      //console.log('Countries length: ', countries.length);
-
-      // If all the countries has been retrieved
-      if (countries.length == 245) {
-        // Set the session var with the countries to display them in the select options
-        Session.set('countries', countries);
-
-        // Init a selectize instance on the country select
-        var $selectContry = $('.user-location-infos select#edit-select-country').selectize({
-      		maxItems: 1
-      	});
-
-        selectizeCountry = $selectContry[0].selectize;
-
-        // Select by default the current user country
-        selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
-      }
-    }
-    else {
-      // Select by default the current user country
-      selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
-    }
-
   },
   /**
    * @summary Prevent the popover to close if the user click inside
