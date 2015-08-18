@@ -98,8 +98,11 @@
             border-radius: 40px;
             background-color: #ffffff;
             border: 1px solid #E5E5E5;
-            color: #545454;
             padding: 0px;
+
+            &:focus {
+              outline: none;
+            }
 
             &:hover {
               &.primary {

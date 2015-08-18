@@ -55,6 +55,49 @@ Template.placeProfileStaff.events({
 		// Open the moda
 		Session.set('activeModal', 'place_modalLeaveStaff');
 		$('#myModal').modal();
+	},
+	/**
+	 * @summary As admin open the confirmation modal to remove the given member from the staff
+	 */
+	'click .admin-action-open-remove-staff-modal': function (e, t) {
+		// Open the moda
+		Session.set('activeModal', 'place_modalRemoveStaffMember');
+		Session.set('userToRemoveFromStaff', this);
+		$('#myModal').modal();
+	},
+	/**
+	 * @summary Display the role ediotin UI for the given staff member
+	 */
+	'click .admin-action-edit-role': function () {
+		var userId = this._id;
+		$('.place-profile-staff #user-' + userId + ' .role-edition').css('display', 'block');
+		$('.place-profile-staff #user-' + userId + ' .admin-actions, .place-profile-staff #user-' + userId + ' .role').css('display', 'none');
+	},
+	/**
+	 * @summary Restaure the default UI, hide the edition UI
+	 */
+	'click .admin-action-cancel-edit-role': function () {
+		var userId = this._id;
+		$('.place-profile-staff #user-' + userId + ' .role-edition').css('display', 'none');
+		$('.place-profile-staff #user-' + userId + ' .admin-actions, .place-profile-staff #user-' + userId + ' .role').css('display', 'block');
+	},
+	/**
+	 * @summary Save the new role of the staff member
+	 */
+	'click .admin-action-save-edit-role': function (e, t) {
+		var placeId = Router.current().params._id,
+		userId = this._id,
+		role = t.find('.place-profile-staff #user-' + userId).value;
+
+		Meteor.call('place_updateStaffMemberRole', role, userId, placeId, function (err, res) {
+			if (err) {
+				console.log(err);
+			}
+
+			// Hide the edition UI
+			$('.place-profile-staff #user-' + userId + ' .role-edition').css('display', 'none');
+			$('.place-profile-staff #user-' + userId + ' .admin-actions, .place-profile-staff #user-' + userId + ' .role').css('display', 'block');
+		});
 	}
 });
 

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:i18n',
-  version: '0.0.1',
+  version: '0.0.2',
   summary: 'Mapker i18n package, used internally.',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.2');
+  api.versionsFrom('1.1.0.3');
 
   var packages = [
     'mapker:lib'

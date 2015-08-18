@@ -48,7 +48,9 @@ Template.primaryNavbarNotifications.events({
 		e.preventDefault();
 
 		Meteor.call('userAcceptConnexionRequest', this.id, function (error, result) {
-			if (error) return console.log(error);
+			if (error) {
+				return console.log(error);
+			}
 			console.log(result);
 		});
 	},
@@ -59,5 +61,7 @@ Template.primaryNavbarNotifications.events({
 		// Prevent the notification dropdown to close
 		e.stopPropagation();
 		e.preventDefault();
+
+		Meteor.call('user_DenyConnexionRequest', this.id);
 	}
 });

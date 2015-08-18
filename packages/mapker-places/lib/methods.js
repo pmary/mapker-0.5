@@ -305,22 +305,18 @@ Meteor.methods({
 				var alreadyMember;
 
 				for (var y = 0; y < itemsArray.length; y++) {
-					/*check(itemsArray[y], {
-						fullname: Match.Optional(String),
-						email: Match.Optional(String),
-						id: String
-					});*/
-
 					// If its a user already registered, add him to the staff
 					// and send him a notification
 					if (itemsArray[y].type === 'user') {
 						// Get the user email
-						var newUser = Meteor.users.findOne({_id: itemsArray[i].id});
+						var newUser = Meteor.users.findOne({_id: itemsArray[y].id});
 						users.push( newUser ); // Add this user to the users array
 
 						// Check if the user was already a member of the place and update him
 						alreadyMember = Places.findOne({_id: placeId, members: {$elemMatch: { id: newUser._id }} });
+
 						if (alreadyMember) {
+							console.log('alreadyMember');
 							// Update the member by setting the 'staff' to true
 							Places.update(
 								{_id: placeId, members: {$elemMatch: { id: newUser._id }} },
@@ -331,8 +327,20 @@ Meteor.methods({
 									}
 								}
 							);
+
+							// Update the user
+							Meteor.users.update(
+								{_id: newUser._id, 'profile.network.places.id': placeId},
+								{ $set:
+									{
+										'profile.network.places.$.staff': true,
+										'profile.network.places.$.role': itemsArray[y].role
+									}
+								}
+							);
 						}
 						else {
+							console.log('not alreadyMember');
 							// Add the user as member and set him staff to true
 							Places.update(
 								{_id: placeId},
@@ -342,6 +350,20 @@ Meteor.methods({
 											id: newUser._id,
 											staff: true,
 											role: itemsArray[y].role
+										}
+									}
+								}
+							);
+
+							// Update the user
+							Meteor.users.update(
+								{_id: newUser._id},
+								{
+									$addToSet: {
+										'profile.network.places': {
+											id: placeId,
+											'staff': true,
+											'role': itemsArray[y].role
 										}
 									}
 								}
@@ -373,6 +395,16 @@ Meteor.methods({
 										}
 									}
 								);
+								// Update the user
+								Meteor.users.update(
+									{_id: existingAccount._id, 'profile.network.places.id': placeId},
+									{ $set:
+										{
+											'profile.network.places.$.staff': true,
+											'profile.network.places.$.role': itemsArray[y].role
+										}
+									}
+								);
 							}
 							else {
 								// Add the user as member and set him staff to true
@@ -384,6 +416,19 @@ Meteor.methods({
 												id: existingAccount._id,
 												staff: true,
 												role: itemsArray[y].role
+											}
+										}
+									}
+								);
+								// Update the user
+								Meteor.users.update(
+									{_id: existingAccount._id},
+									{
+										$addToSet: {
+											'profile.network.places': {
+												id: placeId,
+												'staff': true,
+												'role': itemsArray[y].role
 											}
 										}
 									}
@@ -567,6 +612,91 @@ Meteor.methods({
 		);
 
 		// Update the user
-		//Meteor.users.update({_id: user._id});
+		// Update the user profile
+		Meteor.users.update(
+			{_id: user._id, 'profile.network.places.id': placeId},
+			{ $unset:
+				{
+					'profile.network.places.$.staff': '',
+					'profile.network.places.$.role': ''
+				}
+			}
+		);
+	},
+	/**
+	 * @summary As admin, remove the given member from the staff
+	 * @param {String} placeId - The id of the place
+	 * @param {String} userId - The id of the user to remove from the staff
+	 */
+	place_adminRemoveStaffMember: function (placeId, userId) {
+		check(placeId, String);
+		check(userId, String);
+
+		// Check if the user have admin rights
+		var isAdmin = Meteor.call('canUserEditPlace', placeId);
+
+		if (isAdmin) {
+			// Remove the user from the place
+			Places.update(
+				{_id: placeId, members: {$elemMatch: { id: userId }} },
+				{ $unset:
+					{
+						'members.$.staff': '',
+						'members.$.role': ''
+					}
+				}
+			);
+
+			// Update the user profile
+			Meteor.users.update(
+				{_id: userId, 'profile.network.places.id': placeId},
+				{ $unset:
+					{
+						'profile.network.places.$.staff': '',
+						'profile.network.places.$.role': ''
+					}
+				}
+			);
+		}
+		else {
+			return false;
+		}
+	},
+	/**
+	 * @summary Save the new role of the staff member
+	 */
+	place_updateStaffMemberRole: function (role, userId, placeId) {
+		check(role, String);
+		check(placeId, String);
+		check(userId, String);
+
+		// @todo Update the user role
+		// Check if the user have admin rights
+		var isAdmin = Meteor.call('canUserEditPlace', placeId);
+
+		if (isAdmin) {
+			// Update the member in the place document
+			Places.update(
+				{_id: placeId, members: {$elemMatch: { id: existingAccount._id }} },
+				{ $set:
+					{
+						'members.$.role': role
+					}
+				}
+			);
+			
+			// Update the place in the member document
+			Meteor.users.update(
+				{_id: existingAccount._id, 'profile.network.places.id': placeId},
+				{ $set:
+					{
+						'profile.network.places.$.role': role
+					}
+				}
+			);
+		}
+		else {
+			return false;
+		}
 	}
 });

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'pmary:tagsinput',
-  version: '0.5.0',
+  version: '0.5.1',
   // Brief, one-line summary of the package.
   summary: 'Bootstrap Tags Input is a jQuery plugin providing a Twitter Bootstrap user interface for managing tags.',
   // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0.4.1');
+  api.versionsFrom('1.1.0.3');
   api.addFiles(['tagsinput.js', 'tagsinput.css'], 'client');
 });
 

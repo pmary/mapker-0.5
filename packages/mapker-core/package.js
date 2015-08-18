@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.6.0',
+  version: '0.6.1',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.2');
+  api.versionsFrom('1.1.0.3');
 
   var packages = [
     'mapker:lib',       // no dependencies

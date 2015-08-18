@@ -15,41 +15,100 @@
 		</div>
 
 		<!-- Display the staff members list -->
-		{{#each staffMembers}}
-			<div class="col-sd-12 col-md-6 col-lg-6">
-				<div class="user">
-					<header>
-						{{#if profile.avatar}}
-						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{profile.avatar.url}})">
-						</a>
-						{{else}}
-						<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
-						</a>
-						{{/if}}
-					</header>
-
-					<section>
-						{{#if profile.cover}}
-						<div class="cover">
-							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{profile.cover.url}})"></a>
-						</div>
-						{{else}}
-						<div class="cover">
-							<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
-						</div>
-						{{/if}}
-						<div class="result-data">
-							<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
-							{{#if place_memberRole profile}}
-								<h2>{{place_memberRole profile}}</h2>
+		{{#if isAdmin}}
+			{{#each staffMembers}}
+				<div class="col-sd-12 col-md-6 col-lg-6">
+					<div class="user editable" id="user-{{this._id}}">
+						<header>
+							{{#if profile.avatar}}
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{profile.avatar.url}})">
+							</a>
 							{{else}}
-								<h2>{{profile.activity}}</h2>
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+							</a>
 							{{/if}}
-						</div>
-					</section>
+						</header>
+
+						<section>
+							{{#if profile.cover}}
+							<div class="cover">
+								<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{profile.cover.url}})"></a>
+							</div>
+							{{else}}
+							<div class="cover">
+								<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
+							</div>
+							{{/if}}
+							<div class="result-data">
+								<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
+								<div class="role">
+									{{#if place_memberRole profile}}
+										<h2>{{place_memberRole profile}}</h2>
+									{{else}}
+										<h2>{{profile.activity}}</h2>
+									{{/if}}
+								</div>
+								<div class="role-edition">
+									<input type="text" name="input-staff-member-role" placeholder="Enter his role" value="{{place_memberRole profile}}">
+								</div>
+							</div>
+						</section>
+
+						<footer>
+							<div class="admin-actions">
+								<button class="btn btn-small btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6 admin-action-edit-role">Edit the role</button>
+								{{#if eq currentUser._id this._id}}
+								<button class="btn btn-small btn-danger col-xs-12 col-sm-12 col-md-6 col-lg-6 user-action-open-leave-staff-modal">Leave the staff</button>
+								{{else}}
+								<button class="btn btn-small btn-danger col-xs-12 col-sm-12 col-md-6 col-lg-6 admin-action-open-remove-staff-modal">Remove from staff</button>
+								{{/if}}
+							</div>
+
+							<div class="role-edition">
+								<button class="btn btn-small btn-default col-xs-12 col-sm-12 col-md-6 col-lg-6 admin-action-cancel-edit-role">Cancel</button>
+								<button class="btn btn-small btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6 admin-action-save-edit-role">Save</button>
+							</div>
+						</footer>
+					</div>
 				</div>
-			</div>
-		{{/each}}
+			{{/each}}
+		{{else}}
+			{{#each staffMembers}}
+				<div class="col-sd-12 col-md-6 col-lg-6">
+					<div class="user">
+						<header>
+							{{#if profile.avatar}}
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{profile.avatar.url}})">
+							</a>
+							{{else}}
+							<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url(/images/avatar-user-default.png)">
+							</a>
+							{{/if}}
+						</header>
+
+						<section>
+							{{#if profile.cover}}
+							<div class="cover">
+								<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url({{profile.cover.url}})"></a>
+							</div>
+							{{else}}
+							<div class="cover">
+								<a href="{{pathFor route='userProfileBio' _id=_id}}" style="background-image: url(/images/fond-cover-skills.png)"></a>
+							</div>
+							{{/if}}
+							<div class="result-data">
+								<h1><a href="{{pathFor route='userProfileBio' _id=_id}}">{{profile.fullname}}</a></h1>
+								{{#if place_memberRole profile}}
+									<h2>{{place_memberRole profile}}</h2>
+								{{else}}
+									<h2>{{profile.activity}}</h2>
+								{{/if}}
+							</div>
+						</section>
+					</div>
+				</div>
+			{{/each}}
+		{{/if}}
 
 	</section>
 </template>

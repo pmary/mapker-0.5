@@ -1,0 +1,18 @@
+<template name="place_modalRemoveStaffMember">
+	<div class="modal-dialog modal-place-invite-staff-members">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Remove a staff member</h4>
+			</div>
+			<div class="modal-body">
+        Do you want to remove {{user.profile.firstname}} from the staff?
+			</div>
+			<div class="modal-footer">
+				<div class="pull-right">
+					<button role="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button role="button" class="btn btn-primary admin-action-open-remove-staff-modal">Remove from staff</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

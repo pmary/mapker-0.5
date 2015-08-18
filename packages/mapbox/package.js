@@ -1,6 +1,6 @@
 Package.describe({
   name: 'pmary:mapbox',
-  version: '2.1.5',
+  version: '2.2.1',
   // Brief, one-line summary of the package.
   summary: 'This is the Mapbox Javascript API, version 2.x. It\'s built as a Leaflet plugin. ',
   // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.1');
+  api.versionsFrom('1.1.0.3');
   api.use(['deps', 'underscore'], ['client']);
   api.addFiles(['mapbox.js', 'mapbox.css'], 'client');
   api.export('Mapbox', ['client']);

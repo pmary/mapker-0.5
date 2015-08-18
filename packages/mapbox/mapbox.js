@@ -1,12 +1,12 @@
 var FILES = {
   mapbox: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'],
-    css:  ['https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css'],
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'],
+    css:  ['https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css'],
   },
 
   directions: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.0.1/mapbox.directions.js'],
-    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.0.1/mapbox.directions.css']
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.js'],
+    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.css']
   },
 
   zoomslider: {
@@ -15,7 +15,7 @@ var FILES = {
   },
 
   pip: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js'],
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.1.0/leaflet-pip.js'],
     css:  []
   },
 
@@ -45,8 +45,8 @@ var FILES = {
   // FIXME: Doesn't support IE<9
   // https://www.mapbox.com/mapbox.js/example/v1.0.0/leaflet-locatecontrol/
   locate: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js'],
-    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css']
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.js'],
+    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css']
   },
 
   label: {
@@ -60,7 +60,7 @@ var FILES = {
   },
 
   heat: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-heat/v0.1.0/leaflet-heat.js'],
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-heat/v0.1.3/leaflet-heat.js'],
     css:  []
   },
 
@@ -75,8 +75,8 @@ var FILES = {
   },
 
   fullscreen: {
-    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/Leaflet.fullscreen.min.js'],
-    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/leaflet.fullscreen.css']
+    js:   ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.4/Leaflet.fullscreen.min.js'],
+    css:  ['https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.4/leaflet.fullscreen.css']
   },
 
   draw: {
@@ -100,7 +100,7 @@ var FILES = {
   }
 };
 
-var deps = new Deps.Dependency;
+var deps = new Deps.Dependency();
 var loaded = false;
 
 var onLoaded = function () {

@@ -30,6 +30,29 @@
 		border-radius: 3px;
 		display: block;
 
+		&.editable {
+			height: 220px;
+
+			.role-edition {
+				display: none;
+			}
+
+			footer {
+				width: 100%;
+				height: 40px;
+				border-top: 1px solid #dfdfdf;
+				overflow: hidden;
+
+				button {
+					border-radius: 0px;
+					border: none;
+					&:first-child {
+						border-right: 1px solid #dfdfdf;
+					}
+				}
+			}
+		}
+
 		header {
 			width: 190px;
 			height: 190px;

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:places',
-  version: '0.0.1',
+  version: '0.0.2',
   summary: 'Mapker places package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.2');
+  api.versionsFrom('1.1.0.3');
 
   var packages = [
     'mapker:lib',     // no dependencies
@@ -57,7 +57,10 @@ Package.onUse(function(api) {
       'lib/client/templates/modals/add_place/add_place.js',
       // Confirm leave staff
       'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.html',
-      'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.js'
+      'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.js',
+      // Confirm remove staff member
+      'lib/client/templates/profile/staff/modals/remove_staff_member/remove_staff_member.html',
+      'lib/client/templates/profile/staff/modals/remove_staff_member/remove_staff_member.js'
   ], ['client']);
 
   api.addFiles([

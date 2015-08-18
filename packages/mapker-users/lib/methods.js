@@ -390,6 +390,22 @@ Meteor.methods({
 		Meteor.users.update( {_id: user._id}, { $pull: { 'profile.network.users.pending_reponses': { id: userId } }} );
 	},
 	/**
+	 * @summary Deny the connexion request of an user
+	 * @param {String} userId - The id of the user who make the connexion request
+	 */
+	user_DenyConnexionRequest: function (userId) {
+		check(Meteor.userId(), String);
+		check(userId, String);
+
+		var user = Meteor.user();
+
+		// Remove the receiver id from the 'pending_requests' field of the emitter
+		Meteor.users.update( {_id: userId}, { $pull: { 'profile.network.users.pending_requests': user._id }} );
+
+		// Remove the connexion request of the emitter from the 'pending_reponses' field of the receiver
+		Meteor.users.update( {_id: user._id}, { $pull: { 'profile.network.users.pending_reponses': { id: userId } }} );
+	},
+	/**
 	 * @summary Cancel the connexion request the user previously made
 	 */
 	userCancelConnexionRequest: function (userId) {
