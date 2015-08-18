@@ -62,7 +62,7 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
  */
 var buildAndFiresSearch = function() {
 	// Remove the no-search class from #search-container to display the result area
-	$('.mapker-search-places#search-container').removeClass('no-search');
+	$('.mapker-search-places .search-place').removeClass('no-search');
 
 	// Clear map
 	clearMap();
