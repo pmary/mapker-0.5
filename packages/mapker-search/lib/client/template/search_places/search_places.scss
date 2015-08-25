@@ -31,116 +31,214 @@
 
 		.search-parameters {
 			background-color: #f2f3ec;
-			padding-top: 80px;
-			padding-bottom: 80px;
 			border-bottom: 1px solid #d9d9d9;
 			height: 100%;
 			float: left;
 			background-color: rgba(255,255,255,0.8);
 			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
 			width: 250px;
-			padding-top: 60px;
+			overflow: hidden;
 
-			img.search-icon {
-				position: relative;
-		    display: block;
-		    margin-right: auto;
-		    margin-left: auto;
-				vertical-align: middle;
-			}
+			.search-parameters-inner {
+				padding-top: 80px;
+				padding-bottom: 80px;
+				overflow-y: scroll;
+				width: 270px;
+				height: 100%;
+				padding-top: 60px;
+				padding-right: 0px;
 
-			form {
-				margin-top: 35px;
-		    margin-right: 0px;
-		    margin-left: 0px;
+				img.search-icon {
+					position: relative;
+			    display: block;
+					left: 80px;
+					vertical-align: middle;
+				}
 
-				.form-group {
-				  margin-bottom: 10px;
+				form {
+					margin-top: 35px;
+			    margin-right: 0px;
+			    margin-left: 0px;
 
-					input {
-						width: 180px;
-				    margin-left: auto;
-				    margin-right: auto;
-				    display: block;
+					.form-group {
+					  margin-bottom: 10px;
+
+						input {
+							position: relative;
+							width: 180px;
+							left: 35px;
+					    display: block;
+						}
+
+						input[type="text"] {
+		    			border-radius: 5px;
+							color: #FB3975;
+					    border: 1px solid #D1D1D1;
+					    background-color: #F9F9F9;
+
+							/* Placeholder color */
+							&::-webkit-input-placeholder { /* WebKit browsers */
+								color: rgba(251, 57, 117, 0.49);
+								font-size: 12px;
+								padding-top: 2px;
+							}
+							&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+							   color: rgba(251, 57, 117, 0.49);
+							   opacity:  1;
+							   font-size: 12px;
+							   padding-top: 2px;
+							}
+							&::-moz-placeholder { /* Mozilla Firefox 19+ */
+							   color: rgba(251, 57, 117, 0.49);
+							   opacity:  1;
+							   font-size: 12px;
+							   padding-top: 2px;
+							}
+							&:-ms-input-placeholder { /* Internet Explorer 10+ */
+							   color: rgba(251, 57, 117, 0.49);
+							   font-size: 12px;
+							   padding-top: 2px;
+							}
+						}
+
+						.form-control {
+							height: 40px;
+
+							&:focus {
+								box-shadow: none;
+	    					border: 1px solid #FB3975;
+								background-color: #F9F9F9;
+							}
+						}
+
+						.input-what-container {
+							position: relative;
+						}
+
+						.input-where-container {
+
+						}
+
+						.autocomplete-suggestions {
+		    			margin-left: 35px;
+							background: #FFF;
+					    cursor: default;
+					    overflow: auto;
+					    border: 1px solid #CBD3DD;
+					    -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
+					    -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
+					    box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
+						}
+
+						.user-action-search {
+							width: 10px;
+					    background-color: #FFF;
+					    border: 1px solid #D1D1D1;
+					    left: 105px;
+					    display: block;
+					    border-radius: 30px;
+					    padding-left: 12px;
+					    padding-right: 26px;
+					    padding-top: 9px;
+					    position: relative;
+					    margin-top: 20px;
+							color: #FB3975;
+
+							&:focus {
+								outline: none;
+							}
+						}
 					}
 
-					input[type="text"] {
-	    			border-radius: 5px;
-						color: #FB3975;
-				    border: 1px solid #D1D1D1;
-				    background-color: #F9F9F9;
+					.filters {
+						margin-top: 45px;
 
-						/* Placeholder color */
-						&::-webkit-input-placeholder { /* WebKit browsers */
-							color: rgba(251, 57, 117, 0.49);
-							font-size: 12px;
-							padding-top: 2px;
-						}
-						&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-						   color: rgba(251, 57, 117, 0.49);
-						   opacity:  1;
-						   font-size: 12px;
-						   padding-top: 2px;
-						}
-						&::-moz-placeholder { /* Mozilla Firefox 19+ */
-						   color: rgba(251, 57, 117, 0.49);
-						   opacity:  1;
-						   font-size: 12px;
-						   padding-top: 2px;
-						}
-						&:-ms-input-placeholder { /* Internet Explorer 10+ */
-						   color: rgba(251, 57, 117, 0.49);
-						   font-size: 12px;
-						   padding-top: 2px;
-						}
-					}
+						h3 {
+							width:100%;
+							color: #FB3975;
+							line-height:0em;
+							margin:10px 0 20px;
 
-					.form-control {
-						height: 40px;
+							&:before {
+								content: " ";
+								display: block;
+								background-color: #FB3975;
+								width: 47px;
+								height: 1px;
+							}
 
-						&:focus {
+							&:after {
+								position: relative;
+								content: " ";
+								left: 129px;
+								display: block;
+								background-color: #FB3975;
+								width: 120px;
+								height: 1px;
+							}
+
+							span {
+								position: relative;
+								top: -3px;
+								text-transform: uppercase;
+								padding: 0px 0 0 53px;
+								font-size: 17px;
+								font-weight: bold;
+							}
+						}
+
+						.panel {
+							background: none;
+							border: none;
 							box-shadow: none;
-    					border: 1px solid #FB3975;
-							background-color: #F9F9F9;
-						}
-					}
 
-					.input-what-container {
-						position: relative;
-					}
+							.panel-heading {
+								background: none;
+								border: none;
 
-					.input-where-container {
+								.panel-title {
+									color: #FB3975;
+									font-weight: bold;
+									font-size: 14px;
+									text-transform: uppercase;
+									padding-left: 38px;
 
-					}
+									a {
+										text-decoration: none;
+									}
 
-					.autocomplete-suggestions {
-	    			margin-left: 35px;
-						background: #FFF;
-				    cursor: default;
-				    overflow: auto;
-				    border: 1px solid #CBD3DD;
-				    -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
-				    -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
-				    box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
-					}
+									span {
+										font-size: 8px;
+									}
+								}
+							}
 
-					.user-action-search {
-						width: 10px;
-				    background-color: #FFF;
-				    border: 1px solid #D1D1D1;
-				    margin-left: auto;
-				    margin-right: auto;
-				    display: block;
-				    border-radius: 30px;
-				    padding-left: 12px;
-				    padding-right: 26px;
-				    padding-top: 9px;
-				    position: relative;
-				    margin-top: 20px;
-						color: #FB3975;
+							.panel-body {
+								border: none;
 
-						&:focus {
-							outline: none;
+								li {
+									list-style: none;
+									margin-bottom: 5px;
+
+									a {
+										font-weight: normal;
+										cursor: pointer;
+										color: #000000;
+										padding: 5px;
+										font-size: 12px;
+
+										&:hover {
+											text-decoration: none;
+										}
+
+										&.active {
+											background-color: #FB3975;
+											color: #ffffff;
+											border-radius: 5px;
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -160,7 +258,7 @@
 		    padding-top: 15px;
 		    padding-right: 20px;
 		    padding-bottom: 30px;
-		    width: 575px;
+		    width: 577px;
 		    height: 100%;
 
 				.result {

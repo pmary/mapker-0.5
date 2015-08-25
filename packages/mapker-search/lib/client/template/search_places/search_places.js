@@ -1,6 +1,7 @@
 /*****************************************************************************/
 /* Local function declaration */
 /*****************************************************************************/
+var filters = {}; // The last argument passed to searchPlacesByActivitiesAndBbox()
 /**
  * @summary Find the places that are within the current map viewable zone and that one
  * of it's activities match with the given keywords
@@ -61,6 +62,23 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
  * @fires searchPlacesByActivitiesAndBbox Call the function to query the index, passing the object
  */
 var buildAndFiresSearch = function() {
+	var searchObject = { filters: {} };
+
+	// Add the type filters if set
+	if (filters.types) {
+		searchObject.filters.types = filters.types;
+	}
+	else {
+		searchObject.filters.types = [];
+	}
+
+	 if (filters.specializations) {
+		 searchObject.filters.specializations = filters.specializations;
+	 }
+	 else {
+		 searchObject.filters.specializations = [];
+	 }
+
 	// Remove the no-search class from #search-container to display the result area
 	$('.mapker-search-places .search-place').removeClass('no-search');
 
@@ -73,8 +91,7 @@ var buildAndFiresSearch = function() {
 
 	// Get the input values
 	var location = $('.mapker-search-places #mapker-places-input-where').val(),
-	keywords = $('.mapker-search-places #mapker-places-input-what').val(),
-	searchObject;
+	keywords = $('.mapker-search-places #mapker-places-input-what').val();
 	if (location.length > 2) {
 		var query = location.replace(/ /g, "+");
 		// Mapbox geocoding. See https://www.mapbox.com/developers/api/geocoding/
@@ -94,7 +111,9 @@ var buildAndFiresSearch = function() {
 					bounds = L.latLngBounds(southWest, northEast);
 					map.fitBounds([bounds], {paddingTopLeft: [750, 0]});
 
-					searchObject = {queryString: keywords, bbox: bbox};
+					searchObject.queryString = keywords;
+					searchObject.bbox = bbox;
+
 					searchPlacesByActivitiesAndBbox(searchObject);
 				}
 			}
@@ -102,14 +121,16 @@ var buildAndFiresSearch = function() {
 	}
 	else {
 		// See https://www.mapbox.com/mapbox.js/api/v2.1.9/l-latlngbounds/
-		/*var left = map.getBounds().getWest(),
+		var left = map.getBounds().getWest(),
 		bottom = map.getBounds().getSouth(),
 		right = map.getBounds().getEast(),
 		top = map.getBounds().getNorth(),
 		bbox = [ left, bottom, right, top ];
-		console.log(bbox);*/
+		//console.log(bbox);
 
-		searchObject = {queryString: keywords/*, bbox: bbox*/};
+		searchObject.queryString = keywords;
+		searchObject.bbox = bbox;
+
 		searchPlacesByActivitiesAndBbox(searchObject);
 	}
 };
@@ -215,7 +236,8 @@ Template.searchPlaces.rendered = function() {
 			markerLayerGroup = L.layerGroup([]);
 			map.addLayer(markerLayerGroup);
 
-			//console.log(map.getBounds());
+			// Launch a search by default
+			buildAndFiresSearch();
 		}
 	});
 
@@ -341,5 +363,65 @@ Template.searchPlaces.events({
 				markers[i].openPopup();
 			}
 		}
+	},
+	/**
+   * @summary Add a Type filter to the search
+	 * @fires buildAndFiresSearch
+	 */
+	'click .filters .types li': function (e) {
+		var filterId = e.target.dataset.id;
+
+		// If their is no filter.type array, create it
+		if (! filters.types) {
+			filters.types = [];
+		}
+
+		// Check if the filter already have the 'active' class
+		if ( $(e.target).hasClass('active') ) {
+			// Remove it
+			$(e.target).removeClass('active');
+			// Remove the filter from the searchObject
+			filters.types.splice(filters.types.indexOf(filterId), 1);
+		}
+		else {
+			// Add it
+			$(e.target).addClass('active');
+			// Add the filter to the searchObject
+			if (filterId) {
+				filters.types.push(filterId);
+			}
+		}
+
+		buildAndFiresSearch();
+	},
+	/**
+   * @summary Add a Specialization filter to the search
+	 * @fires buildAndFiresSearch
+	 */
+	'click .filters .specializations li': function (e) {
+		var filterId = e.target.dataset.id;
+
+		// If their is no filter.specializations array, create it
+		if (! filters.specializations) {
+			filters.specializations = [];
+		}
+
+		// Check if the filter already have the 'active' class
+		if ( $(e.target).hasClass('active') ) {
+			// Remove it
+			$(e.target).removeClass('active');
+			// Remove the filter from the searchObject
+			filters.specializations.splice(filters.specializations.indexOf(filterId), 1);
+		}
+		else {
+			// Add it
+			$(e.target).addClass('active');
+			// Add the filter to the searchObject
+			if (filterId) {
+				filters.specializations.push(filterId);
+			}
+		}
+
+		buildAndFiresSearch();
 	}
 });

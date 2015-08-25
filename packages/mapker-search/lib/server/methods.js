@@ -94,100 +94,150 @@ Search.methods = {
 	 * @summary Query the resources index places type to get the places
 	 * with a particular activity and/or within the given location
 	 * @paramas {Object} queryObject
-	 * @params {String} queryString
-	 * @params {Array} [bbox]
+	 * @params {String} queryObject.queryString
+	 * @params {Array} queryObject.bbox
+	 * @params {Object} queryObject.filters
+	 * @params {Array} queryObject.filters.types
+	 * @params {Array} queryObject.filters.specializations
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
 	getPlaces: function(queryObject, callback) {
 		check(queryObject, Object);
 
-		if (queryObject.queryString && queryObject.bbox) {
-			//console.log('Query the activities and the location');
-			// Query the activities and the location
-			Search.search({
-				index: 'resources',
-				type: 'place',
-				body: {
-					query: {
-						filtered: {
-							query: {
-								multi_match: {
-									fields: ['activities_suggest', 'name'],
-									query: queryObject.queryString,
-									fuzziness: 2
-								}
-							},
-							filter: {
-								geo_bounding_box: {
-									"place.loc" :{
-										"top" : queryObject.bbox[3],
-										"left" : queryObject.bbox[0],
-										"bottom" : queryObject.bbox[1],
-										"right" : queryObject.bbox[2]
-									}
-								}
+		// Create the query base structure
+		var esQuery = {
+			index: 'resources',
+			type: 'place',
+			body: {
+				query: {
+					filtered: {
+						query: {},
+						filter: {
+							bool: {
+								must: [],
+								"should" : [],
+      					//"must_not" : []
 							}
 						}
-					},
+					}
+				}
+			}
+		};
 
+		// Add the query
+		if (queryObject.queryString) {
+			// If there is a query string
+			esQuery.body.query.filtered.query = {
+				multi_match: {
+					fields: ['activities_suggest', 'name'],
+					query: queryObject.queryString,
+					fuzziness: 2
 				}
-			}, function(error, response) {
-				if (response && response.hits)
-					callback( null, response.hits.hits );
-			});
-		} else if(queryObject.queryString && !queryObject.bbox) {
-			//console.log('Query on the activities only');
-			// Query on the activities only
-			Search.search({
-				index: 'resources',
-				type: 'place',
-				body: {
-					query: {
-						/*bool: {
-							should: [
-								{ match: { activities: queryObject.queryString } },
-								{ match: { name: queryObject.queryString } }
-							]
-						}*/
-						multi_match: {
-							fields: ['activities_suggest', 'name'],
-							query: queryObject.queryString,
-							fuzziness: 2
-						}
+			};
+		}
+		else {
+			// Else, match all
+			esQuery.body.query.filtered.query = { "match_all" : {} };
+		}
+
+		// If there is a bbox
+		if (queryObject.bbox) {
+			// Add it to the ES query filters
+			esQuery.body.query.filtered.filter.bool.must.push({
+				"geo_bounding_box": {
+					"place.loc" :{
+						"top" : queryObject.bbox[3],
+						"left" : queryObject.bbox[0],
+						"bottom" : queryObject.bbox[1],
+						"right" : queryObject.bbox[2]
 					}
 				}
-			}, function(error, response) {
-				if (response && response.hits)
-					callback( null, response.hits.hits );
 			});
-		} else if(!queryObject.queryString && queryObject.bbox) {
-			//console.log('Query the location only');
-			// Query the location only
-			Search.search({
-				index: 'resources',
-				type: 'place',
-				body: {
-					"query" : {
-						"match_all" : {}
-					},
-					"filter" : {
-						"geo_bounding_box" : {
-							"place.loc" : {
-								"top" : queryObject.bbox[3],
-								"left" : queryObject.bbox[0],
-								"bottom" : queryObject.bbox[1],
-								"right" : queryObject.bbox[2]
+		}
+
+		// If there is a type filter
+		if (queryObject.filters && queryObject.filters.types.length) {
+			// Add it to the ES query filters
+			esQuery.body.query.filtered.filter.bool.should.push({
+				"terms": {
+					"types": queryObject.filters.types
+				}
+			});
+		}
+
+		// If there is a specializations filter
+		if (queryObject.filters && queryObject.filters.specializations.length) {
+			// Add it to the ES query filters
+			esQuery.body.query.filtered.filter.bool.should.push({
+				"terms": {
+					"specialities": queryObject.filters.specializations
+				}
+			});
+		}
+
+		// Launch the search
+		Search.search(esQuery, function(error, response) {
+			if (error) {
+				console.log('getPlaces error: ', error);
+				callback( null, [] );
+			}
+
+			if (response && response.hits) {
+				callback( null, response.hits.hits );
+			}
+			else {
+				callback( null, [] );
+			}
+		});
+
+		// Exemple de recherche
+		/*Search.search({
+			index: 'resources',
+			type: 'place',
+			body: {
+				query: {
+					filtered: {
+						query: {
+							multi_match: {
+								fields: ['activities_suggest', 'name'],
+								query: queryObject.queryString,
+								fuzziness: 2
+							}
+						},
+						filter: {
+							bool: {
+								must: [
+									{
+										"geo_bounding_box": {
+											"place.loc" :{
+												"top" : queryObject.bbox[3],
+												"left" : queryObject.bbox[0],
+												"bottom" : queryObject.bbox[1],
+												"right" : queryObject.bbox[2]
+											}
+										}
+									},
+									{
+										"terms": {
+											"types": queryObject.filters.types
+										}
+									},
+									{
+										"terms": {
+											"specialities": queryObject.filters.specializations
+										}
+									}
+								]
 							}
 						}
 					}
-				}
-			}, function(error, response) {
-				if (response && response.hits)
-					callback( null, response.hits.hits );
-			});
-		} else {
-			callback( null, [] );
-		}
+				},
+
+			}
+		}, function(error, response) {
+			if (response && response.hits)
+				callback( null, response.hits.hits );
+		});*/
 	},
 	/**
 	 * @summary Query the resources index users type to get the users

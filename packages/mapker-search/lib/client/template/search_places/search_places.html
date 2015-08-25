@@ -2,29 +2,99 @@
 	<div class="mapker-search-places">
 		<div class="col-md-4 no-search search-place">
 			<section class="search-parameters">
-				<img class="search-icon" src="/images/search-places-icon.png" alt="Search a place">
-				<form class="row search-form" id="mapker-places-search-form">
-					<div class="form-group input-what-container">
-						<input type="text" class="form-control" id="mapker-places-input-what" placeholder="What are you looking for?" autocomplete="off">
-					</div>
-					<div class="form-group input-where-container">
-						<input type="text" class="form-control" id="mapker-places-input-where" placeholder="Where?" autocomplete="off">
-					</div>
-					<div class="form-group">
-						<button type="submit" class="btn user-action-search"><span class="glyphicon glyphicon-search"></span></button>
-					</div>
-				</form>
-				{{#if places}}
-					{{#if eq places "no-result"}}
-					<!-- <div class="alert-container">
-						<div class="alert alert-danger" role="alert">
-							No place were found for your search.
+				<div class="search-parameters-inner">
+					<img class="search-icon" src="/images/search-places-icon.png" alt="Search a place">
+					<form class="row search-form" id="mapker-places-search-form">
+						<div class="form-group input-what-container">
+							<input type="text" class="form-control" id="mapker-places-input-what" placeholder="What are you looking for?" autocomplete="off">
 						</div>
-					</div> -->
+						<div class="form-group input-where-container">
+							<input type="text" class="form-control" id="mapker-places-input-where" placeholder="Where?" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn user-action-search"><span class="glyphicon glyphicon-search"></span></button>
+						</div>
+
+						<div class="filters">
+							<h3><span>Filtres</span></h3>
+							<div class="panel-group" id="accordionTypes" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default types">
+									<div class="panel-heading" role="tab">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordionTypes" href="#collapseTypes" aria-expanded="true" aria-controls="collapseTypes">
+												Types <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+											</a>
+										</h4>
+									</div>
+									<div id="collapseTypes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+										<div class="panel-body">
+											<ul>
+												<li><a data-id="coworking">Coworking</a></li>
+												<li><a data-id="fablab">Fablab</a></li>
+												<li><a data-id="hackerspace">Hackerspace</a></li>
+												<li><a data-id="school">School</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel-group" id="accordionSpecializations" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default specializations">
+									<div class="panel-heading" role="tab">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordionSpecializations" href="#collapseSpecializations" aria-expanded="true" aria-controls="collapseSpecializations">
+												Specializations <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+											</a>
+										</h4>
+									</div>
+									<div id="collapseSpecializations" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+										<div class="panel-body">
+											<ul>
+												<li><a data-id="architecture">Architecture</a></li>
+												<li><a data-id="art">Art</a></li>
+												<li><a data-id="beauty">Beauty</a></li>
+												<li><a data-id="biology">Biology</a></li>
+												<li><a data-id="chemistry">Chemistry</a></li>
+												<li><a data-id="craft">Craft</a></li>
+												<li><a data-id="design">Design</a></li>
+												<li><a data-id="digital">Digital</a></li>
+												<li><a data-id="drone">Drone</a></li>
+												<li><a data-id="ecology">Ecology</a></li>
+												<li><a data-id="electronics">Electronics</a></li>
+												<li><a data-id="environment">Environment</a></li>
+												<li><a data-id="fashion design">Fashion design</a></li>
+												<li><a data-id="graphism">Graphism</a></li>
+												<li><a data-id="health">Health</a></li>
+												<li><a data-id="mechanic">Mechanic</a></li>
+												<li><a data-id="metal">Metal</a></li>
+												<li><a data-id="photography">Photography</a></li>
+												<li><a data-id="physics">Physics</a></li>
+												<li><a data-id="plastic">Plastic</a></li>
+												<li><a data-id="print">Print</a></li>
+												<li><a data-id="space">Space</a></li>
+												<li><a data-id="upcycling">Upcycling</a></li>
+												<li><a data-id="video">Video</a></li>
+												<li><a data-id="wood">Wood</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					{{#if places}}
+						{{#if eq places "no-result"}}
+						<!-- <div class="alert-container">
+							<div class="alert alert-danger" role="alert">
+								No place were found for your search.
+							</div>
+						</div> -->
+						{{/if}}
+					{{else}}
+						{{> loader}}
 					{{/if}}
-				{{else}}
-					{{> loader}}
-				{{/if}}
+				</div>
 			</section>
 
 			<section class="search-results">
