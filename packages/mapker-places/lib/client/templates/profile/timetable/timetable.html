@@ -19,7 +19,7 @@
 						{{else}}
 						<div class="timerange-display editable" id="mo-text" data-day="mo">{{s}}h - {{e}}h</div>
 						{{/if}}
-						
+
 						<div class="timerange-edit">
 							<span>From</span>
 							<input type="text" class="time start" />
@@ -27,7 +27,7 @@
 							<input type="text" class="time end" />
 							<!-- <span class="user-action-cancel-hour">Cancel</span> -->
 						</div>
-						{{#if c}}{{else}}<button class="btn btn-default user-action-set-closed">Close this day ?</button>{{/if}}
+						{{#if c}}{{else}}<button class="btn btn-default user-action-set-closed">Closed?</button>{{/if}}
 					</div>
 					{{/each}}
 				{{else}}
@@ -55,7 +55,7 @@
 					</div>
 				{{/if}}
 			{{/if}}
-			
+
 		</div>
 
 		{{#if isAdmin}}

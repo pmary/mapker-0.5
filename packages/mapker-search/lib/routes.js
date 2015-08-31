@@ -48,5 +48,12 @@ Router.route('/search/skills', {
   after: function () {
     // Send the pageview to GA
     ga('send', 'pageview', '/search/skills');
+
+    // Make the body height to 100%
+    $('body, html').addClass('fullheight');
+  },
+  onStop: function () {
+    // Make sure that the fullheight class is remove when route change
+    $('body, html').removeClass('fullheight');
   }
 });

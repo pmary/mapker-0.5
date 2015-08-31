@@ -55,7 +55,7 @@ mapker:i18n@0.0.2
 mapker:lib@0.0.2
 mapker:machines@0.0.2
 mapker:places@0.0.2
-mapker:search@0.0.2
+mapker:search@0.0.3
 mapker:third-party@0.0.2
 mapker:users@0.0.2
 meteor@1.1.6

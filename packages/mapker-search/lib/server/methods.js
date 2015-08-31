@@ -20,14 +20,7 @@ else {
 		host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
 		sniffOnStart: true,
 		sniffInterval: 60000,
-		apiVersion: '1.5'/*,
-		log: [
-			{
-	    	type: 'file',
-	    	level: 'trace',
-	    	path: '../../../log/elasticsearch.log'
-	  	}
-		]*/
+		apiVersion: '1.5'
 	});
 }
 
@@ -104,11 +97,23 @@ Search.methods = {
 	getPlaces: function(queryObject, callback) {
 		check(queryObject, Object);
 
+		// If no size is given, set one by default
+		if (!queryObject.size) {
+			queryObject.size = 10;
+		}
+
+		// If no from is given, set 0 by default
+		if (!queryObject.from) {
+			queryObject.from = 0;
+		}
+
 		// Create the query base structure
 		var esQuery = {
 			index: 'resources',
 			type: 'place',
 			body: {
+				from: queryObject.from,
+				size: queryObject.size,
 				query: {
 					filtered: {
 						query: {},
@@ -183,7 +188,7 @@ Search.methods = {
 			}
 
 			if (response && response.hits) {
-				callback( null, response.hits.hits );
+				callback( null, response);
 			}
 			else {
 				callback( null, [] );
@@ -250,93 +255,83 @@ Search.methods = {
 	getUsers: function(queryObject, callback) {
 		check(queryObject, Object);
 
-		if (queryObject.queryString && queryObject.bbox) {
-			// Query the skill and the location
-			Search.search({
-				index: 'resources',
-				type: 'user',
-				body: {
-					query: {
-						filtered: {
-							query: {
-								bool: {
-									should: [
-										{ match: { skills: queryObject.queryString } },
-										{ match: { name: queryObject.queryString } }
-									]
-								}
-							},
-							filter: {
-								geo_bounding_box: {
-									"user.loc" :{
-										"top" : queryObject.bbox[3],
-										"left" : queryObject.bbox[0],
-										"bottom" : queryObject.bbox[1],
-										"right" : queryObject.bbox[2]
-									}
-								}
-							}
-						}
-					},
+		// If no size is given, set one by default
+		if (!queryObject.size) {
+			queryObject.size = 10;
+		}
 
-				}
-			}, function(error, response) {
-				if (response && response.hits)
-					callback( null, response.hits.hits );
-			});
-		} else if(queryObject.queryString && !queryObject.bbox) {
-			// Query on the skill only
-			Search.search({
-				index: 'resources',
-				type: 'user',
-				body: {
-					query: {
-						bool: {
-							should: [
-								{ match: { skills: queryObject.queryString } },
-								{ match: { name: queryObject.queryString } }
-							]
-						}
-					},
+		// If no from is given, set 0 by default
+		if (!queryObject.from) {
+			queryObject.from = 0;
+		}
 
-				}
-			}, function(error, response) {
-				if (response && response.hits)
-					callback( null, response.hits.hits );
-			});
-		} else if(!queryObject.queryString && queryObject.bbox) {
-			// Query the location only
-			Search.search({
-				index: 'resources',
-				type: 'user',
-				body: {
-					"query" : {
-						"match_all" : {}
-					},
-					"filter" : {
-						"geo_bounding_box" : {
-							"user.loc" : {
-								"top" : queryObject.bbox[3],
-								"left" : queryObject.bbox[0],
-								"bottom" : queryObject.bbox[1],
-								"right" : queryObject.bbox[2]
+		// Create the query base structure
+		var esQuery = {
+			index: 'resources',
+			type: 'user',
+			body: {
+				from: queryObject.from,
+				size: queryObject.size,
+				query: {
+					filtered: {
+						query: {},
+						filter: {
+							bool: {
+								must: [],
+								"should" : [],
+      					//"must_not" : []
 							}
 						}
 					}
 				}
-			}, function(error, response) {
-				if (error) {
-					console.log(error);
+			}
+		};
+
+		// Add the query
+		if (queryObject.queryString) {
+			// If there is a query string
+			esQuery.body.query.filtered.query = {
+				multi_match: {
+					fields: ['skills', 'name'],
+					query: queryObject.queryString,
+					fuzziness: 2
 				}
-
-				//console.log(queryObject.bbox);
-
-				if (response && response.hits)
-					callback( null, response.hits.hits );
-			});
-		} else {
-			callback( null, [] );
+			};
 		}
+		else {
+			// Else, match all
+			esQuery.body.query.filtered.query = { "match_all" : {} };
+		}
+
+		// If there is a bbox
+		if (queryObject.bbox) {
+			// Add it to the ES query filters
+			esQuery.body.query.filtered.filter.bool.must.push({
+				"geo_bounding_box": {
+					"user.loc" :{
+						"top" : queryObject.bbox[3],
+						"left" : queryObject.bbox[0],
+						"bottom" : queryObject.bbox[1],
+						"right" : queryObject.bbox[2]
+					}
+				}
+			});
+		}
+
+		// Launch the search
+		Search.search(esQuery, function(error, response) {
+			if (error) {
+				console.log('getUsers error: ', error);
+				callback( null, [] );
+			}
+
+			if (response && response.hits) {
+				callback( null, response );
+			}
+			else {
+				callback( null, [] );
+			}
+		});
 	},
 	/**
 	 * @summary Query the resources index users type to get the users
@@ -371,14 +366,6 @@ Search.methods = {
 						}
 					}
 				},
-				/*"facets": {
-					"_id": {
-						"terms": {
-							"field": "_id",
-							"exclude": queryObject.exculdedIds
-						}
-					}
-				},*/
 				"filter": {
 					"query": {
 						"ids":{
@@ -511,11 +498,25 @@ Meteor.methods({
 			body.activity = user.profile.activity;
 		}
 
-		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
+		if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon) {
 			body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
+		}
 
-		if (user.profile.avatar && user.profile.avatar.url)
+		if (user.profile.address.countryCode) {
+			body.countryCode = user.profile.address.countryCode;
+		}
+
+		if (user.profile.address.zipcode) {
+			body.zipcode = user.profile.address.zipcode;
+		}
+
+		if (user.profile.address.city) {
+			body.city = user.profile.address.city;
+		}
+
+		if (user.profile.avatar && user.profile.avatar.url) {
 			body.avatar = {url: user.profile.avatar.url};
+		}
 
 		if (user.profile.cover) {
 			body.cover = {
@@ -802,7 +803,6 @@ Meteor.methods({
 									"type" : "nGram",
 									"min_gram" : 1,
 									"max_gram"  : 10
-									//max_token_count : 250
 								},
 								"autocomplete_filter": {
 									type: "edge_ngram",
@@ -830,8 +830,6 @@ Meteor.methods({
 							loc: {"type" : "geo_point"}, 		// loc field
 							name: {
 								"type" : "string",
-								/*"search_analyzer" : "str_search_analyzer",
-								"index_analyzer" : "str_index_analyzer"*/
 							},
 							formattedAddress: { "type" : "string", "index" : "no" },
 							cover: {
@@ -848,8 +846,6 @@ Meteor.methods({
 							},
 							types: {
 								"type" : "string",
-								/*"search_analyzer" : "str_search_analyzer",
-								"index_analyzer" : "str_index_analyzer"*/
 							},
 							specialities: {
 								"type" : "string"
@@ -871,10 +867,11 @@ Meteor.methods({
 							properties:{
 								id: {"type" : "string"},			// The MongoDB id
 								loc: {"type" : "geo_point"}, 		// profile.address.loc field
+								countryCode: {"type" : "string"},
+								city: {"type" : "string"},
+								zipcode: {"type" : "string"},
 								name: {
 									"type" : "string",				// profile.fullname field
-									/*"search_analyzer" : "str_search_analyzer",
-									"index_analyzer" : "str_index_analyzer"*/
 								},
 								activity: {
 									"type": "string",
@@ -894,8 +891,6 @@ Meteor.methods({
 								},
 								skills: {
 									"type" : "string", // Flatenize the skills as an array rather than an object
-									/*"search_analyzer" : "str_search_analyzer",
-									"index_analyzer" : "str_index_analyzer"*/
 								},
 								fullname_suggest: {
 									"type": "completion",

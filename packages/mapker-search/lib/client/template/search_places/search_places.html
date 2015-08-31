@@ -1,7 +1,7 @@
 <template name="searchPlaces">
 	<div class="mapker-search-places">
-		<div class="col-md-4 no-search search-place">
-			<section class="search-parameters">
+		<div class="no-search search-place">
+			<section class="search-parameters no-search search-place">
 				<div class="search-parameters-inner">
 					<img class="search-icon" src="/images/search-places-icon.png" alt="Search a place">
 					<form class="row search-form" id="mapker-places-search-form">
@@ -17,39 +17,33 @@
 
 						<div class="filters">
 							<h3><span>Filtres</span></h3>
-							<div class="panel-group" id="accordionTypes" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default types">
-									<div class="panel-heading" role="tab">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordionTypes" href="#collapseTypes" aria-expanded="true" aria-controls="collapseTypes">
-												Types <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-											</a>
-										</h4>
+
+							<div class="filters-group">
+								<div class="filters filters-default types">
+									<div class="filters-heading" role="tab">
+										<h4 class="filters-title">Types</h4>
 									</div>
-									<div id="collapseTypes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-										<div class="panel-body">
+									<div class="filters-collapse">
+										<div class="filters-body">
 											<ul>
 												<li><a data-id="coworking">Coworking</a></li>
 												<li><a data-id="fablab">Fablab</a></li>
 												<li><a data-id="hackerspace">Hackerspace</a></li>
 												<li><a data-id="school">School</a></li>
 											</ul>
+											<a role="button" class="user-action-collapse-filters">More</a>
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div class="panel-group" id="accordionSpecializations" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default specializations">
-									<div class="panel-heading" role="tab">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordionSpecializations" href="#collapseSpecializations" aria-expanded="true" aria-controls="collapseSpecializations">
-												Specializations <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-											</a>
-										</h4>
+							<div class="filters-group">
+								<div class="filters filters-default specializations">
+									<div class="filters-heading" role="tab">
+										<h4 class="filters-title">Specializations</h4>
 									</div>
-									<div id="collapseSpecializations" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-										<div class="panel-body">
+									<div class="filters-collapse">
+										<div class="filters-body">
 											<ul>
 												<li><a data-id="architecture">Architecture</a></li>
 												<li><a data-id="art">Art</a></li>
@@ -77,6 +71,7 @@
 												<li><a data-id="video">Video</a></li>
 												<li><a data-id="wood">Wood</a></li>
 											</ul>
+											<a role="button" class="user-action-collapse-filters">More</a>
 										</div>
 									</div>
 								</div>
@@ -96,7 +91,9 @@
 					{{/if}}
 				</div>
 			</section>
+		</div>
 
+		<div class="no-search search-place search-results-container">
 			<section class="search-results">
 				<div class="search-results-inner">
 					{{#if places}}
@@ -137,6 +134,38 @@
 							</div>
 							{{/each}}
 						{{/if}}
+					{{/if}}
+
+					{{#if pagination}}
+					<nav>
+						<ul class="pagination">
+							{{#if eq pagination.position "first"}}
+							{{else}}
+								<li class="user-action-go-to-first-page">
+									<a href="#" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+							{{/if}}
+
+							{{#each pagination.pages}}
+								{{#if active}}
+									<li class="active user-action-go-to-page" data-index="{{index}}"><a href="#">{{index}}</a></li>
+								{{else}}
+									<li class="user-action-go-to-page" data-index="{{index}}"><a href="#">{{index}}</a></li>
+								{{/if}}
+							{{/each}}
+
+							{{#if eq pagination.position "last"}}
+							{{else}}
+							<li class="user-action-go-to-last-page">
+								<a href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+							{{/if}}
+						</ul>
+					</nav>
 					{{/if}}
 				</div>
 			</section>

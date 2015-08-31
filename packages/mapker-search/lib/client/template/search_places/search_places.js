@@ -2,6 +2,9 @@
 /* Local function declaration */
 /*****************************************************************************/
 var filters = {}; // The last argument passed to searchPlacesByActivitiesAndBbox()
+var resultPerPage = 10; // The max number of results to display per page
+var resultsFrom = 0; // From which result do we want to get the places (used for pagination)
+var currentPage = 1; // The current search result page
 /**
  * @summary Find the places that are within the current map viewable zone and that one
  * of it's activities match with the given keywords
@@ -17,17 +20,17 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
       throw error;
     }
 
-		//console.log(result);
-
 		// If there is no result
-		if (!result.length)
+		if (!result.hits.total) {
+			$('.search-results-container').removeClass('scrollable');
 			return Session.set('searchPlacesResults', "no-result");
+		}
 
 		// Format the results
 		var places = [];
-		for (var i = 0; i < result.length; i++) {
-			result[i]._source._id = result[i]._id;
-			places.push(result[i]._source);
+		for (var i = 0; i < result.hits.hits.length; i++) {
+			result.hits.hits[i]._source._id = result.hits.hits[i]._id;
+			places.push(result.hits.hits[i]._source);
 		}
 
 		Session.set('searchPlacesResults', places);
@@ -47,6 +50,44 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 			addPopup(marker, resource);
 
 			addMarker(marker);
+
+			// Check if the sear-result has a scroll
+			Meteor.setTimeout(function () {
+				var element = $('.search-results-container');
+
+				if ($('.search-results-container .search-results .search-results-inner').prop('scrollHeight') > $('.mapker-search-places').height()) {
+					element.addClass('scrollable');
+				}
+				else {
+					element.removeClass('scrollable');
+				}
+			}, 500);
+		}
+
+		// Setup the pagination
+		if (result.hits.total > resultPerPage) {
+			var nbrOfPages = (result.hits.total / resultPerPage).toFixed();
+			console.log('nbrOfPages', nbrOfPages);
+			var pagination = { pages: [] };
+
+			for (var z = 1; z < result.hits.total; z++) {
+				if (z === 1) {
+					pagination.pages.push({index: z, active: true});
+				}
+				else {
+					pagination.pages.push({index: z, active: false});
+				}
+			}
+
+			// Check if we need to display the 'Previous' or 'Next' buttons
+			if ( (+currentPage) === 1 ) {
+				pagination.position = 'first';
+			}
+			else if (pagination.pages.length === (+currentPage)) {
+				pagination.position = 'last';
+			}
+
+			Session.set('pagination', pagination);
 		}
 
 		// If they was no bbox provided
@@ -63,6 +104,9 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
  */
 var buildAndFiresSearch = function() {
 	var searchObject = { filters: {} };
+
+	searchObject.size = resultPerPage;
+	searchObject.from = resultsFrom;
 
 	// Add the type filters if set
 	if (filters.types) {
@@ -198,6 +242,12 @@ Meteor.startup(function(){
 Template.searchPlaces.helpers({
 	places: function () {
 		return Session.get("searchPlacesResults");
+	},
+	pagination: function () {
+		return Session.get('pagination');
+	},
+	paginationPosition: function () {
+		return Session.get('paginationPosition');
 	}
 });
 
@@ -423,5 +473,57 @@ Template.searchPlaces.events({
 		}
 
 		buildAndFiresSearch();
+	},
+	/**
+	 * @summary Show more filters
+	 */
+	'click .user-action-collapse-filters': function (e) {
+		// Get the filters list
+		var $filtersList = $(e.target).parent().find('ul');
+
+		// Check if the list is already open
+		if ($filtersList.hasClass('open')) {
+			// Close the filters list
+			$filtersList.removeClass('open');
+			// Change the button text
+			$(e.target).text('More');
+		}
+		else {
+			// Open the filters list
+			$filtersList.addClass('open');
+			$(e.target).text('Less');
+		}
+	},
+	/**
+	 * @summary Go to the given result page
+	 */
+	'click .user-action-go-to-page': function (e, t) {
+		$('.mapker-search-places .pagination li').removeClass('active');
+		$(e.currentTarget).addClass('active');
+
+		currentPage = e.currentTarget.dataset.index;
+
+		var index = (e.currentTarget.dataset.index  - 1);
+
+		if (index) {
+			resultsFrom = (index * resultPerPage);
+		}
+		else {
+			resultsFrom = 0;
+		}
+
+		buildAndFiresSearch();
+	},
+	/**
+	 * @summary Go to the first page
+	 */
+	'click .user-action-go-to-first-page': function () {
+
+	},
+	/**
+	 * @summary Go to the last page
+	 */
+	'click .user-action-go-to-last-page': function () {
+
 	}
 });
