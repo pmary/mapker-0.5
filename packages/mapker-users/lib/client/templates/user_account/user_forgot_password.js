@@ -1,9 +1,9 @@
 Template.userForgotPassword.created = function() {
 	Session.set('userForgotPasswordErrors', {});
-}
+};
 
 Template.userForgotPassword.helpers({
-	// If a resetPassword token is present in the URL, then we will display the new-password form. 
+	// If a resetPassword token is present in the URL, then we will display the new-password form.
 	// Otherwise, we will display the recovery-email form.
 	resetPassword : function(t) {
 		return Session.get('resetPassword');
@@ -29,9 +29,9 @@ Template.userForgotPassword.events({
 		// Form validation
 		var credentials = {
 			email: t.find('#forgot-password-email').value
-		}
+		};
 
-		var errors = validateUserForgotPassword(credentials);
+		var errors = Users.validateUserForgotPassword(credentials);
 		Session.set('userForgotPasswordErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
@@ -54,7 +54,7 @@ Template.userForgotPassword.events({
 		var credentials = {
 			password: t.find('#new-password').value,
 			passwordConfirmation: t.find('#new-password-confirm').value
-		}
+		};
 
 		var errors = validateUserResetPassword(credentials);
 		Session.set('userForgotPasswordErrors', errors);
@@ -67,7 +67,7 @@ Template.userForgotPassword.events({
 				// If token is expired
 				if (error.error == 403) {
 					Session.set('resetPassword', null);
-				};
+				}
 				console.log(error);
 			}
 			else {

@@ -249,17 +249,22 @@ Meteor.methods({
     }
 	},
 	placeUpdateOpeningHours: function (openingHours, placeId) {
-		//console.log('placeUpdateOpeningHours openingHours', openingHours);
 		// Data check
 		check(Meteor.userId(), String);  // Check if the user is loged in
 		check(placeId, String);
-		check(openingHours, Array);
-		for (var i = 0; i < openingHours.length; i++) {
-			check(openingHours[i], Object);
-			check(openingHours[i].d, String);
-			check(openingHours[i].c, Match.Optional(Boolean));
-			check(openingHours[i].e, Match.Optional(String));
-			check(openingHours[i].s, Match.Optional(String));
+		check(openingHours, Object);
+		check(openingHours.comment, String);
+		check(openingHours.days, Array);
+		for (var i = 0; i < openingHours.days.length; i++) {
+			check(openingHours.days[i], Object);
+			check(openingHours.days[i].day, String);
+			check(openingHours.days[i].closed, Match.Optional(Boolean));
+			if (openingHours.days[i].slot1) {
+				check(openingHours.days[i].slot1, { from: String, to: String });
+			}
+			if (openingHours.days[i].slot2) {
+				check(openingHours.days[i].slot2, { from: String, to: String });
+			}
 		}
 
 		if (Meteor.isServer) {

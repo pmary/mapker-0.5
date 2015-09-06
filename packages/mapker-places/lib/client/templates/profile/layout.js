@@ -93,11 +93,19 @@ Template.placeProfileLayout.events({
 	 * @param {Object} [t] The current template instance object
 	 */
 	'click .user-action-message': function (e, t) {
-		// Set the session var with the current resource data
-		Session.set('modalMessage', t.data);
+		// Check if the user is loged in
+		if (Meteor.user()) {
+			// Set the session var with the current resource data
+			Session.set('modalMessage', t.data);
 
-		// Open the add message modal
-		Session.set('activeModal', 'modalSendMessage');
-		$('#myModal').modal();
+			// Open the add message modal
+			Session.set('activeModal', 'modalSendMessage');
+			$('#myModal').modal();
+		}
+		else {
+			// Open the 'login required' modal
+			Session.set('activeModal', 'modalLoginRequired');
+			$('#myModal').modal();
+		}
 	}
 });

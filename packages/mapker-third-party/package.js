@@ -26,7 +26,7 @@ Package.onUse(function(api) {
     'bower_components/timepicker/jquery.timepicker.min.js',
     'bower_components/timepicker/jquery.timepicker.css',
     'bower_components/timepicker/lib/bootstrap-datepicker.css',
-    'bower_components/datepair.js/dist/datepair.min.js',
+    'bower_components/datepair.js/dist/jquery.datepair.min.js',
   ], ['client']);
 });
 

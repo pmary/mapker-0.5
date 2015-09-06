@@ -27,30 +27,48 @@ Template.placeProfileTimetable.helpers({
 	/**
 	 * @summary Get the current place opening hours data
 	 */
+	/*openingHours: function () {
+		return Session.get('openingHours');
+	},*/
 	openingHours: function () {
 		return Session.get('openingHours');
 	}
 
 });
 
-
-var openingHours = new ReactiveVar();
+var originalOpeningHours;
 Template.placeProfileTimetable.created = function () {
 	// here 'this' refers to template instance
-	this.openingHours = new ReactiveVar();
 	this.autorun(_.bind(function () {
 		var place = Places.findOne({'_id': Router.current().params._id});
 		if (place && place.openingHours) {
-			this.openingHours.set(place.openingHours);
+			originalOpeningHours = place.openingHours;
+			//this.openingHours.set(place.openingHours);
 			Session.set('openingHours', place.openingHours);
 		}
 	},this));
 };
 
 Template.placeProfileTimetable.rendered = function () {
+	// here 'this' refers to template instance
+	this.autorun(_.bind(function () {
+		var place = Places.findOne({'_id': Router.current().params._id});
+		if (place && place.openingHours) {
+			originalOpeningHours = place.openingHours;
+			Session.set('openingHours', place.openingHours);
+
+			for (var i = 0; i < originalOpeningHours.days.length; i++) {
+				// Init the timepickers
+				$('.opening-hours-timetable .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
+
+				// Init the datepair
+				$('#' + originalOpeningHours.days[i].day + '-slot1').datepair();
+				$('#' + originalOpeningHours.days[i].day + '-slot2').datepair();
+			}
+		}
+	},this));
 };
 
-var datepair;
 /**
  * @see https://github.com/jonthornton/Datepair.js
  * @see https://github.com/jonthornton/jquery-timepicker
@@ -68,8 +86,8 @@ Template.placeProfileTimetable.events({
 		if ($('.user-profile-timetable .time').timepicker())
 			$('.user-profile-timetable .time').timepicker('remove');
 		// Destroy all the datepair instances
-		if (datepair)
-			datepair.remove();
+		if (datepairSlot1)
+			datepairSlot1.remove();
 
 		// Set the selected day in editing state
 		$(e.currentTarget).parent().addClass('active');
@@ -80,6 +98,8 @@ Template.placeProfileTimetable.events({
 		$('#'+this.d+' .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
 		// Init the datepair
 		datepair = new Datepair(document.getElementById(this.d));
+
+		// Check for a
 
 		// Set the focus on the first input
 		$(e.currentTarget).parent().find('.timerange-edit').find('input[type="text"]:first').focus();
@@ -101,41 +121,159 @@ Template.placeProfileTimetable.events({
 	'click .user-action-cancel-hour': function () {
 		$('.user-profile-timetable .hour').removeClass('active');
 	},
-	'click .user-action-set-closed': function () {
-		// Display the 'Cancel' and 'Save' btns
-		$('.user-profile-timetable .pull-right').css('display', 'block');
-
-		var openingHours = Session.get('openingHours');
-		for (var i = 0; i < openingHours.length; i++) {
-			if(openingHours[i].d === this.d) {
-				delete openingHours[i].s;
-				delete openingHours[i].e;
-				openingHours[i].c = true;
-				Session.set('openingHours', openingHours);
-			}
-		}
-	},
-	'click .user-action-cancel': function (e, t) {
-		//Places.findOne({'_id': Router.current().params._id});
-		Session.set('openingHours', t.openingHours.get());
-
-		$('.user-profile-timetable .hour').removeClass('active');
-		$('.user-profile-timetable .pull-right').css('display', 'none');
-	},
 	/**
 	 * @summary When there is no opening hours filled yet, this action
 	 * allow the user to fill them
 	 */
-	'click .user-action-set-hours': function () {
-		Session.set('openingHours', [
-			{d : "mo", c: true},
-			{d : "tu", c: true},
-			{d : "we", c: true},
-			{d : "th", c: true},
-			{d : "fr", c: true},
-			{d : "sa", c: true},
-			{d : "su", c: true}
-		]);
+	'click .add-place-opening-hours': function () {
+		var defaultOpeningHours = {
+			comment: 'Lorem ipsum...',
+			days: [
+				{ day: "monday", closed: true },
+				{ day: "tuesday", closed: true },
+				{ day: "wednesday", closed: true },
+				{ day: "thursday", closed: true },
+				{ day: "friday", closed: true },
+				{ day: "saturday", closed: true },
+				{ day: "sunday", closed: true }
+			]
+		};
+
+		Session.set('openingHours', defaultOpeningHours);
+
+		Meteor.setTimeout(function () {
+			// Open all the days edition
+			$('.user-profile-timetable .col-day').addClass('editing');
+			$('.user-profile-timetable .opening-hours-timetable').addClass('editing');
+
+			for (var i = 0; i < defaultOpeningHours.days.length; i++) {
+				// Init the timepickers
+				$('.opening-hours-timetable .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
+
+				// Init the datepair
+				$('#' + defaultOpeningHours.days[i].day + '-slot1').datepair();
+				$('#' + defaultOpeningHours.days[i].day + '-slot2').datepair();
+			}
+		}, 500);
+	},
+	/**
+	 * @summary Make the timetable editable
+	 */
+	'click .opening-hours-timetable.editable .hours': function (e) {
+		var day =  e.currentTarget.dataset.id;
+
+		$('.user-profile-timetable .col-day').removeClass('editing');
+		$(e.currentTarget).parent().addClass('editing');
+		$('.user-profile-timetable .opening-hours-timetable').addClass('editing');
+	},
+	/**
+	 * @summary Save the edition in the local openingHours session var when the
+	 * value of a time input field change
+	 */
+	'change .hours-editing .time': function (e) {
+		var day =  e.currentTarget.dataset.id,
+		slot = e.currentTarget.dataset.slot,
+		position = e.currentTarget.dataset.position,
+		value = e.currentTarget.value;
+
+		var openingHours = Session.get('openingHours');
+		// Update the opening hours
+		for (var i = 0; i < openingHours.days.length; i++) {
+			if (openingHours.days[i].day === day) {
+				// Check if this day was marked as closed
+				if (openingHours.days[i].closed) {
+					// Remove the closed key
+					delete openingHours.days[i].closed;
+				}
+
+				// Check if the slot doesn't exist
+				if (! openingHours.days[i][slot]) {
+					// Create it
+					openingHours.days[i][slot] = {from: '', to: ''};
+				}
+				openingHours.days[i][slot][position] = value;
+				Session.set('openingHours', openingHours);
+			}
+		}
+	},
+	/**
+	 * @summary Add a shift to a day
+	 */
+	'click .user-action-add-shift': function (e) {
+		var day =  e.target.dataset.id;
+		var openingHours = Session.get('openingHours');
+
+		// Find the given day in the openingHours object
+		for (var i = 0; i < openingHours.days.length; i++) {
+			if (openingHours.days[i].day === day) {
+				// Check if there is not already a second slot
+				if (! openingHours.days[i].slot2) {
+					// Create a second empty slot
+					openingHours.days[i].slot2 = {from: '', to: ''};
+					// Update the session var
+					Session.set('openingHours', openingHours);
+				}
+			}
+		}
+
+		// Init a second timepicket/datepair for this day
+		Meteor.setTimeout(function() {
+			$('#' + day + '-slot2 .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
+			datepairSlot2 = $('#' + day + '-slot2').datepair();
+	}, 500);
+	},
+	/**
+	 * @summary Remove a shift from a day
+	 */
+	'click .user-action-remove-shift': function (e) {
+		var day =  e.target.dataset.id;
+		var openingHours = Session.get('openingHours');
+
+		// Find the given day in the openingHours object
+		for (var i = 0; i < openingHours.days.length; i++) {
+			if (openingHours.days[i].day === day) {
+				// Check if there is a second slot
+				if (openingHours.days[i].slot2) {
+					// Delete the second slot
+					delete openingHours.days[i].slot2;
+					// Update the session var
+					Session.set('openingHours', openingHours);
+				}
+			}
+		}
+	},
+	/**
+	 * @summary Mark the place as closed this day
+	 */
+	'click .user-action-set-closed': function (e) {
+		var day =  e.target.dataset.id;
+		var openingHours = Session.get('openingHours');
+
+		$('.user-profile-timetable .opening-hours-timetable').addClass('editing');
+		$('.user-profile-timetable .opening-hours-timetable .col-day.' + day).removeClass('editing');
+
+		// Find the given day in the openingHours object
+		for (var i = 0; i < openingHours.days.length; i++) {
+			if (openingHours.days[i].day === day) {
+				// Check if there is a first slot
+				if (openingHours.days[i].slot1) {
+					// Delete the first slot
+					delete openingHours.days[i].slot1;
+				}
+
+				// Check if there is a second slot
+				if (openingHours.days[i].slot2) {
+					// Delete the second slot
+					delete openingHours.days[i].slot2;
+				}
+
+				// Set the day as closed
+				openingHours.days[i].closed = true;
+
+				// Update the session var
+				Session.set('openingHours', openingHours);
+			}
+		}
 	},
 	'click .user-action-save': function (e, t) {
 		var openingHours = Session.get('openingHours');
@@ -146,7 +284,17 @@ Template.placeProfileTimetable.events({
 			}
 		});
 
-		$('.user-profile-timetable .hour').removeClass('active');
-		$('.user-profile-timetable .pull-right').css('display', 'none');
-	}
+		$('.user-profile-timetable .opening-hours-timetable .col-day').removeClass('editing');
+		$('.user-profile-timetable .opening-hours-timetable').removeClass('editing');
+	},
+	/**
+	 * @summary Restore the default timetable state and cancel the editions
+	 */
+	 'click .user-action-cancel': function () {
+		 $('.user-profile-timetable .opening-hours-timetable .col-day').removeClass('editing');
+		 $('.user-profile-timetable .opening-hours-timetable').removeClass('editing');
+
+		 // Reset the openingHours Session var
+		 Session.set('openingHours', originalOpeningHours);
+ 	}
 });

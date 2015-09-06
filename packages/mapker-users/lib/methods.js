@@ -141,7 +141,7 @@ Meteor.methods({
 				'profile.address.countryCode': profile.countryCode,
 				'profile.address.zipcode': profile.zipcode,
 				'profile.address.city': profile.city,
-				'profile.address.loc': profile.loc
+				'profile.address.loc': { lat: profile.loc[0], lon: profile.loc[1] }
 			} }
 		);
 
@@ -268,7 +268,7 @@ Meteor.methods({
 			'profile.address.countryCode': userLocation.countryCode,
 			'profile.address.zipcode': userLocation.zipcode,
 			'profile.address.city': userLocation.city,
-			'profile.address.loc': userLocation.loc
+			'profile.address.loc': { lat: userLocation.loc[0], lon: userLocation.loc[1] }
 		} });
 
 		// Update the user ElasticSearch document

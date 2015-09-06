@@ -1,13 +1,13 @@
 Package.describe({
   name: 'mapker:search',
-  version: '0.0.3',
+  version: '0.0.4',
   summary: 'Mapker search package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
 });
 
 Npm.depends({
-  'elasticsearch': '6.0.0'
+  'elasticsearch': '8.0.1'
 });
 
 Package.onUse(function(api) {

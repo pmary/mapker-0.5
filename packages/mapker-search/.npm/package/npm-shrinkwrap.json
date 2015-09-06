@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "elasticsearch": {
-      "version": "6.0.0",
+      "version": "8.0.1",
       "dependencies": {
         "bluebird": {
           "version": "2.9.34"
         },
         "chalk": {
-          "version": "1.1.0",
+          "version": "1.1.1",
           "dependencies": {
             "ansi-styles": {
               "version": "2.1.0"
