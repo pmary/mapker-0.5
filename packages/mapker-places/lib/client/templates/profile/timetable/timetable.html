@@ -2,6 +2,33 @@
 	<section class="user-profile-timetable">
 
 		{{#if openingHours}}
+			{{#if openingHours.comment}}
+				<div class="opening-hours-infos">
+					<p>{{openingHours.comment}}</p>
+					{{#if isAdmin}}
+					<a href="#" class="user-action-edit-comment">Edit</a>
+					{{/if}}
+				</div>
+			{{else}}
+				{{#if isAdmin}}
+					<div class="no-opening-hours-infos">
+						<p>Add extra info about your opening modalities</p>
+					</div>
+				{{/if}}
+			{{/if}}
+			{{#if isAdmin}}
+				<div class="opening-hours-infos-edition">
+					<form id="form-opening-hours-infos">
+						<div class="form-group">
+							<textarea class="form-control" id="textarea-opening-hours-infos">{{openingHours.comment}}</textarea>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-default user-action-cancel-opening-hours-infos-edit">Cancel</button>
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</form>
+				</div>
+			{{/if}}
 		<div class="opening-hours-timetable {{#if isAdmin}}editable{{/if}}">
 			<div class="seven-cols">
 				{{#each openingHours.days}}
@@ -47,18 +74,20 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="pull-right">
 					<button class="btn btn-default user-action-cancel">Cancel</button>
-					<button class="btn btn-success user-action-save">Save</button>
+					<button class="btn btn-primary user-action-save">Save</button>
 				</div>
 			</div>
 		</div>
 		{{else}}
 			{{#if isAdmin}}
 				<div class="add-place-opening-hours">
+					<span class="mapker-picto-place-opening-hours"></span>
 					<p>Peoples want to know when you are open</p>
 				</div>
 			{{else}}
 				<div class="opening-hours-timetable col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="no-opening-hours">
+						<span class="mapker-picto-place-opening-hours"></span>
 						<p>The opening hours aren't available for the moment</p>
 					</div>
 				</div>

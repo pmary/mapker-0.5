@@ -1,3 +1,5 @@
+var originalOpeningHours;
+
 Template.placeProfileTimetable.helpers({
 	/**
 	 * @summary Return if whether or not the current user is administrator of the place
@@ -36,20 +38,8 @@ Template.placeProfileTimetable.helpers({
 
 });
 
-var originalOpeningHours;
-Template.placeProfileTimetable.created = function () {
-	// here 'this' refers to template instance
-	this.autorun(_.bind(function () {
-		var place = Places.findOne({'_id': Router.current().params._id});
-		if (place && place.openingHours) {
-			originalOpeningHours = place.openingHours;
-			//this.openingHours.set(place.openingHours);
-			Session.set('openingHours', place.openingHours);
-		}
-	},this));
-};
-
 Template.placeProfileTimetable.rendered = function () {
+	originalOpeningHours = null;
 	// here 'this' refers to template instance
 	this.autorun(_.bind(function () {
 		var place = Places.findOne({'_id': Router.current().params._id});
@@ -68,6 +58,11 @@ Template.placeProfileTimetable.rendered = function () {
 		}
 	},this));
 };
+
+Template.placeProfileTimetable.onDestroyed(function () {
+  // Remove the 'openingHours' session var
+  delete Session.keys.openingHours;
+});
 
 /**
  * @see https://github.com/jonthornton/Datepair.js
@@ -127,7 +122,7 @@ Template.placeProfileTimetable.events({
 	 */
 	'click .add-place-opening-hours': function () {
 		var defaultOpeningHours = {
-			comment: 'Lorem ipsum...',
+			comment: '',
 			days: [
 				{ day: "monday", closed: true },
 				{ day: "tuesday", closed: true },
@@ -280,7 +275,7 @@ Template.placeProfileTimetable.events({
 
 		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
 			if (error) {
-				throw error;
+				console.log(error);
 			}
 		});
 
@@ -296,5 +291,67 @@ Template.placeProfileTimetable.events({
 
 		 // Reset the openingHours Session var
 		 Session.set('openingHours', originalOpeningHours);
- 	}
+ 	},
+	/**
+	 * @summary Add extra info
+	 */
+	'click .no-opening-hours-infos': function () {
+		// Get the height of the opening hours info UI
+		var height = $('.user-profile-timetable .no-opening-hours-infos').height();
+
+		// Hide the 'no opening hours info' UI
+		$('.user-profile-timetable .no-opening-hours-infos').css('display', 'none');
+		// Display the edition UI
+		$('.user-profile-timetable .opening-hours-infos-edition').css({'display': 'block'});
+		$('.user-profile-timetable .opening-hours-infos-edition textarea').css('height', height + 90 + 'px');
+		$('.user-profile-timetable .opening-hours-infos-edition textarea').focus();
+	},
+	/**
+	 * @summary Enter in edition mode for the opening hours extat infos
+	 */
+	'click .user-action-edit-comment': function () {
+		// Get the height of the opening hours info UI
+		var height = $('.user-profile-timetable .opening-hours-infos').height();
+
+		// Hide the opening hours info UI
+		$('.user-profile-timetable .opening-hours-infos').css('display', 'none');
+		// Display the edition UI
+		$('.user-profile-timetable .opening-hours-infos-edition').css({'display': 'block'});
+		$('.user-profile-timetable .opening-hours-infos-edition textarea').css('height', height + 90 + 'px');
+		$('.user-profile-timetable .opening-hours-infos-edition textarea').focus();
+	},
+	/**
+	 * @summary Save the edited infos
+	 */
+	'submit #form-opening-hours-infos': function (e, t) {
+		e.preventDefault();
+
+		var infos = t.find('#textarea-opening-hours-infos').value,
+		openingHours = Session.get('openingHours');
+
+		openingHours.comment = infos;
+		Session.set('openingHours', openingHours);
+
+		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
+			if (error) {
+				console.log(error);
+			}
+		});
+
+		// Display the opening hours info UI
+		$('.user-profile-timetable .opening-hours-infos').css('display', 'block');
+		// Hide the edition UI
+		$('.user-profile-timetable .opening-hours-infos-edition').css('display', 'none');
+	},
+	/**
+	 * @summary Cancel the opening hours info edition
+	 */
+	'click .user-action-cancel-opening-hours-infos-edit': function (e) {
+		e.preventDefault();
+		// Display the opening hours info UI
+		$('.user-profile-timetable .opening-hours-infos').css('display', 'block');
+		$('.user-profile-timetable .no-opening-hours-infos').css('display', 'block');
+		// Hide the edition UI
+		$('.user-profile-timetable .opening-hours-infos-edition').css('display', 'none');
+	}
 });

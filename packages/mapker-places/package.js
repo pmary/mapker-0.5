@@ -55,6 +55,10 @@ Package.onUse(function(api) {
       'lib/client/templates/modals/add_place/add_place.html',
       'lib/client/templates/modals/add_place/add_place.scss',
       'lib/client/templates/modals/add_place/add_place.js',
+      // Suggest place
+      'lib/client/templates/modals/suggest_place/suggest_place.html',
+      'lib/client/templates/modals/suggest_place/suggest_place.scss',
+      'lib/client/templates/modals/suggest_place/suggest_place.js',
       // Confirm leave staff
       'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.html',
       'lib/client/templates/modals/confirm_leave_staff/confirm_leave_staff.js',

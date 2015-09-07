@@ -62,6 +62,24 @@ Router.route('/privacy', {
 	}
 });
 
+Router.route('/suggest-a-place', {
+  name: 'suggestPlace',
+  template: 'suggestPlace',
+  after: function () {
+    // Send the pageview to GA
+		ga('send', 'pageview', '/suggest-a-place');
+  }
+});
+
+Router.route('/add-your-place', {
+  name: 'addPlace',
+  template: 'addPlace',
+  after: function () {
+    //
+    ga('send', 'pageview', '/add-your-place');
+  }
+});
+
 
 /////////////////////////////
 //  Administration routes  //

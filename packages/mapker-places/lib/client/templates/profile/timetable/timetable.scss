@@ -1,4 +1,54 @@
 .user-profile-timetable {
+	.opening-hours-infos {
+		background: #FFFFFF;
+    border-radius: 3px;
+    border: 1px solid #eaeaec;
+		padding-left: 50px;
+    padding-right: 50px;
+		padding-top: 45px;
+    padding-bottom: 45px;
+		color: #191919;
+    font-size: 14px;
+    text-align: justify;
+		margin-bottom: 20px;
+
+		a {
+			color: #FC3975;
+			text-decoration: underline;
+			display: block;
+			margin-top: 20px;
+		}
+	}
+
+	.no-opening-hours-infos {
+		width: 100%;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+		border: 1px dashed #c9c9c9;
+    padding-top: 35px;
+    padding-bottom: 30px;
+		margin-bottom: 20px;
+
+		&:hover {
+			cursor: pointer;
+			border: 1px dashed #FC3975;
+			color: #FC3975;
+		}
+	}
+
+	.opening-hours-infos-edition {
+		display: none;
+
+		textarea {
+			padding-left: 50px;
+    	padding-right: 50px;
+			padding-top: 45px;
+	    padding-bottom: 45px;
+		}
+	}
+
 	.add-place-opening-hours {
 		cursor: pointer;
     width: 100%;
@@ -19,6 +69,7 @@
 	.no-opening-hours {
 		width: 100%;;
     border-radius: 3px;
+		border: none;
     text-align: center;
     font-size: 16px;
     color: #999999;

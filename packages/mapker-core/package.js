@@ -54,6 +54,14 @@ Package.onUse(function(api) {
     'lib/client/templates/home/home.html',
     'lib/client/templates/home/home.scss',
     'lib/client/templates/home/home.js',
+    // Add your place page
+    'lib/client/templates/add_your_place/add_your_place.html',
+    'lib/client/templates/add_your_place/add_your_place.scss',
+    'lib/client/templates/add_your_place/add_your_place.js',
+    // Suggest a place page
+    'lib/client/templates/suggest_a_place/suggest_a_place.html',
+    'lib/client/templates/suggest_a_place/suggest_a_place.scss',
+    'lib/client/templates/suggest_a_place/suggest_a_place.js',
     // Includes
     'lib/client/templates/includes/404.html',
     'lib/client/templates/includes/access_denied.html',

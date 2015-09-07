@@ -1137,7 +1137,7 @@ form small.error {
 	width: 193px;
 	height: 122px;
 	background: url(/images/mapker-pictos.svg);
-	background-position: 1351px 0px;
+	background-position: -193px 0px;
 }
 
 .mapker-picto-skills {
@@ -1146,7 +1146,7 @@ form small.error {
 	width: 193px;
 	height: 122px;
 	background: url(/images/mapker-pictos.svg);
-	background-position: 386px 0px;
+	background-position: -1158px 0px;
 }
 
 .mapker-picto-places {
@@ -1164,7 +1164,7 @@ form small.error {
 	width: 193px;
 	height: 122px;
 	background: url(/images/mapker-pictos.svg);
-	background-position: 579px 0px;
+	background-position: -965px 0px;
 }
 
 .mapker-picto-place-about {
@@ -1173,7 +1173,16 @@ form small.error {
 	width: 193px;
 	height: 122px;
 	background: url(/images/mapker-pictos.svg);
-	background-position: 1158px 0px;
+	background-position: -386px 0px;
+}
+
+.mapker-picto-place-opening-hours {
+	display: inline-block;
+	position: relative;
+	width: 193px;
+	height: 122px;
+	background: url(/images/mapker-pictos.svg);
+	background-position: -1544px 0px;
 }
 
 /* Resource icons */
