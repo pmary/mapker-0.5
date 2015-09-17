@@ -5,24 +5,26 @@ var selectizeSpecialities = null;
 var checkPlaceData = function (t, step) {
 	var place = {
 		name: t.find('#input-name').value,
-		specialities: $('#select-specialities').val(),
-		phone: t.find('#input-phone').value,
 		types: $('#select-types').val(),
-		role: t.find('#input-role').value,
+		specialities: $('#select-specialities').val(),
 		streetNumber: t.find('#input-street-number').value,
+		website: t.find('#input-website').value,
+		contact: t.find('#textarea-place-contact').value,
 		streetName: t.find('#input-street-name').value,
 		zipcode: t.find('#input-zipcode').value,
 		countryCode: t.find('#select-country').value,
-		city: t.find('#input-city').value
+		city: t.find('#input-city').value,
+		canContactSuggester: $('.modal-suggest-place input[name="contact-auth"]:checked').val()
 	};
 
 	place.address = place.streetNumber+ "+" + place.streetName + "+" +place.city;
 	place.address = place.address.replace(/ /g, '+');
 
-	var errors = validateLocation(place);
+	var errors = Places.validatePlaceSuggestion(place);
 	Session.set('modalSuggestPlaceErrors', errors);
-	if (Object.keys(errors).length)
+	if (Object.keys(errors).length) {
 		return; // Abort the account creation due to errors
+	}
 
 	// Display the loader
 	Session.set('staticMapUrl', "<img class='loader' src='/images/loader.gif' alt='loading'>");
@@ -55,7 +57,7 @@ var checkPlaceData = function (t, step) {
 
 					//console.log(place);
 
-					Meteor.call('placeInsert', place, function(error) {
+					/*Meteor.call('placeInsert', place, function(error) {
 						// Display the error to the user and abort
 						if (error) {
 							return console.log(error.reason);
@@ -77,7 +79,7 @@ var checkPlaceData = function (t, step) {
 						t.find('#input-zipcode').value = '';
 						selectizeCountry.clear(true);
 						t.find('#input-city').value = '';
-					});
+					});*/
 				}
 			}
 		}
@@ -89,10 +91,14 @@ Template.modalSuggestPlace.helpers({
 		return Session.get('staticMapUrl');
 	},
 	errorMessage: function (field) {
-		return Session.get('modalSuggestPlaceErrors')[field];
+		if (Session.get('modalSuggestPlaceErrors')) {
+			return Session.get('modalSuggestPlaceErrors')[field];
+		}
 	},
 	errorClass: function (field) {
-		return !!Session.get('modalSuggestPlaceErrors')[field] ? 'has-error' : '';
+		if (Session.get('modalSuggestPlaceErrors')) {
+			return !!Session.get('modalSuggestPlaceErrors')[field] ? 'has-error' : '';
+		}
 	},
 	countries: function () {
     if (Session.get('countries')) {

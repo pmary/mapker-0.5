@@ -6,6 +6,10 @@ Template.suggestPlace.events({
 
 		// Open the add place modal
 		Session.set('activeModal', 'modalSuggestPlace');
+		Meteor.setTimeout(function () {
+			$('.modal-suggest-place #submit-place').css('display',"none");
+			$('.modal-suggest-place #check-location').css('display',"inline-block");
+		}, 500);
 		$('#myModal').modal();
 	}
 });

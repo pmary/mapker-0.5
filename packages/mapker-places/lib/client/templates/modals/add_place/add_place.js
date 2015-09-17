@@ -6,20 +6,27 @@ var checkPlaceData = function (t, step) {
 	var place = {
 		name: t.find('#input-name').value,
 		specialities: $('#select-specialities').val(),
-		phone: t.find('#input-phone').value,
 		types: $('#select-types').val(),
-		role: t.find('#input-role').value,
 		streetNumber: t.find('#input-street-number').value,
 		streetName: t.find('#input-street-name').value,
 		zipcode: t.find('#input-zipcode').value,
 		countryCode: t.find('#select-country').value,
 		city: t.find('#input-city').value
-	};
+	},
+	phone = t.find('#input-phone').value,
+	role = t.find('#input-role').value;
 
 	place.address = place.streetNumber+ "+" + place.streetName + "+" +place.city;
 	place.address = place.address.replace(/ /g, '+');
 
-	var errors = validateLocation(place);
+	var errors = Places.validateLocation(place);
+	// Check the phone number
+	var phoneError = phoneValidation(phone);
+	if (phoneError) {errors.phone = phoneError;}
+	// Check the role field
+	var roleError = isFilledValidation(role);
+	if (roleError) {errors.role = roleError;}
+	// Display the error
 	Session.set('modalAddPlaceErrors', errors);
 	if (Object.keys(errors).length)
 		return; // Abort the account creation due to errors
@@ -55,7 +62,7 @@ var checkPlaceData = function (t, step) {
 
 					//console.log(place);
 
-					Meteor.call('placeInsert', place, function(error) {
+					Meteor.call('placeInsert', place, phone, role, function(error) {
 						// Display the error to the user and abort
 						if (error) {
 							return console.log(error.reason);
@@ -64,7 +71,7 @@ var checkPlaceData = function (t, step) {
 						// Redirect to the user places page
 						Router.go('userProfilePlaces', {_id: Meteor.user()._id});
 						// Close the modal
-						$('#myModal').modal('hide');
+						Modal.hide();
 
 						// Clear the form
 						t.find('#input-name').value = '';
@@ -89,10 +96,14 @@ Template.modalAddPlace.helpers({
 		return Session.get('staticMapUrl');
 	},
 	errorMessage: function (field) {
-		return Session.get('modalAddPlaceErrors')[field];
+		if (Session.get('modalAddPlaceErrors')) {
+			return Session.get('modalAddPlaceErrors')[field];
+		}
 	},
 	errorClass: function (field) {
-		return !!Session.get('modalAddPlaceErrors')[field] ? 'has-error' : '';
+		if (Session.get('modalAddPlaceErrors')) {
+			return !!Session.get('modalAddPlaceErrors')[field] ? 'has-error' : '';
+		}
 	},
 	countries: function () {
     if (Session.get('countries')) {
@@ -125,8 +136,6 @@ Template.modalAddPlace.rendered = function () {
 		if (! selectizeCountry) {
 			// Get the countries
 			var countries = Countries.find().fetch();
-
-			//console.log('Countries length: ', countries.length);
 
 			// If all the countries has been retrieved
 			if (countries.length == 245) {
@@ -168,8 +177,8 @@ Template.modalAddPlace.onDestroyed(function () {
 
 Template.modalAddPlace.events({
 	'keypress #input-street-number, change #input-street-number, keypress #input-street-name, keypress #input-city, change #select-country' : function(e, t){
-		t.find('#submit-place').style.display = "none";
-		t.find('#check-location').style.display = "inline-block";
+		$('.modal-add-place #submit-place').css('display', "none");
+		$('.modal-add-place #check-location').css('display', "inline-block");
 	},
 	'click #submit-place' : function(e, t){
 		checkPlaceData(t, "submit");

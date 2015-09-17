@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:search',
-  version: '0.0.4',
+  version: '0.0.5',
   summary: 'Mapker search package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'

@@ -24,7 +24,7 @@ Package.onUse(function(api) {
     'email',                        // https://atmospherejs.com/meteor/email
     'http',                         // https://atmospherejs.com/meteor/http
     'jquery',                       // https://atmospherejs.com/meteor/jquery
-    'check',
+    'check',                        // https://atmospherejs.com/meteor/check
     'reactive-var',                 // https://atmospherejs.com/meteor/reactive-var
     'audit-argument-checks',        // https://atmospherejs.com/meteor/audit-argument-checks
     'babel-compiler',               // https://atmospherejs.com/meteor/babel-compiler
@@ -38,6 +38,8 @@ Package.onUse(function(api) {
     'iron:router@1.0.9',            // https://atmospherejs.com/iron/router
     'fourseven:scss@2.1.1',         // https://atmospherejs.com/fourseven/scss
     'twbs:bootstrap@3.3.5',         // https://atmospherejs.com/twbs/bootstrap
+    'peppelg:bootstrap-3-modal',    // https://atmospherejs.com/peppelg/bootstrap-3-modal
+    //'juliancwirko:s-alert',         // https://atmospherejs.com/juliancwirko/s-alert
     'tap:i18n',                     // https://atmospherejs.com/tap/i18n-ui
     'tap:i18n-db',                  // https://atmospherejs.com/tap/i18n-db
     'aldeed:simple-schema@1.3.3',   // https://atmospherejs.com/aldeed/simple-schema

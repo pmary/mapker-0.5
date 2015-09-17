@@ -1,32 +1,124 @@
 <template name="adminPlaceEdit">
-<button id="test">Test</button>
-	<h1>{{name}}</h1>
+	<div class="admin-place-edit">
+		<ol class="breadcrumb">
+		  <li><a href="/mapker-admin">Home</a></li>
+		  <li><a href="/mapker-admin/places">Places</a></li>
+		  <li class="active">{{name}}</li>
+		</ol>
 
-	<h3>Administrators</h3>
-	{{#each admins}}
-		<div>{{profile.firstname}} {{profile.lastname}} ({{_id}})</div>
-	{{/each}}
+		<h1>{{name}}</h1>
+		<h5><i>Created at {{formatDate submittedAt "DD-MM-YYYY hh:mm:ss"}}</i></h5>
 
-	<h3>Details</h3>
-	<form id="place-edition" class="col-md-5">
-		<div class="form-group">
-			<label for="input-name">Name</label>
-			<input type="text" class="form-control" id="input-name" placeholder="The place name" value="{{name}}">
-		</div>
-		<div class="checkbox">
-			<label>
-				{{#if activated}}
-				<!-- <input type="checkbox" id="activated" checked="checked"> Activated -->
-				{{else}}
-				<input type="checkbox" id="activated"> Activated
-				{{/if}}
-			</label>
-		</div>
-		<div class="form-group">
-			{{formattedAddress}}
-			<img class='static-map' alt='{{name}}' src='https://maps.googleapis.com/maps/api/staticmap?center={{formattedAddress}}&zoom=13&size=600x150&maptype=terrain&markers=icon:http://mapker.co/images/pins/pin_png%7C{{loc}}'>
-		</div>
-		<button type="submit" class="btn btn-default">Submit</button>
-	</form>
+		<form id="place-edition" class="col-md-5">
+			<div class="checkbox">
+				<label>
+					{{#if activated}}
+					<!-- <input type="checkbox" id="activated" checked="checked"> Activated -->
+					{{else}}
+					<input type="checkbox" id="activated"> Activated
+					{{/if}}
+				</label>
+			</div>
+			<div class="form-group {{errorClass 'name'}}">
+				<label for="input-name">Name</label>
+				<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="The name of your place" data-trigger="hover click"></span>
+				<input type="text" class="form-control" id="input-name" value="{{name}}" placeholder="The name of the place">
+				<span class="help-block">{{errorMessage 'name'}}</span>
+			</div>
+			<div class="form-group {{errorClass 'types'}}">
+				<label for="select-types">Types <em>(3 max)</em></label>
+				<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 3 terms max to descibe the type of your" data-trigger="hover click"></span>
+				<select id="select-types" name="types[]" multiple class="demo-default" placeholder="Select a type...">
+					<option value="">Select a type...</option>
+					<option value="coworking">Coworking</option>
+					<option value="fablab">Fablab</option>
+					<option value="hackerspace">Hackerspace</option>
+					<option value="school">School</option>
+				</select>
+				<span class="help-block">{{errorMessage 'types'}}</span>
+			</div>
+			<div class="form-group {{errorClass 'specialities'}}">
+				<label for="select-specialities">Specialities <em>(5 max)</em></label>
+				<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Select 5 terms max to descibe the specialities of your place" data-trigger="hover click"></span>
+				<select id="select-specialities" name="specialities[]" multiple class="demo-default" placeholder="Select a speciality...">
+					<option value="">Select a speciality...</option>
+					<option value="architecture">Architecture</option>
+					<option value="art">Art</option>
+					<option value="beauty">Beauty</option>
+					<option value="biology">Biology</option>
+					<option value="chemistry">Chemistry</option>
+					<option value="craft">Craft</option>
+					<option value="design">Design</option>
+					<option value="digital">Digital</option>
+					<option value="drone">Drone</option>
+					<option value="ecology">Ecology</option>
+					<option value="electronics">Electronics</option>
+					<option value="environment">Environment</option>
+					<option value="fashion design">Fashion design</option>
+					<option value="graphism">Graphism</option>
+					<option value="health">Health</option>
+					<option value="mechanic">Mechanic</option>
+					<option value="metal">Metal</option>
+					<option value="photography">Photography</option>
+					<option value="physics">Physics</option>
+					<option value="plastic">Plastic</option>
+					<option value="print">Print</option>
+					<option value="space">Space</option>
+					<option value="upcycling">Upcycling</option>
+					<option value="video">Video</option>
+					<option value="wood">Wood</option>
+				</select>
+				<span class="help-block">{{errorMessage 'specialities'}}</span>
+			</div>
+			<div class="form-group {{errorClass 'address'}} address-form-group">
+				<label class="col-sm-12" for="input-street-number">Address</label>
 
+				<div class="col-sm-4" id="street-number">
+					<input type="number" class="form-control" id="input-street-number" placeholder="N°" value="{{streetNumber}}">
+				</div>
+				<div class="col-sm-8" id="street-name">
+					<input type="text" class="form-control" id="input-street-name" placeholder="Street" value="{{streetName}}">
+				</div>
+				<div class="col-sm-4" id="zipcode">
+					<input type="text" class="form-control" id="input-zipcode" placeholder="Zipecode" value="{{zipcode}}">
+				</div>
+				<div class="col-sm-4" id="city">
+					<input type="text" class="form-control" id="input-city" placeholder="City" value="{{city}}">
+				</div>
+				<div class="col-sm-4" id="country">
+					<select id="select-country" class="form-control">
+						{{#each countries}}
+							<option value='{{code}}'>{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<span class="help-block col-sm-offset-2 col-sm-10">{{errorMessage 'address'}}</span>
+				<div class="col-sm-12 static-map-container">
+					{{{staticMapUrl}}}
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-default user-action-see-on-map">See on the map</button>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+
+		{{#if contact}}
+		<div id="contact-infos" class="col-md-5">
+			<h1>Contact</h1>
+			<h5>
+				<i>Member since {{formatDate contact.createdAt "DD-MM-YYYY hh:mm:ss"}} ({{fromNow contact.createdAt}})</i>
+				<br>
+				<i>Visit his profile at <a href="http://mapker.co/users/{{contact._id}}/bio">http://mapker.co/users/{{contact._id}}/bio</a></i>
+			</h5>
+
+			<ul>
+				<li>Firstname: {{contact.profile.firstname}}</li>
+				<li>Lastname: {{contact.profile.lastname}}</li>
+				<li>Main activity: {{contact.profile.activity}}</li>
+				<li>Phone number: {{contact.profile.phone}}</li>
+			</ul>
+		</div>
+		{{/if}}
+
+	</div>
 </template>

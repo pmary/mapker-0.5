@@ -1,3 +1,26 @@
+/**
+ * @summary Format a date to a specific format using moment.js
+ * @param {String} date - ISO date, like 2015-08-31T12:12:32.710Z
+ * @param {String} format - Date format, like "MM-DD-YYYY hh:mm:ss"
+ */
+UI.registerHelper('formatDate', function (date, format) {
+	if (date && format) {
+		return moment(date).format(format);
+	}
+});
+
+/**
+ * @summary Get the time between a given date and now
+ * @param {String} date - ISO date, like 2015-08-31T12:12:32.710Zs"
+ * @return {String} Like "18 days ago"
+ * @see http://momentjs.com/docs/#/displaying/fromnow/
+ */
+UI.registerHelper('fromNow', function (date) {
+	if (date) {
+		return moment(date).fromNow();
+	}
+});
+
 UI.registerHelper('split', function(activities) {
 	if (activities && activities.length) {
 		for (var i = 0; i < activities.length; i++) {

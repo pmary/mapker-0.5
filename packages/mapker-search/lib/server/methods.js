@@ -44,6 +44,7 @@ Search.methods = {
 		// Get suggestions
 		Search.suggest({
 			index: 'resources',
+			type: 'user',
 			body: {
 				skills_suggester: {
 					text: queryString,
@@ -68,6 +69,7 @@ Search.methods = {
 		// Get suggestions
 		Search.suggest({
 			index: 'resources',
+			type: 'place',
 			body: {
 				activities_suggester: {
 					text: queryString,
@@ -121,7 +123,7 @@ Search.methods = {
 						filter: {
 							bool: {
 								must: [],
-								"should" : [],
+								should: [],
       					//"must_not" : []
 							}
 						}
@@ -143,19 +145,19 @@ Search.methods = {
 		}
 		else {
 			// Else, match all
-			esQuery.body.query.filtered.query = { "match_all" : {} };
+			esQuery.body.query.filtered.query = { match_all: {} };
 		}
 
 		// If there is a bbox
 		if (queryObject.bbox) {
 			// Add it to the ES query filters
 			esQuery.body.query.filtered.filter.bool.must.push({
-				"geo_bounding_box": {
-					"place.loc" :{
-						"top" : queryObject.bbox[3],
-						"left" : queryObject.bbox[0],
-						"bottom" : queryObject.bbox[1],
-						"right" : queryObject.bbox[2]
+				geo_bounding_box: {
+					"place.loc":{
+						top: queryObject.bbox[3],
+						left: queryObject.bbox[0],
+						bottom: queryObject.bbox[1],
+						right: queryObject.bbox[2]
 					}
 				}
 			});
@@ -165,8 +167,8 @@ Search.methods = {
 		if (queryObject.filters && queryObject.filters.types.length) {
 			// Add it to the ES query filters
 			esQuery.body.query.filtered.filter.bool.should.push({
-				"terms": {
-					"types": queryObject.filters.types
+				terms: {
+					types: queryObject.filters.types
 				}
 			});
 		}
@@ -175,8 +177,8 @@ Search.methods = {
 		if (queryObject.filters && queryObject.filters.specializations.length) {
 			// Add it to the ES query filters
 			esQuery.body.query.filtered.filter.bool.should.push({
-				"terms": {
-					"specialities": queryObject.filters.specializations
+				terms: {
+					specialities: queryObject.filters.specializations
 				}
 			});
 		}
@@ -195,55 +197,6 @@ Search.methods = {
 				callback( null, [] );
 			}
 		});
-
-		// Exemple de recherche
-		/*Search.search({
-			index: 'resources',
-			type: 'place',
-			body: {
-				query: {
-					filtered: {
-						query: {
-							multi_match: {
-								fields: ['activities_suggest', 'name'],
-								query: queryObject.queryString,
-								fuzziness: 2
-							}
-						},
-						filter: {
-							bool: {
-								must: [
-									{
-										"geo_bounding_box": {
-											"place.loc" :{
-												"top" : queryObject.bbox[3],
-												"left" : queryObject.bbox[0],
-												"bottom" : queryObject.bbox[1],
-												"right" : queryObject.bbox[2]
-											}
-										}
-									},
-									{
-										"terms": {
-											"types": queryObject.filters.types
-										}
-									},
-									{
-										"terms": {
-											"specialities": queryObject.filters.specializations
-										}
-									}
-								]
-							}
-						}
-					}
-				},
-
-			}
-		}, function(error, response) {
-			if (response && response.hits)
-				callback( null, response.hits.hits );
-		});*/
 	},
 	/**
 	 * @summary Query the resources index users type to get the users
@@ -279,7 +232,7 @@ Search.methods = {
 						filter: {
 							bool: {
 								must: [],
-								"should" : [],
+								should: [],
       					//"must_not" : []
 							}
 						}
@@ -293,7 +246,7 @@ Search.methods = {
 			// If there is a query string
 			esQuery.body.query.filtered.query = {
 				multi_match: {
-					fields: ['skills', 'name'],
+					fields: ['skills_suggest'],
 					query: queryObject.queryString,
 					fuzziness: 2
 				}
@@ -301,19 +254,19 @@ Search.methods = {
 		}
 		else {
 			// Else, match all
-			esQuery.body.query.filtered.query = { "match_all" : {} };
+			esQuery.body.query.filtered.query = { match_all: {} };
 		}
 
 		// If there is a bbox
 		if (queryObject.bbox) {
 			// Add it to the ES query filters
 			esQuery.body.query.filtered.filter.bool.must.push({
-				"geo_bounding_box": {
-					"user.loc" :{
-						"top" : queryObject.bbox[3],
-						"left" : queryObject.bbox[0],
-						"bottom" : queryObject.bbox[1],
-						"right" : queryObject.bbox[2]
+				geo_bounding_box: {
+					"user.loc":{
+						top: queryObject.bbox[3],
+						left: queryObject.bbox[0],
+						bottom: queryObject.bbox[1],
+						right: queryObject.bbox[2]
 					}
 				}
 			});
@@ -780,37 +733,37 @@ Meteor.methods({
 				index: "resources",
 				body: {
 					settings: {
-						"analysis" : {
-							"analyzer" : {
-								"str_search_analyzer" : {
-									"tokenizer" : "keyword",
-									"filter" : ["lowercase"]
+						analysis: {
+							analyzer: {
+								str_search_analyzer: {
+									tokenizer: "keyword",
+									filter: ["lowercase"]
 								},
 
-								"str_index_analyzer" : {
-									"tokenizer" : "standard",
-									"filter" : ["lowercase", "substring", "token_limit"]
+								str_index_analyzer: {
+									tokenizer: "standard",
+									filter: ["lowercase", "substring", "token_limit"]
 								},
 
-								"autocomplete": {
+								autocomplete: {
 									type: "custom",
 									tokenizer: "keyword",
 									filter: ["lowercase", "substring"]
 								}
 							},
 
-							"filter" : {
-								"substring" : {
-									"type" : "nGram",
-									"min_gram" : 1,
-									"max_gram"  : 10
+							filter: {
+								substring: {
+									type: "nGram",
+									min_gram: 1,
+									max_gram : 10
 								},
-								"autocomplete_filter": {
+								autocomplete_filter: {
 									type: "edge_ngram",
 									min_gram: 1,
 									max_gram: 20
 								},
-								"token_limit": {
+								token_limit: {
 									type: "limit",
 									max_token_count : 250
 								}
@@ -827,35 +780,35 @@ Meteor.methods({
 					// The resource object can be a place, a user or whatever
 					place:{
 						properties:{
-							id: {"type" : "string"},			// The MongoDB id
+							id: {type: "string"},			// The MongoDB id
 							loc: {"type" : "geo_point"}, 		// loc field
 							name: {
-								"type" : "string",
+								type: "string",
 							},
 							formattedAddress: { "type" : "string", "index" : "no" },
 							cover: {
-								"type": "object",
-								"properties": {
+								type: "object",
+								properties: {
 									url: {"type" : "string", "index" : "no"}
 								}
 							},
 							avatar: {
-								"type": "object",
-								"properties": {
+								type: "object",
+								properties: {
 									url: {"type" : "string", "index" : "no"}
 								}
 							},
 							types: {
-								"type" : "string",
+								type: "string",
 							},
 							specialities: {
-								"type" : "string"
+								type: "string"
 							},
 							activities_suggest: {
-								"type": "completion",
-								"search_analyzer": "str_search_analyzer",
-								"index_analyzer": "autocomplete",
-								"payloads": false
+								type: "completion",
+								search_analyzer: "str_search_analyzer",
+								index_analyzer: "autocomplete",
+								payloads: false
 							}
 						}
 					}
@@ -872,38 +825,38 @@ Meteor.methods({
 								city: {"type" : "string"},
 								zipcode: {"type" : "string"},
 								name: {
-									"type" : "string",				// profile.fullname field
+									type: "string",				// profile.fullname field
 								},
 								activity: {
-									"type": "string",
-									"index" : "no"
+									type: "string",
+									index: "no"
 								},
 								cover: {
-									"type": "object",
-									"properties": {
-										url: {"type" : "string", "index" : "no"}
+									type: "object",
+									properties: {
+										url: {type: "string", "index" : "no"}
 									}
 								},
 								avatar: {
-									"type": "object",
-									"properties": {
+									type: "object",
+									properties: {
 										url: {"type" : "string"}
 									}
 								},
 								skills: {
-									"type" : "string", // Flatenize the skills as an array rather than an object
+									type: "string", // Flatenize the skills as an array rather than an object
 								},
 								fullname_suggest: {
-									"type": "completion",
-									"search_analyzer": "str_search_analyzer",
-									"index_analyzer": "autocomplete",
-									"payloads": false
+									type: "completion",
+									search_analyzer: "str_search_analyzer",
+									index_analyzer: "autocomplete",
+									payloads: false
 								},
 								skills_suggest: {
-									"type": "completion",
-									"search_analyzer": "str_search_analyzer",
-									"index_analyzer": "autocomplete",
-									"payloads": false
+									type: "completion",
+									search_analyzer: "str_search_analyzer",
+									index_analyzer: "autocomplete",
+									payloads: false
 								}
 							}
 						}

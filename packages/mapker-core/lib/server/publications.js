@@ -11,6 +11,29 @@ Meteor.publish("allUsers", function() {
 /**
  * @summary Publish all the places waiting for validation
  */
-Meteor.publish("placesToValidate", function () {
-	return Places.find({activated: false});
+Meteor.publish("admin_placesToValidate", function () {
+	// Check if the user is loged in and has the admin role
+	if( Roles.userIsInRole(this.userId, ['admin']) ) {
+		 return Places.find({activated: false});
+	}
+	else {
+		this.stop();
+    return;
+	}
+});
+
+/**
+ * @summary Publish the complete user document
+ */
+Meteor.publish("admin_getUser", function (userId) {
+	check(userId, String);
+
+	// Check if the user is loged in and has the admin role
+	if( Roles.userIsInRole(this.userId, ['admin']) ) {
+		 return Meteor.users.find({_id: userId});
+	}
+	else {
+		this.stop();
+    return;
+	}
 });

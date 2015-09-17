@@ -48,7 +48,7 @@ Package.onUse(function(api) {
     'lib/client/templates/administration/sidebar/sidebar.js',
     // Footer
     'lib/client/templates/footer/footer.html',
-    'lib/client/templates/footer/footer.css',
+    'lib/client/templates/footer/footer.scss',
     'lib/client/templates/footer/footer.js',
     // Home
     'lib/client/templates/home/home.html',
@@ -120,6 +120,10 @@ Package.onUse(function(api) {
     'public/images/social_icons_transp.svg',
     'public/images/spinner.gif'
   ], ['client']);
+
+  api.addFiles([
+    'lib/server/publications.js'
+  ], ['server']);
 
   api.addFiles([
     'lib/namespace.js',

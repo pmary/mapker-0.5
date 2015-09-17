@@ -168,7 +168,7 @@ var buildAndFiresSearch = function() {
 					// Get the polygon of the search area
 					// @see http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy
 					// @see http://open.mapquestapi.com/nominatim/
-					Meteor.http.get('http://open.mapquestapi.com/nominatim/v1/search.php?q=' + query + '&format=json&limit=1&polygon_geojson=1', function (error, result) {
+					Meteor.http.get('http://open.mapquestapi.com/nominatim/v1/search.php?q=' + query + '&format=json&limit=1&polygon_geojson=1&key=RW6FCHP6d4oA0U5osEPiBhU2VhNhc1Ge', function (error, result) {
 						if (error) {
 							console.log(error);
 							return false;
@@ -337,7 +337,7 @@ Template.searchSkills.rendered = function() {
 			buildAndFiresSearch();
 
 			// Get the suggestions according to the queryString
-			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
+			Meteor.call('getSkillsSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
 				if (error) {
 						throw error;
@@ -436,7 +436,7 @@ Template.searchSkills.events({
 		country = e.currentTarget.dataset.country,
 		city = e.currentTarget.dataset.city;
 
-		Meteor.http.get('http://open.mapquestapi.com/nominatim/v1/search.php?city=' + city + '&countrycodes=' + country + '&format=json&limit=1&polygon_geojson=1', function (error, result) {
+		Meteor.http.get('http://open.mapquestapi.com/nominatim/v1/search.php?city=' + city + '&countrycodes=' + country + '&format=json&limit=1&polygon_geojson=1&key=RW6FCHP6d4oA0U5osEPiBhU2VhNhc1Ge', function (error, result) {
 			if (error) {
 				console.log(error);
 				return false;
@@ -454,7 +454,7 @@ Template.searchSkills.events({
 					content[0].geojson.coordinates &&
 					content[0].geojson.coordinates[0]
 				) {
-					console.log('content[0].geojson.coordinates', content[0].geojson.coordinates);
+					//console.log('content[0].geojson.coordinates', content[0].geojson.coordinates);
 
 					// Clear the area layers
 					for (var b = 0; b < areasLayers.length; b++) {
@@ -468,7 +468,6 @@ Template.searchSkills.events({
 
 		for (var i = 0; i < markers.length; i++) {
 			if(markers[i].options._id == resourceId) {
-				console.log(markers[i].options);
 				map.setView(markers[i].getLatLng(), 13);
 				map.panBy([-350, 0]);
 				markers[i]._icon.firstElementChild.className = "pin pin-place-hover";

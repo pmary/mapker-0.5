@@ -1,7 +1,7 @@
 /**
  * Front validators
  */
-validateLocation = function (place) {
+Places.validateLocation = function (place) {
 	var errors = {};
 
 	var nameError = isFilledValidation(place.name);
@@ -14,19 +14,9 @@ validateLocation = function (place) {
 		errors.types = typesError;
 	}
 
-	var phoneError = phoneValidation(place.phone);
-	if (phoneError) {
-		errors.phone = phoneError;
-	}
-
 	var specialitiesError = isArrayValidation(place.specialities);
 	if (specialitiesError) {
 		errors.specialities = specialitiesError;
-	}
-
-	var roleError = isFilledValidation(place.role);
-	if (roleError) {
-		errors.role = roleError;
 	}
 
 	var addressError = isFilledValidation(place.address);
@@ -41,7 +31,49 @@ validateLocation = function (place) {
 	return errors;
 };
 
-validateOpeningHours = function (openingHours) {
+Places.validatePlaceSuggestion = function (place) {
+	var errors = {};
+
+	var nameError = isFilledValidation(place.name);
+	if (nameError) {
+		errors.name = nameError;
+	}
+
+	var typesError = isArrayValidation(place.types);
+	if (typesError) {
+		errors.types = typesError;
+	}
+
+	var specialitiesError = isArrayValidation(place.specialities);
+	if (specialitiesError) {
+		errors.specialities = specialitiesError;
+	}
+
+	if (place.website) {
+		var websiteError = urlValidation(place.website);
+		if (websiteError) {
+			errors.website = websiteError;
+		}
+	}
+
+	var contactError = isFilledValidation(place.contact);
+	if (contactError) {
+		errors.contact = contactError;
+	}
+
+	var addressError = isFilledValidation(place.address);
+	if (addressError) {
+		errors.address = addressError;
+	}
+
+	// If there is no error, reset the object to clear the eventual previous errors
+	if (!Object.keys(errors).length)
+		errors = {};
+
+	return errors;
+};
+
+Places.validateOpeningHours = function (openingHours) {
 	var errors = {};
 
 	var moError = isStringValidation(openingHours.mo);

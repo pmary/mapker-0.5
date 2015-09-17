@@ -1,5 +1,5 @@
 Meteor.methods({
-	placeInsert: function (placeAttributes) {
+	placeInsert: function (placeAttributes, phone, role) {
 		// Data check
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(placeAttributes, {
@@ -9,17 +9,17 @@ Meteor.methods({
 			formattedAddress: String,
 			loc: Array,
 			name: String,
-			role: String,
 			streetName: String,
 			streetNumber: String,
 			types: Array,
-			zipcode: String,
-			phone: String
+			zipcode: String
 		});
+		check(role, String);
+		check(phone, String);
 		// Set complementary data
 		var user = Meteor.user();
 		var place = _.extend(placeAttributes, {
-			members: [{id: user._id, admin: true, staff: true}],
+			members: [{id: user._id, admin: true, staff: true, role: role}],
 			activated: false,
 			submittedBy: user._id,
 			submittedAt: new Date()
@@ -33,10 +33,12 @@ Meteor.methods({
 		var userUpdate = Meteor.users.update(
 			{_id: user._id},
 			{
+				$set: {'profile.phone': phone},
 				$addToSet: {
 					'profile.network.places': {
 						id: placeId,
-						admin: true
+						admin: true,
+						role: role
 					}
 				}
 			}
@@ -70,7 +72,9 @@ Meteor.methods({
 					});
 
 				// Update the place ElasticSearch document
-				Meteor.call('updatePlaceESDocument', placeId);
+				// We doesn't insert the place in the ES index anymore because it must
+				// no be searchable until we haven't validate it
+				//Meteor.call('updatePlaceESDocument', placeId);
 		  }
 		});
 

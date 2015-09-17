@@ -84,6 +84,24 @@ Router.route('/add-your-place', {
 /////////////////////////////
 //  Administration routes  //
 /////////////////////////////
+var filters = {
+  /**
+   * ensure user is logged in and
+   * is an admin
+   */
+   authenticateAdmin: function () {
+     var user = Meteor.user();
+
+     // Check if the user is loged in and has the admin role
+     if(user && Roles.userIsInRole(user._id, ['admin']) ) {
+        this.next();
+     }
+     else {
+       Router.go('/');
+     }
+   }
+};
+
 Router.route('/mapker-admin', {
  	name: 'adminMain',
  	template: 'adminMain',
@@ -91,17 +109,13 @@ Router.route('/mapker-admin', {
 	yieldRegions: {
 		'adminPlaces': {to: 'content'}
 	},
-	waitOn: function () { return Meteor.subscribe('placesToValidate'); },
+  before: [filters.authenticateAdmin],
+	waitOn: function () { return Meteor.subscribe('admin_placesToValidate'); },
 	data: function () {
 		templateData = {
 			placesToValidate: Places.find()
 		};
 		return templateData;
-	},
-	before: function () {
-		if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
 	}
 });
 
@@ -112,19 +126,12 @@ Router.route('/mapker-admin/places/:_id/edit', {
 	yieldRegions: {
 		'adminPlaceEdit': {to: 'content'}
 	},
+  before: [filters.authenticateAdmin],
 	waitOn: function () {
 		return Meteor.subscribe('place', this.params._id);
 	},
 	data: function () {
 		return Places.findOne({_id: this.params._id});
-	},
-	before: function () {
-		if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
-		if (this.data()) {
-			this.subscribe('users', this.data().administrators);
-		}
 	}
 });
 
@@ -135,11 +142,7 @@ Router.route('/mapker-admin/settings', {
 	yieldRegions: {
 		'adminSettings': {to: 'content'}
 	},
-	before: function () {
-		if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
-	}
+  before: [filters.authenticateAdmin]
 });
 
 Router.route('/mapker-admin/users', {
@@ -149,16 +152,12 @@ Router.route('/mapker-admin/users', {
 	yieldRegions: {
 		'adminUsers': {to: 'content'}
 	},
+  before: [filters.authenticateAdmin],
 	waitOn: function () {
 		return Meteor.subscribe('allUsers');
 	},
 	data: function () {
 		return Meteor.users.find();
-	},
-	before: function () {
-		if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
 	}
 });
 
@@ -169,16 +168,12 @@ Router.route('/mapker-admin/users/:_id/edit', {
 	yieldRegions: {
 		'adminUserEdit': {to: 'content'}
 	},
+  before: [filters.authenticateAdmin],
 	waitOn: function () {
 		return Meteor.subscribe('user', this.params._id);
 	},
 	data: function () {
 		return Meteor.users.find({_id: this.params._id});
-	},
-	before: function () {
-		if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
 	}
 });
 
@@ -189,6 +184,7 @@ Router.route('/mapker-admin/taxons', {
 	yieldRegions: {
 		'adminTaxons': {to: 'content'}
 	},
+  before: [filters.authenticateAdmin],
   waitOn: function () {
     return Meteor.subscribe('allTaxons');
   },
@@ -197,12 +193,6 @@ Router.route('/mapker-admin/taxons', {
       taxons: Taxons.find({}).fetch()
     };
     return templateData;
-  },
-	before: function () {
-    if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
-    this.next();
   }
 });
 
@@ -213,10 +203,5 @@ Router.route('/mapker-admin/taxons/add', {
 	yieldRegions: {
 		'adminAddTaxon': {to: 'content'}
 	},
-	before: function () {
-    if (!Meteor.user() || Meteor.user()._id != 'i4FxWHYGyQr3LyN4x') {
-			Router.go('/');
-		}
-    this.next();
-  }
+  before: [filters.authenticateAdmin]
 });
