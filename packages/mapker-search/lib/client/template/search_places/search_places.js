@@ -86,8 +86,6 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 				pagination.position = 'last';
 			}
 
-			console.log('pagination', pagination);
-
 			Session.set('pagination', pagination);
 		}
 
