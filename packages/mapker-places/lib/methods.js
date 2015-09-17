@@ -47,28 +47,68 @@ Meteor.methods({
 		// Notify the admin that he have a new place to validate by email
 		Meteor.defer(function () {
 			if (Meteor.isServer) {
-				HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send.json",
+				// Send an email to the admin to notify him that a new place has been submited
+				HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send.json", {
+					data: {
+						"key": "OfKzISRCtJJLFJmGi-k9kA",
+						"message": {
+							'html': "Hello dear moderator, <br>A place named " + place.name + " is waiting for your validation on <a href='http://mapker.co'>Mapker</a>.",
+							'text': "Hello dear moderator, \n\nA place named " + place.name + " is waiting for your validation on Mapker (http://mapker.co).",
+							"subject": 'A new place is waiting for validation',
+							"from_email": "noreply@example.com",
+							"from_name": "Mapker",
+							"to": [
+								{ "email": 'pierre.mary10@gmail.com', "name": 'Pierre Mary', "type": "to" }
+							],
+							"headers": { "Reply-To": "noreply@example.com" },
+							"important": false,"track_clicks": true,"auto_text": false,
+							"auto_html": false,"merge": true,"merge_language": "mailchimp",
+							"tags": [ "new-place" ]
+						}, "async": false, "ip_pool": "Main Pool"
+					}
+				},
+				function (error, result) {
+					if (!error) console.log(error);
+				});
+
+				// Send an email to the client to notify him that his submission has been taken in account
+				var templateName = 'consideration-of-the-request-to-add-a-place-en',
+				subject = user.profile.firstname + ', your request to add place has been taken into account';
+				if (
+					user.profile.address &&
+					user.profile.address.countryCode &&
+					user.profile.address.countryCode === 'fr'
+				) {
+					templateName = 'consideration-of-the-request-to-add-a-place-fr';
+					subject = user.profile.firstname + ', votre demande d\'ajout de lieu a bien été prise en compte';
+				}
+				HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
 					{
 						data: {
-							"key": "OfKzISRCtJJLFJmGi-k9kA",
-							"message": {
-								'html': "Hello dear moderator, <br>A place named " + place.name + " is waiting for your validation on <a href='http://mapker.co'>Mapker</a>.",
-								'text': "Hello dear moderator, \n\nA place named " + place.name + " is waiting for your validation on Mapker (http://mapker.co).",
-								"subject": 'A new place is waiting for validation',
-								"from_email": "noreply@example.com",
-								"from_name": "Mapker",
-								"to": [
-									{ "email": 'pierre.mary10@gmail.com', "name": 'Pierre Mary', "type": "to" }
-								],
-								"headers": { "Reply-To": "noreply@example.com" },
-								"important": false,"track_clicks": true,"auto_text": false,
-								"auto_html": false,"merge": true,"merge_language": "mailchimp",
-								"tags": [ "new-place" ]
-							}, "async": false, "ip_pool": "Main Pool"
+					  	"key": "OfKzISRCtJJLFJmGi-k9kA",
+					    "template_name": templateName,
+							"template_content": [],
+					    "message": {
+								"subject": subject,
+		        		"from_email": "noreply@example.com",
+		        		"from_name": "The Mapker Team",
+					      "to": [
+					        { "email": user.emails[0].address, "name": user.firstname, "type": "to" }
+					      ],
+					      "headers": { "Reply-To": "noreply@example.com" },
+					      "important": false,"track_clicks": true,"auto_text": false,
+					      "auto_html": false,"merge": true,"merge_language": "mailchimp",
+					      "global_merge_vars": [
+					        { "name": "USERNAME", "content": user.profile.firstname },
+									{ "name": "PLACENAME", "content": place.name },
+									{ "name": "PLACELINK", "content": "http://mapker.co/places/" + placeId + "/about"}
+					      ], "tags": [ "consideration-of-the-request-to-add-a-place" ]
+					    }, "async": false, "ip_pool": "Main Pool"
 						}
 					},
 					function (error, result) {
-						if (!error) console.log(error);
+						if (error) Logger.log(error);
+						Logger.log(result);
 					});
 
 				// Update the place ElasticSearch document
