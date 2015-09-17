@@ -66,16 +66,15 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 
 		// Setup the pagination
 		if (result.hits.total > resultPerPage) {
-			var nbrOfPages = (result.hits.total / resultPerPage).toFixed();
-			console.log('nbrOfPages', nbrOfPages);
-			var pagination = { pages: [] };
+			var nbrOfPages = Math.ceil(result.hits.total / resultPerPage),
+			pagination = { pages: [] };
 
-			for (var z = 1; z < result.hits.total; z++) {
-				if (z === 1) {
-					pagination.pages.push({index: z, active: true});
+			for (var z = 0; z < nbrOfPages; z++) {
+				if (z === 0) {
+					pagination.pages.push({index: (z+1), active: true});
 				}
 				else {
-					pagination.pages.push({index: z, active: false});
+					pagination.pages.push({index: (z+1), active: false});
 				}
 			}
 
@@ -86,6 +85,8 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 			else if (pagination.pages.length === (+currentPage)) {
 				pagination.position = 'last';
 			}
+
+			console.log('pagination', pagination);
 
 			Session.set('pagination', pagination);
 		}

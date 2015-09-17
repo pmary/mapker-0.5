@@ -78,7 +78,15 @@
       }
     }
 
+    .no-item {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      color: #757575;
+    }
+
     &#requests {
+      border-bottom: none;
+
       .item {
         padding: 0px;
         display: flex;

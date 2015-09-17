@@ -14,6 +14,7 @@
  * 11 - Selectize <-- To remove
  * 12 - Autocomplete suggestions
  * 13 - Popover
+ * 14 - Nav-tabs
  */
 body, html {
 }
@@ -1366,4 +1367,19 @@ form small.error {
  */
 .popover {
 	background-color: #FAFAFC;
+}
+
+/**
+ * 14 - Nav-tabs
+ */
+.nav-tabs {
+	.tab {
+		a {
+			color: #2c9ff2;
+
+			&:hover {
+				color: #2c9ff2;
+			}
+		}
+	}
 }
