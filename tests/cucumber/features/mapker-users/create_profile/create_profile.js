@@ -22,19 +22,15 @@ module.exports = function () {
 
   this.Then(/^a modal open, with the following heading: "([^"]*)"$/, function (heading) {
     return this.client.
-      pause(3000).
       execute(function () {
-        $('#myModal').modal('show');
-        $('#myModal').css({
-          'display': 'block',
-          'opacity': '1'
-        });
+        // Disable jQuery animations
+        $.fx.off = true;
+        // Disable CSS animations
+        $("<style type='text/css'>* { transition-property: none !important; -o-transition-property: none !important; -moz-transition-property: none !important; -ms-transition-property: none !important; -webkit-transition-property: none !important; transform: none !important; -o-transform: none !important; -moz-transform: none !important; -ms-transform: none !important; -webkit-transform: none !important; animation: none !important; -o-animation: none !important; -moz-animation: none !important; -ms-animation: none !important; -webkit-animation: none !important; }</style>").appendTo("head");
       }).
       waitForExist('h4.modal-title').
       waitForText('h4.modal-title').
       getText('h4.modal-title').then(function (text) {
-        //console.log('text', text);
-        //console.log('heading', heading);
         return text === heading;
       });
   });
@@ -51,6 +47,11 @@ module.exports = function () {
       keys(['\uE007']).
       setValue('input[name="input-activity"]', 'Testeur').
       addValue('input[name="input-zipcode"]', '2').
+      waitUntil(function() {
+        return this.getValue('#select-city').then(function(value) {
+          return value === 'Paris';
+        });
+      }).
       selectByIndex('#select-city', 0).
       submitForm('#create-profile-form');
   });

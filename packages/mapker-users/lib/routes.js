@@ -23,6 +23,7 @@ needToCreateProfile = function() {
         backdrop: 'static',
           keyboard: false
       });
+      $('#myModal').show();
     }
   }
 };
