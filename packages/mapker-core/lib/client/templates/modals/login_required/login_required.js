@@ -10,13 +10,17 @@ Template.modalLoginRequired.events({
 		// Redirect the user to the signup page
 		Router.go('userJoin');
 		// Close the modal
-		$('#myModal').modal('hide');
+		Modal.hide('modalLoginRequired');
+		// Scroll to top
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
 	},
 	"click .user-actions-connect-btn": function (e) {
 		e.preventDefault();
 		// Redirect the user to the signup page
 		Router.go('UserLogin');
 		// Close the modal
-		$('#myModal').modal('hide');
+		Modal.hide('modalLoginRequired');
+		// Scroll to top
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
 	}
 });

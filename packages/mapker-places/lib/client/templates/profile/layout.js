@@ -104,8 +104,7 @@ Template.placeProfileLayout.events({
 		}
 		else {
 			// Open the 'login required' modal
-			Session.set('activeModal', 'modalLoginRequired');
-			$('#myModal').modal();
+			Modal.show('modalLoginRequired');
 		}
 	}
 });
