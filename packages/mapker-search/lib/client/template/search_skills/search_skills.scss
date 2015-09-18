@@ -286,6 +286,13 @@
 			}
 		}
 
+		&.search-results-container {
+
+			&.scrollable {
+				height: 100%;
+			}
+		}
+
 		.search-results {
 			height: 100%;
 			margin-left: 250px;
