@@ -538,8 +538,7 @@ Template.searchSkills.events({
 	 * @summary Go to the given result page
 	 */
 	'click .user-action-go-to-page': function (e, t) {
-		$('.mapker-search-places .pagination li').removeClass('active');
-		$(e.currentTarget).addClass('active');
+		var pagination = Session.get('pagination');
 
 		// Check if the selected page is the current one
 		if (currentPage === (+e.currentTarget.dataset.index)) {
@@ -558,6 +557,20 @@ Template.searchSkills.events({
 			resultsFrom = 0;
 		}
 
+		// Set the selected page as active
+		for (var i = 0; i < pagination.pages.length; i++) {
+			pagination.pages[i].active = false;
+			if(i === index) {
+				pagination.pages[i].active = true;
+			}
+		}
+
+		// If the selected page is the last one, set thepagination position at 'last'
+		if (currentPage === pagination.pages.length) {
+			pagination.position = 'last';
+		}
+		Session.set('pagination', pagination);
+
 		buildAndFiresSearch();
 	},
 	/**
@@ -566,6 +579,17 @@ Template.searchSkills.events({
 	'click .user-action-go-to-first-page': function () {
 		currentPage = 1;
 		resultsFrom = 0;
+
+		var pagination = Session.get('pagination');
+		// Set the first page as active
+		for (var i = 0; i < pagination.pages.length; i++) {
+			pagination.pages[i].active = false;
+			if(i === 0) {
+				pagination.pages[i].active = true;
+			}
+		}
+		pagination.position = 'first';
+		Session.set('pagination', pagination);
 
 		buildAndFiresSearch();
 	},
@@ -577,6 +601,17 @@ Template.searchSkills.events({
 		var pagination = Session.get('pagination');
 		currentPage = pagination.pages.length;
 		resultsFrom = ((currentPage -1) * resultPerPage);
+
+		// Set the last page as active
+		for (var i = 0; i < pagination.pages.length; i++) {
+			pagination.pages[i].active = false;
+			if(i === (currentPage - 1)) {
+				pagination.pages[i].active = true;
+			}
+		}
+		pagination.position = 'last';
+		Session.set('pagination', pagination);
+
 		buildAndFiresSearch();
 	}
 });
