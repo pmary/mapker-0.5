@@ -500,9 +500,15 @@ Template.searchPlaces.events({
 		$('.mapker-search-places .pagination li').removeClass('active');
 		$(e.currentTarget).addClass('active');
 
-		currentPage = e.currentTarget.dataset.index;
+		// Check if the selected page is the current one
+		if (currentPage === (+e.currentTarget.dataset.index)) {
+			// No need to redirect, the user is already on the asked page
+			return false;
+		}
 
-		var index = (e.currentTarget.dataset.index  - 1);
+		currentPage = (+e.currentTarget.dataset.index);
+
+		var index = ((+e.currentTarget.dataset.index)  - 1);
 
 		if (index) {
 			resultsFrom = (index * resultPerPage);
@@ -517,12 +523,19 @@ Template.searchPlaces.events({
 	 * @summary Go to the first page
 	 */
 	'click .user-action-go-to-first-page': function () {
+		currentPage = 1;
+		resultsFrom = 0;
 
+		buildAndFiresSearch();
 	},
 	/**
 	 * @summary Go to the last page
 	 */
 	'click .user-action-go-to-last-page': function () {
-
+		// Get the number of pages
+		var pagination = Session.get('pagination');
+		currentPage = pagination.pages.length;
+		resultsFrom = ((currentPage -1) * resultPerPage);
+		buildAndFiresSearch();
 	}
 });

@@ -146,6 +146,8 @@ Search.methods = {
 		else {
 			// Else, match all
 			esQuery.body.query.filtered.query = { match_all: {} };
+			// And add a sort by name desc
+			esQuery.body.sort = { 'name': { 'order': 'asc' } };
 		}
 
 		// If there is a bbox
@@ -255,6 +257,8 @@ Search.methods = {
 		else {
 			// Else, match all
 			esQuery.body.query.filtered.query = { match_all: {} };
+			// And add a sort by name desc
+			esQuery.body.sort = { 'name': { 'order': 'asc' } };
 		}
 
 		// If there is a bbox
