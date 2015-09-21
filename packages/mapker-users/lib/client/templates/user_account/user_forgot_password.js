@@ -13,14 +13,23 @@ Template.userForgotPassword.helpers({
 	},
 	errorClass: function (field) {
 		return !!Session.get('userForgotPasswordErrors')[field] ? 'has-error' : '';
+	},
+	resetPaswdEmailSend: function () {
+		return Session.get('resetPaswdEmailSend');
 	}
 });
 
 Template.userForgotPassword.rendered = function(){
-	if (Accounts._resetPasswordToken) {
-		Session.set('resetPassword', Accounts._resetPasswordToken);
+	Session.set('resetPaswdEmailSend', false);
+
+	if (Router.current().params.resetToken) {
+		Session.set('resetPassword', Router.current().params.resetToken);
 	}
 };
+
+Template.userForgotPassword.onDestroyed(function () {
+
+});
 
 Template.userForgotPassword.events({
 	'submit #forgot-password-form' : function(e, t){
@@ -41,7 +50,7 @@ Template.userForgotPassword.events({
 			if (error) {
 				Errors.throw(error.reason);
 			}else {
-				console.log("all right");
+				Session.set('resetPaswdEmailSend', true);
 			}
 		});
 
@@ -56,7 +65,7 @@ Template.userForgotPassword.events({
 			passwordConfirmation: t.find('#new-password-confirm').value
 		};
 
-		var errors = validateUserResetPassword(credentials);
+		var errors = Users.validateUserResetPassword(credentials);
 		Session.set('userForgotPasswordErrors', errors);
 		if (Object.keys(errors).length)
 			return; // Abort the account creation due to errors
@@ -71,7 +80,8 @@ Template.userForgotPassword.events({
 				console.log(error);
 			}
 			else {
-				console.log('Password reset');
+				// The user has been logged in, redirect him to his profile paga
+				Router.go('userProfileBio', {_id: Meteor.user()._id});
 			}
 		});
 	}

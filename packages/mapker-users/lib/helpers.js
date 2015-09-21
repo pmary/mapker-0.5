@@ -49,8 +49,26 @@ Users.validateUserForgotPassword = function (credentials) {
 	if (emailError) { errors.email = emailError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
-	if (!Object.keys(errors).length)
+	if (!Object.keys(errors).length) {
 		errors = {};
+	}
+
+	return errors;
+};
+
+Users.validateUserResetPassword = function (credentials) {
+	var errors = {};
+
+	var passwordError = passwordValidation(credentials.password);
+	if (passwordError) { errors.password = passwordError; }
+
+	var passwordConfirmationError = matchingValidation(credentials.password, credentials.passwordConfirmation);
+	if (passwordConfirmationError) { errors.passwordConfirmation = passwordConfirmationError; }
+
+	// If there is no error, reset the object to clear the eventual previous errors
+	if (!Object.keys(errors).length) {
+		errors = {};
+	}
 
 	return errors;
 };

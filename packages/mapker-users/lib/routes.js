@@ -80,10 +80,12 @@ Router.route('/reset-password', function () {
 	this.render('UserForgotPassword');
 });
 
-Router.route('/reset-password/:resetToken', function () {
-	this.render('UserForgotPassword');
-},{
-	name: 'reset-password.token'
+Router.route('/reset-password/:resetToken', {
+  name: 'UserForgotPassword',
+  template: 'UserForgotPassword',
+  data: function () {
+    return {resetToken: this.params.resetToken};
+  }
 });
 
 ////////////////////

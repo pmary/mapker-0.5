@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:users',
-  version: '0.0.2',
+  version: '0.0.3',
   summary: 'Mapker users and permissions package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'

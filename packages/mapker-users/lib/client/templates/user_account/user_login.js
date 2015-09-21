@@ -1,6 +1,6 @@
 Template.userLogin.created = function() {
 	Session.set('userLoginErrors', {});
-}
+};
 
 Template.userLogin.helpers({
 	errorMessage: function(field) {
