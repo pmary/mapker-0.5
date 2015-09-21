@@ -9,19 +9,13 @@ Elasticsearch = Npm.require('elasticsearch');
 if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
 	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
 	Search = new Elasticsearch.Client({
-		host: 'https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com',
-		sniffOnStart: true,
-		sniffInterval: 60000,
-		apiVersion: '1.7'
+		host: 'https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com'
 	});
 }
 else {
 	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
 	Search = new Elasticsearch.Client({
-		host: 'https://site:3c871d7e986c01316ae4277ba6b588c5@fili-us-east-1.searchly.com',
-		sniffOnStart: true,
-		sniffInterval: 60000,
-		apiVersion: '1.7'
+		host: 'https://site:547996b6b8262ee6259f65e4c4095fe8@fili-us-east-1.searchly.com'
 	});
 }
 
@@ -248,7 +242,7 @@ Search.methods = {
 			// If there is a query string
 			esQuery.body.query.filtered.query = {
 				multi_match: {
-					fields: ['skills_suggest'],
+					fields: ['skills_suggest', 'name', 'activity'],
 					query: queryObject.queryString,
 					fuzziness: 2
 				}
@@ -614,11 +608,25 @@ Meteor.methods({
 				body.activity = user.profile.activity;
 			}
 
-			if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon)
+			if (user.profile.address.loc && user.profile.address.loc.lat && user.profile.address.loc.lon) {
 				body.loc = {lat: user.profile.address.loc.lat, lon: user.profile.address.loc.lon};
+			}
 
-			if (user.profile.avatar && user.profile.avatar.url)
+			if (user.profile.address.countryCode) {
+				body.countryCode = user.profile.address.countryCode;
+			}
+
+			if (user.profile.address.zipcode) {
+				body.zipcode = user.profile.address.zipcode;
+			}
+
+			if (user.profile.address.city) {
+				body.city = user.profile.address.city;
+			}
+
+			if (user.profile.avatar && user.profile.avatar.url) {
 				body.avatar = {url: user.profile.avatar.url};
+			}
 
 			if (user.profile.cover) {
 				body.cover = {
@@ -727,7 +735,8 @@ Meteor.methods({
 		// Delete all the indices
 		Search.indices.delete({index: '_all'}, function (error, response) {
 			if (error) return console.log(error);
-			console.log('Delete indices:' + response.acknowledged);
+			console.log('restoreIndex response:', response);
+			//console.log('Delete indices:' + response.acknowledged);
 			/**
 			 * @summary Create the elasticsearch 'resources' incice
 			 * and setup the completion suggester on the field we need to
@@ -777,7 +786,8 @@ Meteor.methods({
 				}
 			}, function(error, response) {
 				if (error) return console.log(error);
-				console.log('Create resources indice:' + response.acknowledged);
+				console.log('response', response);
+				//console.log('Create resources indice:' + response.acknowledged);
 				// Register specific mapping definition for places and user resources
 				// See http://www.elastic.co/guide/en/elasticsearch/guide/master/complex-core-fields.html
 				var placesBody = {

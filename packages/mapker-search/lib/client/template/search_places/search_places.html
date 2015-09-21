@@ -136,10 +136,10 @@
 						{{/if}}
 					{{/if}}
 
-					{{#if pagination}}
+					{{#if placesPagination}}
 					<nav>
 						<ul class="pagination">
-							{{#if eq pagination.position "first"}}
+							{{#if eq placesPagination.position "first"}}
 							{{else}}
 								<li class="user-action-go-to-first-page">
 									<a href="#" aria-label="Previous">
@@ -148,7 +148,7 @@
 								</li>
 							{{/if}}
 
-							{{#each pagination.pages}}
+							{{#each placesPagination.pages}}
 								{{#if active}}
 									<li class="active user-action-go-to-page" data-index="{{index}}"><a href="#">{{index}}</a></li>
 								{{else}}
@@ -156,7 +156,7 @@
 								{{/if}}
 							{{/each}}
 
-							{{#if eq pagination.position "last"}}
+							{{#if eq placesPagination.position "last"}}
 							{{else}}
 							<li class="user-action-go-to-last-page">
 								<a href="#" aria-label="Next">

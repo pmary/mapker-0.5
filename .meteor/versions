@@ -51,6 +51,7 @@ livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
 mapker:api@0.0.1
+mapker:communities@0.0.1
 mapker:core@0.6.6
 mapker:i18n@0.0.2
 mapker:lib@0.0.2

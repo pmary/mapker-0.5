@@ -72,67 +72,85 @@ Template.adminPlaceEdit.helpers({
 	 * @summary Return the data about the user who propose this place
 	 */
 	contact: function () {
-		return Session.get('author');
+		return Session.get('contact');
 	}
 });
 
 Template.adminPlaceEdit.rendered = function () {
-	// Get the id of the user who submit this place
-	var placeMembers = this.data.members,
-	adminId;
-	for (var z = 0; z < placeMembers.length; z++) {
-		if (placeMembers[z].admin) {
-			adminId = placeMembers[z].id;
-		}
-	}
-	// Subscribe to the data of the user who propose this place
-	Meteor.subscribe("admin_getUser", adminId, {
-		onReady: function () {
-			// Get the data of the user who propose this place
-			Session.set('contact', Meteor.users.findOne({_id: adminId}));
-		},
-		onError: function (err) { console.log(err); }
-	});
 
-	$('.admin-place-edit [data-toggle="popover"]').popover();
+	var self = this;
+	self.autorun(function (computation) {
+		var place = Template.currentData();
 
-	var place = this.data;
+		if (place) {
+			var adminId;
 
-	var $selectTypes = $('select#select-types').selectize({maxItems: 3});
-	selectizeTypes = $selectTypes[0].selectize;
-	for (var i = 0; i < this.data.types.length; i++) {
-		selectizeTypes.addItem(place.types[i], true);
-	}
-
-	var $selectSpecialities = $('select#select-specialities').selectize({maxItems: 5}, place.specialities);
-	selectizeSpecialities = $selectSpecialities[0].selectize;
-	for (var y = 0; y < place.specialities.length; y++) {
-		selectizeSpecialities.addItem(place.specialities[y], true);
-	}
-
-	// Subscribe to the Countries
-	Meteor.subscribe("countriesList");
-
-	this.autorun(function (computation) {
-		// If there is no selectize instance on the country select
-		if (! selectizeCountry) {
-			// Get the countries
-			var countries = Countries.find().fetch();
-
-			// If all the countries has been retrieved
-			if (countries.length == 245) {
-				// Stop the tracker
-				computation.stop();
-
-				Session.set('countries', countries);
-
-				setTimeout(function () {
-					// Init a selectize instance on the country select
-					var $selectContry = $('.admin-place-edit select#select-country').selectize({maxItems: 1});
-					selectizeCountry = $selectContry[0].selectize;
-					selectizeCountry.addItem(place.countryCode, true);
-				}, 0);
+			// Check if the place has been suggested
+			if (place.suggestedBy) {
+				adminId = place.suggestedBy;
 			}
+			else if (place.members) {
+				// Check if the place has an admin
+				var placeMembers = place.members;
+
+				for (var z = 0; z < placeMembers.length; z++) {
+					if (placeMembers[z].admin) {
+						adminId = placeMembers[z].id;
+					}
+				}
+			}
+
+			if (adminId) {
+				// Subscribe to the data of the user who propose this place
+				Meteor.subscribe("admin_getUser", adminId, {
+					onReady: function () {
+						var contact = Meteor.users.findOne({_id: adminId});
+						// Get the data of the user who propose this place
+						Session.set('contact', contact);
+					},
+					onError: function (err) { console.log(err); }
+				});
+			}
+
+			$('.admin-place-edit [data-toggle="popover"]').popover();
+
+			var $selectTypes = $('select#select-types').selectize({maxItems: 3});
+			selectizeTypes = $selectTypes[0].selectize;
+			for (var i = 0; i < place.types.length; i++) {
+				selectizeTypes.addItem(place.types[i], true);
+			}
+
+			var $selectSpecialities = $('select#select-specialities').selectize({maxItems: 5}, place.specialities);
+			selectizeSpecialities = $selectSpecialities[0].selectize;
+			for (var y = 0; y < place.specialities.length; y++) {
+				selectizeSpecialities.addItem(place.specialities[y], true);
+			}
+
+			// Subscribe to the Countries
+			Meteor.subscribe("countriesList");
+
+			Deps.autorun(function () {
+				// If there is no selectize instance on the country select
+				if (! selectizeCountry) {
+					// Get the countries
+					var countries = Countries.find().fetch();
+
+					// If all the countries has been retrieved
+					if (countries.length == 245) {
+						// Stop the tracker
+						this.stop();
+
+						Session.set('countries', countries);
+
+						setTimeout(function () {
+							// Init a selectize instance on the country select
+							var $selectContry = $('.admin-place-edit select#select-country').selectize({maxItems: 1});
+							selectizeCountry = $selectContry[0].selectize;
+							selectizeCountry.addItem(place.countryCode, true);
+						}, 0);
+					}
+				}
+			});
 		}
 	});
 };

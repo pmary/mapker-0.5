@@ -39,7 +39,7 @@
 						{{else}}
 							{{#each places}}
 							<div class="col-md-12">
-								<div class="result" data-id="{{_id}}">
+								<div class="result" data-id="{{_id}}" data-zipcode="{{zipcode}}" data-city="{{city}}" data-country="{{countryCode}}">
 									<header>
 										{{#if avatar}}
 										<a href="{{pathFor route='userProfileBio' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
@@ -74,10 +74,10 @@
 						{{/if}}
 					{{/if}}
 
-					{{#if pagination}}
+					{{#if skillsPagination}}
 					<nav>
 						<ul class="pagination">
-							{{#if eq pagination.position "first"}}
+							{{#if eq skillsPagination.position "first"}}
 							{{else}}
 								<li class="user-action-go-to-first-page">
 									<a href="#" aria-label="Previous">
@@ -86,7 +86,7 @@
 								</li>
 							{{/if}}
 
-							{{#each pagination.pages}}
+							{{#each skillsPagination.pages}}
 								{{#if active}}
 									<li class="active user-action-go-to-page" data-index="{{index}}"><a href="#">{{index}}</a></li>
 								{{else}}
@@ -94,7 +94,7 @@
 								{{/if}}
 							{{/each}}
 
-							{{#if eq pagination.position "last"}}
+							{{#if eq skillsPagination.position "last"}}
 							{{else}}
 							<li class="user-action-go-to-last-page">
 								<a href="#" aria-label="Next">

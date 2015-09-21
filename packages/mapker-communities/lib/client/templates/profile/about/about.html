@@ -1,0 +1,49 @@
+<template name="communityProfileAbout">
+	<section class="user-profile-bio place-profile-about">
+		<div class="user-bio-container">
+			{{#if isAdmin}}
+				{{#if place.about}}
+					<div class="place-about-content">
+						<div class="specialities">
+							Main specialities: {{splitByScore place.specialities}}
+						</div>
+
+						<p>{{{htmlLineBreack place.about}}}</p>
+						<a href="#" id="update-user-bio">Edit</a>
+					</div>
+				{{else}}
+				<div id="update-user-bio" class="add-place-about">
+					<span class="mapker-picto-place-about"></span>
+					<p>Talk about your place</p>
+				</div>
+				{{/if}}
+			{{else}}
+				{{#if place.about}}
+					<div class="place-about-content">
+					<div class="specialities">
+						Main specialities: {{splitByScore place.specialities}}
+					</div>
+
+					<p>{{{htmlLineBreack place.about}}}</p>
+					</div>
+				{{else}}
+					<div class="no-place-about">
+						<span class="mapker-picto-place-about"></span>
+						<p>This place has not yet shared its information</p>
+					</div>
+				{{/if}}
+			{{/if}}
+		</div>
+		<div class="user-bio-edition">
+			<form id="form-user-bio">
+				<div class="form-group">
+					<textarea class="form-control" id="input-place-about">{{place.about}}</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" id="cancel-bio-edit">Cancel</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</template>

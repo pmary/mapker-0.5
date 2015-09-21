@@ -1,27 +1,28 @@
-<template name="addPlace">
+<template name="createPlace">
   <div class="container-fluid add-your-place-page">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-cover">
         <header>
+          <div class="center">
+            <img src="/images/white-place-icon.png" alt="Place">
+            <p>Lets the Makers find you</p>
+            <button class="btn btn-primary user-action-open-modal-add-place">Add your place</button>
+          </div>
         </header>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <article>
-          <p><b>It is completely free to add your place on Mapker.</b></p>
+          <p><b>It is completely free to create a place on Mapker.</b></p>
           <p>
             Just fill a short form, it take about <b>1 minute</b>.
-           </p>
-
-          <p class="center">
-            <button class="btn btn-primary user-action-open-modal-add-place">Add your place</button>
           </p>
 
           <p>
             After you have signed up, the Mapker team will review and verify the informations.
             <br>
-            We may have already invited your place to be on Mapker. If you are not sure whether you qualify, check out our validation criteria.
+            We may have already invited your place to be on Mapker, you can try to <a href="{{pathFor route='searchPlaces'}}">find your place</a> and if it's already listed, visit the the "Staff" tab to take over the profile.
           </p>
 
           <h3>What do I gain to be listed on Mapker?</h3>
@@ -33,7 +34,7 @@
           </ol>
 
           <h3>Place Criteria</h3>
-          <p>We verify every place listed on Mapker and visit as much as posible. If you are unsure who to recommend you can take a look at these criteria. They were made so that Mapker is as useful as possible for the process of sourcing places.</p>
+          <p>We verify every place listed on Mapker and visit as much as posible. If you are unsure about your eligibility, check our criteria. They were made so that Mapker is as useful as possible for the process of sourcing places.</p>
           <p><b>To be sure to be verified, make sure you meet our four criteria:</b></p>
           <p>
             <ol>

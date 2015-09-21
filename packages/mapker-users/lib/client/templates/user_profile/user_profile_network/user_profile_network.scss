@@ -1,5 +1,5 @@
 .user-profile-network {
-	.no-network-message {
+	.user-go-skills-search {
 		cursor: pointer;
     width: 100%;
     border: 1px dashed #c9c9c9;
@@ -18,6 +18,23 @@
 				color: #20dec2;
 			}
 		}
+
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
+	}
+
+	.no-network-message {
+    width: 100%;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
 
 		.text-add-skills {
 			display: block;

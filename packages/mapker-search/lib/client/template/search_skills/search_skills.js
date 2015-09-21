@@ -4,8 +4,9 @@
 var filters = {}; // The last argument passed to searchSkillsByActivitiesAndBbox()
 var areasLayers = [];
 var resultPerPage = 1; // The max number of results to display per page
-var resultsFrom = 0; // From which result do we want to get the places (used for pagination)
+var resultsFrom = 0; // From which result do we want to get the places (used for skillsPagination)
 var currentPage = 1; // The current search result page
+var previousSearchObject = null; // Will contain the last 'searchObject' param passed to searchSkillsByActivitiesAndBbox()
 
 /**
  * @summary Find the places that are within the current map viewable zone and that one
@@ -15,14 +16,20 @@ var currentPage = 1; // The current search result page
  * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
  */
 var searchSkillsByActivitiesAndBbox = function(searchObject) {
+	// Check if we will ask for the same query
+	if (previousSearchObject && JSON.stringify(previousSearchObject) === JSON.stringify(searchObject)) {
+		// Prevent the query execution
+		return false;
+	}
+
+	previousSearchObject = searchObject;
+
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
 	Meteor.call('getUsers', searchObject, function(error, result) {
 		if (error) {
       throw error;
     }
-
-		//console.log(result);
 
 		// If there is no result
 		if (!result.hits.total) {
@@ -35,6 +42,12 @@ var searchSkillsByActivitiesAndBbox = function(searchObject) {
 		for (var i = 0; i < result.hits.hits.length; i++) {
 			result.hits.hits[i]._source._id = result.hits.hits[i]._id;
 			places.push(result.hits.hits[i]._source);
+		}
+
+		// Check if the result is the same that the previous one
+		var previousResult = Session.get('searchSkillsResults');
+		if (JSON.stringify(previousResult) === JSON.stringify(places)) {
+			return console.log('same result');
 		}
 
 		Session.set('searchSkillsResults', places);
@@ -68,29 +81,29 @@ var searchSkillsByActivitiesAndBbox = function(searchObject) {
 			}, 500);
 		}
 
-		// Setup the pagination
+		// Setup the skillsPagination
 		if (result.hits.total > resultPerPage) {
 			var nbrOfPages = Math.ceil(result.hits.total / resultPerPage),
-			pagination = { pages: [] };
+			skillsPagination = { pages: [] };
 
 			for (var z = 0; z < nbrOfPages; z++) {
 				if (z === 0) {
-					pagination.pages.push({index: (z+1), active: true});
+					skillsPagination.pages.push({index: (z+1), active: true});
 				}
 				else {
-					pagination.pages.push({index: (z+1), active: false});
+					skillsPagination.pages.push({index: (z+1), active: false});
 				}
 			}
 
 			// Check if we need to display the 'Previous' or 'Next' buttons
 			if ( (+currentPage) === 1 ) {
-				pagination.position = 'first';
+				skillsPagination.position = 'first';
 			}
-			else if (pagination.pages.length === (+currentPage)) {
-				pagination.position = 'last';
+			else if (skillsPagination.pages.length === (+currentPage)) {
+				skillsPagination.position = 'last';
 			}
 
-			Session.set('pagination', pagination);
+			Session.set('skillsPagination', skillsPagination);
 		}
 
 		// If they was no bbox provided
@@ -131,7 +144,7 @@ var buildAndFiresSearch = function() {
 	// Reset the marker list
 	markers = [];
 	// Reset the search results
-	Session.set('searchSkillsResults', '');
+	//Session.set('searchSkillsResults', '');
 
 	// Get the input values
 	var location = $('.mapker-search-skills #mapker-places-input-where').val(),
@@ -299,7 +312,7 @@ Template.searchSkills.rendered = function() {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized
 			map = L.mapbox.map('mapker-places-search-map', 'mapbox.streets', {zoomControl: false})
-			.setView([40, -20.50], 3);
+			.setView([46.649436, -4.658203], 6);
 			//map.addLayer("placeLayer");
 
 			// Disable touch and whell zoom
@@ -326,7 +339,7 @@ Template.searchSkills.rendered = function() {
 	$('.mapker-search-skills #mapker-places-input-what').autocomplete({
 		position: "absolute",
 		appendTo: $('.mapker-search-skills .input-what-container'),
-		lookup: function(queryString, done) {
+		lookup: Core.debounce(function(queryString, done) {
 			// No search if the query string lenght < 2 characters
 			// Or if the input text hasn't change
 			if (queryString.length < 2 || queryString == currentWhatQueryString) return;
@@ -350,7 +363,7 @@ Template.searchSkills.rendered = function() {
 
 				done(formatedResult);
 			});
-		},
+		}, 250),
 		onSelect: function (suggestion) {
 			//console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
 			// Search places matching with the current input values
@@ -403,6 +416,16 @@ Template.searchSkills.rendered = function() {
 	});
 };
 
+Template.searchSkills.onDestroyed(function () {
+	console.log('searchSkills.onDestroyed');
+	filters = {};
+	areasLayers = [];
+	resultPerPage = 1;
+	resultsFrom = 0;
+	currentPage = 1;
+	previousSearchObject = null;
+	delete Session.set.skillsPagination;
+});
 
 /*****************************************************************************/
 /* Meteor events */
@@ -430,6 +453,9 @@ Template.searchSkills.events({
 		}
 	},
 	'click .user-action-zoom-to': function(e, t) {
+		console.log(e);
+		console.log('dataset', e.currentTarget.dataset);
+
 		var resourceId = e.currentTarget.dataset.id,
 		zipcode = e.currentTarget.dataset.zipcode,
 		country = e.currentTarget.dataset.country,
@@ -538,7 +564,7 @@ Template.searchSkills.events({
 	 * @summary Go to the given result page
 	 */
 	'click .user-action-go-to-page': function (e, t) {
-		var pagination = Session.get('pagination');
+		var skillsPagination = Session.get('skillsPagination');
 
 		// Check if the selected page is the current one
 		if (currentPage === (+e.currentTarget.dataset.index)) {
@@ -558,18 +584,18 @@ Template.searchSkills.events({
 		}
 
 		// Set the selected page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < skillsPagination.pages.length; i++) {
+			skillsPagination.pages[i].active = false;
 			if(i === index) {
-				pagination.pages[i].active = true;
+				skillsPagination.pages[i].active = true;
 			}
 		}
 
-		// If the selected page is the last one, set thepagination position at 'last'
-		if (currentPage === pagination.pages.length) {
-			pagination.position = 'last';
+		// If the selected page is the last one, set theskillsPagination position at 'last'
+		if (currentPage === skillsPagination.pages.length) {
+			skillsPagination.position = 'last';
 		}
-		Session.set('pagination', pagination);
+		Session.set('skillsPagination', skillsPagination);
 
 		buildAndFiresSearch();
 	},
@@ -580,16 +606,16 @@ Template.searchSkills.events({
 		currentPage = 1;
 		resultsFrom = 0;
 
-		var pagination = Session.get('pagination');
+		var skillsPagination = Session.get('skillsPagination');
 		// Set the first page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < skillsPagination.pages.length; i++) {
+			skillsPagination.pages[i].active = false;
 			if(i === 0) {
-				pagination.pages[i].active = true;
+				skillsPagination.pages[i].active = true;
 			}
 		}
-		pagination.position = 'first';
-		Session.set('pagination', pagination);
+		skillsPagination.position = 'first';
+		Session.set('skillsPagination', skillsPagination);
 
 		buildAndFiresSearch();
 	},
@@ -598,19 +624,19 @@ Template.searchSkills.events({
 	 */
 	'click .user-action-go-to-last-page': function () {
 		// Get the number of pages
-		var pagination = Session.get('pagination');
-		currentPage = pagination.pages.length;
+		var skillsPagination = Session.get('skillsPagination');
+		currentPage = skillsPagination.pages.length;
 		resultsFrom = ((currentPage -1) * resultPerPage);
 
 		// Set the last page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < skillsPagination.pages.length; i++) {
+			skillsPagination.pages[i].active = false;
 			if(i === (currentPage - 1)) {
-				pagination.pages[i].active = true;
+				skillsPagination.pages[i].active = true;
 			}
 		}
-		pagination.position = 'last';
-		Session.set('pagination', pagination);
+		skillsPagination.position = 'last';
+		Session.set('skillsPagination', skillsPagination);
 
 		buildAndFiresSearch();
 	}

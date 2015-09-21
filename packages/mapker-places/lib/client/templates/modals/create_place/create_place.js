@@ -27,7 +27,7 @@ var checkPlaceData = function (t, step) {
 	var roleError = isFilledValidation(role);
 	if (roleError) {errors.role = roleError;}
 	// Display the error
-	Session.set('modalAddPlaceErrors', errors);
+	Session.set('modalCreatePlaceErrors', errors);
 	if (Object.keys(errors).length)
 		return; // Abort the account creation due to errors
 
@@ -91,18 +91,18 @@ var checkPlaceData = function (t, step) {
 	});
 };
 
-Template.modalAddPlace.helpers({
+Template.modalCreatePlace.helpers({
 	staticMapUrl: function () {
 		return Session.get('staticMapUrl');
 	},
 	errorMessage: function (field) {
-		if (Session.get('modalAddPlaceErrors')) {
-			return Session.get('modalAddPlaceErrors')[field];
+		if (Session.get('modalCreatePlaceErrors')) {
+			return Session.get('modalCreatePlaceErrors')[field];
 		}
 	},
 	errorClass: function (field) {
-		if (Session.get('modalAddPlaceErrors')) {
-			return !!Session.get('modalAddPlaceErrors')[field] ? 'has-error' : '';
+		if (Session.get('modalCreatePlaceErrors')) {
+			return !!Session.get('modalCreatePlaceErrors')[field] ? 'has-error' : '';
 		}
 	},
 	countries: function () {
@@ -115,7 +115,7 @@ Template.modalAddPlace.helpers({
   }
 });
 
-Template.modalAddPlace.rendered = function () {
+Template.modalCreatePlace.rendered = function () {
 	$('.modal-add-place [data-toggle="popover"]').popover();
 
 	var $selectTypes = $('select#select-types').selectize({
@@ -157,7 +157,7 @@ Template.modalAddPlace.rendered = function () {
 	});
 };
 
-Template.modalAddPlace.onDestroyed(function () {
+Template.modalCreatePlace.onDestroyed(function () {
   // Destroy the selectize instance on the country select
 	if (selectizeCountry) {
   	selectizeCountry.destroy();
@@ -175,7 +175,7 @@ Template.modalAddPlace.onDestroyed(function () {
 	}
 });
 
-Template.modalAddPlace.events({
+Template.modalCreatePlace.events({
 	'keypress #input-street-number, change #input-street-number, keypress #input-street-name, keypress #input-city, change #select-country' : function(e, t){
 		$('.modal-add-place #submit-place').css('display', "none");
 		$('.modal-add-place #check-location').css('display', "inline-block");

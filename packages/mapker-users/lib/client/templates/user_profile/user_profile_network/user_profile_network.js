@@ -16,7 +16,7 @@ Template.userProfileNetwork.helpers({
 });
 
 Template.userProfileNetwork.events({
-  'click .no-network-message': function () {
+  'click .user-go-skills-search': function () {
     Router.go('searchSkills');
   }
 });

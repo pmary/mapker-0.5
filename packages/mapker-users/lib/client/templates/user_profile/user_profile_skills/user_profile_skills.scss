@@ -27,6 +27,23 @@
 		}
 	}
 
+	.no-bio-message {
+		width: 100%;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
+
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
+	}
+
 	.user-add-bio-form {
 		display: none;
 	}

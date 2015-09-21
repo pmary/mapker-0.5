@@ -62,6 +62,10 @@ Package.onUse(function(api) {
     'lib/client/templates/suggest_a_place/suggest_a_place.html',
     'lib/client/templates/suggest_a_place/suggest_a_place.scss',
     'lib/client/templates/suggest_a_place/suggest_a_place.js',
+    // Add your community page
+    'lib/client/templates/create_a_community/create_a_community.html',
+    'lib/client/templates/create_a_community/create_a_community.scss',
+    'lib/client/templates/create_a_community/create_a_community.js',
     // Includes
     'lib/client/templates/includes/404.html',
     'lib/client/templates/includes/access_denied.html',

@@ -10,6 +10,23 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      padding-top: 45px;
+
+      .center {
+        position: relative;
+        text-align: center;
+
+        img {
+          max-width: 90px;
+        }
+
+        p {
+          color: #FFFFFF;
+          font-size: 30px;
+          margin-top: 20px;
+          margin-bottom: 20px;
+        }
+      }
     }
   }
 
@@ -27,16 +44,6 @@
 
     h3 {
       margin: 2em 0 1em;
-    }
-
-    .center {
-      text-align: center;
-
-      button {
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-      }
     }
 
     img {

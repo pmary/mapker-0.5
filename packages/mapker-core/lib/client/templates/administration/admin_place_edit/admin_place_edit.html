@@ -6,10 +6,10 @@
 		  <li class="active">{{name}}</li>
 		</ol>
 
-		<h1>{{name}}</h1>
-		<h5><i>Created at {{formatDate submittedAt "DD-MM-YYYY hh:mm:ss"}}</i></h5>
-
 		<form id="place-edition" class="col-md-5">
+			<h1>{{name}}</h1>
+			<h5><i>Created at {{formatDate submittedAt "DD-MM-YYYY hh:mm:ss"}}</i></h5>
+
 			<div class="checkbox">
 				<label>
 					{{#if activated}}
@@ -104,11 +104,15 @@
 
 		{{#if contact}}
 		<div id="contact-infos" class="col-md-5">
-			<h1>Contact</h1>
+			{{#if suggestedBy}}
+				<h1>Suggested by</h1>
+			{{else}}
+				<h1>Admin</h1>
+			{{/if}}
 			<h5>
 				<i>Member since {{formatDate contact.createdAt "DD-MM-YYYY hh:mm:ss"}} ({{fromNow contact.createdAt}})</i>
 				<br>
-				<i>Visit his profile at <a href="http://mapker.co/users/{{contact._id}}/bio">http://mapker.co/users/{{contact._id}}/bio</a></i>
+				<i>Visit his profile at <a href="http://mapker.co/user/{{contact._id}}/bio" target="_blank">http://mapker.co/user/{{contact._id}}/bio</a></i>
 			</h5>
 
 			<ul>
@@ -116,6 +120,7 @@
 				<li>Lastname: {{contact.profile.lastname}}</li>
 				<li>Main activity: {{contact.profile.activity}}</li>
 				<li>Phone number: {{contact.profile.phone}}</li>
+				<li>Email: {{#each contact.emails}}{{address}}{{/each}}</li>
 			</ul>
 		</div>
 		{{/if}}

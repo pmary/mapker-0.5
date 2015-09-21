@@ -22,6 +22,19 @@ Meteor.publish("admin_placesToValidate", function () {
 	}
 });
 
+Meteor.publish("admin_place", function (placeId) {
+	check(placeId, String);
+
+	// Check if the user is loged in and has the admin role
+	if( Roles.userIsInRole(this.userId, ['admin']) ) {
+		 return Places.find({_id: placeId});
+	}
+	else {
+		this.stop();
+    return;
+	}
+});
+
 /**
  * @summary Publish the complete user document
  */

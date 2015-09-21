@@ -1,0 +1,41 @@
+<template name="modalCreateCommunity">
+	<div class="modal fade modal-create-community">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Create a community</h4>
+				</div>
+				<div class="modal-body">
+          <form>
+            <div class="form-group {{errorClass 'name'}}">
+							<label for="input-name">Name</label>
+							<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="The name of your community" data-trigger="hover click"></span>
+							<input type="text" class="form-control" id="input-name" placeholder="">
+							<span class="help-block">{{errorMessage 'name'}}</span>
+						</div>
+            <div class="form-group {{errorClass 'username'}}">
+							<label for="input-username">Username</label>
+							<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Your username, or handle, is your identity on Mapker, and is preceded by the at (@) symbol (like on Twitter)" data-trigger="hover click"></span>
+              <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input type="text" class="form-control" id="input-username" placeholder="">
+  							<span class="help-block">{{errorMessage 'username'}}</span>
+              </div>
+						</div>
+            <div class="form-group {{errorClass 'description'}}">
+							<label for="textarea-description">Description</label>
+							<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Describe your community" data-trigger="hover click"></span>
+							<textarea class="form-control" name="textarea-description" id="textarea-description" placeholder="What about your community?"></textarea>
+							<span class="help-block">{{errorMessage 'description'}}</span>
+						</div>
+          </form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary">Create</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

@@ -21,7 +21,7 @@ Template.userProfilePlaces.events({
 		Session.set('activeModal', 'modalAddPlace');
 		$('#myModal').modal();
 	},
-	'click .no-place-message': function () {
-		Router.go('searchPlaces');
+	'click .user-go-create-place': function () {
+		Router.go('createPlace');
 	}
 });

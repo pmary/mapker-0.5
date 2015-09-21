@@ -5,10 +5,18 @@
 		{{#if eq currentUser._id user._id}}
 			{{#if hasConnexions}}
 			{{else}}
-				<div class="no-network-message">
+				<div class="user-go-skills-search">
 					<span class="mapker-picto-network"></span>
 					<p>Makers are waiting for you <br>
 					Find others makers to connect</p>
+				</div>
+			{{/if}}
+		{{else}}
+			{{#if hasConnexions}}
+			{{else}}
+				<div class="no-network-message">
+					<span class="mapker-picto-network"></span>
+					<p>{{user.profile.firstname}} haven't started to build his network</p>
 				</div>
 			{{/if}}
 		{{/if}}

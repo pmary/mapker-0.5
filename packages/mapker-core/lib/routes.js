@@ -71,12 +71,21 @@ Router.route('/suggest-a-place', {
   }
 });
 
-Router.route('/add-your-place', {
-  name: 'addPlace',
-  template: 'addPlace',
+Router.route('/create-a-place', {
+  name: 'createPlace',
+  template: 'createPlace',
   after: function () {
-    //
-    ga('send', 'pageview', '/add-your-place');
+    // Send the pageview to GA
+    ga('send', 'pageview', '/create-a-place');
+  }
+});
+
+Router.route('/create-a-community', {
+  name: 'createCommunity',
+  template: 'createCommunity',
+  after: function () {
+    // Send the pageview to GA
+    ga('send', 'pageview', '/create-a-community');
   }
 });
 
@@ -126,12 +135,13 @@ Router.route('/mapker-admin/places/:_id/edit', {
 	yieldRegions: {
 		'adminPlaceEdit': {to: 'content'}
 	},
+  loadingTemplate: 'loader',
   before: [filters.authenticateAdmin],
 	waitOn: function () {
-		return Meteor.subscribe('place', this.params._id);
+		return Meteor.subscribe('admin_place', this.params._id);
 	},
 	data: function () {
-		return Places.findOne({_id: this.params._id});
+    return Places.findOne({_id: this.params._id});
 	}
 });
 

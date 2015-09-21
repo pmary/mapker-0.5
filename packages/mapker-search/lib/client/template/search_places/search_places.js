@@ -3,8 +3,10 @@
 /*****************************************************************************/
 var filters = {}; // The last argument passed to searchPlacesByActivitiesAndBbox()
 var resultPerPage = 10; // The max number of results to display per page
-var resultsFrom = 0; // From which result do we want to get the places (used for pagination)
+var resultsFrom = 0; // From which result do we want to get the places (used for placesPagination)
 var currentPage = 1; // The current search result page
+var previousSearchObject = null; // Will contain the last 'searchObject' param passed to searchSkillsByActivitiesAndBbox()
+
 /**
  * @summary Find the places that are within the current map viewable zone and that one
  * of it's activities match with the given keywords
@@ -13,6 +15,15 @@ var currentPage = 1; // The current search result page
  * @param {Array} searchObject.bbox - Bounding box coordinates of the current map focus
  */
 var searchPlacesByActivitiesAndBbox = function(searchObject) {
+	//console.log('placesPagination', JSON.stringify(Session.get('placesPagination')));
+	// Check if we will ask for the same query
+	if (previousSearchObject && JSON.stringify(previousSearchObject) === JSON.stringify(searchObject)) {
+		// Prevent the query execution
+		return false;
+	}
+
+	previousSearchObject = searchObject;
+
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
 	Meteor.call('getPlaces', searchObject, function(error, result) {
@@ -31,6 +42,12 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 		for (var i = 0; i < result.hits.hits.length; i++) {
 			result.hits.hits[i]._source._id = result.hits.hits[i]._id;
 			places.push(result.hits.hits[i]._source);
+		}
+
+		// Check if the result is the same that the previous one
+		var previousResult = Session.get('searchSkillsResults');
+		if (JSON.stringify(previousResult) === JSON.stringify(places)) {
+			return console.log('same result');
 		}
 
 		Session.set('searchPlacesResults', places);
@@ -64,29 +81,29 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 			}, 500);
 		}
 
-		// Setup the pagination
+		// Setup the placesPagination
 		if (result.hits.total > resultPerPage && currentPage === 1) {
 			var nbrOfPages = Math.ceil(result.hits.total / resultPerPage),
-			pagination = { pages: [] };
+			placesPagination = { pages: [] };
 
 			for (var z = 0; z < nbrOfPages; z++) {
 				if (z === 0) {
-					pagination.pages.push({index: (z+1), active: true});
+					placesPagination.pages.push({index: (z+1), active: true});
 				}
 				else {
-					pagination.pages.push({index: (z+1), active: false});
+					placesPagination.pages.push({index: (z+1), active: false});
 				}
 			}
 
 			// Check if we need to display the 'Previous' or 'Next' buttons
 			if ( (+currentPage) === 1 ) {
-				pagination.position = 'first';
+				placesPagination.position = 'first';
 			}
-			else if (pagination.pages.length === (+currentPage)) {
-				pagination.position = 'last';
+			else if (placesPagination.pages.length === (+currentPage)) {
+				placesPagination.position = 'last';
 			}
 
-			Session.set('pagination', pagination);
+			Session.set('placesPagination', placesPagination);
 		}
 
 		// If they was no bbox provided
@@ -130,7 +147,7 @@ var buildAndFiresSearch = function() {
 	// Reset the marker list
 	markers = [];
 	// Reset the search results
-	Session.set('searchPlacesResults', '');
+	//Session.set('searchPlacesResults', '');
 
 	// Get the input values
 	var location = $('.mapker-search-places #mapker-places-input-where').val(),
@@ -242,11 +259,11 @@ Template.searchPlaces.helpers({
 	places: function () {
 		return Session.get("searchPlacesResults");
 	},
-	pagination: function () {
-		return Session.get('pagination');
+	placesPagination: function () {
+		return Session.get('placesPagination');
 	},
-	paginationPosition: function () {
-		return Session.get('paginationPosition');
+	placesPaginationPosition: function () {
+		return Session.get('placesPaginationPosition');
 	}
 });
 
@@ -272,7 +289,7 @@ Template.searchPlaces.rendered = function() {
 			L.mapbox.accessToken = 'pk.eyJ1IjoibWFwa2VyIiwiYSI6IkdhdGxLZUEifQ.J3Et4F0n7-rX2oAQHaf22A';
 			// Return if Map is already initialized
 			map = L.mapbox.map('mapker-places-search-map', 'mapbox.streets', {zoomControl: false})
-			.setView([40, -20.50], 3);
+			.setView([46.649436, -4.658203], 6);
 			//map.addLayer("placeLayer");
 
 			// Disable touch and whell zoom
@@ -375,6 +392,15 @@ Template.searchPlaces.rendered = function() {
 		}
 	});
 };
+
+Template.searchPlaces.onDestroyed(function () {
+	filters = {};
+	resultPerPage = 10;
+	resultsFrom = 0;
+	currentPage = 1;
+	previousSearchObject = null;
+	delete Session.keys.placesPagination;
+});
 
 
 /*****************************************************************************/
@@ -497,9 +523,9 @@ Template.searchPlaces.events({
 	 * @summary Go to the given result page
 	 */
 	'click .user-action-go-to-page': function (e, t) {
-		var pagination = Session.get('pagination');
+		var placesPagination = Session.get('placesPagination');
 
-		/*$('.mapker-search-places .pagination li').removeClass('active');
+		/*$('.mapker-search-places .placesPagination li').removeClass('active');
 		$(e.currentTarget).addClass('active');*/
 
 		// Check if the selected page is the current one
@@ -520,18 +546,18 @@ Template.searchPlaces.events({
 		}
 
 		// Set the selected page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < placesPagination.pages.length; i++) {
+			placesPagination.pages[i].active = false;
 			if(i === index) {
-				pagination.pages[i].active = true;
+				placesPagination.pages[i].active = true;
 			}
 		}
 
-		// If the selected page is the last one, set thepagination position at 'last'
-		if (currentPage === pagination.pages.length) {
-			pagination.position = 'last';
+		// If the selected page is the last one, set theplacesPagination position at 'last'
+		if (currentPage === placesPagination.pages.length) {
+			placesPagination.position = 'last';
 		}
-		Session.set('pagination', pagination);
+		Session.set('placesPagination', placesPagination);
 
 		buildAndFiresSearch();
 	},
@@ -542,17 +568,17 @@ Template.searchPlaces.events({
 		currentPage = 1;
 		resultsFrom = 0;
 
-		var pagination = Session.get('pagination');
+		var placesPagination = Session.get('placesPagination');
 		// Set the first page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < placesPagination.pages.length; i++) {
+			placesPagination.pages[i].active = false;
 			if(i === 0) {
-				pagination.pages[i].active = true;
+				placesPagination.pages[i].active = true;
 			}
 		}
-		console.log('pagination', pagination);
-		pagination.position = 'first';
-		Session.set('pagination', pagination);
+
+		placesPagination.position = 'first';
+		Session.set('placesPagination', placesPagination);
 
 		buildAndFiresSearch();
 	},
@@ -561,19 +587,19 @@ Template.searchPlaces.events({
 	 */
 	'click .user-action-go-to-last-page': function () {
 		// Get the number of pages
-		var pagination = Session.get('pagination');
-		currentPage = pagination.pages.length;
+		var placesPagination = Session.get('placesPagination');
+		currentPage = placesPagination.pages.length;
 		resultsFrom = ((currentPage -1) * resultPerPage);
 
 		// Set the last page as active
-		for (var i = 0; i < pagination.pages.length; i++) {
-			pagination.pages[i].active = false;
+		for (var i = 0; i < placesPagination.pages.length; i++) {
+			placesPagination.pages[i].active = false;
 			if(i === (currentPage - 1)) {
-				pagination.pages[i].active = true;
+				placesPagination.pages[i].active = true;
 			}
 		}
-		pagination.position = 'last';
-		Session.set('pagination', pagination);
+		placesPagination.position = 'last';
+		Session.set('placesPagination', placesPagination);
 
 		buildAndFiresSearch();
 	}

@@ -82,31 +82,31 @@
 			padding-right: 0px;
 		}
 	}
-}
 
-#place-profile-page .profile-cover {
-	background-size: cover;
-	background-image: url(/images/fond-cover-place.png);
-}
-
-#place-profile-page .profile-avatar-image {
-	position: absolute;
-	left: 0;
-	top: 0;
-	margin: 0;
-	display: block;
-	width: auto;
-	height: auto;
-	min-width: 100%;
-	min-height: 100%;
-	max-height: none;
-	max-width: none;
-
-	@media screen and (max-width: 1440px) {
-		top: 100px;
+	.profile-cover {
+		background-size: cover;
+		background-image: url(/images/fond-cover-place.png);
 	}
-}
 
-#place-profile-page .popover #submit-identity {
-	display: none;
+	.profile-avatar-image {
+		position: absolute;
+		left: 0;
+		top: 0;
+		margin: 0;
+		display: block;
+		width: auto;
+		height: auto;
+		min-width: 100%;
+		min-height: 100%;
+		max-height: none;
+		max-width: none;
+
+		@media screen and (max-width: 1440px) {
+			top: 100px;
+		}
+	}
+
+	.popover #submit-identity {
+		display: none;
+	}
 }

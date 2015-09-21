@@ -36,6 +36,7 @@ Package.onUse(function(api) {
     'aldeed:collection2',           // https://atmospherejs.com/aldeed/collection2
     'aldeed:autoform@5.3.2',        // https://atmospherejs.com/aldeed/autoform
     'iron:router@1.0.9',            // https://atmospherejs.com/iron/router
+    'alanning:roles',               // https://atmospherejs.com/alanning/roles
     'fourseven:scss@2.1.1',         // https://atmospherejs.com/fourseven/scss
     'twbs:bootstrap@3.3.5',         // https://atmospherejs.com/twbs/bootstrap
     'peppelg:bootstrap-3-modal',    // https://atmospherejs.com/peppelg/bootstrap-3-modal

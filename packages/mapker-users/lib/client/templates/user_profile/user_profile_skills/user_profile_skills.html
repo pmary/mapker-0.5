@@ -61,13 +61,20 @@
 				</div>
 			</form>
 		{{else}}
-			<div class="user-skills">
-				{{#each user.profile.skills}}
-					<div class="user-skill">
-						<span class="skill-title">{{title}}</span>
-					</div>
-				{{/each}}
-			</div>
+			{{#if user.profile.skills}}
+				<div class="user-skills">
+					{{#each user.profile.skills}}
+						<div class="user-skill">
+							<span class="skill-title">{{title}}</span>
+						</div>
+					{{/each}}
+				</div>
+			{{else}}
+				<div class="no-bio-message">
+					<span class="mapker-picto-skills"></span>
+					<span class="text-add-skills">{{user.profile.firstname}} haven't share his skills yet</span>
+				</div>
+			{{/if}}
 		{{/if}}
 
 	</section>

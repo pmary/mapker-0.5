@@ -504,12 +504,28 @@ form small.error {
 	&:before {
 		content: " ";
 		position: relative;
-		background-image: url(/images/avatar-place-default.png);
+		background-image: url("/images/avatar-place-default.png");
 		display: inline-block;
-		height: 23px;
+		height: 26px;
 		top: 2px;
-		width: 30px;
+		width: 34px;
 		background-size: cover;
+		margin-right: 6px;
+	}
+}
+
+.menu-icon-community-before {
+	&:before {
+		content: " ";
+		position: relative;
+		background-image: url("/images/avatar-community-default.png");
+		display: inline-block;
+		height: 20px;
+		top: 2px;
+		width: 26px;
+		background-size: cover;
+		margin-right: 9px;
+		margin-left: 4px;
 	}
 }
 

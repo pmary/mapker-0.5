@@ -1,0 +1,28 @@
+.modal-create-community {
+  .modal-content {
+    .modal-header {
+      background-color: #fcea10;
+    	color: #ffffff;
+    	padding: 0px;
+    	height: 95px;
+
+    	.close {
+    		display: none;
+    	}
+
+      .modal-title {
+    		&:before {
+    			content: " ";
+    			position: relative;
+    			background-image: url(/images/avatar-community-default.png);
+    			display: inline-block;
+    			height: 61px;
+    			top: 15px;
+          margin-right: 10px;
+    			width: 80px;
+    			background-size: cover;
+    		}
+    	}
+    }
+  }
+}

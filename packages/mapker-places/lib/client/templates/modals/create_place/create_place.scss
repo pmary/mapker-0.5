@@ -3,11 +3,11 @@
  * 00 - Static map
  */
 
-.modal-add-place #submit-place {
+.modal-create-place #submit-place {
 	display: none;
 }
 
-.modal-add-place .modal-header {
+.modal-create-place .modal-header {
 	background-color: #fc3975;
 	color: #ffffff;
 	padding: 0px;
@@ -31,7 +31,7 @@
 	}
 }
 
-.modal-add-place .validation-message {
+.modal-create-place .validation-message {
 	font-weight: bold;
 	margin-bottom: 20px;
 	margin-top: 15px;
@@ -41,7 +41,7 @@
 /**
  * 00 - Tags input
  */
-.modal-add-place .bootstrap-tagsinput {
+.modal-create-place .bootstrap-tagsinput {
 	height: 40px;
 	border: 1px solid #DEDEDE;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -51,11 +51,11 @@
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-.modal-add-place .bootstrap-tagsinput input {
+.modal-create-place .bootstrap-tagsinput input {
 	padding: 5px 6px;
 }
 
-.modal-add-place .bootstrap-tagsinput.focus-input-tag {
+.modal-create-place .bootstrap-tagsinput.focus-input-tag {
 	border-color: #66AFE9;
 	outline: 0;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -65,40 +65,40 @@
 /**
  * Form
  */
-.modal-add-place .address-form-group {
+.modal-create-place .address-form-group {
 	display: inline-block;
 }
 
-.modal-add-place .address-form-group label {
+.modal-create-place .address-form-group label {
 	padding-right: 0px;
 	padding-left: 0px;
 }
 
-.modal-add-place .address-form-group #street-number {
+.modal-create-place .address-form-group #street-number {
 	padding-left: 0px;
 	padding-right: 0px;
 	margin-bottom: 15px;
 }
 
-.modal-add-place .address-form-group #street-name {
+.modal-create-place .address-form-group #street-name {
 	padding-right: 0px;
 	margin-bottom: 15px;
 }
 
-.modal-add-place .address-form-group #zipcode {
+.modal-create-place .address-form-group #zipcode {
 	padding-left: 0px;
 	padding-right: 0px;
 }
 
-.modal-add-place .address-form-group #city {
+.modal-create-place .address-form-group #city {
 	padding-right: 0px;
 }
 
-.modal-add-place .address-form-group #country {
+.modal-create-place .address-form-group #country {
 	padding-right: 0px;
 }
 
-.modal-add-place .address-form-group .static-map-container {
+.modal-create-place .address-form-group .static-map-container {
 	padding-left: 0px;
 	padding-right: 0px;
 }
@@ -106,11 +106,11 @@
 /**
  * 00 - Static map
  */
-.modal-add-place .static-map-container {
+.modal-create-place .static-map-container {
 	text-align: center;
 }
 
-.modal-add-place .static-map-container .loader {
+.modal-create-place .static-map-container .loader {
 	position: relative;
 	margin-right: auto;
 	margin-left: auto;
@@ -118,21 +118,21 @@
 	top: 0px;
 }
 
-.modal-add-place .static-map-container .static-map {
+.modal-create-place .static-map-container .static-map {
 	width: 100%;
 }
 
 /**
  * 00 - Popover
  */
-.modal-add-place .glyphicon-question-sign{
+.modal-create-place .glyphicon-question-sign{
 	margin-top: 10px;
 }
 
-.modal-add-place .glyphicon-question-sign:hover {
+.modal-create-place .glyphicon-question-sign:hover {
 	cursor: pointer;
 }
 
-.modal-add-place .popover {
+.modal-create-place .popover {
 	width: 200px;
 }

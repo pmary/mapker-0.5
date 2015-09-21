@@ -52,9 +52,9 @@ Package.onUse(function(api) {
         'lib/client/templates/profile/timetable/timetable.js',
     // Modals
       // Add place
-      'lib/client/templates/modals/add_place/add_place.html',
-      'lib/client/templates/modals/add_place/add_place.scss',
-      'lib/client/templates/modals/add_place/add_place.js',
+      'lib/client/templates/modals/create_place/create_place.html',
+      'lib/client/templates/modals/create_place/create_place.scss',
+      'lib/client/templates/modals/create_place/create_place.js',
       // Suggest place
       'lib/client/templates/modals/suggest_place/suggest_place.html',
       'lib/client/templates/modals/suggest_place/suggest_place.scss',

@@ -9,7 +9,7 @@
 	<ul class="dropdown-menu" id="navbar-notifs-list">
 		<li class="nav-tabs-container">
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="tab active"><a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">Requests</a></li>
+				<li role="presentation" class="tab active"><a href="#requests" aria-controls="requests" role="tab" data-toggle="tab">Invitations</a></li>
 				<li role="presentation" class="tab"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
 			</ul>
 		</li>
@@ -21,7 +21,7 @@
 							{{#each currentUser.profile.network.users.pending_reponses}}
 								<li class="item">
 									<div class="pull-left">
-										<a href="/user/{{id}}/bio">{{name}}</a>
+										<a href="/user/{{id}}/bio"><span class="icon icon-user-dot"></span> {{name}}</a>
 									</div>
 									<div class="pull-right">
 										<button class="btn btn-danger user-action-deny-request"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
