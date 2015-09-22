@@ -23,7 +23,7 @@ NicHandles.schema = new SimpleSchema({
     type: String,
     index: 1,
     unique: true,
-    regEx: /^[A-Za-z0-9_]{1,20}$/,
+    regEx: /^[A-Za-z0-9_]{1,15}$/,
     max: 15
   },
   /**

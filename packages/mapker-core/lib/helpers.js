@@ -55,6 +55,19 @@ Core.urlValidation = function(value) {
 };
 
 /**
+ * @summary Check if the given NIC Handle is valide
+ * @param {String} value
+ */
+Core.nicHandleValidation = function (value) {
+  if (value && typeof value === 'string' && /^[A-Za-z0-9_]{1,15}$/.test(value)) {
+    return false;
+  }
+  else {
+    return 'Must contain between 1 and 15 alphanumeric characters';
+  }
+};
+
+/**
  * @summary Check if the given variable is a number
  * @param value - The variable to check
  * @return {Boolean} - Whether if the variable is valid number or not

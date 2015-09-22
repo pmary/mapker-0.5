@@ -3,63 +3,63 @@
 /*****************************************************************************/
 Meteor.methods({
 	'mapker:users/userCreateAccount': function (user) {
+		// Prevent email sending when runing test
+		if (user.email === 'noreply@mapker.co') {
+			return false;
+		}
+
 		check(user, {
 			firstname: String,
 			lastname: String,
+			nicHandle: String,
 			email: String,
 			password: String,
 			passwordConfirmation: String,
 			userLang : String
 		});
 
-		// Prevent email sending when runing test
-		if (user.email === 'noreply@mapker.co') {
-			return false;
-		}
+return;
+		Meteor.defer(function() {
+			var templateName = 'welcome-mail-en';
+			var subject = 'Welcome on Mapker ' + user.firstname;
 
-		if (Meteor.isServer) {
-			Meteor.defer(function() {
-				var templateName = 'welcome-mail-en';
-				var subject = 'Welcome on Mapker ' + user.firstname;
+			// Define the template to user, acordingly to the browser langage
+			if (user.userLang == 'fr') {
+				templateName = 'welcome-mail-fr';
+				subject = 'Bienvenue sur Mapker ' + user.firstname;
+			}
 
-				// Define the template to user, acordingly to the browser langage
-				if (user.userLang == 'fr') {
-					templateName = 'welcome-mail-fr';
-					subject = 'Bienvenue sur Mapker ' + user.firstname;
-				}
+			//console.log('template name: ', templateName);
 
-				//console.log('template name: ', templateName);
+			HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
+				{
+					data: {
+						"key": "OfKzISRCtJJLFJmGi-k9kA",
+						"template_name": templateName,
+						"template_content": [],
+						"message": {
+							"subject": subject,
+							"from_email": "noreply@example.com",
+							"from_name": "The Mapker Team",
+							"to": [
+								{ "email": user.email, "name": user.firstname, "type": "to" }
+							],
+							"headers": { "Reply-To": "noreply@example.com" },
+							"important": false,"track_clicks": true,"auto_text": false,
+							"auto_html": false,"merge": true,"merge_language": "mailchimp",
+							"global_merge_vars": [
+								{ "name": "FNAME", "content": user.firstname }
+							], "tags": [ "welcome-mail" ]
+						}, "async": false, "ip_pool": "Main Pool"
+					}
+				},
+				function (error, result) {
+					if (error) Logger.log(error);
+					Logger.log(result);
+				});
+		});
 
-				HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
-					{
-						data: {
-					  	"key": "OfKzISRCtJJLFJmGi-k9kA",
-					    "template_name": templateName,
-							"template_content": [],
-					    "message": {
-								"subject": subject,
-		        		"from_email": "noreply@example.com",
-		        		"from_name": "The Mapker Team",
-					      "to": [
-					        { "email": user.email, "name": user.firstname, "type": "to" }
-					      ],
-					      "headers": { "Reply-To": "noreply@example.com" },
-					      "important": false,"track_clicks": true,"auto_text": false,
-					      "auto_html": false,"merge": true,"merge_language": "mailchimp",
-					      "global_merge_vars": [
-					        { "name": "FNAME", "content": user.firstname }
-					      ], "tags": [ "welcome-mail" ]
-					    }, "async": false, "ip_pool": "Main Pool"
-						}
-					},
-					function (error, result) {
-						if (error) Logger.log(error);
-						Logger.log(result);
-					});
-			});
-		}
-
-    return true;
+		return true;
 	},
 	'mapker:users/preCreateAccount': function (email, profile) {
 		check(email, String);

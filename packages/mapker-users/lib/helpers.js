@@ -10,6 +10,9 @@ Users.validateUserJoin = function (user) {
 	var lastnameError = Core.nameValidation(user.lastname);
 	if (lastnameError) { errors.lastname = lastnameError; }
 
+	var nicHandleError = Core.nicHandleValidation(user.nicHandle);
+	if (nicHandleError) { errors.nicHandle = nicHandleError; }
+
 	var emailError = Core.emailValidation(user.email);
 	if (emailError) { errors.email = emailError; }
 
