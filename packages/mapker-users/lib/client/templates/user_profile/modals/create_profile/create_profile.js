@@ -137,7 +137,7 @@ Template.modalCreateProfile.events({
 				// If our coordinates have the right format, save the user profile
 				if (loc.length === 2) {
 					profile.loc = loc;
-					Meteor.call('userCreateProfile', profile, function(error) {
+					Meteor.call('mapker:users/createProfile', profile, function(error) {
 						// display the error to the user and abort
 						if (error) {
 							throw error;

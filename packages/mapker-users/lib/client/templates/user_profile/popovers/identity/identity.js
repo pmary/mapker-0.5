@@ -85,7 +85,7 @@ Template.userProfileIdentityEdition.events({
 			return;
     }
 
-    Meteor.call('userUpdateIdentity', identity, function(error, result) {
+    Meteor.call('mapker:users/identityUpdate', identity, function(error, result) {
       // Display the error to the user and abort
       if (error) {
         console.log(error);

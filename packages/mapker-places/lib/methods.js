@@ -502,7 +502,7 @@ Meteor.methods({
 							};
 
 							// Pre-create the account
-							var newUserId = Meteor.call('userPreCreateAccount', itemsArray[y].email, profile);
+							var newUserId = Meteor.call('mapker:users/preCreateAccount', itemsArray[y].email, profile);
 							// Add him an activation token
 							var activationToken = Core.randomString(32) + (new Date().getTime()) + placeId;
 							Meteor.users.update({_id: newUserId}, {$set: {activationToken: activationToken}});

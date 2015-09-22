@@ -90,7 +90,7 @@ Template.userUpdateSocialProfiles.events({
 			// Abort the account creation due to errors
 			return;
 
-		Meteor.call('userUpdateSocialProfiles', socialProfiles, function(error, result) {
+		Meteor.call('mapker:users/socialProfilesUpdate', socialProfiles, function(error, result) {
 			// Display the error to the user and abort
 			if (error) {
 				console.log(error);

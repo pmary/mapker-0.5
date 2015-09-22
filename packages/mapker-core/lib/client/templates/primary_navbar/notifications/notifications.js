@@ -47,11 +47,10 @@ Template.primaryNavbarNotifications.events({
 		e.stopPropagation();
 		e.preventDefault();
 
-		Meteor.call('userAcceptConnexionRequest', this.id, function (error, result) {
+		Meteor.call('mapker:users/acceptConnexionRequest', this.id, function (error, result) {
 			if (error) {
 				return console.log(error);
 			}
-			console.log(result);
 		});
 	},
 	/**
@@ -62,6 +61,6 @@ Template.primaryNavbarNotifications.events({
 		e.stopPropagation();
 		e.preventDefault();
 
-		Meteor.call('user_DenyConnexionRequest', this.id);
+		Meteor.call('mapker:users/denyConnexionRequest', this.id);
 	}
 });

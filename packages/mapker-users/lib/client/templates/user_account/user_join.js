@@ -34,7 +34,7 @@ Template.userJoin.events({
 		if (t.data && t.data.token) {
 			console.log('has a toke');
 			// Activate the pre-created account
-			Meteor.call('userActivatePreCreatedAccount', t.data.token, user, function (err, res) {
+			Meteor.call('mapker:users/activatePreCreatedAccount', t.data.token, user, function (err, res) {
 				if (err) {
 					console.log(err);
 				}
@@ -44,7 +44,7 @@ Template.userJoin.events({
 					if (err) {
 						console.log(err);
 					}
-					
+
 					// Redirect the user on his profile
 					Router.go('userProfileBio', {_id: Meteor.user()._id});
 				});
@@ -65,7 +65,7 @@ Template.userJoin.events({
 					// Inform the user that account creation failed
 					Errors.throw(error.reason);
 				}else {
-					Meteor.call('userCreateAccount', user);
+					Meteor.call('mapker:users/userCreateAccount', user);
 					// Success. Account has been created and the user
 					// has logged in successfully.
 

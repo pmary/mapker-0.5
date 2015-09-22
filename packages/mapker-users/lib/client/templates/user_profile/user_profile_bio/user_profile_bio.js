@@ -20,14 +20,14 @@ Template.UserProfileBio.events({
 			bio: t.find('#input-user-bio').value
 		};
 
-		Meteor.call('userUpdateBio', user, function(error, result) {
+		Meteor.call('mapker:users/bioUpdate', user, function(error, result) {
 			// display the error to the user and abort
 			if (error) {
 				console.log(error);
 				return alert(error.reason);
 			}
 			console.log("User bio successufully updated");
-			
+
 			// Close the edition
 			t.find('.user-bio-container').style.display = 'block';
 			t.find('.user-bio-edition').style.display = 'none';

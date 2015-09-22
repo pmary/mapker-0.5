@@ -53,7 +53,7 @@ Template.userProfileSkills.events({
 			return; // Abort the account creation due to errors
 		}
 
-		Meteor.call('userAddSkill', skill, function(error, result) {
+		Meteor.call('mapker:users/addSkill', skill, function(error, result) {
 			if (error) {
 				throw error;
 			}
@@ -92,7 +92,7 @@ Template.userProfileSkills.events({
 	 */
 	'submit #edit-user-skills-form' : function(e,t) {
 		e.preventDefault();
-		Meteor.call('userUpdateSkills', Session.get('userEditedSkills'), function(error, result) {
+		Meteor.call('mapker:users/skillsUpdate', Session.get('userEditedSkills'), function(error, result) {
 			if (error) {
 				console.log('submit #edit-user-skills-form error', error);
 			}

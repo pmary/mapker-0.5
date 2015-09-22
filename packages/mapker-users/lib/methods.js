@@ -2,7 +2,7 @@
 /* Methods */
 /*****************************************************************************/
 Meteor.methods({
-	userCreateAccount: function (user) {
+	'mapker:users/userCreateAccount': function (user) {
 		check(user, {
 			firstname: String,
 			lastname: String,
@@ -61,7 +61,7 @@ Meteor.methods({
 
     return true;
 	},
-	userPreCreateAccount: function (email, profile) {
+	'mapker:users/preCreateAccount': function (email, profile) {
 		check(email, String);
 		check(profile, Object);
 
@@ -79,7 +79,7 @@ Meteor.methods({
 	 * @param {String} token - The auth token required to acivate the account
 	 * @param {Object} user - The firstname, lastname and password of the user
 	 */
-	userActivatePreCreatedAccount: function (token, user) {
+	'mapker:users/activatePreCreatedAccount': function (token, user) {
 		check(token, String);
 		check(user, {
 			firstname: String,
@@ -120,7 +120,7 @@ Meteor.methods({
 			return false;
 		}
 	},
-	userCreateProfile: function (profileAttributes) {
+	'mapker:users/createProfile': function (profileAttributes) {
 		// Data check
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(profileAttributes, {
@@ -152,71 +152,7 @@ Meteor.methods({
 			_id: userId
 		};
 	},
-	userInsertCover: function (coverAttributes) {
-		// Data check
-		check(Meteor.userId(), String);  // Check if the user is loged in
-		check(coverAttributes, {
-			url: String,
-			name: String,
-			focusX: Number,
-			focusY: Number,
-			w: Number,
-			h: Number
-		});
-		// Set complementary data
-		var user = Meteor.user();
-		var cover = _.extend(coverAttributes);
-		// Inster the post
-		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.cover': cover} });
-
-		// Update the user ElasticSearch document
-		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
-
-		return {
-			_id: userId
-		};
-	},
-	userInsertAvatar: function (avatarAttributes) {
-		// Data check
-		check(Meteor.userId(), String);  // Check if the user is loged in
-		check(avatarAttributes, {
-			url: String,
-			name: String,
-			focusX: Number,
-			focusY: Number,
-			w: Number,
-			h: Number
-		});
-		// Set complementary data
-		var user = Meteor.user();
-		var avatar = _.extend(avatarAttributes);
-		// Update the user avatar
-		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.avatar': avatar} });
-
-		// Update the user ElasticSearch document
-		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
-
-		return {
-			_id: userId
-		};
-	},
-	userUpdateAvatar: function (avatarAttributes) {
-		// Data check
-		check(Meteor.userId(), String);  // Check if the user is loged in
-		check(avatarAttributes, {
-			focusX: Number,
-			focusY: Number
-		});
-		// Set complementary data
-		var user = Meteor.user();
-		var avatar = _.extend(avatarAttributes);
-		// Inster the post
-		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.avatar.focusX': avatar.focusX, 'profile.avatar.focusY': avatar.focusY} });
-		return {
-			_id: userId
-		};
-	},
-	userUpdateBio: function (userAttributes) {
+	'mapker:users/bioUpdate': function (userAttributes) {
 		// Data check
 		check(Meteor.userId(), String);  // Check if the user is loged in
 		check(userAttributes, {
@@ -229,7 +165,7 @@ Meteor.methods({
 			_id: userId
 		};
 	},
-	userAddSkill: function (userSkill) {
+	'mapker:users/addSkill': function (userSkill) {
 		check(Meteor.userId(), String);
 		check(userSkill, String);
 		var user = Meteor.user();
@@ -243,7 +179,7 @@ Meteor.methods({
 
 		return updateResult;
 	},
-	userUpdateSkills: function (userSkills) {
+	'mapker:users/skillsUpdate': function (userSkills) {
 		check(Meteor.userId(), String);
 		check(userSkills, Array);
 		var user = Meteor.user();
@@ -254,7 +190,7 @@ Meteor.methods({
 
 		return updateResult;
 	},
-	userUpdateLocation: function (userLocation) {
+	'mapker:users/locationUpdate': function (userLocation) {
 		check(Meteor.userId(), String);
 		check(userLocation, {
 			countryCode: String,
@@ -276,7 +212,7 @@ Meteor.methods({
 
 		return {_id: userId};
 	},
-	userUpdateIdentity: function (userIdentity) {
+	'mapker:users/identityUpdate': function (userIdentity) {
 		check(Meteor.userId(), String);
 		check(userIdentity, {
 			firstname: String,
@@ -296,7 +232,7 @@ Meteor.methods({
 
 		return {_id: userId};
 	},
-	userUpdateSocialProfiles: function (userSocialProfiles) {
+	'mapker:users/socialProfilesUpdate': function (userSocialProfiles) {
 		check(Meteor.userId(), String);
 		check(userSocialProfiles, {
 			facebook: String,
@@ -334,7 +270,7 @@ Meteor.methods({
 	 * @see http://docs.mongodb.org/manual/reference/operator/update/addToSet/
 	 * @returns The result of the MongoDB operation
 	 */
-	userSendConnexionRequest: function (userId) {
+	'mapker:users/sendConnexionRequest': function (userId) {
 		check(Meteor.userId(), String);
 		check(userId, String);
 
@@ -373,7 +309,7 @@ Meteor.methods({
 	 * @summary Accept the connexion request of an user
 	 * @param {String} userId - The id of the user who make the connexion request
 	 */
-	userAcceptConnexionRequest: function (userId) {
+	'mapker:users/acceptConnexionRequest': function (userId) {
 		check(Meteor.userId(), String);
 		check(userId, String);
 
@@ -393,7 +329,7 @@ Meteor.methods({
 	 * @summary Deny the connexion request of an user
 	 * @param {String} userId - The id of the user who make the connexion request
 	 */
-	user_DenyConnexionRequest: function (userId) {
+	'mapker:users/denyConnexionRequest': function (userId) {
 		check(Meteor.userId(), String);
 		check(userId, String);
 
@@ -408,7 +344,7 @@ Meteor.methods({
 	/**
 	 * @summary Cancel the connexion request the user previously made
 	 */
-	userCancelConnexionRequest: function (userId) {
+	'mapker:users/cancelConnexionRequest': function (userId) {
 		check(Meteor.userId(), String);
 		check(userId, String);
 
@@ -425,7 +361,7 @@ Meteor.methods({
 	 * @params {String} resourceId
 	 * @see http://docs.mongodb.org/manual/reference/operator/update/pull/
 	 */
-	userUnConnect: function (userId) {
+	'mapker:users/unconnect': function (userId) {
 		check(Meteor.userId(), String);
 		check(userId, String);
 

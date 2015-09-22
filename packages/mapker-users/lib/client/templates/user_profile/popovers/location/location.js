@@ -200,7 +200,7 @@ Template.userUpdateLocation.events({
 				// If our coordinates have the right format, save the user identity
 				if (loc.length == 2) {
 					identity.loc = loc;
-					Meteor.call('userUpdateLocation', identity, function(error, result) {
+					Meteor.call('mapker:users/locationUpdate', identity, function(error, result) {
 						// Display the error to the user and abort
 						if (error) {
 							console.log(error);

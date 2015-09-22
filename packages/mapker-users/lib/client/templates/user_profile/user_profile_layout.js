@@ -27,7 +27,7 @@ Template.UserProfileLayout.events({
 		// Check if the user is loged in
 		if (Meteor.user()) {
 			// If the user is loged in, connect him to the given user
-			Meteor.call('userSendConnexionRequest', resourceId, function(error, result) {
+			Meteor.call('mapker:users/sendConnexionRequest', resourceId, function(error, result) {
 				if (error) {
 					console.log(error);
 				}
@@ -66,7 +66,7 @@ Template.UserProfileLayout.events({
 	'click .user-actions-cancel-connexion-request': function (e, t) {
 		var userId = this.user._id;
 		console.log('userId', userId);
-		Meteor.call('userCancelConnexionRequest', userId, function (error, response) {
+		Meteor.call('mapker:users/cancelConnexionRequest', userId, function (error, response) {
 			if (error) return console.log(error);
 			console.log(response);
 		});
@@ -75,7 +75,7 @@ Template.UserProfileLayout.events({
 	 * @summary Accept the user connexion request
 	 */
 	'click .user-action-accept-request': function (e, t) {
-		Meteor.call('userAcceptConnexionRequest', t.data.user._id, function (error, result) {
+		Meteor.call('mapker:users/acceptConnexionRequest', t.data.user._id, function (error, result) {
 			if (error) return console.log(error);
 			console.log(result);
 		});
@@ -90,7 +90,7 @@ Template.UserProfileLayout.events({
 		// Get the user id
 		var userId = t.data.user._id;
 
-		Meteor.call('userUnConnect', userId, function(error, result) {
+		Meteor.call('mapker:users/unconnect', userId, function(error, result) {
 			if (error) {
 				console.log(error);
 			}
