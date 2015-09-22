@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.6.8',
+  version: '0.6.9',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -54,18 +54,6 @@ Package.onUse(function(api) {
     'lib/client/templates/home/home.html',
     'lib/client/templates/home/home.scss',
     'lib/client/templates/home/home.js',
-    // Add your place page
-    'lib/client/templates/add_your_place/add_your_place.html',
-    'lib/client/templates/add_your_place/add_your_place.scss',
-    'lib/client/templates/add_your_place/add_your_place.js',
-    // Suggest a place page
-    'lib/client/templates/suggest_a_place/suggest_a_place.html',
-    'lib/client/templates/suggest_a_place/suggest_a_place.scss',
-    'lib/client/templates/suggest_a_place/suggest_a_place.js',
-    // Add your community page
-    'lib/client/templates/create_a_community/create_a_community.html',
-    'lib/client/templates/create_a_community/create_a_community.scss',
-    'lib/client/templates/create_a_community/create_a_community.js',
     // Includes
     'lib/client/templates/includes/404.html',
     'lib/client/templates/includes/access_denied.html',
