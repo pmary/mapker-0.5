@@ -43,23 +43,23 @@ Package.onUse(function(api) {
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.scss',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js',
       // Popovers
-      // Identity
-      'lib/client/templates/user_profile/popovers/identity/identity.html',
-      'lib/client/templates/user_profile/popovers/identity/identity.scss',
-      'lib/client/templates/user_profile/popovers/identity/identity.js',
-      // Social profiles
-      'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.html',
-      'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.scss',
-      'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.js',
-      // Location
-      'lib/client/templates/user_profile/popovers/location/location.html',
-      'lib/client/templates/user_profile/popovers/location/location.scss',
-      'lib/client/templates/user_profile/popovers/location/location.js',
+        // Identity
+        'lib/client/templates/user_profile/popovers/identity/identity.html',
+        'lib/client/templates/user_profile/popovers/identity/identity.scss',
+        'lib/client/templates/user_profile/popovers/identity/identity.js',
+        // Social profiles
+        'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.html',
+        'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.scss',
+        'lib/client/templates/user_profile/popovers/social_profiles/social_profiles.js',
+        // Location
+        'lib/client/templates/user_profile/popovers/location/location.html',
+        'lib/client/templates/user_profile/popovers/location/location.scss',
+        'lib/client/templates/user_profile/popovers/location/location.js',
       // Modals
-      // Create profile
-      'lib/client/templates/user_profile/modals/create_profile/create_profile.html',
-      'lib/client/templates/user_profile/modals/create_profile/create_profile.scss',
-      'lib/client/templates/user_profile/modals/create_profile/create_profile.js',
+        // Create profile
+        'lib/client/templates/user_profile/modals/create_profile/create_profile.html',
+        'lib/client/templates/user_profile/modals/create_profile/create_profile.scss',
+        'lib/client/templates/user_profile/modals/create_profile/create_profile.js',
   ], ['client']);
 
   api.addFiles([
