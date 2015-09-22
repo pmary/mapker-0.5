@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:third-party',
-  version: '0.0.2',
+  version: '0.1.0',
   summary: 'Mapker third party librairies',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   api.addFiles([
     // Selectize.js: https://github.com/brianreavis/selectize.js

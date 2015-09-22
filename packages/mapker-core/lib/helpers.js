@@ -26,6 +26,16 @@ Core.debounce = function (fn, delay) {
 };
 
 /**
+ * @summary Capitalize the first letter of the given string
+ * @param {String} value - The string to capitalize
+ * @return {String} The capitalized string
+ */
+Core.capitalize = function (value) {
+  check(value, String);
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
+
+/**
  * @summary Check if an url is valid
  * @param {String} value - The url to check
  * @return {Boolean} - Whether if the url is valid url or not

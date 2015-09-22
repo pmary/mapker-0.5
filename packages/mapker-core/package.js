@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.7.0',
+  version: '0.7.1',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,15 +8,21 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   var packages = [
-    'mapker:lib',       // no dependencies
-    'mapker:users',     // lib
-    'mapker:places',    // lib
-    'mapker:machines',  // lib
-    'mapker:search',    // lib
-    'mapker:i18n'
+    'mapker:lib',         // no dependencies
+    'mapker:users',       // lib
+    'mapker:places',      // lib
+    'mapker:machines',    // lib
+    'mapker:search',      // lib
+    'mapker:communities', // lib
+    'mapker:api',         // nimble:restivus
+    'mapker:communities', // lib
+    'mapker:machines',    // lib
+    'mapker:nichandle',   // lib
+    'mapker:i18n',        // lib
+    'mapker:third-party'  // lib
   ];
 
   api.use(packages);

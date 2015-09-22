@@ -1,13 +1,13 @@
 Package.describe({
   name: 'mapker:communities',
-  version: '0.0.3',
+  version: '0.1.0',
   summary: 'Mapker communities package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   var packages = [
     'mapker:lib',     // no dependencies

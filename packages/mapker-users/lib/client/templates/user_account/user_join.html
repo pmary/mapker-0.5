@@ -1,5 +1,5 @@
 <template name="userJoin">
-	<div class="container-fluid">
+	<div class="container-fluid user-join-page">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 
@@ -16,7 +16,6 @@
 										<label for="join-first-name">First name</label>
 										<input class="form-control" type="text" id="join-first-name" name="join-first-name" value="{{firstname}}" />
 										<span id="join-firstname-help-block" class="help-block">{{errorMessage 'firstname'}}</span>
-
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -24,6 +23,19 @@
 										<label for="join-last-name">Last name</label>
 										<input class="form-control" type="text" id="join-last-name" name="join-last-name" value="{{lastname}}" />
 										<span id="join-lastname-help-block" class="help-block">{{errorMessage 'lastname'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group {{errorClass 'nichandle'}}">
+										<label for="input-nichandle">Username</label>
+										<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Your username, or handle, is your identity on Mapker, and is preceded by the at (@) symbol (like on Twitter)" data-trigger="hover click"></span>
+			              <div class="input-group">
+			                <span class="input-group-addon">@</span>
+			                <input type="text" class="form-control" id="input-nichandle" placeholder="">
+			  							<span class="help-block">{{errorMessage 'nichandle'}}</span>
+			              </div>
 									</div>
 								</div>
 							</div>
