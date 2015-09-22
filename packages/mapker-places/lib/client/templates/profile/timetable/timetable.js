@@ -273,7 +273,7 @@ Template.placeProfileTimetable.events({
 	'click .user-action-save': function (e, t) {
 		var openingHours = Session.get('openingHours');
 
-		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
+		Meteor.call('mapker:places/updateOpeningHours', openingHours, t.data.place._id, function (error) {
 			if (error) {
 				console.log(error);
 			}
@@ -332,7 +332,7 @@ Template.placeProfileTimetable.events({
 		openingHours.comment = infos;
 		Session.set('openingHours', openingHours);
 
-		Meteor.call('placeUpdateOpeningHours', openingHours, t.data.place._id, function (error) {
+		Meteor.call('mapker:places/updateOpeningHours', openingHours, t.data.place._id, function (error) {
 			if (error) {
 				console.log(error);
 			}

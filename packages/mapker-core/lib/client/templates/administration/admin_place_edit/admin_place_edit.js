@@ -169,7 +169,7 @@ Template.adminPlaceEdit.events({
 
 			console.log('activated', activated);
 
-			Meteor.call('adminPlaceEdit', place, activated, function (error) {
+			Meteor.call('mapker:places/adminEdit', place, activated, function (error) {
 				// display the error to the user and abort
 				if (error) {
 					console.log(error);

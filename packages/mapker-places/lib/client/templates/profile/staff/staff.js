@@ -89,7 +89,7 @@ Template.placeProfileStaff.events({
 		userId = this._id,
 		role = t.find('.place-profile-staff #user-' + userId + ' input[name="input-staff-member-role"]').value;
 
-		Meteor.call('place_updateStaffMemberRole', role, userId, placeId, function (err, res) {
+		Meteor.call('mapker:places/updateStaffMemberRole', role, userId, placeId, function (err, res) {
 			if (err) {
 				console.log(err);
 			}

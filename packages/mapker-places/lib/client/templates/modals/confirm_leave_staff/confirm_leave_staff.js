@@ -4,7 +4,7 @@ Template.place_modalLeaveStaff.events({
 	 */
   'click .user-action-leave-place-staff': function (e, t) {
     var placeId = Router.current().params._id;
-    Meteor.call('place_userLeaveStaff', placeId, function (err, res) {
+    Meteor.call('mapker:places/leaveStaff', placeId, function (err, res) {
       if (err) {
         console.log(err);
       }

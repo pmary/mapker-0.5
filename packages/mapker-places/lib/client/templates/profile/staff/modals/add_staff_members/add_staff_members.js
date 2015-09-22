@@ -165,7 +165,7 @@ Template.modalPlaceInviteStaffMembers.events({
     }
 
     if (usersSelected) {
-      Meteor.call('invitePlaceStaffMembers', usersSelected, placeId, message, function(error, result) {
+      Meteor.call('mapker:places/inviteStaffMembers', usersSelected, placeId, message, function(error, result) {
         if (error) {
           console.log(error);
         }

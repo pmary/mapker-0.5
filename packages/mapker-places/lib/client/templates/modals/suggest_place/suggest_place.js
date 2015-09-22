@@ -57,7 +57,7 @@ var checkPlaceData = function (t, step) {
 
 					//console.log(place);
 
-					/*Meteor.call('placeInsert', place, function(error) {
+					/*Meteor.call('mapker:places/insert', place, function(error) {
 						// Display the error to the user and abort
 						if (error) {
 							return console.log(error.reason);

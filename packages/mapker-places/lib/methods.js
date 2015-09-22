@@ -1,5 +1,5 @@
 Meteor.methods({
-	placeInsert: function (placeAttributes, phone, role) {
+	'mapker:places/insert': function (placeAttributes, phone, role) {
 		// Data check
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(placeAttributes, {
@@ -122,7 +122,7 @@ Meteor.methods({
 			_id: placeId
 		};
 	},
-	adminPlaceEdit: function (placeAttributes) {
+	'mapker:places/adminEdit': function (placeAttributes) {
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(placeAttributes, Object);
 		check(placeAttributes.place, {
@@ -171,7 +171,7 @@ Meteor.methods({
 	 * @summary Update the Name, specialities and types of a place
 	 * @param {Object} place The place informations
 	 */
-	placeIdentityUpdate: function (place) {
+	'mapker:places/identityUpdate': function (place) {
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(place, {
 			id: String,
@@ -200,7 +200,7 @@ Meteor.methods({
 	 * @summary Update the place location
 	 * @param {Object} place - The place location information to set in the db
 	 */
-	placeLocationUpdate: function (place) {
+	'mapker:places/locationUpdate': function (place) {
 		check(Meteor.userId(), String); // Check if the user is loged in
 		check(place, {
 			id: String,
@@ -233,7 +233,7 @@ Meteor.methods({
 			}
 		}
 	},
-	placeUpdateSocialProfiles: function (placeSocialProfiles) {
+	'mapker:places/updateSocialProfiles': function (placeSocialProfiles) {
 		check(Meteor.userId(), String);
 		check(placeSocialProfiles, {
 			id: String,
@@ -269,7 +269,7 @@ Meteor.methods({
 
 		return true;
 	},
-	placeUpdateAbout: function (place) {
+	'mapker:places/pdateAbout': function (place) {
 		// Data check
 		check(Meteor.userId(), String);  // Check if the user is loged in
 		check(place, {
@@ -292,7 +292,7 @@ Meteor.methods({
       }
     }
 	},
-	placeUpdateOpeningHours: function (openingHours, placeId) {
+	'mapker:places/updateOpeningHours': function (openingHours, placeId) {
 		// Data check
 		check(Meteor.userId(), String);  // Check if the user is loged in
 		check(placeId, String);
@@ -330,7 +330,7 @@ Meteor.methods({
 	/**
 	 * @summary Send an invitation email to the given users and email address
 	 */
-	invitePlaceStaffMembers: function (itemsArray, placeId, message) {
+	'mapker:places/inviteStaffMembers': function (itemsArray, placeId, message) {
 		check(itemsArray, Array);
 		check(placeId, String);
 		check(message, String);
@@ -644,7 +644,7 @@ Meteor.methods({
 	/**
 	 * @summary Remove the user from the staff
 	 */
-	place_userLeaveStaff: function (placeId) {
+	'mapker:places/leaveStaff': function (placeId) {
 		check(placeId, String);
 
 		var user = Meteor.user();
@@ -677,7 +677,7 @@ Meteor.methods({
 	 * @param {String} placeId - The id of the place
 	 * @param {String} userId - The id of the user to remove from the staff
 	 */
-	place_adminRemoveStaffMember: function (placeId, userId) {
+	'mapker:places/adminRemoveStaffMember': function (placeId, userId) {
 		check(placeId, String);
 		check(userId, String);
 
@@ -714,7 +714,7 @@ Meteor.methods({
 	/**
 	 * @summary Save the new role of the staff member
 	 */
-	place_updateStaffMemberRole: function (role, userId, placeId) {
+	'mapker:places/updateStaffMemberRole': function (role, userId, placeId) {
 		check(role, String);
 		check(placeId, String);
 		check(userId, String);

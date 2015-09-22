@@ -99,7 +99,7 @@ Template.placeProfileIdentityEdition.events({
 			specialities: $('#edit-identity-form #select-specialities').val()
 		};
 
-    Meteor.call('placeIdentityUpdate', place, function(error) {
+    Meteor.call('mapker:places/identityUpdate', place, function(error) {
       if (error) {
         throw error;
       }

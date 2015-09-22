@@ -151,7 +151,7 @@ Template.placeUpdateSocialProfiles.events({
 		if (Object.keys(errors).length) return;
 
 		// Update the place document
-		Meteor.call('placeUpdateSocialProfiles', socialProfiles, function(error, result) {
+		Meteor.call('mapker:places/updateSocialProfiles', socialProfiles, function(error, result) {
 			if (error) return console.log(error); // Display the error to the user and abort
 
       // Hide the popover
@@ -219,7 +219,7 @@ Template.placeUpdateSocialProfiles.events({
 
     checkLocation(t).then(function(place) {
       // Update the place document
-      Meteor.call('placeLocationUpdate', place, function(error, result) {
+      Meteor.call('mapker:places/locationUpdate', place, function(error, result) {
         // Display the error to the user and abort
         if (error) return console.log(error.reason);
 
