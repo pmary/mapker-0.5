@@ -5,6 +5,14 @@ Meteor.publish("allUsers", function() {
 	return Meteor.users.find({}, { fields: { 'profile.fullname': 1}});
 });
 
+/**
+ * @summary Publish all the notifications of an user
+ */
+Meteor.publish('pubUserNotifs', function(userId) {
+	check(userId, String);
+	return Notifications.find({to: userId}, {reactive: false});
+});
+
 /*****************************************************************************/
 /* Admin Places publications */
 /*****************************************************************************/

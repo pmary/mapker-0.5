@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:lib',
-  version: '0.0.2',
+  version: '0.1.0',
   summary: 'Mapker libraries.',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   var packages = [
     'deps',
@@ -18,32 +18,29 @@ Package.onUse(function(api) {
     'templating',
     'handlebars',
     'session',
-    'less',
     'sha',
-    'accounts-password',            // https://atmospherejs.com/meteor/accounts-password
-    'email',                        // https://atmospherejs.com/meteor/email
-    'http',                         // https://atmospherejs.com/meteor/http
-    'jquery',                       // https://atmospherejs.com/meteor/jquery
-    'check',                        // https://atmospherejs.com/meteor/check
-    'reactive-var',                 // https://atmospherejs.com/meteor/reactive-var
-    'audit-argument-checks',        // https://atmospherejs.com/meteor/audit-argument-checks
-    'babel-compiler',               // https://atmospherejs.com/meteor/babel-compiler
+    'accounts-password',      // https://atmospherejs.com/meteor/accounts-password
+    'email',                  // https://atmospherejs.com/meteor/email
+    'http',                   // https://atmospherejs.com/meteor/http
+    'jquery',              // https://atmospherejs.com/meteor/jquery
+    'check',                  // https://atmospherejs.com/meteor/check
+    'reactive-var',           // https://atmospherejs.com/meteor/reactive-var
+    'audit-argument-checks',  // https://atmospherejs.com/meteor/audit-argument-checks
     'pauloborges:mapbox',           // https://atmospherejs.com/pauloborges/mapbox
     'momentjs:moment',              // https://atmospherejs.com/momentjs/moment
     'peerlibrary:aws-sdk',          // https://atmospherejs.com/peerlibrary/aws-sdk
     'miktam:loggly',                // https://atmospherejs.com/miktam/loggly
-    'aldeed:simple-schema@1.3.3',   // https://atmospherejs.com/aldeed/simple-schema
+    'aldeed:simple-schema',         // https://atmospherejs.com/aldeed/simple-schema
     'aldeed:collection2',           // https://atmospherejs.com/aldeed/collection2
-    'aldeed:autoform@5.3.2',        // https://atmospherejs.com/aldeed/autoform
-    'iron:router@1.0.9',            // https://atmospherejs.com/iron/router
+    'aldeed:autoform',        // https://atmospherejs.com/aldeed/autoform
+    'iron:router',                  // https://atmospherejs.com/iron/router
     'alanning:roles',               // https://atmospherejs.com/alanning/roles
-    'fourseven:scss@2.1.1',         // https://atmospherejs.com/fourseven/scss
-    'twbs:bootstrap@3.3.5',         // https://atmospherejs.com/twbs/bootstrap
+    'fourseven:scss',               // https://atmospherejs.com/fourseven/scss
+    'twbs:bootstrap',         // https://atmospherejs.com/twbs/bootstrap
     'peppelg:bootstrap-3-modal',    // https://atmospherejs.com/peppelg/bootstrap-3-modal
-    //'juliancwirko:s-alert',         // https://atmospherejs.com/juliancwirko/s-alert
+    //'juliancwirko:s-alert',       // https://atmospherejs.com/juliancwirko/s-alert
     'tap:i18n',                     // https://atmospherejs.com/tap/i18n-ui
     'tap:i18n-db',                  // https://atmospherejs.com/tap/i18n-db
-    'aldeed:simple-schema@1.3.3',   // https://atmospherejs.com/aldeed/simple-schema
     'mapker:third-party'
   ];
 

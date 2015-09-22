@@ -4,14 +4,12 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 pmary:errors
 pmary:tagsinput
 meteorhacks:kadira
 pmary:cropper
 
 
-npm-container
 meteorhacks:kadira-profiler
 mapker:machines
 kadira:debug
@@ -27,6 +25,19 @@ mapker:i18n
 msavin:mongol
 msavin:jetsetter
 mapker:api
-alanning:roles
 mapker:communities
 mapker:nichandle
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check

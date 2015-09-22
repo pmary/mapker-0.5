@@ -267,3 +267,43 @@ Core.imageMethods = {
     return newImageData;
   }
 };
+
+
+/**
+ * @summary Perform a file upload to the default S3 bucket via the peerlibrary:aws-sdk package api
+ * @param {Object} [resource] The resource document
+ * @param {function} [callback] Meteor.wrapAsync callback function that return the uploaded file url
+ */
+Core.s3Upload = function(params, callback) {
+	s3.upload(params, function(err, data) {
+		if (err) {
+			console.warn("Error uploading data: ", err);
+		}
+		else {
+			callback( null, data.Location );
+		}
+	});
+};
+
+/**
+ * @summary Check if the user has sufficient rights over the resource to perform the requested action
+ * @param {Object} [resource] The resource document
+ * @param {String} [userId] The current user id
+ * @return {Boolean}
+ */
+Core.isUserResourceAdmin = function(resource, userId) {
+	// False by default
+	var result = false;
+	switch(resource.type) {
+		case 'user':
+			// If the user try to edit his own profile, let him go
+			result = true;
+			break;
+
+		case 'place':
+			// Check if the user id is in the 'administrators' resource array
+			result = Meteor.call('canUserEditPlace', resource.id);
+			break;
+	}
+	return result;
+};

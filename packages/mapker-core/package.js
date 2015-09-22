@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.6.9',
+  version: '0.7.0',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -90,7 +90,7 @@ Package.onUse(function(api) {
       'lib/client/templates/modals/send_message/send_message.js'
   ], ['client']);
 
-  api.addFiles([
+  /*api.addFiles([
     'public/images/home/avatar-place-big.png',
     'public/images/home/avatar-skill-big.png',
     'public/images/search-skills/bg.png',
@@ -111,10 +111,12 @@ Package.onUse(function(api) {
     'public/images/social-icons-sprite-25x25.png',
     'public/images/social_icons_transp.svg',
     'public/images/spinner.gif'
-  ], ['client']);
+  ], ['client']);*/
 
   api.addFiles([
-    'lib/server/publications.js'
+    'lib/server/publications.js',
+    'lib/server/auth.service.js',
+    'lib/server/methods.js'
   ], ['server']);
 
   api.addFiles([
