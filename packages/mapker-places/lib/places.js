@@ -4,7 +4,7 @@
 Places.validateLocation = function (place) {
 	var errors = {};
 
-	var nameError = isFilledValidation(place.name);
+	var nameError = Core.isFilledValidation(place.name);
 	if (nameError) {
 		errors.name = nameError;
 	}
@@ -19,7 +19,7 @@ Places.validateLocation = function (place) {
 		errors.specialities = specialitiesError;
 	}
 
-	var addressError = isFilledValidation(place.address);
+	var addressError = Core.isFilledValidation(place.address);
 	if (addressError) {
 		errors.address = addressError;
 	}
@@ -34,7 +34,7 @@ Places.validateLocation = function (place) {
 Places.validatePlaceSuggestion = function (place) {
 	var errors = {};
 
-	var nameError = isFilledValidation(place.name);
+	var nameError = Core.isFilledValidation(place.name);
 	if (nameError) {
 		errors.name = nameError;
 	}
@@ -56,12 +56,12 @@ Places.validatePlaceSuggestion = function (place) {
 		}
 	}
 
-	var contactError = isFilledValidation(place.contact);
+	var contactError = Core.isFilledValidation(place.contact);
 	if (contactError) {
 		errors.contact = contactError;
 	}
 
-	var addressError = isFilledValidation(place.address);
+	var addressError = Core.isFilledValidation(place.address);
 	if (addressError) {
 		errors.address = addressError;
 	}

@@ -6,37 +6,37 @@
 Machines.addFormValidation = function (machine) {
   var errors = {};
 
-  var nameError = isFilledValidation(machine.name);
+  var nameError = Core.isFilledValidation(machine.name);
 	if (nameError) {
 		errors.name = nameError;
 	}
 
-  var typeError = isFilledValidation(machine.type);
+  var typeError = Core.isFilledValidation(machine.type);
 	if (typeError) {
 		errors.type = typeError;
 	}
 
-  var brandError = isFilledValidation(machine.brand);
+  var brandError = Core.isFilledValidation(machine.brand);
 	if (brandError) {
 		errors.brand = brandError;
 	}
 
-  var workshopError = isFilledValidation(machine.workshop);
+  var workshopError = Core.isFilledValidation(machine.workshop);
 	if (workshopError) {
 		errors.workshop = workshopError;
 	}
 
-  var widthError = isFilledValidation(machine.width);
+  var widthError = Core.isFilledValidation(machine.width);
 	if (widthError) {
 		errors.width = widthError;
 	}
 
-  var lengthError = isFilledValidation(machine.length);
+  var lengthError = Core.isFilledValidation(machine.length);
 	if (lengthError) {
 		errors.length = lengthError;
 	}
 
-  var heightError = isFilledValidation(machine.height);
+  var heightError = Core.isFilledValidation(machine.height);
 	if (heightError) {
 		errors.height = heightError;
 	}

@@ -26,7 +26,7 @@ var searchPlacesByActivitiesAndBbox = function(searchObject) {
 
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
-	Meteor.call('getPlaces', searchObject, function(error, result) {
+	Meteor.call('mapker:search/getPlaces', searchObject, function(error, result) {
 		if (error) {
       throw error;
     }
@@ -326,7 +326,7 @@ Template.searchPlaces.rendered = function() {
 			buildAndFiresSearch();
 
 			// Get the suggestions according to the queryString
-			Meteor.call('getActivitiesSuggestions', queryString, function(error, result) {
+			Meteor.call('mapker:search/getActivitiesSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
 				if (error) {
 						throw error;

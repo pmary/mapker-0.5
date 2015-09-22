@@ -32,7 +32,7 @@ Users.validateUserLogin = function (credentials) {
 	var emailError = Core.emailValidation(credentials.email);
 	if (emailError) { errors.email = emailError; }
 
-	var passwordError = isFilledValidation(credentials.password);
+	var passwordError = Core.isFilledValidation(credentials.password);
 	if (passwordError) { errors.password = passwordError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -76,16 +76,16 @@ Users.validateUserResetPassword = function (credentials) {
 Users.validateAddProfile = function (profile) {
 	var errors = {};
 
-	var activityError = isFilledValidation(profile.activity);
+	var activityError = Core.isFilledValidation(profile.activity);
 	if (activityError) { errors.activity = activityError; }
 
-	var zipcodeError = isFilledValidation(profile.zipcode);
+	var zipcodeError = Core.isFilledValidation(profile.zipcode);
 	if (zipcodeError) { errors.zipcode = zipcodeError; }
 
-	var countryCodeError = isFilledValidation(profile.countryCode);
+	var countryCodeError = Core.isFilledValidation(profile.countryCode);
 	if (zipcodeError) { errors.countryCode = countryCodeError; }
 
-	var cityError = isFilledValidation(profile.city);
+	var cityError = Core.isFilledValidation(profile.city);
 	if (cityError) { errors.city = cityError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -98,7 +98,7 @@ Users.validateAddProfile = function (profile) {
 Users.validateUserAddSkill = function (skill, skills) {
 	var errors = {};
 
-	var skillError = isFilledValidation(skill);
+	var skillError = Core.isFilledValidation(skill);
 	if (skillError) { errors.skill = skillError; }
 
 	if (skills && skills.length) {
@@ -117,13 +117,13 @@ Users.validateUserLocation = function (location) {
 	console.log('validateUserLocation location: ', location);
 	var errors = {};
 
-	var zipcodeError = isFilledValidation(location.zipcode);
+	var zipcodeError = Core.isFilledValidation(location.zipcode);
 	if (zipcodeError) { errors.zipcode = zipcodeError; }
 
-	var countryCodeError = isFilledValidation(location.countryCode);
+	var countryCodeError = Core.isFilledValidation(location.countryCode);
 	if (countryCodeError) { errors.countryCode = countryCodeError; }
 
-	var cityError = isFilledValidation(location.city);
+	var cityError = Core.isFilledValidation(location.city);
 	if (cityError) { errors.city = cityError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -143,7 +143,7 @@ Users.validateUserIdentity = function (identity) {
 	var lastnameError = Core.nameValidation(identity.lastname);
 	if (lastnameError) { errors.lastname = lastnameError; }
 
-	var activityError = isFilledValidation(identity.activity);
+	var activityError = Core.isFilledValidation(identity.activity);
 	if (activityError) { errors.activity = activityError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors

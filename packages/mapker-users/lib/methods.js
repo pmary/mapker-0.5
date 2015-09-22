@@ -146,7 +146,7 @@ Meteor.methods({
 		);
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return {
 			_id: userId
@@ -170,7 +170,7 @@ Meteor.methods({
 		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.cover': cover} });
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return {
 			_id: userId
@@ -194,7 +194,7 @@ Meteor.methods({
 		var userId = Meteor.users.update({_id: user._id}, { $set: {'profile.avatar': avatar} });
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return {
 			_id: userId
@@ -239,7 +239,7 @@ Meteor.methods({
 		}
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return updateResult;
 	},
@@ -250,7 +250,7 @@ Meteor.methods({
 		var updateResult = Meteor.users.update({_id: user._id}, { $set: {'profile.skills': userSkills  } });
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return updateResult;
 	},
@@ -272,7 +272,7 @@ Meteor.methods({
 		} });
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return {_id: userId};
 	},
@@ -292,7 +292,7 @@ Meteor.methods({
 		} });
 
 		// Update the user ElasticSearch document
-		Meteor.call('updateUserESDocument', Meteor.userId());
+		Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 
 		return {_id: userId};
 	},

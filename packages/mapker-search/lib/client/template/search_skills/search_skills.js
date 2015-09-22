@@ -26,7 +26,7 @@ var searchSkillsByActivitiesAndBbox = function(searchObject) {
 
 	// Query the ES index via the Meteor method and return the results
 	//console.log(searchObject);
-	Meteor.call('getUsers', searchObject, function(error, result) {
+	Meteor.call('mapker:search/getUsers', searchObject, function(error, result) {
 		if (error) {
       throw error;
     }
@@ -349,7 +349,7 @@ Template.searchSkills.rendered = function() {
 			buildAndFiresSearch();
 
 			// Get the suggestions according to the queryString
-			Meteor.call('getSkillsSuggestions', queryString, function(error, result) {
+			Meteor.call('mapker:search/getSkillsSuggestions', queryString, function(error, result) {
 				// Display the error to the user and abort
 				if (error) {
 						throw error;

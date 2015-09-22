@@ -71,7 +71,7 @@ Template.modalPlaceInviteStaffMembers.rendered = function () {
         //console.log('exculdedIds', exculdedIds);
 
         // Get the suggestions according to the queryString
-        Meteor.call('getUsersByFullname', {string: queryString, network: userNetwork, exculdedIds: exculdedIds}, function(error, result) {
+        Meteor.call('mapker:search/getUsersByFullname', {string: queryString, network: userNetwork, exculdedIds: exculdedIds}, function(error, result) {
           // Display the error to the user and abort
           if (error) {
             return console.log(error.reason);

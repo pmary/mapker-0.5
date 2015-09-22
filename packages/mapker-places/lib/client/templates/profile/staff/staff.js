@@ -125,7 +125,7 @@ Template.placeProfileStaffAddMember.rendered = function () {
 				currentQueryString = queryString;
 
 				// Get the suggestions according to the queryString
-				Meteor.call('getUsersByFullname', queryString, function (error, result) {
+				Meteor.call('mapker:search/getUsersByFullname', queryString, function (error, result) {
 					// Display the error to the user and abort
 					if (error) {
 						throw error;

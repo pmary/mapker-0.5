@@ -24,7 +24,7 @@ var checkPlaceData = function (t, step) {
 	var phoneError = Core.phoneValidation(phone);
 	if (phoneError) {errors.phone = phoneError;}
 	// Check the role field
-	var roleError = isFilledValidation(role);
+	var roleError = Core.isFilledValidation(role);
 	if (roleError) {errors.role = roleError;}
 	// Display the error
 	Session.set('modalCreatePlaceErrors', errors);
