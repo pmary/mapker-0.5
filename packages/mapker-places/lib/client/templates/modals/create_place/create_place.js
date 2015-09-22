@@ -21,7 +21,7 @@ var checkPlaceData = function (t, step) {
 
 	var errors = Places.validateLocation(place);
 	// Check the phone number
-	var phoneError = phoneValidation(phone);
+	var phoneError = Core.phoneValidation(phone);
 	if (phoneError) {errors.phone = phoneError;}
 	// Check the role field
 	var roleError = isFilledValidation(role);

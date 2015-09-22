@@ -100,7 +100,7 @@ Template.modalChangeCover.events({
 				// Set the uploaded file object
 				var uploadedFile = {
 					resource: Session.get('modalResource'), // Infos about the currently edited resource
-					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
+					data: Core.imageMethods.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "cover", // Can be cover or avatar
 				};

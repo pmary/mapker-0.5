@@ -9,12 +9,12 @@ Places.validateLocation = function (place) {
 		errors.name = nameError;
 	}
 
-	var typesError = isArrayValidation(place.types);
+	var typesError = Core.isArrayValidation(place.types);
 	if (typesError) {
 		errors.types = typesError;
 	}
 
-	var specialitiesError = isArrayValidation(place.specialities);
+	var specialitiesError = Core.isArrayValidation(place.specialities);
 	if (specialitiesError) {
 		errors.specialities = specialitiesError;
 	}
@@ -39,18 +39,18 @@ Places.validatePlaceSuggestion = function (place) {
 		errors.name = nameError;
 	}
 
-	var typesError = isArrayValidation(place.types);
+	var typesError = Core.isArrayValidation(place.types);
 	if (typesError) {
 		errors.types = typesError;
 	}
 
-	var specialitiesError = isArrayValidation(place.specialities);
+	var specialitiesError = Core.isArrayValidation(place.specialities);
 	if (specialitiesError) {
 		errors.specialities = specialitiesError;
 	}
 
 	if (place.website) {
-		var websiteError = urlValidation(place.website);
+		var websiteError = Core.urlValidation(place.website);
 		if (websiteError) {
 			errors.website = websiteError;
 		}
@@ -76,37 +76,37 @@ Places.validatePlaceSuggestion = function (place) {
 Places.validateOpeningHours = function (openingHours) {
 	var errors = {};
 
-	var moError = isStringValidation(openingHours.mo);
+	var moError = Core.isStringValidation(openingHours.mo);
 	if (moError) {
 		errors.mo = moError;
 	}
 
-	var tuError = isStringValidation(openingHours.tu);
+	var tuError = Core.isStringValidation(openingHours.tu);
 	if (tuError) {
 		errors.tu = tuError;
 	}
 
-	var weError = isStringValidation(openingHours.we);
+	var weError = Core.isStringValidation(openingHours.we);
 	if (weError) {
 		errors.we = weError;
 	}
 
-	var thError = isStringValidation(openingHours.th);
+	var thError = Core.isStringValidation(openingHours.th);
 	if (thError) {
 		errors.th = thError;
 	}
 
-	var frError = isStringValidation(openingHours.fr);
+	var frError = Core.isStringValidation(openingHours.fr);
 	if (frError) {
 		errors.fr = frError;
 	}
 
-	var saError = isStringValidation(openingHours.sa);
+	var saError = Core.isStringValidation(openingHours.sa);
 	if (saError) {
 		errors.sa = saError;
 	}
 
-	var suError = isStringValidation(openingHours.su);
+	var suError = Core.isStringValidation(openingHours.su);
 	if (suError) {
 		errors.su = suError;
 	}

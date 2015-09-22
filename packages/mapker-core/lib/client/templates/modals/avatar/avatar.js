@@ -100,7 +100,7 @@ Template.modalChangeAvatar.events({
 				//console.log(Session.get('modalResource'));
 				var uploadedFile = {
 					resource: Session.get('modalResource'), // Infos about the currently edited resource
-					data: jic.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
+					data: Core.imageMethods.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "avatar" // Can be cover or avatar
 				};

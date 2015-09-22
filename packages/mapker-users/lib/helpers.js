@@ -4,19 +4,19 @@
 Users.validateUserJoin = function (user) {
 	var errors = {};
 
-	var firstnameError = nameValidation(user.firstname);
+	var firstnameError = Core.nameValidation(user.firstname);
 	if (firstnameError) { errors.firstname = firstnameError; }
 
-	var lastnameError = nameValidation(user.lastname);
+	var lastnameError = Core.nameValidation(user.lastname);
 	if (lastnameError) { errors.lastname = lastnameError; }
 
-	var emailError = emailValidation(user.email);
+	var emailError = Core.emailValidation(user.email);
 	if (emailError) { errors.email = emailError; }
 
-	var passwordError = passwordValidation(user.password);
+	var passwordError = Core.passwordValidation(user.password);
 	if (passwordError) { errors.password = passwordError; }
 
-	var passwordConfirmationError = matchingValidation(user.password, user.passwordConfirmation);
+	var passwordConfirmationError = Core.matchingValidation(user.password, user.passwordConfirmation);
 	if (passwordConfirmationError) { errors.passwordConfirmation = passwordConfirmationError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -29,7 +29,7 @@ Users.validateUserJoin = function (user) {
 Users.validateUserLogin = function (credentials) {
 	var errors = {};
 
-	var emailError = emailValidation(credentials.email);
+	var emailError = Core.emailValidation(credentials.email);
 	if (emailError) { errors.email = emailError; }
 
 	var passwordError = isFilledValidation(credentials.password);
@@ -45,7 +45,7 @@ Users.validateUserLogin = function (credentials) {
 Users.validateUserForgotPassword = function (credentials) {
 	var errors = {};
 
-	var emailError = emailValidation(credentials.email);
+	var emailError = Core.emailValidation(credentials.email);
 	if (emailError) { errors.email = emailError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -59,10 +59,10 @@ Users.validateUserForgotPassword = function (credentials) {
 Users.validateUserResetPassword = function (credentials) {
 	var errors = {};
 
-	var passwordError = passwordValidation(credentials.password);
+	var passwordError = Core.passwordValidation(credentials.password);
 	if (passwordError) { errors.password = passwordError; }
 
-	var passwordConfirmationError = matchingValidation(credentials.password, credentials.passwordConfirmation);
+	var passwordConfirmationError = Core.matchingValidation(credentials.password, credentials.passwordConfirmation);
 	if (passwordConfirmationError) { errors.passwordConfirmation = passwordConfirmationError; }
 
 	// If there is no error, reset the object to clear the eventual previous errors
@@ -102,7 +102,7 @@ Users.validateUserAddSkill = function (skill, skills) {
 	if (skillError) { errors.skill = skillError; }
 
 	if (skills && skills.length) {
-		var duplicateSkillError = isDuplicateSkillValidation(skill, skills);
+		var duplicateSkillError = Core.isDuplicateSkillValidation(skill, skills);
 		if (duplicateSkillError) { errors.skill = duplicateSkillError; }
 	}
 
@@ -137,10 +137,10 @@ Users.validateUserLocation = function (location) {
 Users.validateUserIdentity = function (identity) {
 	var errors = {};
 
-	var firstnameError = nameValidation(identity.firstname);
+	var firstnameError = Core.nameValidation(identity.firstname);
 	if (firstnameError) { errors.firstname = firstnameError; }
 
-	var lastnameError = nameValidation(identity.lastname);
+	var lastnameError = Core.nameValidation(identity.lastname);
 	if (lastnameError) { errors.lastname = lastnameError; }
 
 	var activityError = isFilledValidation(identity.activity);
@@ -158,57 +158,57 @@ Users.validateUsersocialProfiles = function (socialProfiles) {
 	var errors = {};
 
 	if (socialProfiles.facebook) {
-		var facebookCodeError = urlValidation(socialProfiles.facebook);
+		var facebookCodeError = Core.urlValidation(socialProfiles.facebook);
 		if (facebookCodeError) { errors.facebook = facebookCodeError; }
 	}
 
 	if (socialProfiles.flickr) {
-		var flikrCodeError = urlValidation(socialProfiles.flickr);
+		var flikrCodeError = Core.urlValidation(socialProfiles.flickr);
 		if (flikrCodeError) { errors.flickr = flikrCodeError; }
 	}
 
 	if (socialProfiles.twitter) {
-		var twitterCodeError = urlValidation(socialProfiles.twitter);
+		var twitterCodeError = Core.urlValidation(socialProfiles.twitter);
 		if (twitterCodeError) { errors.twitter = twitterCodeError; }
 	}
 
 	if (socialProfiles.linkedin) {
-		var linkedinCodeError = urlValidation(socialProfiles.linkedin);
+		var linkedinCodeError = Core.urlValidation(socialProfiles.linkedin);
 		if (linkedinCodeError) { errors.linkedin = linkedinCodeError; }
 	}
 
 	if (socialProfiles.github) {
-		var githubCodeError = urlValidation(socialProfiles.github);
+		var githubCodeError = Core.urlValidation(socialProfiles.github);
 		if (githubCodeError) { errors.github = githubCodeError; }
 	}
 
 	if (socialProfiles.tumblr) {
-		var tumblrCodeError = urlValidation(socialProfiles.tumblr);
+		var tumblrCodeError = Core.urlValidation(socialProfiles.tumblr);
 		if (tumblrCodeError) { errors.tumblr = tumblrCodeError; }
 	}
 
 	if (socialProfiles.instagram) {
-		var instagramCodeError = urlValidation(socialProfiles.instagram);
+		var instagramCodeError = Core.urlValidation(socialProfiles.instagram);
 		if (instagramCodeError) { errors.instagram = instagramCodeError; }
 	}
 
 	if (socialProfiles.behance) {
-		var behanceCodeError = urlValidation(socialProfiles.behance);
+		var behanceCodeError = Core.urlValidation(socialProfiles.behance);
 		if (behanceCodeError) { errors.behance = behanceCodeError; }
 	}
 
 	if (socialProfiles.pinterest) {
-		var pinterestCodeError = urlValidation(socialProfiles.pinterest);
+		var pinterestCodeError = Core.urlValidation(socialProfiles.pinterest);
 		if (pinterestCodeError) { errors.pinterest = pinterestCodeError; }
 	}
 
 	if (socialProfiles.vimeo) {
-		var vimeoCodeError = urlValidation(socialProfiles.vimeo);
+		var vimeoCodeError = Core.urlValidation(socialProfiles.vimeo);
 		if (vimeoCodeError) { errors.vimeo = vimeoCodeError; }
 	}
 
 	if (socialProfiles.website) {
-		var websiteCodeError = urlValidation(socialProfiles.website);
+		var websiteCodeError = Core.urlValidation(socialProfiles.website);
 		if (websiteCodeError) { errors.website = websiteCodeError; }
 	}
 

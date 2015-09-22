@@ -180,7 +180,7 @@ Template.modalPlaceInviteStaffMembers.events({
    */
   'keyup #input-who': function (e, t) {
     var email = t.find('#input-who').value;
-    var emailError = emailValidation(email);
+    var emailError = Core.emailValidation(email);
 
     // If the email isn't valid, dislay an error message
     if (!emailError) {
@@ -242,7 +242,7 @@ Template.modalPlaceInviteStaffMembers.events({
     Session.set('modalAddPlaceInviteStaffMembersErrors', {});
 
     var email = t.find('#input-who').value;
-    var emailError = emailValidation(email);
+    var emailError = Core.emailValidation(email);
 
     // If the email isn't valid, dislay an error message
     if (emailError) {
