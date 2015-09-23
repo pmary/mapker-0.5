@@ -103,6 +103,10 @@ networkSchema = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  "places.$.role": {
+    type: String,
+    optional: true
+  },
   "places.$.admin": {
     type: Boolean,
     optional: true

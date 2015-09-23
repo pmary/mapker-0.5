@@ -26,7 +26,7 @@ Meteor.methods({
 		});
 		place.loc = { lat: place.loc[0], lon: place.loc[1] };
 
-		// Inster the post
+		// Insert the post
 		var placeId = Places.insert(place);
 
 		// Update the user

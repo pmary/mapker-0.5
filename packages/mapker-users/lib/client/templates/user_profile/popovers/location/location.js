@@ -60,14 +60,14 @@ Template.userUpdateLocation.rendered = function () {
             selectizeCountry = $selectContry[0].selectize;
 
             // Select by default the current user country
-            selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
+            selectizeCountry.setValue(Meteor.user().profile.address.countryCode.toLowerCase(), true);
           }
         }
       }
     }
     else {
       // Select by default the current user country
-      selectizeCountry.setValue(Meteor.user().profile.address.countryCode, true);
+      selectizeCountry.setValue(Meteor.user().profile.address.countryCode.toLowerCase(), true);
     }
   });
 };
@@ -167,7 +167,7 @@ Template.userUpdateLocation.events({
 		$('.user-location-infos .submit-location-form').addClass('btn-loader');
 
 		var identity = {
-			countryCode: t.find('#edit-select-country').value,
+			countryCode: t.find('#edit-select-country').value.toUpperCase(),
 			zipcode: t.find('#edit-zipcode').value,
 			city: t.find('#edit-select-city').value
 		};

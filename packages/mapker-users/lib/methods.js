@@ -18,7 +18,7 @@ Meteor.methods({
 			userLang : String
 		});
 
-return;
+
 		Meteor.defer(function() {
 			var templateName = 'welcome-mail-en';
 			var subject = 'Welcome on Mapker ' + user.firstname;

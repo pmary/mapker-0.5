@@ -108,15 +108,16 @@ Template.modalCreateProfile.events({
 
 		var profile = {
 			activity: t.find('#input-activity').value,
-			countryCode: t.find('#select-country').value,
+			countryCode: t.find('#select-country').value.toUpperCase(),
 			zipcode: t.find('#input-zipcode').value,
 			city: t.find('#select-city').value
 		};
 
 		var errors = Users.validateAddProfile(profile);
 		Session.set('modalCreateProfileErrors', errors);
-		if (Object.keys(errors).length)
+		if (Object.keys(errors).length){
 			return; // Abort the account creation due to errors
+		}
 
 		// Get the city center coordinates
 		var address = profile.city.replace(/ /g, "+");

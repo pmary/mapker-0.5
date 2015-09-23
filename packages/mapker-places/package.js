@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:places',
-  version: '0.0.8',
+  version: '0.1.0',
   summary: 'Mapker places package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
