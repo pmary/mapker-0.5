@@ -55,6 +55,25 @@
 		border-radius: 3px;
 		display: block;
 
+		.validation-in-progess {
+			position: absolute;
+	    top: -7px;
+	    right: 8px;
+	    width: 30px;
+	    height: 30px;
+	    background: #FB3975;
+	    color: #fff;
+	    font-size: 13px;
+	    text-align: center;
+	    line-height: 25px;
+	    border-radius: 30px;
+	    border: 3px solid #E42C63;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
 		header {
 			width: 190px;
 			height: 190px;

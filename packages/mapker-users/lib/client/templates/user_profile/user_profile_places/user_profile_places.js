@@ -6,10 +6,17 @@ Template.userProfilePlaces.helpers({
 
 Template.userProfilePlaces.rendered = function() {
 	this.autorun(function () {
-		//console.log(this);
-		//Meteor.subscribe('place', this.params._id);
+		var places = Places.find().count();
+
+		if (places) {
+			$('.user-profile-places .validation-in-progess').popover();
+		}
 	});
 };
+
+Template.userProfilePlaces.onDestroyed(function () {
+	$('.user-profile-places .validation-in-progess').popover('destroy');
+});
 
 Template.userProfilePlaces.events({
 	'click .open-modal-add-place' : function (e, t) {

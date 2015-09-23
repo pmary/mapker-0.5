@@ -28,7 +28,7 @@ Meteor.methods({
 			Places.update({_id: img.resource.id}, { $set: {'cover.focusX': img.focusX, 'cover.focusY': img.focusY} });
 
 			// Update the place ElasticSearch document
-			Meteor.call('updatePlaceESDocument', place.id);
+			Meteor.call('mapker:search/updatePlaceESDocument', place.id);
 		}
 
 		return {
@@ -99,7 +99,7 @@ Meteor.methods({
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
 
 			// Update the user ElasticSearch document
-			Meteor.call('updatePlaceESDocument', img.resource.id);
+			Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
 		}
 
 		return url;

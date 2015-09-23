@@ -23,11 +23,15 @@
 		{{#each places}}
 			<div class="col-sd-12 col-md-6 col-lg-6">
 				<div class="place">
-					<header>
+					{{#if eq currentUser._id ../user._id}}
 						{{#if activated}}
 						{{else}}
-							<!-- <div class="validation-in-progess">Validation in progess</div> -->
+							<div class="validation-in-progess" data-toggle="popover" data-placement="right" data-trigger="hover click" data-content="We are validating your place">
+								<span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+							</div>
 						{{/if}}
+					{{/if}}
+					<header>
 						{{#if avatar}}
 						<a href="{{pathFor route='placeProfileAbout' _id=_id}}" class="avatar" style="background-image: url({{avatar.url}})">
 						</a>

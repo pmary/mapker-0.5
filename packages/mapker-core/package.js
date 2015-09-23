@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.7.1',
+  version: '0.7.2',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'

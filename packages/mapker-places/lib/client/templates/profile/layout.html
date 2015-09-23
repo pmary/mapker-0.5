@@ -28,6 +28,13 @@
 					</div>
 
 					{{#if isAdmin}}
+						{{#if place.activated}}
+						{{else}}
+							<div class="validation-in-progess" data-toggle="popover" data-placement="right" data-trigger="hover click" data-content="We are validating your place">
+								<span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+							</div>
+						{{/if}}
+
 						{{#if place.avatar}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar">

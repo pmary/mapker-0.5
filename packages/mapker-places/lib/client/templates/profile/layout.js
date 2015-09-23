@@ -1,3 +1,5 @@
+var popovers = false;
+
 Template.placeProfileLayout.helpers({
 	/**
 	 * @summary Return if whether or not the current user is administrator of the place
@@ -24,8 +26,13 @@ Template.placeProfileLayout.helpers({
  * @return {Boolean}
  * @locus Anywhere
  */
-Template.placeProfileLayout.rendered = function(){
+Template.placeProfileLayout.rendered = function () {
 };
+
+Template.placeProfileLayout.onDestroyed(function () {
+	$('#place-profile-page .validation-in-progess').popover('destroy');
+	popovers = false;
+});
 
 /**
  * @summary Set the 'modalResource' session variable with the data related to the current resource
@@ -42,6 +49,12 @@ var setModalData = function(t) {
 };
 
 Template.placeProfileLayout.events({
+	'mouseenter .validation-in-progess': function () {
+		if (! popovers) {
+			$('#place-profile-page .validation-in-progess').popover();
+			$('#place-profile-page .validation-in-progess').popover('show');
+		}
+	},
 	/*****************************************************************************/
 	/* Inner navigation UI */
 	/*****************************************************************************/
@@ -77,7 +90,7 @@ Template.placeProfileLayout.events({
 	 * @param {Object} [e] The current event
 	 * @param {Object} [t] The current template instance object
 	 */
-	'click #upload-avatar-btn': function(e, t) { console.log(t);
+	'click #upload-avatar-btn': function(e, t) {
 		// Open the cover change modal
 		Session.set('modalChangeAvatarErrors', {});
 		Session.set('activeModal', 'modalChangeAvatar');
