@@ -55,6 +55,8 @@ iron:middleware-stack@1.0.9
 iron:router@1.0.9
 iron:url@1.0.9
 jquery@1.11.4
+juliancwirko:s-alert@3.1.0
+juliancwirko:s-alert-slide@3.0.0
 kadira:debug@2.2.3
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
@@ -66,7 +68,7 @@ mapker:api@0.0.2
 mapker:communities@0.1.0
 mapker:core@0.7.2
 mapker:i18n@0.1.0
-mapker:lib@0.1.0
+mapker:lib@0.1.1
 mapker:machines@0.1.0
 mapker:nichandle@0.1.0
 mapker:places@0.1.1

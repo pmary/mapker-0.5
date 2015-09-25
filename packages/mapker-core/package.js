@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:core',
-  version: '0.7.2',
+  version: '0.7.3',
   summary: 'Mapker core package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -126,6 +126,7 @@ Package.onUse(function(api) {
   ], ['server']);
 
   api.addFiles([
+    'lib/startup.js',
     'lib/namespace.js',
     'lib/helpers.js',
     'lib/routes.js',

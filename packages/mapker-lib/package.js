@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:lib',
-  version: '0.1.0',
+  version: '0.1.1',
   summary: 'Mapker libraries.',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -41,6 +41,8 @@ Package.onUse(function(api) {
     //'juliancwirko:s-alert',    // https://atmospherejs.com/juliancwirko/s-alert
     'tap:i18n',                  // https://atmospherejs.com/tap/i18n-ui
     'tap:i18n-db',               // https://atmospherejs.com/tap/i18n-db
+    'juliancwirko:s-alert@3.1.0',// https://atmospherejs.com/juliancwirko/s-alert
+    'juliancwirko:s-alert-slide',
     'mapker:third-party'
   ];
 

@@ -18,20 +18,43 @@ Meteor.methods({
 			userLang : String
 		});
 
+		if (Meteor.isServer) {
+			var userId = Accounts.createUser({
+				email: user.email,
+				password: user.password,
+				profile:{
+					fullname: user.firstname+ " " + user.lastname,
+					firstname: user.firstname,
+					lastname: user.lastname,
+					nicHandle: user.nicHandle
+				}
+			});
+
+			// Send an email with a link the user can use to verify his or her email address.
+			Accounts.sendVerificationEmail(userId);
+		}
+
+		if (Meteor.isClient) {
+			Router.go('Home');
+			sAlert.success('A verification email has been sent to you with instructions to activate your account.', {onRouteClose: false});
+		}
+
+		//var userId = Meteor.user()._id;
 
 		Meteor.defer(function() {
-			var templateName = 'welcome-mail-en';
-			var subject = 'Welcome on Mapker ' + user.firstname;
+			if (Meteor.isServer) {
+				/*var templateName = 'welcome-mail-en';
+				var subject = 'Welcome on Mapker ' + user.firstname;
 
-			// Define the template to user, acordingly to the browser langage
-			if (user.userLang == 'fr') {
-				templateName = 'welcome-mail-fr';
-				subject = 'Bienvenue sur Mapker ' + user.firstname;
-			}
+				// Define the template to user, acordingly to the browser langage
+				if (user.userLang == 'fr') {
+					templateName = 'welcome-mail-fr';
+					subject = 'Bienvenue sur Mapker ' + user.firstname;
+				}
 
-			//console.log('template name: ', templateName);
+				//console.log('template name: ', templateName);
 
-			HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
+				HTTP.call("POST", "https://mandrillapp.com/api/1.0/messages/send-template.json",
 				{
 					data: {
 						"key": "OfKzISRCtJJLFJmGi-k9kA",
@@ -56,7 +79,8 @@ Meteor.methods({
 				function (error, result) {
 					if (error) Logger.log(error);
 					Logger.log(result);
-				});
+				});*/
+			}
 		});
 
 		return true;

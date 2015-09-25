@@ -34,7 +34,11 @@ Template.userLogin.events({
 			if (error){
 				if (error.error === 403) {
 					// Display the related error message
-					Errors.throw('Invalid login or password');
+					//Errors.throw('Invalid login or password');
+					sAlert.error('Invalid login or password.');
+				}
+				else if (error.error === 401 ) {
+					sAlert.error('You have to validate your email before you can login.');
 				}
 
 				// Cancel the loader state

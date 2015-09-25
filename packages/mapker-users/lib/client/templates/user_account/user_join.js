@@ -82,28 +82,9 @@ Template.userJoin.events({
 			});
 		}
 		else {
+			console.log('user', user);
+			Meteor.call('mapker:users/userCreateAccount', user);
 			// If the form is valide
-			Accounts.createUser({
-				email: user.email,
-				password: user.password,
-				profile:{
-					fullname: user.firstname+ " " + user.lastname,
-					firstname: user.firstname,
-					lastname: user.lastname,
-					nicHandle: user.nicHandle
-				}
-			}, function(error, result) {
-				if (error) {
-					// Inform the user that account creation failed
-					Errors.throw(error.reason);
-				}else {
-					Meteor.call('mapker:users/userCreateAccount', user);
-					// Success. Account has been created and the user
-					// has logged in successfully.
-
-					Router.go('userProfileBio', {_id: Meteor.user()._id});
-				}
-			});
 		}
 
 		return false;
