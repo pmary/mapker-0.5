@@ -26,7 +26,6 @@ Template.UserProfileBio.events({
 				console.log(error);
 				return alert(error.reason);
 			}
-			console.log("User bio successufully updated");
 
 			// Close the edition
 			t.find('.user-bio-container').style.display = 'block';

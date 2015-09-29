@@ -4,6 +4,9 @@ Router.route('/communities/:_id', {
   yieldRegions: {
     'communityProfileAbout': {to: 'content'}
   },
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   waitOn: function () {
   },
   data: function () {
@@ -19,6 +22,9 @@ Router.route('/communities/:_id/about', {
   layoutTemplate: 'communityProfileLayout',
   yieldRegions: {
     'communityProfileAbout': {to: 'content'}
+  },
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
   },
   waitOn: function () {
     return Meteor.subscribe('community', this.params._id);

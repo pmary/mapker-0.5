@@ -4,6 +4,9 @@ Router.route('/search', {
   yieldRegions: {
     'searchPlaces': {to: 'content'}
   },
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   waitOn: function () {
   },
   data: function () {
@@ -17,6 +20,9 @@ Router.route('/search', {
 Router.route('/search/places', {
   name: 'searchPlaces',
   template: 'searchPlaces',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   waitOn: function () {
   },
   data: function () {
@@ -37,6 +43,9 @@ Router.route('/search/places', {
 Router.route('/search/skills', {
   name: 'searchSkills',
   template: 'searchSkills',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   /*layoutTemplate: 'searchLayout',
   yieldRegions: {
     'searchSkills': {to: 'content'}

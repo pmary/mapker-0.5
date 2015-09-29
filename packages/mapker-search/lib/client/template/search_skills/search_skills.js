@@ -417,7 +417,6 @@ Template.searchSkills.rendered = function() {
 };
 
 Template.searchSkills.onDestroyed(function () {
-	console.log('searchSkills.onDestroyed');
 	filters = {};
 	areasLayers = [];
 	resultPerPage = 1;

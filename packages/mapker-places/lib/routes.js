@@ -1,8 +1,35 @@
+Router.route('/suggest-a-place', {
+  name: 'suggestPlace',
+  template: 'suggestPlace',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
+  after: function () {
+    // Send the pageview to GA
+		ga('send', 'pageview', '/suggest-a-place');
+  }
+});
+
+Router.route('/create-a-place', {
+  name: 'createPlace',
+  template: 'createPlace',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
+  after: function () {
+    // Send the pageview to GA
+    ga('send', 'pageview', '/create-a-place');
+  }
+});
+
 Router.route('/places/:_id', {
   name: 'placeProfile',
   template: 'placeProfileLayout',
   yieldRegions: {
     'placeProfileAbout': {to: 'content'}
+  },
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
   },
   waitOn: function () {
   },

@@ -60,7 +60,9 @@ Template.userUpdateLocation.rendered = function () {
             selectizeCountry = $selectContry[0].selectize;
 
             // Select by default the current user country
-            selectizeCountry.setValue(Meteor.user().profile.address.countryCode.toLowerCase(), true);
+            if (Meteor.user().profile.address) {
+              selectizeCountry.setValue(Meteor.user().profile.address.countryCode.toLowerCase(), true);
+            }
           }
         }
       }

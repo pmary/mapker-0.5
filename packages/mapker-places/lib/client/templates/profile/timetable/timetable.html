@@ -32,27 +32,34 @@
 		<div class="opening-hours-timetable {{#if isAdmin}}editable{{/if}}">
 			<div class="seven-cols">
 				{{#each openingHours.days}}
-					<div class="col-md-1 col-day {{day}} {{#if closed}}closed{{/if}}">
-						<header>{{day}}</header>
-						<section data-id="{{day}}" class="hours {{day}}">
+					<div class="col-md-12 col-day {{day}} {{#if closed}}closed{{/if}}">
+						<header class="col-md-3">{{day}}</header>
+						<section data-id="{{day}}" class="hours {{day}} col-md-9">
 							{{#if slot1}}
-								<p>{{slot1.from}}h - {{slot1.to}}h</p>
+								<p class="display-slot1">{{slot1.from}}h - {{slot1.to}}h</p>
 							{{/if}}
+
 							{{#if slot2}}
-								<span>and</span>
-								<p>{{slot2.from}}h - {{slot2.to}}h</p>
+								<span class="display-and">and</span>
+								<p class="display-slot2">{{slot2.from}}h - {{slot2.to}}h</p>
 							{{/if}}
 
 							{{#if closed}}
-								<p>Closed</p>
+								<p>Closed <br><span class="edit-btn">edit</span></p>
+							{{else}}
+								<span class="edit-btn">edit</span>
 							{{/if}}
-							<span class="edit-btn">edit</span>
 						</section>
-						<section class="hours-editing {{#if slot2}}two-slot{{/if}}">
+						<section class="hours-editing {{#if slot2}}two-slot{{/if}} col-md-9">
 							<div class="form-inline slot1" id="{{day}}-slot1">
 								<input data-id="{{day}}" data-slot="slot1" value="{{slot1.from}}" data-position="from" type="text" class="form-control time start input-slot1-from" placeholder="From">
 								<input data-id="{{day}}" data-slot="slot1" value="{{slot1.to}}" data-position="to" type="text" class="form-control time end input-slot1-to" placeholder="to">
 							</div>
+
+							{{#if slot2}}{{else}}
+								<span data-id="{{day}}" class="user-action-add-shift">Add a shift</span>
+							{{/if}}
+
 							<div class="{{#if slot2}}display-slot2{{/if}} slot2-container">
 								<p><b>and</b></p>
 								<div class="form-inline slot2" id="{{day}}-slot2">
@@ -61,9 +68,6 @@
 								</div>
 								<span data-id="{{day}}" class="user-action-remove-shift">Remove the shift</span>
 							</div>
-							{{#if slot2}}{{else}}
-								<span data-id="{{day}}" class="user-action-add-shift">Add a shift</span>
-							{{/if}}
 						</section>
 						<section class="set-as-closed-container">
 							<button data-id="{{day}}" class="btn btn-default user-action-set-closed">Closed?</button>

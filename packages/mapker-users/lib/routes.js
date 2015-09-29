@@ -37,21 +37,30 @@ needToCreateProfile = function() {
 Router.route('/login', {
 	name: 'UserLogin',
 	template: 'UserLogin',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
 	after: function () {
 		// Send the pageview to GA
 		ga('send', 'pageview', '/login');
 	}
 });
 
-Router.route('/logout', function () {
-	Meteor.logout();
- 	//this.render('Home');
- 	Router.go('Home');
+Router.route('/logout', {
+  name: 'Logout',
+  template: 'Logout',
+  onAfterAction: function () {
+    Meteor.logout();
+    $('body,html').scrollTop(0);
+  }
 });
 
 Router.route('/join', {
  	name: 'userJoin',
 	template: 'userJoin',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
 	after: function () {
 		// Send the pageview to GA
 		ga('send', 'pageview', '/join');
@@ -61,6 +70,9 @@ Router.route('/join', {
 Router.route('/join/:token/:email/:firstname/:lastname', {
  	name: 'userJoinViaInvitation',
 	template: 'userJoin',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   data: function () {
     templateData = {
       token: this.params.token,
@@ -83,6 +95,9 @@ Router.route('/reset-password', function () {
 Router.route('/reset-password/:resetToken', {
   name: 'UserForgotPassword',
   template: 'UserForgotPassword',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
   data: function () {
     return {resetToken: this.params.resetToken};
   }
@@ -101,6 +116,9 @@ Router.route('/user/:_id', {
   template: 'UserProfileLayout',
   yieldRegions: {
     'UserProfileBio': {to: 'content'}
+  },
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
   },
   //waitOn: function () { return Meteor.subscribe('user', this.params._id); },
   data: function () {

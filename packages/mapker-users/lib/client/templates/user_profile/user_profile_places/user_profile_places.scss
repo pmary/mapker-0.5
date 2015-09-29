@@ -69,6 +69,10 @@
 	    border-radius: 30px;
 	    border: 3px solid #E42C63;
 
+			.arrow {
+				display: block;
+			}
+
 			&:hover {
 				cursor: pointer;
 			}

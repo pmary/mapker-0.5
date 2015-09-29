@@ -19,6 +19,7 @@ Package.onUse(function(api) {
     'handlebars',
     'session',
     'sha',
+    'react',                     // https://atmospherejs.com/meteor/react
     'accounts-password',         // https://atmospherejs.com/meteor/accounts-password
     'email',                     // https://atmospherejs.com/meteor/email
     'http',                      // https://atmospherejs.com/meteor/http
