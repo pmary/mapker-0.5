@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:places',
-  version: '0.1.1',
+  version: '0.1.2',
   summary: 'Mapker places package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -88,10 +88,4 @@ Package.onUse(function(api) {
   ], ['server']);
 
   api.export('Places');
-});
-
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('mapker:places');
-  api.addFiles('places-tests.js');
 });

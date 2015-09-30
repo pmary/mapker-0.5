@@ -78,11 +78,9 @@ Template.placeProfileTimetable.events({
 		// Hide the 'Cancel' and 'Save' btns
 		$('.user-profile-timetable .pull-right').css('display', 'none');
 		// Destroy all the timepicker
-		if ($('.user-profile-timetable .time').timepicker())
+		if ($('.user-profile-timetable .time').timepicker()) {
 			$('.user-profile-timetable .time').timepicker('remove');
-		// Destroy all the datepair instances
-		if (datepairSlot1)
-			datepairSlot1.remove();
+		}
 
 		// Set the selected day in editing state
 		$(e.currentTarget).parent().addClass('active');
@@ -90,29 +88,36 @@ Template.placeProfileTimetable.events({
 		$('.user-profile-timetable .pull-right').css('display', 'block');
 
 		// Init the timepicker
-		$('#'+this.d+' .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
+		$('#' + this.d + ' .time').timepicker({ 'showDuration': true, 'timeFormat': 'G:i' });
 		// Init the datepair
 		datepair = new Datepair(document.getElementById(this.d));
-
-		// Check for a
 
 		// Set the focus on the first input
 		$(e.currentTarget).parent().find('.timerange-edit').find('input[type="text"]:first').focus();
 	},
-	'change .time': function (e) {
+	/*'change .time': function (e) {
+		console.log('time change');
+		console.log('this.day', this.day);
 		var $hourContainer = $(e.target).parent().parent(),
 		$editingContainer = $hourContainer.find('.timerange-edit');
 
 		var openingHours = Session.get('openingHours');
-		for (var i = 0; i < openingHours.length; i++) {
-			if(openingHours[i].d === this.d) {
-				if (openingHours[i].c) delete openingHours[i].c;
-				openingHours[i].s = $editingContainer.find('.time.start').val();
-				openingHours[i].e = $editingContainer.find('.time.end').val();
+		console.log('openingHours.days', openingHours.days);
+		for (var i = 0; i < openingHours.days.length; i++) {
+			if(openingHours.days[i].day === this.day) {
+				// If the day was previously set as closed
+				if (openingHours.days[i].closed) {
+					// Remove the close key
+					delete openingHours.days[i].closed;
+				}
+				//openingHours.days[i].from = $editingContainer.find('.time.start').val();
+				openingHours.days[i].from = $('#' + this.day + '-slot1 .input-slot1-from').val();
+				openingHours.days[i].to = $('#' + this.day + '-slot1 .input-slot1-to').val();
+				console.log('openingHours.days[i]', openingHours.days[i]);
 				Session.set('openingHours', openingHours);
 			}
 		}
-	},
+	},*/
 	'click .user-action-cancel-hour': function () {
 		$('.user-profile-timetable .hour').removeClass('active');
 	},
@@ -155,6 +160,7 @@ Template.placeProfileTimetable.events({
 	 * @summary Make the timetable editable
 	 */
 	'click .opening-hours-timetable.editable .hours': function (e) {
+		console.log('Enter in edition mode');
 		var day =  e.currentTarget.dataset.id;
 
 		$('.user-profile-timetable .col-day').removeClass('editing');
@@ -183,10 +189,19 @@ Template.placeProfileTimetable.events({
 
 				// Check if the slot doesn't exist
 				if (! openingHours.days[i][slot]) {
-					// Create it
-					openingHours.days[i][slot] = {from: '', to: ''};
+					// Init the object
+					//openingHours.days[i][slot] = {from: '', to: ''};
+					openingHours.days[i][slot] = {};
 				}
 				openingHours.days[i][slot][position] = value;
+
+				// If we just edit the 'from' position
+				if (position === 'from') {
+					// The 'to' value may have been updated, so get its value
+					var toVal = $('#' + day + '-' + slot + ' .input-' + slot + '-to').val();
+					// And update the slot object
+					openingHours.days[i][slot].to = toVal;
+				}
 				Session.set('openingHours', openingHours);
 			}
 		}
