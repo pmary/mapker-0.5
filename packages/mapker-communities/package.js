@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:communities',
-  version: '0.1.1',
+  version: '0.1.2',
   summary: 'Mapker communities package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -42,4 +42,6 @@ Package.onUse(function(api) {
     'lib/helpers.js',
     'lib/methods.js'
   ], ['client', 'server']);
+
+  api.export('Communities');
 });

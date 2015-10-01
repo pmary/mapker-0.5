@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:users',
-  version: '0.1.3',
+  version: '0.1.4',
   summary: 'Mapker users and permissions package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -42,6 +42,9 @@ Package.onUse(function(api) {
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.html',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.scss',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js',
+    'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.html',
+    'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.scss',
+    'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.js',
       // Popovers
         // Identity
         'lib/client/templates/user_profile/popovers/identity/identity.html',

@@ -260,3 +260,35 @@ Router.route('/user/:_id/network', {
     $('.user-profile-page .nav li#nav-network').addClass('active');
   }
 });
+
+Router.route('/user/:_id/communities', {
+  name: 'userProfileCommunities',
+  template: 'userProfileCommunities',
+  layoutTemplate: 'UserProfileLayout',
+  yieldRegions: {
+    'userProfileCommunities': {to: 'content'}
+  },
+  loadingTemplate: 'loader',
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe('countriesList'),
+      Meteor.subscribe('userCommunities', this.params._id)
+    ];
+  },
+  data: function () {
+    templateData = {
+      user: Meteor.users.findOne({_id: this.params._id}),
+      communities: Communities.find()
+    };
+    return templateData;
+  },
+  after: function() {
+    // Send the pageview to GA
+    ga('send', 'pageview', '/user/'+this.params._id+'/communities');
+
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-communities').addClass('active');
+  }
+});
