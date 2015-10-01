@@ -48,10 +48,10 @@ Router.route('/login', {
 
 Router.route('/logout', {
   name: 'Logout',
-  template: 'Logout',
   onAfterAction: function () {
     Meteor.logout();
     $('body,html').scrollTop(0);
+    Router.go('Home');
   }
 });
 

@@ -17,9 +17,11 @@ Core.randomString = function (length) {
 Core.debounce = function (fn, delay) {
   var timer = null;
   return function () {
+    console.log('enter the returned function');
     var context = this, args = arguments;
     clearTimeout(timer);
     timer = setTimeout(function () {
+      console.log('bounce timeout');
       fn.apply(context, args);
     }, delay);
   };
@@ -59,7 +61,11 @@ Core.urlValidation = function(value) {
  * @param {String} value
  */
 Core.nicHandleValidation = function (value) {
-  if (value && typeof value === 'string' && /^[A-Za-z0-9_]{1,15}$/.test(value)) {
+  if (
+    value &&
+    typeof value === 'string' &&
+    /^[A-Za-z0-9_]{1,15}$/.test(value)
+  ) {
     return false;
   }
   else {

@@ -5,7 +5,19 @@ Meteor.methods({
    */
   'mapker:nichandle/insert': function (nicHandle) {
     check(Meteor.userId(), String);
-    check(nicHandle, String);
+    check(nicHandle, {
+      name: String,
+      resourceId: String,
+      resourceType: String
+    });
+
+    // Check if the nicHandle is n available
+    if (NicHandles.findOne({ name: nicHandle.name })) {
+      return false;
+    }
+    else {
+      return NicHandles.insert(nicHandle);
+    }
   },
   /**
    * @summary Check if the given NIC already exist
@@ -14,10 +26,16 @@ Meteor.methods({
    */
   'mapker:nichandle/checkIfExist': function (nicHandle) {
     // Checking might be redundant because SimpleSchema already enforces the schema, but you never know
-    check(nicHandle, NicHandles.simpleSchema());
+    check(nicHandle, String);
 
-    var id = NicHandles.insert(nicHandle);
+    var id = NicHandles.findOne({ name: nicHandle });
+    console.log('id', id);
 
-    return id;
+    if (id) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 });

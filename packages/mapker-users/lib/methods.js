@@ -18,20 +18,40 @@ Meteor.methods({
 			userLang : String
 		});
 
-		if (Meteor.isServer) {
-			var userId = Accounts.createUser({
-				email: user.email,
-				password: user.password,
-				profile:{
-					fullname: user.firstname+ " " + user.lastname,
-					firstname: user.firstname,
-					lastname: user.lastname,
-					nicHandle: user.nicHandle
-				}
-			});
+		// Try to insert the new nicHandle
+		/*Meteor.call('mapker:nichandle/insert', {
+			nicHandle: user.nicHandle,
+			resourceId: userId,
+			resourceType: 'user'
+		});*/
 
-			// Send an email with a link the user can use to verify his or her email address.
-			Accounts.sendVerificationEmail(userId);
+		if (Meteor.isServer) {
+			// Check if the nichandle already existe
+			if (NicHandles.findOne({ name: user.nicHandle })) {
+				return false;
+			}
+			else {
+				var userId = Accounts.createUser({
+					email: user.email,
+					password: user.password,
+					profile:{
+						fullname: user.firstname+ " " + user.lastname,
+						firstname: user.firstname,
+						lastname: user.lastname,
+						nicHandle: user.nicHandle
+					}
+				});
+
+				// Insert a new nicHandle
+				NicHandles.insert({
+					name: user.nicHandle,
+					resourceId: userId,
+					resourceType: 'user'
+				});
+
+				// Send an email with a link the user can use to verify his or her email address.
+				Accounts.sendVerificationEmail(userId);
+			}
 		}
 
 		if (Meteor.isClient) {
