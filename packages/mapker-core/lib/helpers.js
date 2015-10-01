@@ -178,6 +178,25 @@ Core.nameValidation = function(value) {
 };
 
 /**
+ * @summary Check if the given name match the validation criteria
+ * @param value - The name to check
+ * @return {Boolean} - Whether if the name is valid or not
+ */
+Core.communityNameValidation = function (value) {
+  if (!value) {
+		return 'Required field';
+	} else if (value.length < 2) {
+		return 'This field must contain at least 2 characters';
+	} else if (value.length > 50) {
+		return 'This field must not contain more than 50 characters';
+	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+		return 'Invalid character in the user name';
+	}else {
+		return false;
+	}
+};
+
+/**
  * @summary Check if the given input tags match the validation criteria
  * @param value - The input tags to check
  * @return {Boolean} - Whether if the input tags is valid or not

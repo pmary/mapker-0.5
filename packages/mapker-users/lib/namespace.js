@@ -111,6 +111,16 @@ networkSchema = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  "communities.$": {
+    type: Object
+  },
+  "communities.$.id": {
+    type: String
+  },
+  "communities.$.admin": {
+    type: Boolean,
+    optional: true
+  },
   users: {
     type: userNetworkSchema,
     optional: true

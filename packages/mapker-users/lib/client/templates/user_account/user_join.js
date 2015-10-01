@@ -19,11 +19,9 @@ Template.userJoin.helpers({
  function debounce (fn, delay) {
   var timer = null;
   return function () {
-    console.log('enter the returned function');
     var context = this, args = arguments;
     clearTimeout(timer);
     timer = setTimeout(function () {
-      console.log('bounce timeout');
       fn.apply(context, args);
     }, delay);
   };
@@ -32,8 +30,7 @@ Template.userJoin.helpers({
 Template.userJoin.events({
 	/**
 	 * @summary Every time the user type in the firstname or lastname fields,
-	 * update the nicHandle field accordingly and check if the current nic
-	 * is available
+	 * update the nicHandle field accordingly
 	 */
 	'keyup #join-first-name, keyup #join-last-name': function (e, t) {
     var firstname = t.find('#join-first-name').value,
@@ -61,7 +58,7 @@ Template.userJoin.events({
 
   },
 	/**
-	 * Check if the nicHandle is available and valid
+	 * @summary Check if the nicHandle is available and valid every time it change
 	 */
 	'keyup #join-first-name, keyup #join-last-name, keyup #input-nichandle': debounce(function (e, t) {
 		var nicHandle = t.find('#input-nichandle').value;
@@ -70,7 +67,7 @@ Template.userJoin.events({
 			if (err) {
 				console.log('err', err);
 			}
-
+			
 			var errors = Session.get('userJoinErrors');
 			if (res) {
 				// Display the 'not available' message
@@ -102,8 +99,8 @@ Template.userJoin.events({
 		};
 
 		var errors = Users.validateUserJoin(user);
-		// Check the nicHandle
 
+		// Check the nicHandle
 		Meteor.call('mapker:nichandle/checkIfExist', user.nicHandle, function (err, res) {
 			if (err) {
 				console.log('err', err);

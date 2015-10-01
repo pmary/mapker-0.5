@@ -12,7 +12,7 @@ Meteor.methods({
     });
 
     // Check if the nicHandle is n available
-    if (NicHandles.findOne({ name: nicHandle.name })) {
+    if (NicHandles.findOne({ canonicalName: nicHandle.name.toLowerCase() })) {
       return false;
     }
     else {
@@ -28,10 +28,7 @@ Meteor.methods({
     // Checking might be redundant because SimpleSchema already enforces the schema, but you never know
     check(nicHandle, String);
 
-    var id = NicHandles.findOne({ name: nicHandle });
-    console.log('id', id);
-
-    if (id) {
+    if (NicHandles.findOne({ canonicalName: nicHandle.toLowerCase() })) {
       return true;
     }
     else {

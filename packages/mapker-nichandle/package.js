@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:nichandle',
-  version: '0.1.0',
+  version: '0.1.1',
   summary: 'Mapker Nic-Handle package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mapker:communities',
-  version: '0.1.0',
+  version: '0.1.1',
   summary: 'Mapker communities package',
   git: 'https://github.com/pmary/mapker.git',
   documentation: 'README.md'
@@ -33,11 +33,13 @@ Package.onUse(function(api) {
       // Create a community page
       'lib/client/templates/create_a_community/create_a_community.html',
       'lib/client/templates/create_a_community/create_a_community.scss',
-      'lib/client/templates/create_a_community/create_a_community.js',
+      'lib/client/templates/create_a_community/create_a_community.js'
   ], ['client']);
 
   api.addFiles([
     'lib/namespace.js',
-    'lib/routes.js'
+    'lib/routes.js',
+    'lib/helpers.js',
+    'lib/methods.js'
   ], ['client', 'server']);
 });

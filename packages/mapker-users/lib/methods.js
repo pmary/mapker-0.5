@@ -27,7 +27,7 @@ Meteor.methods({
 
 		if (Meteor.isServer) {
 			// Check if the nichandle already existe
-			if (NicHandles.findOne({ name: user.nicHandle })) {
+			if (NicHandles.findOne({ canonicalName: user.nicHandle.toLowerCase() })) {
 				return false;
 			}
 			else {
@@ -45,6 +45,7 @@ Meteor.methods({
 				// Insert a new nicHandle
 				NicHandles.insert({
 					name: user.nicHandle,
+					canonicalName: user.nicHandle.toLowerCase(),
 					resourceId: userId,
 					resourceType: 'user'
 				});
