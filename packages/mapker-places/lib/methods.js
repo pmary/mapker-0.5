@@ -182,7 +182,7 @@ Meteor.methods({
 
 		if (Meteor.isServer) {
 			// Check if the user have admin rights
-			var isAdmin = Meteor.call('canUserEditPlace', place.id);
+			var isAdmin = Meteor.call('mapker:core/canUserEditPlace', place.id);
 
 			if (isAdmin) {
 				Places.update({_id: place.id}, { $set: {
@@ -215,7 +215,7 @@ Meteor.methods({
 
 		if (Meteor.isServer) {
 			// Check if the user have admin rights
-			var isAdmin = Meteor.call('canUserEditPlace', place.id);
+			var isAdmin = Meteor.call('mapker:core/canUserEditPlace', place.id);
 
 			if (isAdmin) {
 				Places.update({_id: place.id}, { $set: {
@@ -246,7 +246,7 @@ Meteor.methods({
 		var user = Meteor.user();
 
 		// Check if the user have admin rights
-		var isAdmin = Meteor.call('canUserEditPlace', placeSocialProfiles.id);
+		var isAdmin = Meteor.call('mapker:core/canUserEditPlace', placeSocialProfiles.id);
 
 		if (isAdmin) {
 			if (Meteor.isServer) {
@@ -279,7 +279,7 @@ Meteor.methods({
 
     if (Meteor.isServer) {
       // Check if the user have admin rights
-      var isAdmin = Meteor.call('canUserEditPlace', place.id);
+      var isAdmin = Meteor.call('mapker:core/canUserEditPlace', place.id);
 
       if (isAdmin) {
     		var placeId = Places.update(
@@ -313,7 +313,7 @@ Meteor.methods({
 
 		if (Meteor.isServer) {
 			// Check if the user have admin rights
-			var isAdmin = Meteor.call('canUserEditPlace', placeId);
+			var isAdmin = Meteor.call('mapker:core/canUserEditPlace', placeId);
 
 			if (isAdmin) {
 				var result = Places.update({_id: placeId}, { $set: {
@@ -336,7 +336,7 @@ Meteor.methods({
 		check(message, String);
 
 		// Check if the user has the admin rigths over the place
-		if (! Meteor.call('canUserEditPlace', placeId)) {
+		if (! Meteor.call('mapker:core/canUserEditPlace', placeId)) {
 			return false;
 		}
 
@@ -682,7 +682,7 @@ Meteor.methods({
 		check(userId, String);
 
 		// Check if the user have admin rights
-		var isAdmin = Meteor.call('canUserEditPlace', placeId);
+		var isAdmin = Meteor.call('mapker:core/canUserEditPlace', placeId);
 
 		if (isAdmin) {
 			// Remove the user from the place
@@ -721,7 +721,7 @@ Meteor.methods({
 
 		// @todo Update the user role
 		// Check if the user have admin rights
-		var isAdmin = Meteor.call('canUserEditPlace', placeId);
+		var isAdmin = Meteor.call('mapker:core/canUserEditPlace', placeId);
 
 		if (isAdmin) {
 			// Update the member in the place document

@@ -1,0 +1,10 @@
+.community-profile-page #resource-infos-social-profiles {
+  padding-top: 14px;
+
+  #add-social-profiles {
+    &:hover {
+      border: 1px dashed #fcea10;
+      color: #efd90f;
+    }
+  }
+}

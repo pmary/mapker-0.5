@@ -145,7 +145,7 @@ Template.placeUpdateSocialProfiles.events({
 		};
 
 		// Check the form values
-		var errors = validateUsersocialProfiles(socialProfiles);
+		var errors = Core.validateUsersocialProfiles(socialProfiles);
 		Session.set('placeUpdateSocialProfilesErrors', errors);
 		// Abort the update due to errors
 		if (Object.keys(errors).length) return;

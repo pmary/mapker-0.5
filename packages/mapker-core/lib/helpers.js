@@ -350,8 +350,73 @@ Core.isUserResourceAdmin = function(resource, userId) {
 
 		case 'place':
 			// Check if the user id is in the 'administrators' resource array
-			result = Meteor.call('canUserEditPlace', resource.id);
+			result = Meteor.call('mapker:core/canUserEditCommunity', resource.id);
 			break;
 	}
 	return result;
+};
+
+Core.validateUsersocialProfiles = function (socialProfiles) {
+	var errors = {};
+
+	if (socialProfiles.facebook) {
+		var facebookCodeError = Core.urlValidation(socialProfiles.facebook);
+		if (facebookCodeError) { errors.facebook = facebookCodeError; }
+	}
+
+	if (socialProfiles.flickr) {
+		var flikrCodeError = Core.urlValidation(socialProfiles.flickr);
+		if (flikrCodeError) { errors.flickr = flikrCodeError; }
+	}
+
+	if (socialProfiles.twitter) {
+		var twitterCodeError = Core.urlValidation(socialProfiles.twitter);
+		if (twitterCodeError) { errors.twitter = twitterCodeError; }
+	}
+
+	if (socialProfiles.linkedin) {
+		var linkedinCodeError = Core.urlValidation(socialProfiles.linkedin);
+		if (linkedinCodeError) { errors.linkedin = linkedinCodeError; }
+	}
+
+	if (socialProfiles.github) {
+		var githubCodeError = Core.urlValidation(socialProfiles.github);
+		if (githubCodeError) { errors.github = githubCodeError; }
+	}
+
+	if (socialProfiles.tumblr) {
+		var tumblrCodeError = Core.urlValidation(socialProfiles.tumblr);
+		if (tumblrCodeError) { errors.tumblr = tumblrCodeError; }
+	}
+
+	if (socialProfiles.instagram) {
+		var instagramCodeError = Core.urlValidation(socialProfiles.instagram);
+		if (instagramCodeError) { errors.instagram = instagramCodeError; }
+	}
+
+	if (socialProfiles.behance) {
+		var behanceCodeError = Core.urlValidation(socialProfiles.behance);
+		if (behanceCodeError) { errors.behance = behanceCodeError; }
+	}
+
+	if (socialProfiles.pinterest) {
+		var pinterestCodeError = Core.urlValidation(socialProfiles.pinterest);
+		if (pinterestCodeError) { errors.pinterest = pinterestCodeError; }
+	}
+
+	if (socialProfiles.vimeo) {
+		var vimeoCodeError = Core.urlValidation(socialProfiles.vimeo);
+		if (vimeoCodeError) { errors.vimeo = vimeoCodeError; }
+	}
+
+	if (socialProfiles.website) {
+		var websiteCodeError = Core.urlValidation(socialProfiles.website);
+		if (websiteCodeError) { errors.website = websiteCodeError; }
+	}
+
+	// If there is no error, reset the object to clear the eventual previous errors
+	if (!Object.keys(errors).length)
+		errors = {};
+
+	return errors;
 };

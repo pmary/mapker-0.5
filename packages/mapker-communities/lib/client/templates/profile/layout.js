@@ -4,9 +4,9 @@ Template.communityProfileLayout.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function () {
-		if (this.place && Meteor.user()) {
-			var isAdmin = Places.findOne({
-				_id: this.place._id,
+		if (this.community && Meteor.user()) {
+			var isAdmin = Communities.findOne({
+				_id: this.community._id,
 				members: { $elemMatch: { id: Meteor.user()._id, admin: true } }
 			});
 			if (isAdmin) {

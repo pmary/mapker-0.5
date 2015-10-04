@@ -4,8 +4,8 @@
 			<header class="col-md-12">
 				<section id="cover-avatar">
 					<div class="profile-cover">
-						{{#if place.cover}}
-						<div class="focuspoint" id="profile-cover-bg" style="background-image: url({{place.cover.url}})">
+						{{#if community.cover}}
+						<div class="focuspoint" id="profile-cover-bg" style="background-image: url({{community.cover.url}})">
 						</div>
 						{{else}}
 						<div class="focuspoint" id="profile-cover-bg">
@@ -28,10 +28,10 @@
 					</div>
 
 					{{#if isAdmin}}
-						{{#if place.avatar}}
+						{{#if community.avatar}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar">
-								<div style="background-image: url({{place.avatar.url}})" id="profile-avatar-bg">
+								<div style="background-image: url({{community.avatar.url}})" id="profile-avatar-bg">
 									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 								</div>
 							</div>
@@ -39,22 +39,22 @@
 						{{else}}
 						<a href="#" id="upload-avatar-btn" data-toggle="modal" data-modal-template="modalAddPlace" data-target="#myModal">
 							<div class="profile-avatar">
-								<div style="background-image: url(/images/avatar-place-default.png)" id="profile-avatar-bg">
+								<div style="background-image: url(/images/avatar-community-default.png)" id="profile-avatar-bg">
 									<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 								</div>
 							</div>
 						</a>
 						{{/if}}
 					{{else}}
-						{{#if place.avatar}}
+						{{#if community.avatar}}
 						<div class="profile-avatar">
-							<div style="background-image: url({{place.avatar.url}})" id="profile-avatar-bg">
+							<div style="background-image: url({{community.avatar.url}})" id="profile-avatar-bg">
 								<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 							</div>
 						</div>
 						{{else}}
 						<div class="profile-avatar">
-							<div style="background-image: url(/images/avatar-place-default.png)" id="profile-avatar-bg">
+							<div style="background-image: url(/images/avatar-community-default.png)" id="profile-avatar-bg">
 								<span class="glyphicon glyphicon-camera edit-cover-icon" aria-hidden="true"></span>
 							</div>
 						</div>
@@ -66,11 +66,11 @@
 
 		<section class="row" id="resource-infos">
 			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-				<!-- Include the place infos template -->
-				{{> placeProfileIdentityEdition isAdmin=isAdmin place=place}}
+				<!-- Include the community infos template -->
+				{{> communityProfileIdentityEdition isAdmin=isAdmin community=community}}
 
 				<!-- Include the social profiles links template -->
-				{{> placeUpdateSocialProfiles isAdmin=isAdmin place=place}}
+				{{> communityUpdateSocialProfiles isAdmin=isAdmin community=community}}
 			</div>
 		</section>
 
@@ -78,18 +78,18 @@
 			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
 				<ul class="nav nav-pills">
 					<li id="nav-about" role="presentation" class="active">
-						<a href="{{pathFor route='placeProfileAbout' _id=place._id}}">About</a>
+						<a href="{{pathFor route='communityProfileAbout' _id=community._id}}">About</a>
 					</li>
-					<li id="nav-opening-hours" role="presentation">
-						<a href="{{pathFor route='placeProfileTimetable' _id=place._id}}">Opening hours</a>
+					<!--<li id="nav-opening-hours" role="presentation">
+						<a href="{{pathFor route='communityProfileTimetable' _id=community._id}}">Opening hours</a>
 					</li>
-					<!--<li id="nav-machines" role="presentation">
-						<a href="{{pathFor route='placeProfileMachines' _id=place._id}}">Machines</a>
-					</li>-->
+					<li id="nav-machines" role="presentation">
+						<a href="{{pathFor route='communityProfileMachines' _id=community._id}}">Machines</a>
+					</li>
 					<li id="nav-staff" role="presentation">
-						<a href="{{pathFor route='placeProfileStaff' _id=place._id}}">Staff</a>
+						<a href="{{pathFor route='communityProfileStaff' _id=community._id}}">Staff</a>
 					</li>
-					<!--<li>
+					<li>
 						<a href="{{pathFor route='userProfilePlaces' _id=user._id}}">Places</a>
 					</li> -->
 				</ul>

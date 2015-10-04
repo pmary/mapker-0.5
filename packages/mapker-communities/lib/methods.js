@@ -53,5 +53,65 @@ Meteor.methods({
     }
 
     return true;
+  },
+  /**
+   * @summary Update a document
+   * @param {Object} community - The params of the community to create
+   */
+  'mapker:communities/updateIdentity': function (community) {
+    check(Meteor.userId(), String);
+    check(community, Object);
+
+    // Check if the user has sufficient rigths
+    if (Meteor.call('mapker:core/canUserEditCommunity', community.id)) {
+      Communities.update(community.id, {$set: {name: community.name}});
+    }
+  },
+  /**
+   * @summary Update a document
+   * @param {Object} community - The params of the community to create
+   */
+  'mapker:communities/updateLinks': function (community) {
+    check(Meteor.userId(), String);
+    check(community, Object);
+
+    // Check if the user has sufficient rigths
+    if (Meteor.call('mapker:core/canUserEditCommunity', community.id)) {
+      Communities.update(community.id, { $set: {
+        'links.facebook': community.facebook,
+        'links.flickr': community.flickr,
+        'links.twitter': community.twitter,
+        'links.website': community.website
+      } });
+    }
+  },
+  /**
+   * @summary Remove the links of the community document
+   * @param {Object} community - The params of the community
+   */
+  'mapker:communities/removeLinks': function (communityId) {
+    check(Meteor.userId(), String);
+    check(communityId, String);
+
+    // Check if the user has sufficient rigths
+    if (Meteor.call('mapker:core/canUserEditCommunity', communityId)) {
+      Communities.update(communityId, { $unset: { 'links': '' } });
+    }
+  },
+  /**
+   * @summary Update the community description
+   * @param {Object} community - The id and description of the community
+   */
+  'mapker:community/updateDescription': function (community) {
+    check(Meteor.userId(), String);
+    check(community, {
+      id: String,
+      description: String
+    });
+
+    // Check if the user has sufficient rigths
+    if (Meteor.call('mapker:core/canUserEditCommunity', community.id)) {
+      Communities.update(community.id, { $set: { 'description': Mapker.utils.removeTags(community.description)} });
+    }
   }
 });

@@ -6,25 +6,25 @@ var editPlaceLocationClickListener = function () {
   $('.update-place-location-popover').css('display', 'none');
 };
 
-Template.userUpdateSocialProfiles.helpers({
+Template.communityUpdateSocialProfiles.helpers({
 	errorMessage: function(field) {
-    if (Session.get('userUpdateSocialProfilesErrors')) {
-		  return Session.get('userUpdateSocialProfilesErrors')[field];
+    if (Session.get('communityUpdateSocialProfilesErrors')) {
+		  return Session.get('communityUpdateSocialProfilesErrors')[field];
     }
 	},
 	errorClass: function (field) {
-    if (Session.get('userUpdateSocialProfilesErrors')) {
-		  return !!Session.get('userUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
+    if (Session.get('communityUpdateSocialProfilesErrors')) {
+		  return !!Session.get('communityUpdateSocialProfilesErrors')[field] ? 'has-error' : '';
     }
 	}
 });
 
-Template.userUpdateSocialProfiles.onDestroyed(function () {
+Template.communityUpdateSocialProfiles.onDestroyed(function () {
   // Cancel the click listener
   document.body.removeEventListener('click', editPlaceSocialProfilesClickListener, false);
 });
 
-Template.userUpdateSocialProfiles.events({
+Template.communityUpdateSocialProfiles.events({
   /**
 	 * @summary Open the social profiles popover
 	 * @param {Object} [e] The current event
@@ -64,43 +64,66 @@ Template.userUpdateSocialProfiles.events({
     // Cancel the click listener
     document.body.removeEventListener('click', editPlaceSocialProfilesClickListener, false);
 	},
-	'submit #social-profiles-form' : function(e,t) {
-		e.preventDefault();
+	/**
+	 * @summary Check and update the place's social profiles, then close the popover
+	 * @param {Object} [e] The current event
+	 * @param {Object} [t] The current template instance object
+	 */
+	'submit #social-profiles-form' : function(e, t) {
+    e.preventDefault();
 
     // Switch the button to the load state
 		$('.update-social-profile-popover #save-identity-btn').addClass('btn-loader');
 
 		var socialProfiles = {
+			id: Router.current().params._id,
 			facebook: t.find('#edit-facebook').value,
 			flickr: t.find('#edit-flickr').value,
 			twitter: t.find('#edit-twitter').value,
-			linkedin: t.find('#edit-linkedin').value,
-			github: t.find('#edit-github').value,
-			tumblr: t.find('#edit-tumblr').value,
-			instagram: t.find('#edit-instagram').value,
-			behance: t.find('#edit-behance').value,
-			pinterest: t.find('#edit-pinterest').value,
-			vimeo: t.find('#edit-vimeo').value,
 			website: t.find('#edit-website').value
 		};
 
+		// Check the form values
 		var errors = Core.validateUsersocialProfiles(socialProfiles);
-		Session.set('userUpdateSocialProfilesErrors', errors);
-		if (Object.keys(errors).length)
-			// Abort the account creation due to errors
-			return;
+		Session.set('communityUpdateSocialProfilesErrors', errors);
+		// Abort the update due to errors
+		if (Object.keys(errors).length) {
+      return;
+    }
 
-		Meteor.call('mapker:users/socialProfilesUpdate', socialProfiles, function(error, result) {
-			// Display the error to the user and abort
-			if (error) {
-				console.log(error);
-      }
+    // Check if none of the links has a value
+    if (
+      socialProfiles.facebook === '' &&
+      socialProfiles.flickr   === '' &&
+      socialProfiles.twitter  === '' &&
+      socialProfiles.website  === ''
+    ) {
+      // Remove the links
+      Meteor.call('mapker:communities/removeLinks', socialProfiles.id, function (error) {
+        if (error) {
+          return console.log(error);
+        }
 
-      // Hide the popover
-      t.find('.update-social-profile-popover').style.display = 'none';
+        // Hide the popover
+        t.find('.update-social-profile-popover').style.display = 'none';
 
-      // Cancel the click listener
-      document.body.removeEventListener('click', editPlaceLocationClickListener, false);
-		});
+        // Cancel the click listener
+        document.body.removeEventListener('click', editPlaceSocialProfilesClickListener, false);
+      });
+    }
+    else {
+  		// Update the place document
+  		Meteor.call('mapker:communities/updateLinks', socialProfiles, function(error, result) {
+  			if (error) {
+          return console.log(error);
+        }
+
+        // Hide the popover
+        t.find('.update-social-profile-popover').style.display = 'none';
+
+        // Cancel the click listener
+        document.body.removeEventListener('click', editPlaceSocialProfilesClickListener, false);
+  		});
+    }
 	}
 });

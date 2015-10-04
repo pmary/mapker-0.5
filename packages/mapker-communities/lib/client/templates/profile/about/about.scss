@@ -1,0 +1,72 @@
+.community-profile-about {
+	.specialities {
+		text-align: center;
+		padding-bottom: 30px;
+		font-weight: bold;
+	}
+
+	.add-place-about {
+		cursor: pointer;
+    width: 100%;
+    border: 1px dashed #c9c9c9;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
+
+		&:hover {
+			border: 1px dashed #FC3975;
+			color: #FC3975;
+
+			.text-add-skills {
+				color: #20dec2;
+			}
+		}
+
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
+	}
+
+	.no-place-about {
+    width: 100%;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+    padding-top: 15px;
+    padding-bottom: 35px;
+
+		.text-add-skills {
+			display: block;
+	    text-align: center;
+	    font-size: 16px;
+	    color: #999999;
+		}
+	}
+
+	.place-about-content {
+		background: #FFFFFF;
+		border-radius: 3px;
+		border: 1px solid #eaeaec;
+		padding-left: 80px;
+		padding-right: 80px;
+		padding-top: 75px;
+		padding-bottom: 75px;
+		color: #191919;
+		font-size: 16px;
+		text-align: justify;
+
+		a {
+			color: #fcea10;
+			text-decoration: underline;
+			display: block;
+			margin-top: 20px;
+		}
+	}
+}

@@ -500,6 +500,17 @@ form small.error {
 	border-radius: 20px;
 }
 
+.icon-community-dot {
+	position: relative;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	background-color: #fcea10;
+	border: 3px solid #efd90f;
+	border-radius: 20px;
+}
+
 .menu-icon-place-before {
 	&:before {
 		content: " ";

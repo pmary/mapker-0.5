@@ -20,6 +20,9 @@ Template.userForgotPassword.helpers({
 });
 
 Template.userForgotPassword.rendered = function(){
+	// Remove the loader state
+	$('#forgot-password-submit-button').removeClass('btn-loader');
+
 	Session.set('resetPaswdEmailSend', false);
 
 	if (Router.current().params.resetToken) {
@@ -35,6 +38,9 @@ Template.userForgotPassword.events({
 	'submit #forgot-password-form' : function(e, t){
 		e.preventDefault();
 
+		// Display the loader state
+		$('#forgot-password-submit-button').addClass('btn-loader');
+
 		// Form validation
 		var credentials = {
 			email: t.find('#forgot-password-email').value
@@ -42,11 +48,17 @@ Template.userForgotPassword.events({
 
 		var errors = Users.validateUserForgotPassword(credentials);
 		Session.set('userForgotPasswordErrors', errors);
-		if (Object.keys(errors).length)
+		if (Object.keys(errors).length) {
+			// Remove the loader state
+			$('#forgot-password-submit-button').removeClass('btn-loader');
 			return; // Abort the account creation due to errors
+		}
 
 		// If the form is valide
 		Accounts.forgotPassword({email: credentials.email}, function(error){
+			// Remove the loader state
+			$('#forgot-password-submit-button').removeClass('btn-loader');
+
 			if (error) {
 				Errors.throw(error.reason);
 			}else {
@@ -76,6 +88,7 @@ Template.userForgotPassword.events({
 				// If token is expired
 				if (error.error == 403) {
 					Session.set('resetPassword', null);
+					sAlert.error('Token expired. Enter your email to receive a new one');
 				}
 				console.log(error);
 			}

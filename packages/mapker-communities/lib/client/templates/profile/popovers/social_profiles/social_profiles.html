@@ -1,0 +1,96 @@
+<template name="communityUpdateSocialProfiles">
+  <div id="resource-infos-social-profiles" class="pull-right">
+    <div id="social-profiles">
+
+      {{#if community.links}}
+        {{#if community.links.facebook}}
+        <a href="{{community.links.facebook}}" target="_blank" class="social-icon-30-facebook"><span>Facebook</span></a>
+        {{/if}}
+        {{#if community.links.twitter}}
+        <a href="{{community.links.twitter}}" target="_blank" class="social-icon-30-twitter"><span>Twitter</span></a>
+        {{/if}}
+        {{#if community.links.flickr}}
+        <a href="{{community.links.flickr}}" target="_blank" class="social-icon-30-flickr"><span>Flickr</span></a>
+        {{/if}}
+        {{#if community.links.website}}
+        <a href="{{community.links.website}}" target="_blank" class="social-icon-30-website"><span>Personal website</span></a>
+        {{/if}}
+
+        {{#if isAdmin}}
+        <span class="glyphicon glyphicon-pencil open-update-social-profile-popover edit-social-profiles" aria-hidden="true"></span>
+        {{/if}}
+      {{else}}
+        {{#if isAdmin}}
+        <div id="add-social-profiles" class="open-update-social-profile-popover">
+          Add your social profiles
+        </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if isAdmin}}
+      <div class="popover popover-content update-social-profile-popover">
+        <form id='social-profiles-form'>
+          <div class='form-group {{errorClass "facebook"}}'>
+            <label for='edit-activity'>Facebook</label>
+            <input class='form-control' type='url' id='edit-facebook' value='{{community.links.facebook}}'>
+            <span class='help-block'>{{errorMessage 'facebook'}}</span>
+          </div>
+          <div class='form-group {{errorClass "flickr"}}'>
+            <label for='edit-activity'>Flickr</label>
+            <input class='form-control' type='url' id='edit-flickr' value='{{community.links.flickr}}'>
+            <span class='help-block'>{{errorMessage 'flickr'}}</span>
+          </div>
+          <div class='form-group {{errorClass "twitter"}}'>
+            <label for='edit-activity'>Twitter</label>
+            <input class='form-control' type='url' id='edit-twitter' value='{{community.links.twitter}}'>
+            <span class='help-block'>{{errorMessage 'twitter'}}</span>
+          </div>
+          <div class='form-group {{errorClass "website"}}'>
+            <label for='edit-activity'>Personal website</label>
+            <input class='form-control' type='url' id='edit-website' value='{{community.links.website}}'>
+            <span class='help-block'>{{errorMessage 'website'}}</span>
+          </div>
+          <button type='button' class='btn btn-default' id='close-update-social-profiles-popover'>Cancel</button>
+          <button type='submit' class='btn btn-primary' id='save-identity-btn'>
+            <span>Save</span>
+            {{> loader}}
+          </button>
+        </form>
+      </div>
+      {{/if}}
+
+    </div>
+
+    {{#if isAdmin}}
+    <div class="popover popover-content update-place-location-popover">
+      <form id='place-location-form'>
+        <div class="form-group {{errorClass 'address'}}">
+    			<label for="input-street-number">Address</label>
+    			<input type="number" class="form-control" id="input-street-number" placeholder="N°" value="{{community.streetNumber}}">
+
+    			<input type="text" class="form-control" id="input-street-name" placeholder="Street" value="{{community.streetName}}">
+
+    			<input type="text" class="form-control" id="input-zipcode" placeholder="Zipecode" value="{{community.zipcode}}">
+
+    			<input type="text" class="form-control" id="input-city" placeholder="City" value="{{community.city}}">
+
+    			<select id="select-country" class="form-control">
+    				<option value="fr">France</option>
+    				<option value="sw">Suisse</option>
+    			</select>
+
+    			<span class="help-block col-sm-offset-2 col-sm-10">{{errorMessage 'address'}}</span>
+
+          {{{staticMapUrl}}}
+    		</div>
+        <button type='button' class='btn btn-default close-update-place-location-popover'>Cancel</button>
+        <button type='button' class='btn btn-primary check-location'>Check your location</button>
+        <button type='submit' class='btn btn-primary submit-place-location-form'>
+          <span>Save</span>
+          {{> loader}}
+        </button>
+      </form>
+    </div>
+    {{/if}}
+  </div>
+</template>
