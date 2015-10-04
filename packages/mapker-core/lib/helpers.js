@@ -352,6 +352,10 @@ Core.isUserResourceAdmin = function(resource, userId) {
 			// Check if the user id is in the 'administrators' resource array
 			result = Meteor.call('mapker:core/canUserEditCommunity', resource.id);
 			break;
+
+    case 'community':
+      result = Meteor.call('mapker:core/canUserEditCommunity', resource.id);
+      break;
 	}
 	return result;
 };

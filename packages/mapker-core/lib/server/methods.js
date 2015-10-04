@@ -4,39 +4,12 @@
  * @return {String} The uploaded file url
  */
 Meteor.methods({
-	updateCover: function(imgAttributes) {
-		var userId = this.userId;
-		check(imgAttributes, {
-			resource: Object,
-			focusX: Match.Optional(Number),
-			focusY: Match.Optional(Number),
-		});
-		var img = _.extend(imgAttributes);
-
-		// Check if the user have sufficient rights to update the resource
-		if(!Core.isUserResourceAdmin(img.resource, this.userId))
-			throw new Meteor.Error(401, "Bad credentials", "You are not authorized to update this resource");
-
-		// Inster the post
-		if (img.resource.type == "user") {
-			Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover.focusX': img.focusX, 'profile.cover.focusY': img.focusY} });
-
-			// Update the user ElasticSearch document
-			Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
-		}
-		else if (img.resource.type == "place") {
-			Places.update({_id: img.resource.id}, { $set: {'cover.focusX': img.focusX, 'cover.focusY': img.focusY} });
-
-			// Update the place ElasticSearch document
-			Meteor.call('mapker:search/updatePlaceESDocument', place.id);
-		}
-
-		return {
-			result: "Image updated"
-		};
-	},
+	/**
+	 * @summary Upload an avatar or a cover image to S3 and update the related
+	 * document with the image url
+	 */
 	uploadToS3: function(imgAttributes) {
-    console.log('In uploadToS3');
+    //console.log('In uploadToS3');
 
 		var userId = this.userId;
 		check(imgAttributes, {
@@ -84,22 +57,37 @@ Meteor.methods({
 
 		// Update the resource
 		if (img.resource.type == "user") {
-			if (img.role == "avatar")
+			if (img.role == "avatar") {
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.avatar': image} });
-			else if (img.role == "cover")
+			}
+			else if (img.role == "cover") {
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover': image} });
+			}
 
 			// Update the user ElasticSearch document
 			Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 		}
 		else if (img.resource.type == "place") {
-			if (img.role == "avatar")
+			if (img.role == "avatar") {
 				Places.update({_id: img.resource.id}, { $set: {'avatar': image} });
-			else if (img.role == "cover")
+			}
+			else if (img.role == "cover") {
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
+			}
 
 			// Update the user ElasticSearch document
 			Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
+		}
+		else if (img.resource.type == "community") {
+			if (img.role == "avatar") {
+				Communities.update({_id: img.resource.id}, { $set: {'avatar': image} });
+			}
+			else if (img.role == "cover") {
+				Communities.update({_id: img.resource.id}, { $set: {'cover': image} });
+			}
+
+			// Update the user ElasticSearch document
+			//Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
 		}
 
 		return url;
