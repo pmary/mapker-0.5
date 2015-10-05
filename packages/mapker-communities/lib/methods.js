@@ -11,6 +11,8 @@ Meteor.methods({
       description: Match.Optional(String)
     });
 
+    var communityId;
+
     if (Meteor.isServer) {
 			// Check if the nichandle already existe
 			if (NicHandles.findOne({ canonicalName: community.username.toLowerCase() })) {
@@ -18,7 +20,7 @@ Meteor.methods({
 			}
 			else {
         // Insert the community
-        var communityId = Communities.insert({
+        communityId = Communities.insert({
           name: community.name,
           nicHandle: community.username,
           description: community.description,
@@ -49,10 +51,14 @@ Meteor.methods({
     					}
     				}
     			});
+
+        // Update the community document indexed by ES
+        Meteor.call('mapker:search/updateDocument', communityId, 'community');
       }
     }
 
-    return true;
+    // Return the community id
+    return communityId;
   },
   /**
    * @summary Update a document
@@ -65,6 +71,9 @@ Meteor.methods({
     // Check if the user has sufficient rigths
     if (Meteor.call('mapker:core/canUserEditCommunity', community.id)) {
       Communities.update(community.id, {$set: {name: community.name}});
+
+      // Update the community document indexed by ES
+      Meteor.call('mapker:search/updateDocument', community.id, 'community');
     }
   },
   /**
@@ -112,6 +121,9 @@ Meteor.methods({
     // Check if the user has sufficient rigths
     if (Meteor.call('mapker:core/canUserEditCommunity', community.id)) {
       Communities.update(community.id, { $set: { 'description': Mapker.utils.removeTags(community.description)} });
+
+      // Update the community document indexed by ES
+      Meteor.call('mapker:search/updateDocument', community.id, 'community');
     }
   }
 });

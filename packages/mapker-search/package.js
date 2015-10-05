@@ -39,7 +39,7 @@ Package.onUse(function(api) {
   ], ['client', 'server']);
 
   api.addFiles([
-    'lib/server/methods.js'
+    'lib/server/methods.jsx'
   ], ['server']);
 
   api.export('Search');

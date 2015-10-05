@@ -17,6 +17,7 @@ Package.onUse(function(api) {
     'underscore',
     'templating',
     'handlebars',
+    'promise',                   // https://atmospherejs.com/meteor/promise
     'session',
     'sha',
     'react',                     // https://atmospherejs.com/meteor/react

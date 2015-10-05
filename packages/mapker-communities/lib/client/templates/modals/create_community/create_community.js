@@ -124,7 +124,11 @@ Template.modalCreateCommunity.events({
 
         // Remove the button loader state
         $('.user-action-create').removeClass('btn-loader');
-        console.log('res', res);
+
+        // Redirect the user to the community profile page
+        Router.go('communityProfileAbout', {_id: res});
+        // Close the modal
+        Modal.hide();
       });
 		});
 	}
