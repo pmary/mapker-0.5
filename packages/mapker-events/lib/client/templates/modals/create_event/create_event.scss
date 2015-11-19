@@ -1,0 +1,291 @@
+.modal-create-event {
+  .modal-content {
+    .modal-header {
+      background-color: #b726b3;
+    	color: #ffffff;
+    	padding: 0px;
+    	height: 95px;
+
+    	.close {
+    		display: none;
+    	}
+
+      .identity-dropdown {
+        position: absolute;
+        left: 75px;
+        top: 15px;
+
+        .tooltip {
+          min-width: 160px;
+        }
+
+        .d-label {
+          padding: 0px;
+          border: none;
+          background: transparent;
+
+          span {
+            img {
+              width: 60px;
+              height: 60px;
+              border-radius: 2px;
+              background-color: #fff;
+            }
+          }
+
+          img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+
+        .dropdown-menu {
+          min-width: 280px;
+          padding: 0;
+
+          li {
+            cursor: pointer;
+            padding: 8px 10px;
+            height: 46px;
+            color: #4e5665;
+            display: block;
+            transition: background-color .1s ease-out;
+
+            &:first-child {
+              border-top-left-radius: 4px;
+              border-top-right-radius: 4px;
+            }
+
+            &:last-child {
+              border-bottom-left-radius: 4px;
+              border-bottom-right-radius: 4px;
+            }
+
+            &:hover {
+              background-color: #2c9ff2;
+              color: #fff;
+            }
+
+            &.active {
+              background-color: #f5f7fa;
+            }
+
+            .avatar {
+              float: left;
+
+              img {
+                border-radius: 2px;
+                height: 30px;
+                margin-top: 0;
+                width: 30px;
+                margin-right: 5px;
+              }
+            }
+
+            .name {
+              font-size: 12px;
+              padding-top: 6px;
+
+              .current {
+                float: right;
+              }
+            }
+          }
+        }
+      }
+
+      .modal-title {
+    		&:before {
+    			content: " ";
+    			position: relative;
+    			background-image: url(/images/avatar-event-default.png);
+    			display: inline-block;
+    			height: 60px;
+    			top: 15px;
+          margin-right: 10px;
+    			width: 57px;
+    			background-size: cover;
+    		}
+    	}
+
+    }
+
+    .modal-body {
+      .address-form-group {
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+
+        .col {
+          padding-right: 0px;
+          padding-left: 0px;
+        }
+
+        .form-control {
+          margin-bottom: 15px;
+        }
+
+        label {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        #street-name {
+          padding-right: 0px;
+        }
+
+        #country {
+          padding-right: 0px;
+          .form-control {
+            margin-bottom: 0px;
+          }
+        }
+
+        #city {
+          .form-control {
+          }
+        }
+
+        #street-number {
+          padding-left: 0px;
+        }
+
+        #zipcode {
+          padding-left: 0px;
+          .form-control {
+          }
+        }
+
+        .static-map-container {
+          text-align: center;
+          width: 100%;
+
+          .map {
+            display: block;
+            background-color: #eee;
+            margin-bottom: 15px;
+            width: 100%;
+            max-height: 207px;
+          }
+
+          button {
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+
+      .form-group-contributor {
+        position: relative;
+
+        /*input:focus + .contributors-list {
+          display: block;
+        }*/
+
+        .contributors-list {
+          display: none;
+          position: absolute;
+          top: 65px;
+          min-width: 280px;
+          border-top: 0px;
+          margin-top: 0px;
+
+          li {
+            cursor: pointer;
+            padding: 8px 10px;
+            height: 46px;
+            color: #4e5665;
+            display: block;
+            transition: background-color 0.1s ease-out;
+
+            &:hover {
+              background-color: #2c9ff2;
+              color: #fff;
+
+              .username {
+                color: #D6E0E8;
+              }
+            }
+
+            .avatar {
+              float: left;
+
+              img {
+                border-radius: 2px;
+                height: 30px;
+                margin-top: 0;
+                width: 30px;
+                margin-right: 5px;
+              }
+            }
+
+            .infos {
+              display: table;
+              padding-top: 5px;
+
+              .name {
+                font-size: 14px;
+                font-weight: bold;
+                margin-right: 5px;
+              }
+
+              .username {
+                font-size: 12px;
+                font-weight: normal;
+                color: #8899a6;
+                padding-top: 6px;
+              }
+            }
+          }
+        }
+
+        .event-contributor-list {
+          .event-contributor {
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            display: inline-block;
+
+            &.place {
+              background-color: #FC3975;
+            }
+
+            &.user {
+              background-color: #20DEC2;
+            }
+
+            &.project {
+
+            }
+
+            &.community {
+              background-color: #fcea10
+            }
+
+            .name {
+              color: #fff;
+              display: inline-block;
+              text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.27);
+            }
+
+            .remove {
+              cursor: pointer;
+              display: inline-block;
+              float: right;
+              margin-left: 15px;
+              background-color: rgba(255, 255, 255, 0.3);
+              border-radius: 40px;
+              font-size: 12px;
+              height: 20px;
+              width: 20px;
+              padding-top: 2px;
+              padding-left: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

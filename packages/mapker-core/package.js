@@ -19,10 +19,12 @@ Package.onUse(function(api) {
     'mapker:communities', // lib
     'mapker:api',         // nimble:restivus
     'mapker:communities', // lib
+    'mapker:events',      // lib
     'mapker:machines',    // lib
     'mapker:nichandle',   // lib
     'mapker:i18n',        // lib
-    'mapker:third-party'  // lib
+    'mapker:third-party', // lib
+    'mapker:taxons'       // lib
   ];
 
   api.use(packages);
@@ -131,8 +133,7 @@ Package.onUse(function(api) {
     'lib/helpers.js',
     'lib/routes.js',
     'lib/messages.js',
-    'lib/notifications.js',
-    'lib/taxons.js'
+    'lib/notifications.js'
   ], ['client', 'server']);
 
   api.export('Core');

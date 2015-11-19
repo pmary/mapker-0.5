@@ -1,28 +1,7 @@
-/**
- * @namespace ElasticSearch
- * @summary Indexes set up and helpers
- * @see http://blog.qbox.io/quick-and-dirty-autocomplete-with-elasticsearch-completion-suggest for autocomplete exemple
- */
-Elasticsearch = Npm.require('elasticsearch');
-
-// Check if we are in production or development environement
-if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
-	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-	Search = new Elasticsearch.Client({
-		host: 'https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com'
-	});
-}
-else {
-	// Connect to just a single seed node, and use sniffing to find the rest of the cluster.
-	Search = new Elasticsearch.Client({
-		host: 'https://site:547996b6b8262ee6259f65e4c4095fe8@fili-us-east-1.searchly.com'
-	});
-}
-
 /*****************************************************************************/
 /* Methods */
 /*****************************************************************************/
-Search.methods = {
+var SearchMethods = {
 	/**
 	 * @summary Delete a user document from the 'resource' ES index
 	 * @param {string} id The document id from MongoDB
@@ -31,10 +10,49 @@ Search.methods = {
 		check(id, String);
 	},
 	/**
+	 * @summary Get an indexed document by its id
+	 * @param {Array} docIds - The ids of the documents to retrieved
+	 * @param {Array} fields - The fields to retrieve
+	 */
+	getDocumentById: function (docIds, fields, callback) {
+		// Create the query base structure
+		var esQuery = {
+			index: 'resources',
+			//type: 'place',
+			body: {
+				query: {
+					ids: {
+						values: docIds
+					}
+				}
+			}
+		};
+
+		if (fields) {
+			esQuery.body._source = fields;
+		}
+
+		// Launch the search
+		Search.search(esQuery, function(error, response) {
+			if (error) {
+				console.log('getDocumentById error: ', error);
+				callback( null, [] );
+			}
+
+			if (response && response.hits) {
+				//console.log('response', JSON.stringify(response));
+				callback( null, response);
+			}
+			else {
+				callback( null, [] );
+			}
+		});
+	},
+	/**
 	 * @summary Get the matching user skills name suggestions
 	 * @param {String} queryString
 	 */
-	getSkillsSuggestions: function(queryString, callback) {
+	getSkillsSuggestions: function (queryString, callback) {
 		// Get suggestions
 		Search.suggest({
 			index: 'resources',
@@ -59,7 +77,7 @@ Search.methods = {
 	 * @summary Get the matching palce activities name suggestions
 	 * @param {String} queryString
 	 */
-	getActivitiesSuggestions: function(queryString, callback) {
+	getActivitiesSuggestions: function (queryString, callback) {
 		// Get suggestions
 		Search.suggest({
 			index: 'resources',
@@ -69,6 +87,33 @@ Search.methods = {
 					text: queryString,
 					completion: {
 						field: 'activities_suggest',
+						fuzzy : {
+							fuzziness : 2
+						}
+					}
+				}
+			}
+		}, function (error, response) {
+			if (response && response.activities_suggester && response.activities_suggester[0])
+				callback( null, response.activities_suggester[0].options );
+		});
+	},
+	/**
+	 * @summary Query the resources index 'community' type to get the communities
+	 * with a particular name
+	 * @param {Object} queryObject
+	 * @param {String} queryObject.queryString
+	 */
+	getCommunitiesSuggestions: function (queryString, callback) {
+		// Get suggestions
+		Search.suggest({
+			index: 'resources',
+			type: 'community',
+			body: {
+				activities_suggester: {
+					text: queryString,
+					completion: {
+						field: 'suggester',
 						fuzzy : {
 							fuzziness : 2
 						}
@@ -205,7 +250,6 @@ Search.methods = {
 	getUsers: function(queryObject, callback) {
 		check(queryObject, Object);
 
-console.log('queryObject: ', queryObject);
 		// If no size is given, set one by default
 		if (!queryObject.size) {
 			queryObject.size = 10;
@@ -287,6 +331,81 @@ console.log('queryObject: ', queryObject);
 		});
 	},
 	/**
+	 * @summary Query the resources index resources type to get the communities
+	 * by name
+	 * @param {Object} queryObject
+	 * @param {String} queryString
+	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
+	 */
+	getCommunities: function (queryObject, callback) {
+		check(queryObject, Object);
+
+		// If no size is given, set one by default
+		if (!queryObject.size) {
+			queryObject.size = 10;
+		}
+
+		// If no from is given, set 0 by default
+		if (!queryObject.from) {
+			queryObject.from = 0;
+		}
+
+		// Create the query base structure
+		var esQuery = {
+			index: 'resources',
+			type: 'community',
+			body: {
+				from: queryObject.from,
+				size: queryObject.size,
+				query: {
+					filtered: {
+						query: {},
+						filter: {
+							bool: {
+								must: [],
+								should: [],
+      					//"must_not" : []
+							}
+						}
+					}
+				}
+			}
+		};
+
+		// Add the query
+		if (queryObject.queryString) {
+			// If there is a query string
+			esQuery.body.query.filtered.query = {
+				multi_match: {
+					fields: ['name', 'suggester'],
+					query: queryObject.queryString,
+					fuzziness: 2
+				}
+			};
+		}
+		else {
+			// Else, match all
+			esQuery.body.query.filtered.query = { match_all: {} };
+			// And add a sort by name desc
+			esQuery.body.sort = { 'name': { 'order': 'asc' } };
+		}
+
+		// Launch the search
+		Search.search(esQuery, function(error, response) {
+			if (error) {
+				console.log('getCommunities error: ', error);
+				callback( null, [] );
+			}
+
+			if (response && response.hits) {
+				callback( null, response);
+			}
+			else {
+				callback( null, [] );
+			}
+		});
+	},
+	/**
 	 * @summary Query the resources index users type to get the users
 	 * whose fullname match with the given string
 	 * @param {String} queryString
@@ -340,10 +459,86 @@ console.log('queryObject: ', queryObject);
 				callback(null, null);
 			}
 		});
-	}
+	},
+	/**
+	 * @description
+	 * Get the resources of any ty
+	 *
+	 * @param {String} queryString
+	 */
+	 /**
+ 	 * @summary Get an indexed document by its id
+ 	 * @param {Array} docIds - The ids of the documents to retrieved
+ 	 * @param {Array} fields - The fields to retrieve
+ 	 */
+ 	getDocumentByName: function (name, callback) {
+		var esQuery = {
+			index: 'resources',
+			body: {
+				size: 6,
+				query : {
+					multi_match: {
+						query: name,
+						type: 'phrase_prefix',
+						fields: ['name', 'nicHandle'],
+						"max_expansions": 50
+					}
+				},
+				filter: {
+					or: {
+						filters: [
+							{ type: { value: 'user' } },
+							{ type: { value: 'place' } },
+							{ type: { value: 'community' } },
+						]
+					}
+				}
+			}
+		};
+
+ 		// Launch the search
+ 		Search.search(esQuery, function(error, response) {
+ 			if (error) {
+ 				console.log('getDocumentById error: ', error);
+ 				callback( null, [] );
+ 			}
+ 			else if (response && response.hits) {
+ 				//console.log('response', JSON.stringify(response));
+ 				callback( null, response);
+ 			}
+ 			else {
+ 				callback( null, [] );
+ 			}
+ 		});
+ 	}
 };
 
 Meteor.methods({
+	/**
+	 * @summary Get an indexed document by its id
+	 * @param {Array} docIds - The ids of the documents to retrieved
+	 * @param {Array} fields - The fields to retrieve
+	 */
+	'mapker:search/getDocumentById': function (docIds, fields) {
+		check(docIds, Array);
+		check(fields, Match.Optional(Array));
+
+		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
+		var getDocumentByIdAsync = Meteor.wrapAsync(SearchMethods.getDocumentById);
+		if (fields) {
+			return getDocumentByIdAsync(docIds, fields);
+		}
+		else {
+			return getDocumentByIdAsync(docIds);
+		}
+	},
+	'mapker:search/getDocumentByName': function (name) {
+		check(name, String);
+
+		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
+		var getDocumentByNameAsync = Meteor.wrapAsync(SearchMethods.getDocumentByName);
+		return getDocumentByNameAsync(name);
+	},
 	/**
 	 * @summary Get skills suggested by query string for autocompletion purpose
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
@@ -352,7 +547,7 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getSkillsSuggestionsAsync = Meteor.wrapAsync(Search.methods.getSkillsSuggestions);
+		var getSkillsSuggestionsAsync = Meteor.wrapAsync(SearchMethods.getSkillsSuggestions);
 		var results = getSkillsSuggestionsAsync(queryString);
 		return results;
 	},
@@ -365,14 +560,26 @@ Meteor.methods({
 		check(queryString, String);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
-		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(Search.methods.getActivitiesSuggestions);
+		var getActivitiesSuggestionsAsync = Meteor.wrapAsync(SearchMethods.getActivitiesSuggestions);
 		var results = getActivitiesSuggestionsAsync(queryString);
+		return results;
+	},
+	/**
+	 * @summary Get communities suggested by query string for autocompletion purpose
+	 */
+	'mapker:search/getCommunitiesSuggestions': function (queryString) {
+		//console.log(queryString);
+		check(queryString, String);
+
+		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
+		var getCommunitiesSuggestionsAsync = Meteor.wrapAsync(SearchMethods.getCommunitiesSuggestions);
+		var results = getCommunitiesSuggestionsAsync(queryString);
 		return results;
 	},
 	'mapker:search/getPlaces': function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetPlaces = Meteor.wrapAsync(Search.methods.getPlaces);
+		var wrappedGetPlaces = Meteor.wrapAsync(SearchMethods.getPlaces);
 		var results = wrappedGetPlaces(queryObject);
 		// console.log(results);
 		return results;
@@ -380,8 +587,15 @@ Meteor.methods({
 	'mapker:search/getUsers': function (queryObject) {
 		check(queryObject, Object);
 
-		var wrappedGetUsers = Meteor.wrapAsync(Search.methods.getUsers);
+		var wrappedGetUsers = Meteor.wrapAsync(SearchMethods.getUsers);
 		var results = wrappedGetUsers(queryObject);
+		return results;
+	},
+	'mapker:search/getCommunities': function (queryObject) {
+		check(queryObject, Object);
+
+		var wrappedGetCommunities = Meteor.wrapAsync(SearchMethods.getCommunities);
+		var results = wrappedGetCommunities(queryObject);
 		return results;
 	},
 	'mapker:search/getUsersByFullname': function (queryObject) {
@@ -391,7 +605,7 @@ Meteor.methods({
 			exculdedIds: Match.Optional(Array)
 		});
 
-		var wrappedGetUsersByFullname = Meteor.wrapAsync(Search.methods.getUsersByFullname);
+		var wrappedGetUsersByFullname = Meteor.wrapAsync(SearchMethods.getUsersByFullname);
 		var results = wrappedGetUsersByFullname(queryObject);
 		return results;
 	},
@@ -423,9 +637,10 @@ Meteor.methods({
 			default:
 				return;
 		}
+		// console.log('doc ', JSON.stringify(doc));
 
 		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 		var body = getIndexBody(type, doc);
 
 		// Update the documents
@@ -449,7 +664,7 @@ Meteor.methods({
 		var id = user._id;
 
 		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 		var body = getIndexBody('user', user);
 
 		// Index the resource
@@ -478,7 +693,7 @@ Meteor.methods({
 		var id = place._id;
 
 		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 		var body = getIndexBody('place', place);
 
 		// Index the resource
@@ -504,7 +719,7 @@ Meteor.methods({
 			var user = users[i];
 
 			// Format the body for the index query
-			var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+			var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 			var body = getIndexBody('user', user);
 
 			// Index the resource
@@ -531,7 +746,7 @@ Meteor.methods({
 			var place = places[i];
 
 			// Format the body for the index query
-			var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+			var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 			var body = getIndexBody('place', place);
 
 			// Index the resource
@@ -552,11 +767,11 @@ Meteor.methods({
 
 		// Check if the user is an admin
 		if ( Roles.userIsInRole(Meteor.userId(), ['admin']) ) {
-			Search.methods.resetIndex().then(function(val) {
+			SearchMethods.resetIndex().then(function(val) {
 				// Now, register specific mapping definition for our specific types
-				Search.methods.putMapping('user')
-				.then(Search.methods.putMapping('place'))
-				.then(Search.methods.putMapping('community'))
+				SearchMethods.putMapping('user')
+				.then(SearchMethods.putMapping('place'))
+				.then(SearchMethods.putMapping('community'))
 				.then( function () {
 					console.log('Index reset complete');
 				});
@@ -573,9 +788,9 @@ Meteor.methods({
 
 		// Check if the user is an admin
 		if ( Roles.userIsInRole(Meteor.userId(), ['admin']) ) {
-			Search.methods.restoreIndexDocuments( Places.find().fetch(), 'place' )
-			.then( Search.methods.restoreIndexDocuments( Meteor.users.find().fetch(), 'user' ) )
-			.then( Search.methods.restoreIndexDocuments( Communities.find().fetch(), 'community' ) )
+			SearchMethods.restoreIndexDocuments( Places.find().fetch(), 'place' )
+			.then( SearchMethods.restoreIndexDocuments( Meteor.users.find().fetch(), 'user' ) )
+			.then( SearchMethods.restoreIndexDocuments( Communities.find().fetch(), 'community' ) )
 			.then( function () {
 				console.log('Documents restoration complete');
 			});
@@ -590,7 +805,7 @@ Meteor.methods({
  * @param {Object} source - The complete document from which create the body
  * @return {Object} body - The body to insert into the ES index
  */
-Search.methods.getIndexBody = function (type, source, callback) {
+SearchMethods.getIndexBody = function (type, source, callback) {
 	// Init the body object
 	var body = {};
 
@@ -691,10 +906,12 @@ Search.methods.getIndexBody = function (type, source, callback) {
 		break;
 
 		case 'community':
+			//console.log('source', source);
 			body.suggester = { input: [] };
 
 			if (source.name) {
 				body.suggester.input.push(source.name);
+				body.name = source.name;
 			}
 
 			if (source.nicHandle) {
@@ -708,6 +925,7 @@ Search.methods.getIndexBody = function (type, source, callback) {
 			if (source.cover) {
 				body.cover = { url: source.cover.url };
 			}
+			console.log('community body', body);
 		break;
 	} // End of the switch on 'type'
 
@@ -719,7 +937,7 @@ Search.methods.getIndexBody = function (type, source, callback) {
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html
  * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
  */
-Search.methods.resetIndex = function () {
+SearchMethods.resetIndex = function () {
 	return new Promise(function(resolve, reject) {
 		// Delete the index
 		console.log('Will delete the resources index');
@@ -793,7 +1011,7 @@ Search.methods.resetIndex = function () {
  * @summary Create an index
  * @param {String} index - The name of the index to create. Can be 'user', 'place' or 'community'
  */
-Search.methods.putMapping = function (index) {
+SearchMethods.putMapping = function (index) {
 	console.log('Will put mapping for ', index);
 	return new Promise(function(resolve, reject) {
 		switch (index) {
@@ -934,7 +1152,7 @@ Search.methods.putMapping = function (index) {
 	* @param {String} type - The specific type of the documents to restore.
 	* Can be 'user', 'place' or 'community'
 	*/
-Search.methods.restoreIndexDocuments = function (documents, type) {
+SearchMethods.restoreIndexDocuments = function (documents, type) {
 	console.log('Got the ' + type + ' documents');
 	return new Promise(function(resolve, reject) {
 		for (var i = 0; i < documents.length; i++) {
@@ -943,7 +1161,7 @@ Search.methods.restoreIndexDocuments = function (documents, type) {
 			var doc = documents[i];
 
 			// Format the body for the index query
-			var getIndexBody = Meteor.wrapAsync(Search.methods.getIndexBody);
+			var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
 			var body = getIndexBody(type, doc);
 
 			// Index the resource

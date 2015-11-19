@@ -14,14 +14,14 @@
 								<div class="col-md-6">
 									<div class="form-group {{errorClass 'firstname'}}">
 										<label for="join-first-name">First name</label>
-										<input class="form-control" type="text" id="join-first-name" name="join-first-name" value="{{firstname}}" />
+										<input class="form-control" type="text" id="join-first-name" name="join-first-name" value="{{firstname}}" autocomplete="off" />
 										<span id="join-firstname-help-block" class="help-block">{{errorMessage 'firstname'}}</span>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group {{errorClass 'lastname'}}">
 										<label for="join-last-name">Last name</label>
-										<input class="form-control" type="text" id="join-last-name" name="join-last-name" value="{{lastname}}" />
+										<input class="form-control" type="text" id="join-last-name" name="join-last-name" value="{{lastname}}" autocomplete="off" />
 										<span id="join-lastname-help-block" class="help-block">{{errorMessage 'lastname'}}</span>
 									</div>
 								</div>
@@ -33,7 +33,7 @@
 										<span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="Your username, or handle, is your identity on Mapker, and is preceded by the at (@) symbol (like on Twitter)" data-trigger="hover click"></span>
 			              <div class="input-group">
 			                <span class="input-group-addon">@</span>
-			                <input type="text" class="form-control" id="input-nichandle" placeholder="">
+			                <input type="text" class="form-control" id="input-nichandle" placeholder="" autocomplete="off">
 			              </div>
 										<span class="help-block">{{errorMessage 'nicHandle'}}</span>
 									</div>
@@ -43,7 +43,7 @@
 								<div class="col-md-12">
 									<div class="form-group {{errorClass 'email'}}">
 										<label for="join-email">Email</label>
-										<input class="form-control" type="email" id="join-email" name="join-email" value="{{email}}" />
+										<input class="form-control" type="email" id="join-email" name="join-email" value="{{email}}" autocomplete="off" />
 										<span id="join-email-help-block" class="help-block">{{errorMessage 'email'}}</span>
 									</div>
 								</div>
@@ -52,7 +52,7 @@
 								<div class="col-md-12">
 									<div class="form-group {{errorClass 'password'}}">
 										<label class="join-password">Password</label>
-										<input class="form-control" type="password" id="join-password" name="join-password" />
+										<input class="form-control" type="password" id="join-password" name="join-password" autocomplete="off" />
 										<span id="join-password-help-block" class="help-block">{{errorMessage 'password'}}</span>
 									</div>
 								</div>
@@ -61,7 +61,7 @@
 								<div class="col-md-12">
 									<div class="form-group {{errorClass 'passwordConfirmation'}}">
 										<label for="join-confirm-password">Confirm your password</label>
-										<input class="form-control" type="password" id="join-confirm-password" name="join-confirm-password" />
+										<input class="form-control" type="password" id="join-confirm-password" name="join-confirm-password" autocomplete="off" />
 										<span id="join-passwordConfirmation-help-block" class="help-block">{{errorMessage 'passwordConfirmation'}}</span>
 									</div>
 								</div>
@@ -76,8 +76,7 @@
 				</div><!-- /panel -->
 
 				<div class="create-account" style="text-align: center">
-					<em>Already have an account ? <br>
-					<a href="{{pathFor route='UserLogin'}}">Sign in</a></em>
+					<a href="{{pathFor route='UserLogin'}}" class="btn btn-default">Sign in</a>
 				</div>
 
 

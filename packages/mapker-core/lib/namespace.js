@@ -1,1 +1,4 @@
+/**
+ * @typedef {Object} Core
+ */
 Core = {};

@@ -1,7 +1,5 @@
-Taxons = new Mongo.Collection('taxons');
-
 Meteor.methods({
-  taxonsAddNew: function (taxon) {
+  'mapker:taxons/taxonsAddNew': function (taxon) {
     check(Meteor.userId(), String); // Check if the user is loged in
     check(taxon, Object);
 

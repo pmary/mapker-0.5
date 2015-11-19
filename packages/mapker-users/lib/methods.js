@@ -427,5 +427,16 @@ Meteor.methods({
 		var user = Meteor.user();
 
 		Meteor.users.update({_id: user._id}, { $set: { 'profile.unread_notifs': 0 } });
+	},
+	/**
+	 * @summary Get the necessary informations of the differents identities of the
+	 * current user and return them into the form of formated objects in an array.
+	 * An identity can be, the user itself or place and communities the user own.
+	 *
+	 * @return {Array} identities
+	 * @return {}
+	 */
+	'mapker:users/getUserIdentities': function () {
+
 	}
 });

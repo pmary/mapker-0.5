@@ -1,0 +1,68 @@
+.daterangepicker {
+  margin-bottom: 20px;
+}
+
+.daterangepicker .input-mini,
+.daterangepicker .glyphicon-calendar {
+  display: none;
+}
+
+.daterangepicker .glyphicon-chevron-left {
+  color: #82888a;
+  font-weight: lighter;
+}
+
+.daterangepicker td.in-range {
+  background-color: rgba(44, 159, 242, 0.1);
+}
+
+.daterangepicker .calendar-table {
+  border: none;
+}
+
+.daterangepicker .calendar td {
+  border: 1px solid #ebeceb;
+  color: #565a5c;
+  border-radius: 0px;
+}
+
+/*.daterangepicker td.start-date:after {
+  border-style: solid;
+  margin-left: 8px;
+  margin-top: 6px;
+  border-width: 3px 0 3px 5px;
+  border-color: transparent transparent transparent #2c9ff2;
+  content: " ";
+  position: absolute;
+}
+
+.daterangepicker td.end-date:before {
+  border-style: solid;
+  margin-left: -16px;
+  margin-top: 6px;
+  border-width: 3px 5px 3px 0;
+  border-color: transparent #2c9ff2 transparent transparent;
+  content: " ";
+  position: absolute;
+}*/
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover,
+.daterangepicker td.available:hover,
+.daterangepicker th.available:hover {
+  background-color: #2c9ff2;
+  border: 1px solid #2c9ff2;
+  color: #fff;
+}
+
+.daterangepicker .calendar th {
+  color: #82888a;
+  font-size: 0.8em;
+  font-weight: lighter;
+}
+
+.daterangepicker th.month {
+  font-weight: lighter;
+  color: #565a5c;
+  font-size: 14px;
+}

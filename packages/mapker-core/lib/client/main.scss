@@ -97,7 +97,7 @@ form small.error {
 .btn-default:active,
 .btn-default:active:hover,
 .btn-default:active:focus {
-	color: #000000;
+	color: #333;
 	background-color: #FFFFFF;
 	border: 1px solid #d1d1d1;
 }
@@ -537,6 +537,21 @@ form small.error {
 		background-size: cover;
 		margin-right: 9px;
 		margin-left: 4px;
+	}
+}
+
+.menu-icon-event-before {
+	&:before {
+		content: " ";
+		position: relative;
+		background-image: url("/images/avatar-event-default.png");
+		display: inline-block;
+		height: 23px;
+    top: 5px;
+    width: 22px;
+    background-size: cover;
+    margin-right: 11px;
+    margin-left: 6px;
 	}
 }
 

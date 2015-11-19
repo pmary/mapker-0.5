@@ -7,7 +7,7 @@
 			<div class="modal-body">
 				<div class="form-group {{errorClass 'activity'}}">
 					<label for="input-activity">Your main activity</label>
-					<input class="form-control" type="text" id="input-activity" name="input-activity">
+					<input class="form-control" type="text" id="input-activity" name="input-activity" autocomplete="off">
 					<span id="input-activity-help-block" class="help-block">{{errorMessage 'activity'}}</span>
 				</div>
 				<div class="form-group {{errorClass 'country'}}">
@@ -21,7 +21,7 @@
 				</div>
 				<div class="form-group {{errorClass 'zipcode'}}">
 					<label for="input-zipcode">Zip code</label>
-					<input class="form-control" type="text" name="input-zipcode" id="input-zipcode">
+					<input class="form-control" type="text" name="input-zipcode" id="input-zipcode" autocomplete="off">
 					<span id="input-zipcode-help-block" class="help-block">{{errorMessage 'zipcode'}}</span>
 				</div>
 				<div class="form-group {{errorClass 'city'}}">

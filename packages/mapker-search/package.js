@@ -31,15 +31,20 @@ Package.onUse(function(api) {
     'lib/client/template/search_skills/search_skills.html',
     'lib/client/template/search_skills/search_skills.scss',
     'lib/client/template/search_skills/search_skills.js',
+    // Communities search
+    'lib/client/template/search_communities/search_communities.html',
+    'lib/client/template/search_communities/search_communities.scss',
+    'lib/client/template/search_communities/search_communities.js'
   ], ['client']);
 
   api.addFiles([
     'lib/namespace.js',
-    'lib/routes.js'
+    'lib/routes.js',
+    'lib/methods.jsx'
   ], ['client', 'server']);
 
   api.addFiles([
-    'lib/server/methods.jsx'
+    'lib/server/init.jsx'
   ], ['server']);
 
   api.export('Search');

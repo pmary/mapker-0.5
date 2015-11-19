@@ -197,6 +197,25 @@ Core.communityNameValidation = function (value) {
 };
 
 /**
+ * @summary Check if the given name match the validation criteria
+ * @param value - The name to check
+ * @return {Boolean} - Whether if the name is valid or not
+ */
+Core.eventNameValidation = function (value) {
+  if (!value) {
+		return 'Required field';
+	} else if (value.length < 2) {
+		return 'This field must contain at least 2 characters';
+	} else if (value.length > 50) {
+		return 'This field must not contain more than 50 characters';
+	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+		return 'Invalid character in the user name';
+	}else {
+		return false;
+	}
+};
+
+/**
  * @summary Check if the given input tags match the validation criteria
  * @param value - The input tags to check
  * @return {Boolean} - Whether if the input tags is valid or not
@@ -423,4 +442,62 @@ Core.validateUsersocialProfiles = function (socialProfiles) {
 		errors = {};
 
 	return errors;
+};
+
+/**
+ * @summary Return the right default avatar image link following the given resource type
+ * @param {String} type - Can be 'user', 'project', 'community' or 'place'
+ */
+Core.getDefaultAvatar = function (type) {
+  console.log('getDefaultAvatar for a ', type);
+  var avatar;
+
+  switch (type) {
+    case 'user':
+        avatar = '/images/avatar-user-default.png';
+      break;
+
+    case 'project':
+
+      break;
+
+    case 'community':
+        avatar = '/images/avatar-community-default.png';
+      break;
+
+    case 'place':
+        avatar = '/images/avatar-place-default.png';
+      break;
+  }
+
+  return avatar;
+};
+
+/**
+ * @summary Return the right default cover image link following the given resource type
+ * @param {String} type - Can be 'user', 'project', 'community' or 'place'
+ */
+Core.getDefaultCover = function (type) {
+  var cover;
+
+  switch (type) {
+    case 'user':
+        cover = '/images/fond-cover-skills.png';
+      break;
+
+    case 'project':
+
+      break;
+
+    case 'community':
+      break;
+
+    case 'place':
+        cover = '/images/fond-cover-place.png';
+      break;
+
+    default:
+
+    return cover;
+  }
 };

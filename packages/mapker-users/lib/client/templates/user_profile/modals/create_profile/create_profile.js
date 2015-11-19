@@ -118,14 +118,16 @@ Template.modalCreateProfile.events({
 		if (Object.keys(errors).length){
 			return; // Abort the account creation due to errors
 		}
-
+console.log('No error');
 		// Get the city center coordinates
 		var address = profile.city.replace(/ /g, "+");
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({"address": address, 'componentRestrictions': { 'postalCode': profile.zipcode }, region: profile.countryCode }, function(results, status) {
+			console.log('geocoded');
 			// Test if there is a location
 			if (results[0].geometry.location) {
 				// Get the lat and the lng
+				console.log('location found');
 				var loc = [];
 				for (var key in results[0].geometry.location) {
 					var value = results[0].geometry.location[key];
@@ -138,7 +140,9 @@ Template.modalCreateProfile.events({
 				// If our coordinates have the right format, save the user profile
 				if (loc.length === 2) {
 					profile.loc = loc;
+					console.log('will create profile');
 					Meteor.call('mapker:users/createProfile', profile, function(error) {
+						console.log('profile created');
 						// display the error to the user and abort
 						if (error) {
 							throw error;

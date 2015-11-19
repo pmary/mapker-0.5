@@ -183,7 +183,7 @@
 				padding-left: 20px;
 				padding-right: 20px;
 				padding-top: 29px;
-  				padding-bottom: 25px;
+  			padding-bottom: 25px;
 
 				.resource-icon {
 					background-color: #616263;
@@ -218,6 +218,18 @@
 				.resource-icon {
 					background-color: #20DEC2;
 					border: 2px solid #1ABDA4;
+				}
+			}
+		}
+
+		li#menu-item-communities:hover,
+		li.active#menu-item-communities {
+			a {
+				color: #fcea10;
+
+				.resource-icon {
+					background-color: #fcea10;
+					border: 2px solid #efd90f;
 				}
 			}
 		}
