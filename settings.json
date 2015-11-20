@@ -1,4 +1,34 @@
 {
+  "elastic": {
+    "dev": {
+      "host": "https://site:94bef02eac187cc0bf8ee704318f1144@kili-eu-west-1.searchly.com"
+    },
+    "prod": {
+      "host": "https://site:547996b6b8262ee6259f65e4c4095fe8@fili-us-east-1.searchly.com"
+    }
+  },
+  "aws": {
+    "dev": {
+      "accessKeyId": "AKIAI3UVRXSXIGGSEOGQ",
+  		"secretAccessKey": "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",
+  		"region": "eu-central-1",
+      "bucket": "la-paillasse"
+    },
+    "prod": {
+      "accessKeyId": "AKIAI3UVRXSXIGGSEOGQ",
+  		"secretAccessKey": "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",
+  		"region": "eu-central-1",
+      "bucket": "mapker-main"
+    }
+  },
+  "mandrill": {
+    "dev": {
+      "mailUrl": ""
+    },
+    "prod": {
+      "mailUrl": "smtp://dev%40mapker.co:OfKzISRCtJJLFJmGi-k9kA@smtp.mandrillapp.com:587"
+    }
+  },
   "public": {
 
   }

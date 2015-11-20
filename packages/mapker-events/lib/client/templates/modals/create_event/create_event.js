@@ -112,6 +112,7 @@ Template.modalCreateEvent.onCreated(function () {
   instance.contributors       = new ReactiveVar( null );
   instance.staticMap          = new ReactiveVar( null );
   instance.eventContributors  = new ReactiveVar( [] );
+  instance.focusedContributor = new ReactiveVar( -1 );
   instance.identities         = new ReactiveVar( [] );
   instance.countries          = new ReactiveVar( [] );
   instance.location           = new ReactiveVar();
@@ -236,7 +237,7 @@ Template.modalCreateEvent.events({
 
 		// Set the selected one as the current identity
 		for (var i = 0; i < identities.length; i++) {
-			if (identities[i].id == this.id) {
+			if (identities[i].id === this.id) {
 				var tempIdentity = identities[i];
 				tempIdentity.current = true;
 				identities.splice(i, 1);
@@ -253,10 +254,78 @@ Template.modalCreateEvent.events({
 			return;
 		}
 	},
+  'keydown #input-contributor': debounce(function (e, t) {
+    var contributors = t.contributors.get();
+    var focusedContributor = t.focusedContributor.get();
+
+    // Check if the key is the up arrow
+    if (e.keyCode === 38) {
+      console.log('Up');
+      // If there is no contributor focused in the list and there is a list
+      if (focusedContributor && contributors && contributors[focusedContributor - 1]) {
+        contributors[focusedContributor].focused = false;
+        contributors[focusedContributor - 1].focused = true;
+
+        focusedContributor--;
+
+        t.contributors.set( contributors );
+        t.focusedContributor.set( focusedContributor );
+      }
+      /*else {
+        for (let i = 0; i < contributors.length; i++) {
+          //contributors[i]
+        }
+      }*/
+    }
+    // Else if the key is the down arrow
+    else if (e.keyCode === 40) {
+      focusedContributor++;
+
+      // If there is no contributor focused in the list and there is a list
+      if (! focusedContributor && contributors && contributors[0]) {
+        contributors[0].focused = true;
+        t.focusedContributor.set( 0 );
+      }
+      else if (contributors && contributors[focusedContributor]) {
+        contributors[focusedContributor - 1].focused = false;
+        contributors[focusedContributor].focused = true;
+        t.focusedContributor.set( focusedContributor );
+      }
+      t.contributors.set( contributors );
+    }
+    // Else if the key is Enter
+    else if (e.keyCode === 13) {
+      // If we have a contributor focused in the list and if he exist
+      if (
+        (focusedContributor || focusedContributor === 0) &&
+        contributors &&
+        contributors[focusedContributor]
+      ) {
+        // Add the focused contributor to the selected list
+        var eventContributors = t.eventContributors.get();
+        eventContributors.push(contributors[focusedContributor]);
+        t.eventContributors.set( eventContributors );
+        // Clear the contributor list and the input field
+        t.contributors.set( [] );
+        t.find('#input-contributor').value = '';
+      }
+      else {
+        return;
+      }
+    }
+    else {
+      t.contributors.set( null );
+    }
+  }),
 	'keyup #input-contributor': debounce(function (e, t) {
 		var name = t.find('#input-contributor').value;
 
-		if (name.length >= 2) {
+    if (
+      name.length >= 2 &&
+      e.keyCode !== 13 &&
+      e.keyCode !== 38 &&
+      e.keyCode !== 40
+    ) {
 			// Query the ES index to find any resource with this name/nick or a close one
 			Meteor.call('mapker:search/getDocumentByName', name, function(err, res) {
 				if (err) {
@@ -293,9 +362,6 @@ Template.modalCreateEvent.events({
 				}
 			});
 		}
-    else {
-      t.contributors.set( null );
-    }
 	}, 250),
   'focusout #input-contributor': function () {
     window.setTimeout(function() {

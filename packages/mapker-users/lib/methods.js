@@ -98,8 +98,9 @@ Meteor.methods({
 					}
 				},
 				function (error, result) {
-					if (error) Logger.log(error);
-					Logger.log(result);
+					if (error) {
+					console.log(error);
+				}
 				});*/
 			}
 		});

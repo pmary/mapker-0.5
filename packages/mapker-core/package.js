@@ -122,6 +122,7 @@ Package.onUse(function(api) {
   ], ['client']);*/
 
   api.addFiles([
+    'lib/server/config.js',
     'lib/server/publications.js',
     'lib/server/auth.service.js',
     'lib/server/methods.js'

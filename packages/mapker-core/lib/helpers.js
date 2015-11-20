@@ -81,7 +81,7 @@ Core.nicHandleValidation = function (value) {
 Core.numberValidation = function(value) {
 	if (!value) {
 		return 'Required field';
-	} else if (value != parseInt(value, 10)) {
+	} else if (value !== parseInt(value, 10)) {
 		return 'Must be a number';
 	} else {
 		return false;
@@ -114,9 +114,9 @@ Core.passwordValidation = function(value) {
 		return 'This field must contain at least 6 characters';
 	} else if (value.length > 50) {
 		return 'This field must not contain more than 50 characters';
-	} else if (value.search(/\d/) == -1) {
+	} else if (value.search(/\d/) === -1) {
 		return 'Your password must contain at least one digit';
-	} else if (value.search(/[a-zA-Z]/) == -1) {
+	} else if (value.search(/[a-zA-Z]/) === -1) {
 		return 'Your password must contain at least one letter';
 	/*} else if (fields[i].node.value.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
 		isValidePassword = false;
@@ -166,11 +166,11 @@ Core.nameValidation = function(value) {
 		return 'This field must contain at least 2 characters';
 	} else if (value.length > 50) {
 		return 'This field must not contain more than 50 characters';
-	} else if (value.search(/\d/) != -1) {
+	} else if (value.search(/\d/) !== -1) {
 		return 'This field should not contain digit';
-	} else if (value.search(/[a-zA-Z]/) == -1) {
+	} else if (value.search(/[a-zA-Z]/) === -1) {
 		return 'This field must contain at least one letter';
-	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) !== -1) {
 		return 'Invalid character in the user name';
 	}else {
 		return false;
@@ -189,7 +189,7 @@ Core.communityNameValidation = function (value) {
 		return 'This field must contain at least 2 characters';
 	} else if (value.length > 50) {
 		return 'This field must not contain more than 50 characters';
-	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) !== -1) {
 		return 'Invalid character in the user name';
 	}else {
 		return false;
@@ -208,7 +208,7 @@ Core.eventNameValidation = function (value) {
 		return 'This field must contain at least 2 characters';
 	} else if (value.length > 50) {
 		return 'This field must not contain more than 50 characters';
-	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) !== -1) {
 		return 'Invalid character in the user name';
 	}else {
 		return false;
@@ -270,7 +270,7 @@ Core.isArrayValidation = function(value) {
  * @return {Boolean} - Whether if the variable is valid or not
  */
 Core.isStringValidation = function(value) {
-	if (typeof value == 'string') {
+	if (typeof value === 'string') {
 		return false;
 	}
 	else {
@@ -289,7 +289,7 @@ Core.isStringValidation = function(value) {
 Core.isDuplicateSkillValidation = function(value, array) {
 	var result = false;
 	for (var i = 0; i < array.length; i++) {
-		if (array[i].title.toLowerCase() == value.toLowerCase())
+		if (array[i].title.toLowerCase() === value.toLowerCase())
 			result = 'You already have this skill';
 	}
 	return result;
@@ -301,21 +301,21 @@ Core.isDuplicateSkillValidation = function(value, array) {
 Core.imageMethods = {
   /**
    * Receives an Image Object (can be JPG OR PNG) and returns a new Image as compressed DataURL
-   * @param {Image} source_img_obj The source Image Object
+   * @param {Image} sourceImgObj The source Image Object
    * @param {Integer} quality The output quality of Image Object
    * @param {String} output format. Possible values are jpg and png
    * @return {Image} result_image_obj The compressed Image Object
    */
 
-  compress: function(source_img_obj, quality){
+  compress: function(sourceImgObj, quality) {
 
     var tempImg = document.createElement('img');
-    tempImg.src = source_img_obj;
-    var mimType = source_img_obj.split(";")[0].split(":")[1];
+    tempImg.src = sourceImgObj;
+    var mimType = sourceImgObj.split(";")[0].split(":")[1];
     var cvs = document.createElement('canvas');
     cvs.width = tempImg.naturalWidth;
     cvs.height = tempImg.naturalHeight;
-    var ctx = cvs.getContext("2d").drawImage(tempImg, 0, 0);
+    //var ctx = cvs.getContext("2d").drawImage(tempImg, 0, 0);
     var newImageData = cvs.toDataURL(mimType, quality/100);
     return newImageData;
   },
@@ -323,13 +323,13 @@ Core.imageMethods = {
   /**
    * Receives a Canvas Object and returns a new Image as compressed DataURL
    * @param {Canvas} canvas The cropped canvas
-   * @param {Image} source_img_obj The source Image Object
+   * @param {Image} sourceImgObj The source Image Object
    * @param {Integer} quality The output quality of Image Object
    * @param {String} output format. Possible values are jpg and png
    * @return {Image} result_image_obj The compressed Image Object
    */
-  compressFromCanvas: function(canvas, source_img_obj, quality){
-    var mimType = source_img_obj.split(";")[0].split(":")[1];
+  compressFromCanvas: function(canvas, sourceImgObj, quality){
+    var mimType = sourceImgObj.split(";")[0].split(":")[1];
     var newImageData = canvas.toDataURL(mimType, quality/100);
     return newImageData;
   }
@@ -358,7 +358,7 @@ Core.s3Upload = function(params, callback) {
  * @param {String} [userId] The current user id
  * @return {Boolean}
  */
-Core.isUserResourceAdmin = function(resource, userId) {
+Core.isUserResourceAdmin = function(resource) {
 	// False by default
 	var result = false;
 	switch(resource.type) {

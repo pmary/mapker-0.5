@@ -1,4 +1,3 @@
-//.jshintrc
 {
   // JSHint Meteor Configuration File
   // Match the Meteor Style Guide
@@ -11,7 +10,6 @@
   "maxerr"        : 50,       // {int} Maximum error before stopping
 
   // Enforcing
-  "Promise"       : true
   "bitwise"       : true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
   "camelcase"     : true,     // true: Identifiers must be in camelCase
   // "curly"         : true,     // true: Require {} for every new block or scope
@@ -31,7 +29,7 @@
                               //   "single" : require single quotes
                               //   "double" : require double quotes
   "undef"         : true,     // true: Require all non-global variables to be declared (prevents global leaks)
-  "unused"        : true,     // true: Require all defined variables be used
+  "unused"        : false,     // true: Require all defined variables be used
   "strict"        : false,     // true: Requires all functions run in ES5 Strict Mode
   "trailing"      : true,     // true: Prohibit trailing whitespaces
   "maxparams"     : false,    // {int} Max number of formal params allowed per function
@@ -146,11 +144,21 @@
     "SubsManager": false,
     "SyncedCron": false,
     "TAPi18n": false,
+    "Quill": true,
+    "Elasticsearch": true,
+    "Roles": true,
+    "s3": true,
+    "Buffer": true,
+    "sAlert": true,
+    "AWS": true,
 
     // Mapker collections
     "Places": true,
     "Taxons": true,
-    "Places": true,
+    "Core": true,
+    "Search": true,
+    "Communities": true,
+    "Notifications": true,
 
     // Mapker objects
     "buildAndSendEmail": true,

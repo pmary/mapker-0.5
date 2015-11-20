@@ -56,33 +56,33 @@ Meteor.methods({
 		};
 
 		// Update the resource
-		if (img.resource.type == "user") {
-			if (img.role == "avatar") {
+		if (img.resource.type === "user") {
+			if (img.role === "avatar") {
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.avatar': image} });
 			}
-			else if (img.role == "cover") {
+			else if (img.role === "cover") {
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover': image} });
 			}
 
 			// Update the user ElasticSearch document
 			Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 		}
-		else if (img.resource.type == "place") {
-			if (img.role == "avatar") {
+		else if (img.resource.type === "place") {
+			if (img.role === "avatar") {
 				Places.update({_id: img.resource.id}, { $set: {'avatar': image} });
 			}
-			else if (img.role == "cover") {
+			else if (img.role === "cover") {
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
 			}
 
 			// Update the user ElasticSearch document
 			Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
 		}
-		else if (img.resource.type == "community") {
-			if (img.role == "avatar") {
+		else if (img.resource.type === "community") {
+			if (img.role === "avatar") {
 				Communities.update({_id: img.resource.id}, { $set: {'avatar': image} });
 			}
-			else if (img.role == "cover") {
+			else if (img.role === "cover") {
 				Communities.update({_id: img.resource.id}, { $set: {'cover': image} });
 			}
 

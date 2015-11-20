@@ -131,11 +131,14 @@
 
             <div class="form-group form-group-contributor {{errorClass 'contributor'}}">
 							<label for="input-contributor">Add a contributor / partner</label>
-							<input type="text" class="form-control" id="input-contributor" placeholder="Do you have any partner?">
+              <div class="input-group">
+                <input type="text" class="form-control" id="input-contributor" placeholder="Do you have any partner?">
+                <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+              </div>
               {{#if contributors}}
                 <ul class="dropdown-menu contributors-list">
                   {{#each contributors}}
-                    <li class="contributor">
+                    <li class="contributor {{#if focused}}focused{{/if}}">
                       <div class="avatar">
                         <img src="{{avatar}}" alt="{{name}}">
                       </div>
