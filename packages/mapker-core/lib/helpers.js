@@ -209,7 +209,7 @@ Core.eventNameValidation = function (value) {
 	} else if (value.length > 50) {
 		return 'This field must not contain more than 50 characters';
 	} else if (value.search(/[\!\@\#\$\%\^\&\*\(\)\_\+]/) !== -1) {
-		return 'Invalid character in the user name';
+		return 'Invalid character';
 	}else {
 		return false;
 	}
@@ -379,6 +379,15 @@ Core.isUserResourceAdmin = function(resource) {
 	return result;
 };
 
+Core.isValidDate = function (date) {
+  if (! moment(date).isValid() ) {
+    return 'Invalid date';
+  }
+  else {
+    return false;
+  }
+};
+
 Core.validateUsersocialProfiles = function (socialProfiles) {
 	var errors = {};
 
@@ -449,7 +458,6 @@ Core.validateUsersocialProfiles = function (socialProfiles) {
  * @param {String} type - Can be 'user', 'project', 'community' or 'place'
  */
 Core.getDefaultAvatar = function (type) {
-  console.log('getDefaultAvatar for a ', type);
   var avatar;
 
   switch (type) {

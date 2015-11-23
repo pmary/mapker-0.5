@@ -174,7 +174,7 @@
             <div class="form-group {{errorClass 'type'}}">
 							<label for="select-type">Event Type</label>
 							<select name="select-type" id="select-type" class="form-control">
-                <option value="" selected="selected">Select the type of event</option>
+                <option value="" disabled>Select the type of event</option>
                 {{#each taxons}}
                   {{#if eq category 'type'}}
                     <option value="{{_id}}">{{name}}</option>
@@ -187,7 +187,7 @@
             <div class="form-group {{errorClass 'topic'}}">
 							<label for="select-topic">Event Topic*</label>
 							<select name="select-topic" id="select-topic" class="form-control">
-                <option value="" selected="selected">Select a topic</option>
+                <option value="" disabled>Select a topic</option>
                 {{#each taxons}}
                   {{#if eq category 'topic'}}
                     <option value="{{_id}}">{{name}}</option>

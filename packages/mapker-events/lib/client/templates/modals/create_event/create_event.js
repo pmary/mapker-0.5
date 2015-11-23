@@ -10,7 +10,8 @@ function debounce (fn, delay) {
 }
 
 /**
- * @summary Retrieve all the identities of the user, it mean, its places,
+ * @description
+ * Retrieve all the identities of the user, it mean, its places,
  * communities and projects
  * @return {Array} identities
  * @return {Object} identities.
@@ -94,10 +95,10 @@ var getUserIdentities = function (t) {
 						};
 						identities.push(identity);
 					}
-					console.log('identities: ', identities);
 
 					// Update the session variable
           t.identities.set( identities );
+
 					// Activa the tooltip 'Posting as ...'
 					$('.modal-create-event .modal-header [data-toggle="tooltip"]').tooltip();
 				}
@@ -121,19 +122,6 @@ Template.modalCreateEvent.onCreated(function () {
   instance.autorun(function () {
     // Taxons subscription
     var taxonsSubscription = instance.subscribe('eventsTaxons');
-
-    // If the subscription is ready
-    if (taxonsSubscription.ready()) {
-      console.log('subscription ready');
-    }
-    else {
-      console.log('subscription not ready');
-    }
-
-    // Get the cursor
-    /*instance.taxons = function() {
-      return Taxons.find({collection: 'events'});
-    };*/
   });
 });
 
@@ -180,7 +168,7 @@ Template.modalCreateEvent.rendered = function () {
     timePickerIncrement: 30,
 		timePicker24Hour: true,
     locale: {
-      format: 'MM/DD/YYYY h:mm'
+      format: 'DD/MM/YYYY h:mm'
     }
   });
 
@@ -224,7 +212,8 @@ Template.modalCreateEvent.rendered = function () {
 
 Template.modalCreateEvent.events({
 	/**
-	 * @summary Change the current identity
+	 * @description
+   * Change the current identity
 	 */
 	'click .change-identity': function (e, t) {
 		// Get the user identities
@@ -260,7 +249,6 @@ Template.modalCreateEvent.events({
 
     // Check if the key is the up arrow
     if (e.keyCode === 38) {
-      console.log('Up');
       // If there is no contributor focused in the list and there is a list
       if (focusedContributor && contributors && contributors[focusedContributor - 1]) {
         contributors[focusedContributor].focused = false;
@@ -271,11 +259,6 @@ Template.modalCreateEvent.events({
         t.contributors.set( contributors );
         t.focusedContributor.set( focusedContributor );
       }
-      /*else {
-        for (let i = 0; i < contributors.length; i++) {
-          //contributors[i]
-        }
-      }*/
     }
     // Else if the key is the down arrow
     else if (e.keyCode === 40) {
@@ -303,7 +286,12 @@ Template.modalCreateEvent.events({
       ) {
         // Add the focused contributor to the selected list
         var eventContributors = t.eventContributors.get();
-        eventContributors.push(contributors[focusedContributor]);
+        var newContributor = {
+          id: contributors[focusedContributor].id,
+          type: contributors[focusedContributor].type,
+          name: contributors[focusedContributor].name
+        };
+        eventContributors.push( newContributor );
         t.eventContributors.set( eventContributors );
         // Clear the contributor list and the input field
         t.contributors.set( [] );
@@ -320,6 +308,13 @@ Template.modalCreateEvent.events({
 	'keyup #input-contributor': debounce(function (e, t) {
 		var name = t.find('#input-contributor').value;
 
+    // Get the contributor list
+    var eventContributors = t.eventContributors.get();
+    var contributorsId = [];
+    for (let i = 0; i < eventContributors.length; i++) {
+      contributorsId.push( eventContributors[i].id );
+    }
+
     if (
       name.length >= 2 &&
       e.keyCode !== 13 &&
@@ -327,7 +322,7 @@ Template.modalCreateEvent.events({
       e.keyCode !== 40
     ) {
 			// Query the ES index to find any resource with this name/nick or a close one
-			Meteor.call('mapker:search/getDocumentByName', name, function(err, res) {
+			Meteor.call('mapker:search/getDocumentByName', name, contributorsId, function(err, res) {
 				if (err) {
 					//console.log('err', err);
           t.contributors.set( null );
@@ -363,11 +358,20 @@ Template.modalCreateEvent.events({
 			});
 		}
 	}, 250),
+  /**
+   * @description
+   * At the focusout on the contributor input, hide the contributor suggestion list
+   */
   'focusout #input-contributor': function () {
     window.setTimeout(function() {
       $('.modal-create-event .contributors-list').css('display', 'none');
     }, 300);
   },
+  /**
+   * @description
+   * At the click on a contributor in the suggestion list, add him to the
+   * selected contributors list and clear the input
+   */
   'click .contributors-list .contributor': function (e, t) {
     var newContributor = this;
     var eventContributors = t.eventContributors.get();
@@ -382,6 +386,7 @@ Template.modalCreateEvent.events({
       }
     }
 
+    t.find('#input-contributor').value = '';
     eventContributors.push(this);
     t.eventContributors.set(eventContributors);
   },
@@ -401,14 +406,27 @@ Template.modalCreateEvent.events({
 
     t.eventContributors.set(eventContributors);
   },
+  /**
+   * @description
+   * Submit the form, rise eventual errors and create the event
+   */
   'click .user-action-create': function (e, t) {
     // Display the button loader state
 		$('.user-action-create').addClass('btn-loader');
 
     var dates = $('input[name="input-date"]').data('daterangepicker');
 
+    var identities = t.identities.get();
+    var organizer;
+    for (let i = 0; i < identities.length; i++) {
+      if (identities[i].current) {
+        organizer = { id: identities[i].id, type: identities[i].type };
+      }
+    }
+
     // Get the data
     var event = {
+      organizer: organizer,
       name: t.find('#input-name').value,
       streetNumber: t.find('#input-street-number').value,
   		streetName: t.find('#input-street-name').value,
@@ -418,27 +436,71 @@ Template.modalCreateEvent.events({
       startDate: dates.startDate.toISOString(),
       endDate: dates.endDate.toISOString(),
       description: t.editor.getHTML(),
+      descriptionText: t.editor.getText(),
       contributors: t.eventContributors.get(),
-      reservation: t.find('#input-reservation').value
+      reservation: t.find('#input-reservation').value,
+      type: t.find('#select-type').value,
+      topic: t.find('#select-topic').value
     };
 
-    console.log('event: ', event);
+    // Get the location details
+    var address = event.streetNumber+ "+" + event.streetName + "+" +event.city;
+    address = address.replace(/ /g, '+');
 
-    // Form validation
-    var errors = Events.validateEventCreate(event);
-    Session.set('modalCreatePlaceErrors', errors);
-    if (Object.keys(errors).length) {
-      // Remove the button loader state
-      $('.user-action-create').removeClass('btn-loader');
-      return; // Abort the account creation due to errors
-    }
+    // Geocoding. See: https://developers.google.com/maps/documentation/geocoding/
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&components=country:" + event.countryCode;
+
+    // Get geocode
+    Meteor.http.get(url, function (error, result) {
+      if (!error) {
+        //console.log(result);
+        var data = result.data;
+
+        if (data.status === "OK") {
+          event.loc = { lat: data.results[0].geometry.location.lat, lon: data.results[0].geometry.location.lng };
+          event.formattedAddress = data.results[0].formatted_address;
+
+          // Form validation
+          var errors = Events.validateEventCreate(event);
+          Session.set('modalCreateEventErrors', errors);
+          if (Object.keys(errors).length) {
+            // Remove the button loader state
+            $('.user-action-create').removeClass('btn-loader');
+            return;
+          }
+
+          // Clean the object
+          delete event.descriptionText;
+          for (let i = 0; i < event.contributors.length; i++) {
+            delete event.contributors[i].name;
+            delete event.contributors[i].nicHandle;
+            delete event.contributors[i].avatar;
+          }
+
+          console.log('event: ', event);
+
+          Meteor.call('mapker:events/insert', event, function(err, res) {
+            $('.modal-create-place #submit-place').removeClass('btn-loader');
+
+            if (err) {
+              console.log(err);
+            }
+            else {
+              // Redirect to the user places page
+  						Router.go('eventProfile', {_id: Meteor.user()._id});
+  						// Close the modal
+  						Modal.hide();
+            }
+          });
+        }
+      }
+    });
   },
   /**
    * @description
    * Get the map following the given location and display it
    */
    'click .user-action-check-location': function (e, t) {
-     console.log('will check the location');
 
      var location = {
        streetNumber: t.find('#input-street-number').value,

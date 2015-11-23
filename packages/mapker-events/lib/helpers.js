@@ -1,23 +1,34 @@
-Events.validateEventCreate = function (community) {
-  /*{
-    city: "Paris"
-    contributors: Array[1]
-    countryCode: "fr"
-    description: "<div><b>Lorem</b></div><div><br></div><div>Ipsum dolor sit amet</div>"
-    endDate: "2015-12-11T11:00:00.000Z"
-    name: "Kick-off"
-    reservation: "http://hello.com"
-    startDate: "2015-11-11T11:00:00.000Z"
-    streetName: "rue saint denis"
-    streetNumber: "226"
-    zipcode: "75002"
-  }*/
+Events.validateEventCreate = function (event) {
   var errors = {};
 
 	var nameError = Core.eventNameValidation(event.name);
 	if (nameError) { errors.name = nameError; }
 
+  var formattedAddressError = Core.isFilledValidation(event.formattedAddress);
+	if (formattedAddressError) {
+		errors.address = formattedAddressError;
+	}
 
+  var startDateError = Core.isValidDate(event.startDate);
+  var endDateError = Core.isValidDate(event.endDate);
+  if (startDateError || endDateError) { errors.date = startDateError; }
+
+  var descriptionError = Core.isFilledValidation(event.descriptionText);
+	if (descriptionError) { errors.description = descriptionError; }
+
+  var contributorsError = Core.isArrayValidation(event.contributors);
+	if (contributorsError) { errors.contributors = contributorsError; }
+
+  if (event.reservation) {
+    var reservationError = Core.urlValidation(event.reservation);
+  	if (reservationError) { errors.reservation = reservationError; }
+  }
+
+  var typeError = Core.isFilledValidation(event.type);
+	if (typeError) { errors.type = typeError; }
+
+  var topicError = Core.isFilledValidation(event.topic);
+	if (topicError) { errors.topic = topicError; }
 
   // If there is no error, reset the object to clear the eventual previous errors
 	if (!Object.keys(errors).length) {

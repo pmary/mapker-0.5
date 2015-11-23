@@ -3,14 +3,18 @@
 /*****************************************************************************/
 var SearchMethods = {
 	/**
-	 * @summary Delete a user document from the 'resource' ES index
+	 * @description
+	 * Delete a user document from the 'resource' ES index
+	 *
 	 * @param {string} id The document id from MongoDB
 	 */
-	deletUserDocument: function(id) {
+	deletUserDocument: function (id) {
 		check(id, String);
 	},
 	/**
-	 * @summary Get an indexed document by its id
+	 * @description
+	 * Get an indexed document by its id
+	 *
 	 * @param {Array} docIds - The ids of the documents to retrieved
 	 * @param {Array} fields - The fields to retrieve
 	 */
@@ -33,101 +37,116 @@ var SearchMethods = {
 		}
 
 		// Launch the search
-		Search.search(esQuery, function(error, response) {
-			if (error) {
-				console.log('getDocumentById error: ', error);
-				callback( null, [] );
-			}
+		if (Meteor.isServer) {
+			Search.search(esQuery, function (error, response) {
+				if (error) {
+					console.log('getDocumentById error: ', error);
+					callback( null, [] );
+				}
 
-			if (response && response.hits) {
-				//console.log('response', JSON.stringify(response));
-				callback( null, response);
-			}
-			else {
-				callback( null, [] );
-			}
-		});
+				if (response && response.hits) {
+					callback( null, response);
+				}
+				else {
+					callback( null, [] );
+				}
+			});
+		}
 	},
 	/**
-	 * @summary Get the matching user skills name suggestions
+	 * @description
+	 * Get the matching user skills name suggestions
+	 *
 	 * @param {String} queryString
 	 */
 	getSkillsSuggestions: function (queryString, callback) {
 		// Get suggestions
-		Search.suggest({
-			index: 'resources',
-			type: 'user',
-			body: {
-				skills_suggester: {
-					text: queryString,
-					completion: {
-						field: 'skills_suggest',
-						fuzzy : {
-							fuzziness : 2
+		if (Meteor.isServer) {
+			Search.suggest({
+				index: 'resources',
+				type: 'user',
+				body: {
+					skills_suggester: {
+						text: queryString,
+						completion: {
+							field: 'skills_suggest',
+							fuzzy : {
+								fuzziness : 2
+							}
 						}
 					}
 				}
-			}
-		}, function (error, response) {
-			if (response && response.skills_suggester && response.skills_suggester[0])
-				callback( null, response.skills_suggester[0].options );
-		});
+			}, function (error, response) {
+				if (response && response.skills_suggester && response.skills_suggester[0])
+					callback( null, response.skills_suggester[0].options );
+			});
+		}
 	},
 	/**
-	 * @summary Get the matching palce activities name suggestions
+	 * @description
+	 * Get the matching palce activities name suggestions
+	 *
 	 * @param {String} queryString
 	 */
 	getActivitiesSuggestions: function (queryString, callback) {
 		// Get suggestions
-		Search.suggest({
-			index: 'resources',
-			type: 'place',
-			body: {
-				activities_suggester: {
-					text: queryString,
-					completion: {
-						field: 'activities_suggest',
-						fuzzy : {
-							fuzziness : 2
+		if (Meteor.isServer) {
+			Search.suggest({
+				index: 'resources',
+				type: 'place',
+				body: {
+					activities_suggester: {
+						text: queryString,
+						completion: {
+							field: 'activities_suggest',
+							fuzzy : {
+								fuzziness : 2
+							}
 						}
 					}
 				}
-			}
-		}, function (error, response) {
-			if (response && response.activities_suggester && response.activities_suggester[0])
-				callback( null, response.activities_suggester[0].options );
-		});
+			}, function (error, response) {
+				if (response && response.activities_suggester && response.activities_suggester[0])
+					callback( null, response.activities_suggester[0].options );
+			});
+		}
 	},
 	/**
-	 * @summary Query the resources index 'community' type to get the communities
+	 * @description
+	 * Query the resources index 'community' type to get the communities
 	 * with a particular name
+	 *
 	 * @param {Object} queryObject
 	 * @param {String} queryObject.queryString
 	 */
 	getCommunitiesSuggestions: function (queryString, callback) {
 		// Get suggestions
-		Search.suggest({
-			index: 'resources',
-			type: 'community',
-			body: {
-				activities_suggester: {
-					text: queryString,
-					completion: {
-						field: 'suggester',
-						fuzzy : {
-							fuzziness : 2
+		if (Meteor.isServer) {
+			Search.suggest({
+				index: 'resources',
+				type: 'community',
+				body: {
+					activities_suggester: {
+						text: queryString,
+						completion: {
+							field: 'suggester',
+							fuzzy : {
+								fuzziness : 2
+							}
 						}
 					}
 				}
-			}
-		}, function (error, response) {
-			if (response && response.activities_suggester && response.activities_suggester[0])
-				callback( null, response.activities_suggester[0].options );
-		});
+			}, function (error, response) {
+				if (response && response.activities_suggester && response.activities_suggester[0])
+					callback( null, response.activities_suggester[0].options );
+			});
+		}
 	},
 	/**
-	 * @summary Query the resources index places type to get the places
+	 * @description
+	 * Query the resources index places type to get the places
 	 * with a particular activity and/or within the given location
+	 *
 	 * @param {Object} queryObject
 	 * @param {String} queryObject.queryString
 	 * @param {Array} queryObject.bbox
@@ -136,7 +155,7 @@ var SearchMethods = {
 	 * @param {Array} queryObject.filters.specializations
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
-	getPlaces: function(queryObject, callback) {
+	getPlaces: function (queryObject, callback) {
 		check(queryObject, Object);
 
 		// If no size is given, set one by default
@@ -225,29 +244,33 @@ var SearchMethods = {
 		}
 
 		// Launch the search
-		Search.search(esQuery, function(error, response) {
-			if (error) {
-				console.log('getPlaces error: ', error);
-				callback( null, [] );
-			}
+		if (Meteor.isServer) {
+			Search.search(esQuery, function (error, response) {
+				if (error) {
+					console.log('getPlaces error: ', error);
+					callback( null, [] );
+				}
 
-			if (response && response.hits) {
-				callback( null, response);
-			}
-			else {
-				callback( null, [] );
-			}
-		});
+				if (response && response.hits) {
+					callback( null, response);
+				}
+				else {
+					callback( null, [] );
+				}
+			});
+		}
 	},
 	/**
-	 * @summary Query the resources index users type to get the users
+	 * @description
+	 * Query the resources index users type to get the users
 	 * with a particular skills and/or within the given location
+	 *
 	 * @param {Object} queryObject
 	 * @param {String} queryString
 	 * @param {Array} [bbox]
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
-	getUsers: function(queryObject, callback) {
+	getUsers: function (queryObject, callback) {
 		check(queryObject, Object);
 
 		// If no size is given, set one by default
@@ -316,23 +339,27 @@ var SearchMethods = {
 		}
 
 		// Launch the search
-		Search.search(esQuery, function(error, response) {
-			if (error) {
-				console.log('getUsers error: ', error);
-				callback( null, [] );
-			}
+		if (Meteor.isServer) {
+			Search.search(esQuery, function (error, response) {
+				if (error) {
+					console.log('getUsers error: ', error);
+					callback( null, [] );
+				}
 
-			if (response && response.hits) {
-				callback( null, response );
-			}
-			else {
-				callback( null, [] );
-			}
-		});
+				if (response && response.hits) {
+					callback( null, response );
+				}
+				else {
+					callback( null, [] );
+				}
+			});
+		}
 	},
 	/**
-	 * @summary Query the resources index resources type to get the communities
+	 * @description
+	 * Query the resources index resources type to get the communities
 	 * by name
+	 *
 	 * @param {Object} queryObject
 	 * @param {String} queryString
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
@@ -391,97 +418,114 @@ var SearchMethods = {
 		}
 
 		// Launch the search
-		Search.search(esQuery, function(error, response) {
-			if (error) {
-				console.log('getCommunities error: ', error);
-				callback( null, [] );
-			}
+		if (Meteor.isServer) {
+			Search.search(esQuery, function (error, response) {
+				if (error) {
+					console.log('getCommunities error: ', error);
+					callback( null, [] );
+				}
 
-			if (response && response.hits) {
-				callback( null, response);
-			}
-			else {
-				callback( null, [] );
-			}
-		});
+				if (response && response.hits) {
+					callback( null, response);
+				}
+				else {
+					callback( null, [] );
+				}
+			});
+		}
 	},
 	/**
-	 * @summary Query the resources index users type to get the users
+	 * @description
+	 * Query the resources index users type to get the users
 	 * whose fullname match with the given string
+	 *
 	 * @param {String} queryString
 	 * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html for more about Geo Bounding Box Filter
 	 */
-	getUsersByFullname: function(queryObject, callback) {
+	getUsersByFullname: function (queryObject, callback) {
 		if (! queryObject.exculdedIds) {
 			queryObject.exculdedIds = [];
 		}
 
-		Search.search({
-			index: 'resources',
-			type: 'user',
-			body: {
-				"query" : {
-					"bool": {
-						"must": [{
-							"match_phrase_prefix": {
-								"name": {
-									"query": queryObject.string,
-									"max_expansions": 50
+		if (Meteor.isServer) {
+			Search.search({
+				index: 'resources',
+				type: 'user',
+				body: {
+					"query" : {
+						"bool": {
+							"must": [{
+								"match_phrase_prefix": {
+									"name": {
+										"query": queryObject.string,
+										"max_expansions": 50
+									}
+								}
+							}],
+							"must_not": {
+								"terms": {
+									"_id": queryObject.exculdedIds,
+									"minimum_should_match": 1
 								}
 							}
-						}],
-						"must_not": {
-							"terms": {
-								"_id": queryObject.exculdedIds,
-								"minimum_should_match": 1
-							}
 						}
-					}
-				},
-				"filter": {
-					"query": {
-						"ids":{
-							"values": queryObject.network
+					},
+					"filter": {
+						"query": {
+							"ids":{
+								"values": queryObject.network
+							}
 						}
 					}
 				}
-			}
-		}, function(error, response) {
-			if (error) {
-				console.log(error);
-			}
+			}, function (error, response) {
+				if (error) {
+					console.log(error);
+				}
 
-			if (response && response.hits) {
-				//console.log(response.hits);
-				callback( null, response.hits.hits );
-			}
-			else {
-				callback(null, null);
-			}
-		});
+				if (response && response.hits) {
+					//console.log(response.hits);
+					callback( null, response.hits.hits );
+				}
+				else {
+					callback(null, null);
+				}
+			});
+		}
 	},
-	/**
-	 * @description
-	 * Get the resources of any ty
-	 *
-	 * @param {String} queryString
-	 */
 	 /**
- 	 * @summary Get an indexed document by its id
- 	 * @param {Array} docIds - The ids of the documents to retrieved
- 	 * @param {Array} fields - The fields to retrieve
+ 	 * @description
+	 * Get an indexed document by its name
+	 *"must_not": {
+		 "terms": {
+			 "_id": queryObject.exculdedIds,
+			 "minimum_should_match": 1
+		 }
+	 }
+ 	 * @param {String} name - The name or partial name of the documents to retrieved
+ 	 * @param {Array} exculdedIds - The ids of the documents to exclude
  	 */
- 	getDocumentByName: function (name, callback) {
+ 	getDocumentByName: function (name, exculdedIds, callback) {
 		var esQuery = {
 			index: 'resources',
 			body: {
 				size: 6,
 				query : {
-					multi_match: {
-						query: name,
-						type: 'phrase_prefix',
-						fields: ['name', 'nicHandle'],
-						"max_expansions": 50
+					bool: {
+						must: [{
+							multi_match: {
+								query: name,
+								type: 'phrase_prefix',
+								fields: ['name', 'nicHandle'],
+								"max_expansions": 50
+							}
+						}],
+						must_not: {
+							terms: {
+								_id: exculdedIds,
+								"minimum_should_match": 1
+							}
+						}
 					}
 				},
 				filter: {
@@ -497,25 +541,29 @@ var SearchMethods = {
 		};
 
  		// Launch the search
- 		Search.search(esQuery, function(error, response) {
- 			if (error) {
- 				console.log('getDocumentById error: ', error);
- 				callback( null, [] );
- 			}
- 			else if (response && response.hits) {
- 				//console.log('response', JSON.stringify(response));
- 				callback( null, response);
- 			}
- 			else {
- 				callback( null, [] );
- 			}
- 		});
+		if (Meteor.isServer) {
+	 		Search.search(esQuery, function (error, response) {
+	 			if (error) {
+	 				console.log('getDocumentById error: ', error);
+	 				callback( null, [] );
+	 			}
+	 			else if (response && response.hits) {
+	 				//console.log('response', JSON.stringify(response));
+	 				callback( null, response);
+	 			}
+	 			else {
+	 				callback( null, [] );
+	 			}
+	 		});
+		}
  	}
 };
 
 Meteor.methods({
 	/**
-	 * @summary Get an indexed document by its id
+	 * @description
+	 * Get an indexed document by its id
+	 *
 	 * @param {Array} docIds - The ids of the documents to retrieved
 	 * @param {Array} fields - The fields to retrieve
 	 */
@@ -532,15 +580,18 @@ Meteor.methods({
 			return getDocumentByIdAsync(docIds);
 		}
 	},
-	'mapker:search/getDocumentByName': function (name) {
+	'mapker:search/getDocumentByName': function (name, exculdedIds) {
 		check(name, String);
+		check(exculdedIds, Array);
 
 		// @doc http://docs.meteor.com/#/full/meteor_wrapasync
 		var getDocumentByNameAsync = Meteor.wrapAsync(SearchMethods.getDocumentByName);
-		return getDocumentByNameAsync(name);
+		return getDocumentByNameAsync(name, exculdedIds);
 	},
 	/**
-	 * @summary Get skills suggested by query string for autocompletion purpose
+	 * @description
+	 * Get skills suggested by query string for autocompletion purpose
+	 *
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
 	 */
 	'mapker:search/getSkillsSuggestions': function (queryString) {
@@ -552,7 +603,9 @@ Meteor.methods({
 		return results;
 	},
 	/**
-	 * @summary Get activities suggested by query string for autocompletion purpose
+	 * @description
+	 * Get activities suggested by query string for autocompletion purpose
+	 *
 	 * @see http://blog.qbox.io/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams For an indeep suggest exemple
 	 */
 	'mapker:search/getActivitiesSuggestions': function (queryString) {
@@ -565,7 +618,8 @@ Meteor.methods({
 		return results;
 	},
 	/**
-	 * @summary Get communities suggested by query string for autocompletion purpose
+	 * @description
+	 * Get communities suggested by query string for autocompletion purpose
 	 */
 	'mapker:search/getCommunitiesSuggestions': function (queryString) {
 		//console.log(queryString);
@@ -610,7 +664,9 @@ Meteor.methods({
 		return results;
 	},
 	/**
-	 * @summary Update a document in the ES index
+	 * @description
+	 * Update a document in the ES index
+	 *
 	 * @param {String} docId - The MongoDB id of the document to update in the index
 	 * @param {String} type - The type of the document to update
 	 */
@@ -644,15 +700,18 @@ Meteor.methods({
 		var body = getIndexBody(type, doc);
 
 		// Update the documents
-		Search.index({
-			index: 'resources',
-			type: type,
-			id: docId, // Document id
-			body: body
-		}, function (error, response) {});
+		if (Meteor.isServer) {
+			Search.index({
+				index: 'resources',
+				type: type,
+				id: docId, // Document id
+				body: body
+			}, function (error, response) {});
+		}
 	},
 	/**
-	 * @summary Update a user document in the ES 'resources' index
+	 * @description
+	 * Update a user document in the ES 'resources' index
 	 */
 	'mapker:search/updateUserESDocument': function (userId) {
 		check(userId, String);
@@ -668,15 +727,50 @@ Meteor.methods({
 		var body = getIndexBody('user', user);
 
 		// Index the resource
-		Search.index({
-			index: 'resources',
-			type: 'user',
-			id: id, // User id
-			body: body
-		}, function (error, response) {});
+		if (Meteor.isServer) {
+			Search.index({
+				index: 'resources',
+				type: 'user',
+				id: id, // User id
+				body: body
+			}, function (error, response) {});
+		}
 	},
 	/**
-	 * @summary Update a user document in the ES 'resources' index
+	 * @description
+	 * Update an event document in the ES 'resources' index
+	 */
+	'mapker:search/updateEventESDocument': function (eventId) {
+		check(eventId, String);
+
+		// Get the event data
+		var event = Events.findOne({_id: eventId});
+
+		if (! event) {
+			console.warn('No event find');
+			return false;
+		}
+
+		// Create the event document
+		var id = event._id;
+
+		// Format the body for the index query
+		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
+		var body = getIndexBody('event', event);
+
+		// Index the resource
+		if (Meteor.isServer) {
+			Search.index({
+				index: 'resources',
+				type: 'event',
+				id: id, // Place id
+				body: body
+			}, function (error, response) {});
+		}
+	},
+	/**
+	 * @description
+	 * Update a user document in the ES 'resources' index
 	 */
 	'mapker:search/updatePlaceESDocument': function (placeId) {
 		check(placeId, String);
@@ -697,15 +791,18 @@ Meteor.methods({
 		var body = getIndexBody('place', place);
 
 		// Index the resource
-		Search.index({
-			index: 'resources',
-			type: 'place',
-			id: id, // Place id
-			body: body
-		}, function (error, response) {});
+		if (Meteor.isServer) {
+			Search.index({
+				index: 'resources',
+				type: 'place',
+				id: id, // Place id
+				body: body
+			}, function (error, response) {});
+		}
 	},
 	/**
-	 * @summary Get all the documents from the users collection
+	 * @description
+	 * Get all the documents from the users collection
 	 * and insert them in the elasticsearch index
 	 */
 	'mapker:search/restoreUsersDocuments': function () {
@@ -723,17 +820,20 @@ Meteor.methods({
 			var body = getIndexBody('user', user);
 
 			// Index the resource
-			Search.index({
-				index: 'resources',
-				type: 'user',
-				id: id, // User id
-				body: body
-			});
+			if (Meteor.isServer) {
+				Search.index({
+					index: 'resources',
+					type: 'user',
+					id: id, // User id
+					body: body
+				});
+			}
 		}
 		console.log( users.length + " users indexed!" );
 	},
 	/**
-	 * @summary Get all the documents from the users collection
+	 * @description
+	 * Get all the documents from the place collection
 	 * and insert them in the elasticsearch index
 	 */
 	'mapker:search/restorePlacesDocuments': function () {
@@ -750,56 +850,98 @@ Meteor.methods({
 			var body = getIndexBody('place', place);
 
 			// Index the resource
-			Search.index({
-				index: 'resources',
-				type: 'place',
-				id: id, // Place id
-				body: body
-			});
+			if (Meteor.isServer) {
+				Search.index({
+					index: 'resources',
+					type: 'place',
+					id: id, // Place id
+					body: body
+				});
+			}
 		}
 		console.log( places.length + " places indexed!" );
 	},
 	/**
-	 * @summary Delete all the indexes, rebuild them and set their mapping
+	 * @description
+	 * Get all the documents from the event collection
+	 * and insert them in the elasticsearch index
+	 */
+	'mapker:search/restoreEventsDocuments': function () {
+		// Get all the places
+		var events = Events.find().fetch();
+		// Create the place documents
+		for (var i = 0; i < events.length; i++) {
+			var id = events[i]._id;
+			// Get the place data
+			var event = events[i];
+
+			// Format the body for the index query
+			var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
+			var body = getIndexBody('event', event);
+
+			// Index the resource
+			if (Meteor.isServer) {
+				Search.index({
+					index: 'resources',
+					type: 'event',
+					id: id, // Place id
+					body: body
+				});
+			}
+		}
+		console.log( events.length + " events indexed!" );
+	},
+	/**
+	 * @description
+	 * Delete all the indexes, rebuild them and set their mapping
 	 */
 	'mapker:search/resetIndexAndMaping': function () {
 		check(Meteor.userId(), String);
 
 		// Check if the user is an admin
 		if ( Roles.userIsInRole(Meteor.userId(), ['admin']) ) {
-			SearchMethods.resetIndex().then(function(val) {
-				// Now, register specific mapping definition for our specific types
-				SearchMethods.putMapping('user')
-				.then(SearchMethods.putMapping('place'))
-				.then(SearchMethods.putMapping('community'))
-				.then( function () {
-					console.log('Index reset complete');
+			if (Meteor.isServer) {
+				SearchMethods.resetIndex().then(function (val) {
+					// Now, register specific mapping definition for our specific types
+					SearchMethods.putMapping('user')
+					.then(SearchMethods.putMapping('place'))
+					.then(SearchMethods.putMapping('community'))
+					.then(SearchMethods.putMapping('event'))
+					.then( function () {
+						console.log('Index reset complete');
+					});
+				}).catch(function (err) {
+					console.log('resetIndex err', err);
 				});
-			}).catch(function (err) {
-				console.log('resetIndex err', err);
-			});
+			}
 		}
 	},
 	/**
-	 * @summary Restore the documents of the 'resources' index from the database
+	 * @description
+	 * Restore the documents of the 'resources' index from the database
 	 */
 	'mapker:search/restoreIndexDocuments': function () {
 		check(Meteor.userId(), String);
 
 		// Check if the user is an admin
 		if ( Roles.userIsInRole(Meteor.userId(), ['admin']) ) {
-			SearchMethods.restoreIndexDocuments( Places.find().fetch(), 'place' )
-			.then( SearchMethods.restoreIndexDocuments( Meteor.users.find().fetch(), 'user' ) )
-			.then( SearchMethods.restoreIndexDocuments( Communities.find().fetch(), 'community' ) )
-			.then( function () {
-				console.log('Documents restoration complete');
-			});
+			if (Meteor.isServer) {
+				SearchMethods.restoreIndexDocuments( Places.find().fetch(), 'place' )
+				.then( SearchMethods.restoreIndexDocuments( Meteor.users.find().fetch(), 'user' ) )
+				.then( SearchMethods.restoreIndexDocuments( Communities.find().fetch(), 'community' ) )
+				.then( SearchMethods.restoreIndexDocuments( Events.find().fetch(), 'event' ) )
+				.then( function () {
+					console.log('Documents restoration complete');
+				});
+			}
 		}
 	}
 });
 
 /**
- * @summary Build the body to insert into the index
+ * @description
+ * Build the body to insert into the index
+ *
  * @param {String} type - The type of the body to build. Can be 'user',
  * 'place' or 'community'
  * @param {Object} source - The complete document from which create the body
@@ -865,7 +1007,7 @@ SearchMethods.getIndexBody = function (type, source, callback) {
 		break;
 
 		case 'place':
-			var autocompleteFields = [];
+			let autocompleteFields = [];
 			if (source.name) {
 				body.name = source.name;
 				autocompleteFields.push(source.name);
@@ -925,7 +1067,63 @@ SearchMethods.getIndexBody = function (type, source, callback) {
 			if (source.cover) {
 				body.cover = { url: source.cover.url };
 			}
-			console.log('community body', body);
+			//console.log('community body', body);
+		break;
+
+		case 'event':
+			console.log('Event source: ', source);
+			let suggesterFields = [];
+
+			if (source.name) {
+				body.name = source.name;
+				suggesterFields.push(source.name);
+			}
+
+			if (source.organizer) {
+				body.organizer = source.organizer;
+			}
+
+			if (source.loc) {
+				body.loc = {lat: source.loc.lat, lon: source.loc.lon};
+			}
+
+			if (source.startDate) {
+				body.startDate = source.startDate;
+			}
+
+			if (source.endDate) {
+				body.endDate = source.endDate;
+			}
+
+			if (source.formattedAddress) {
+				body.formattedAddress = source.formattedAddress;
+			}
+
+			if (source.type) {
+				body.type = source.type;
+
+				let eventType = Taxons.findOne({ _id: source.type }, { fields: { name: 1 } });
+				if (eventType) { suggesterFields.push( eventType.name ); }
+			}
+
+			if (source.topic) {
+				body.topic = source.topic;
+
+				let eventTopic = Taxons.findOne({ _id: source.topic }, { fields: { name: 1 } });
+				if (eventTopic) { suggesterFields.push( eventTopic.name ); }
+			}
+
+			if (source.avatar && source.avatar.url) {
+				body.avatar = {url: source.avatar.url};
+			}
+
+			if (source.cover) {
+				body.cover = {
+					url: (source.cover.url ? source.cover.url : undefined)
+				};
+			}
+
+			body.event_suggester = {input: suggesterFields};
 		break;
 	} // End of the switch on 'type'
 
@@ -933,92 +1131,99 @@ SearchMethods.getIndexBody = function (type, source, callback) {
 };
 
 /**
- * @summary Delete the 'resources' ES index and recreate it
+ * @description
+ * Delete the 'resources' ES index and recreate it
+ *
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html
  * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html
  */
 SearchMethods.resetIndex = function () {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		// Delete the index
 		console.log('Will delete the resources index');
-		Search.indices.delete({index: 'resources'}, function (error, response) {
-			if (error) {
-				console.log('Error during resources index deletion: ' + JSON.stringify(error));
-				reject(error);
-			}
-			else {
-				console.log('The resources index has been deleted');
+		if (Meteor.isServer) {
+			Search.indices.delete({index: 'resources'}, function (error, response) {
+				if (error) {
+					console.log('Error during resources index deletion: ' + JSON.stringify(error));
+					reject(error);
+				}
+				else {
+					console.log('The resources index has been deleted');
 
-				var resourcesIdxConfig = {
-					index: "resources",
-					body: {
-						settings: {
-							analysis: {
-								analyzer: {
-									str_search_analyzer: {
-										tokenizer: "keyword",
-										filter: ["lowercase"]
+					var resourcesIdxConfig = {
+						index: "resources",
+						body: {
+							settings: {
+								analysis: {
+									analyzer: {
+										str_search_analyzer: {
+											tokenizer: "keyword",
+											filter: ["lowercase"]
+										},
+
+										str_index_analyzer: {
+											tokenizer: "standard",
+											filter: ["lowercase", "substring", "token_limit"]
+										},
+
+										autocomplete: {
+											type: "custom",
+											tokenizer: "keyword",
+											filter: ["lowercase", "substring"]
+										}
 									},
 
-									str_index_analyzer: {
-										tokenizer: "standard",
-										filter: ["lowercase", "substring", "token_limit"]
-									},
-
-									autocomplete: {
-										type: "custom",
-										tokenizer: "keyword",
-										filter: ["lowercase", "substring"]
-									}
-								},
-
-								filter: {
-									substring: {
-										type: "nGram",
-										min_gram: 1,
-										max_gram : 10
-									},
-									autocomplete_filter: {
-										type: "edge_ngram",
-										min_gram: 1,
-										max_gram: 20
-									},
-									token_limit: {
-										type: "limit",
-										max_token_count : 250
+									filter: {
+										substring: {
+											type: "nGram",
+											min_gram: 1,
+											max_gram : 10
+										},
+										autocomplete_filter: {
+											type: "edge_ngram",
+											min_gram: 1,
+											max_gram: 20
+										},
+										token_limit: {
+											type: "limit",
+											max_token_count : 250
+										}
 									}
 								}
 							}
 						}
-					}
-				};
-				// Re-create the index
-				Search.indices.create(resourcesIdxConfig, function(error, response) {
-					if (error) {
-						reject(error);
-					}
-					else {
-						console.log('The resources index has been re-created');
-						resolve(response);
-					}
-				});
-			}
-		});
+					};
+					// Re-create the index
+					Search.indices.create(resourcesIdxConfig, function (error, response) {
+						if (error) {
+							reject(error);
+						}
+						else {
+							console.log('The resources index has been re-created');
+							resolve(response);
+						}
+					});
+				}
+			});
+		}
 	});
 };
 
 /**
- * @summary Create an index
+ * @description
+ * Create an index
+ *
  * @param {String} index - The name of the index to create. Can be 'user', 'place' or 'community'
  */
 SearchMethods.putMapping = function (index) {
-	console.log('Will put mapping for ', index);
-	return new Promise(function(resolve, reject) {
+	var body;
+
+	return new Promise(function (resolve, reject) {
 		switch (index) {
 			case 'user':
 				body = {
 					user: {
-						properties:{
+						properties: {
 							id: { type: "string" },			// The MongoDB id
 							loc: { type: "geo_point" }, 		// profile.address.loc field
 							countryCode: { type: "string" },
@@ -1066,7 +1271,7 @@ SearchMethods.putMapping = function (index) {
 				body = {
 					// The resource object can be a place, a user or whatever
 					place:{
-						properties:{
+						properties: {
 							id: { type: "string" },			// The MongoDB id
 							loc: { type : "geo_point" }, 		// loc field
 							name: { type: "string", },
@@ -1131,6 +1336,45 @@ SearchMethods.putMapping = function (index) {
 				};
 			break;
 
+			case 'event':
+			body = {
+				// The resource object can be a place, a user or whatever
+				place:{
+					properties: {
+						id: { type: "string" },			// The MongoDB id
+						organizer: { id: "string", type: "String" },
+						loc: { type : "geo_point" }, 		// loc field
+						name: { type: "string", },
+						startDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
+						endDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
+						formattedAddress: { type: "string", index: "no" },
+						description: { type: "string" },
+						reservation: { type: "string" },
+						type: { type: "string" },
+						topic: { type: "string" },
+						cover: {
+							type: "object",
+							properties: {
+								url: { type: "string", index: "no" }
+							}
+						},
+						avatar: {
+							type: "object",
+							properties: {
+								url: { type: "string", index: "no" }
+							}
+						},
+						event_suggester: {
+							type: "completion",
+							search_analyzer: "str_search_analyzer",
+							index_analyzer: "autocomplete",
+							payloads: false
+						}
+					}
+				}
+			};
+			break;
+
 			default:
 				reject({message: 'Wrong index'});
 		}
@@ -1147,14 +1391,16 @@ SearchMethods.putMapping = function (index) {
 };
 
  /**
-  * @summary Restore every given documents in the index under the given type
+  * @description
+	* Restore every given documents in the index under the given type
+	*
 	* @param {Array} documents
 	* @param {String} type - The specific type of the documents to restore.
 	* Can be 'user', 'place' or 'community'
 	*/
 SearchMethods.restoreIndexDocuments = function (documents, type) {
 	console.log('Got the ' + type + ' documents');
-	return new Promise(function(resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		for (var i = 0; i < documents.length; i++) {
 			var id = documents[i]._id;
 			// Get the place data
