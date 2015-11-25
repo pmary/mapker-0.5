@@ -44,7 +44,8 @@ Package.onUse(function(api) {
     'tap:i18n',                  // https://atmospherejs.com/tap/i18n-ui
     'tap:i18n-db',               // https://atmospherejs.com/tap/i18n-db
     'juliancwirko:s-alert@3.1.0',// https://atmospherejs.com/juliancwirko/s-alert
-    'juliancwirko:s-alert-slide',
+    'juliancwirko:s-alert-slide',// https://atmospherejs.com/juliancwirko/s-alert
+    'matb33:collection-hooks',   // https://atmospherejs.com/matb33/collection-hooks
     'mapker:third-party',
     'mapker:bootstrap-daterangepicker',
     'mapker:quill'

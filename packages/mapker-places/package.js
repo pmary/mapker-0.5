@@ -80,7 +80,8 @@ Package.onUse(function(api) {
     'lib/namespace.js',
     'lib/places.js',
     'lib/methods.js',
-    'lib/routes.js'
+    'lib/routes.js',
+    'lib/collection_hooks.js'
   ], ['client', 'server']);
 
   api.addFiles([

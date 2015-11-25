@@ -294,11 +294,6 @@ var SearchMethods = {
 					filtered: {
 						query: {},
 						filter: {
-							bool: {
-								must: [],
-								should: [],
-      					//"must_not" : []
-							}
 						}
 					}
 				}
@@ -326,7 +321,8 @@ var SearchMethods = {
 		// If there is a bbox
 		if (queryObject.bbox) {
 			// Add it to the ES query filters
-			esQuery.body.query.filtered.filter.bool.must.push({
+			//esQuery.body.query.filtered.filter.bool.must.push({
+			esQuery.body.query.filtered.filter = {
 				geo_bounding_box: {
 					"user.loc":{
 						top: queryObject.bbox[3],
@@ -335,7 +331,7 @@ var SearchMethods = {
 						right: queryObject.bbox[2]
 					}
 				}
-			});
+			};
 		}
 
 		// Launch the search
@@ -667,137 +663,20 @@ Meteor.methods({
 	 * @description
 	 * Update a document in the ES index
 	 *
-	 * @param {String} docId - The MongoDB id of the document to update in the index
 	 * @param {String} type - The type of the document to update
+	 * @param {String} doc - The MongoDB document
 	 */
-	'mapker:search/updateDocument': function (docId, type) {
+	'mapker:search/updateDocument': function (type, doc) {
 		check(Meteor.userId(), String);
-		check(docId, String);
+		check(doc, Object);
 		check(type, String);
 
-		var doc;
-
-		switch (type) {
-			case 'user':
-				doc = Meteor.users.findOne({_id: docId});
-			break;
-
-			case 'place':
-				doc = Places.findOne({_id: docId});
-			break;
-
-			case 'community':
-				doc = Communities.findOne({_id: docId});
-			break;
-
-			default:
-				return;
-		}
-		// console.log('doc ', JSON.stringify(doc));
-
-		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
-		var body = getIndexBody(type, doc);
-
-		// Update the documents
 		if (Meteor.isServer) {
-			Search.index({
-				index: 'resources',
-				type: type,
-				id: docId, // Document id
-				body: body
-			}, function (error, response) {});
-		}
-	},
-	/**
-	 * @description
-	 * Update a user document in the ES 'resources' index
-	 */
-	'mapker:search/updateUserESDocument': function (userId) {
-		check(userId, String);
+			SearchMethods.indexResource(type, doc).then(function (res) {
 
-		// Get the user data
-		var user = Meteor.users.findOne({_id: userId});
-
-		// Create the user documents
-		var id = user._id;
-
-		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
-		var body = getIndexBody('user', user);
-
-		// Index the resource
-		if (Meteor.isServer) {
-			Search.index({
-				index: 'resources',
-				type: 'user',
-				id: id, // User id
-				body: body
-			}, function (error, response) {});
-		}
-	},
-	/**
-	 * @description
-	 * Update an event document in the ES 'resources' index
-	 */
-	'mapker:search/updateEventESDocument': function (eventId) {
-		check(eventId, String);
-
-		// Get the event data
-		var event = Events.findOne({_id: eventId});
-
-		if (! event) {
-			console.warn('No event find');
-			return false;
-		}
-
-		// Create the event document
-		var id = event._id;
-
-		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
-		var body = getIndexBody('event', event);
-
-		// Index the resource
-		if (Meteor.isServer) {
-			Search.index({
-				index: 'resources',
-				type: 'event',
-				id: id, // Place id
-				body: body
-			}, function (error, response) {});
-		}
-	},
-	/**
-	 * @description
-	 * Update a user document in the ES 'resources' index
-	 */
-	'mapker:search/updatePlaceESDocument': function (placeId) {
-		check(placeId, String);
-
-		// Get the place data
-		var place = Places.findOne({_id: placeId});
-
-		if (! place) {
-			console.warn('No place find');
-			return false;
-		}
-
-		// Create the place documents
-		var id = place._id;
-
-		// Format the body for the index query
-		var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
-		var body = getIndexBody('place', place);
-
-		// Index the resource
-		if (Meteor.isServer) {
-			Search.index({
-				index: 'resources',
-				type: 'place',
-				id: id, // Place id
-				body: body
-			}, function (error, response) {});
+			}, function (err) {
+				console.log('Error in mapker:search/updateDocument with ' + type + ' ' + doc._id);
+			});
 		}
 	},
 	/**
@@ -906,7 +785,7 @@ Meteor.methods({
 					SearchMethods.putMapping('user')
 					.then(SearchMethods.putMapping('place'))
 					.then(SearchMethods.putMapping('community'))
-					.then(SearchMethods.putMapping('event'))
+					//.then(SearchMethods.putMapping('event'))
 					.then( function () {
 						console.log('Index reset complete');
 					});
@@ -918,7 +797,7 @@ Meteor.methods({
 	},
 	/**
 	 * @description
-	 * Restore the documents of the 'resources' index from the database
+	 * Restore the documents of the 'resources' index from MongoDB
 	 */
 	'mapker:search/restoreIndexDocuments': function () {
 		check(Meteor.userId(), String);
@@ -926,10 +805,10 @@ Meteor.methods({
 		// Check if the user is an admin
 		if ( Roles.userIsInRole(Meteor.userId(), ['admin']) ) {
 			if (Meteor.isServer) {
-				SearchMethods.restoreIndexDocuments( Places.find().fetch(), 'place' )
-				.then( SearchMethods.restoreIndexDocuments( Meteor.users.find().fetch(), 'user' ) )
-				.then( SearchMethods.restoreIndexDocuments( Communities.find().fetch(), 'community' ) )
-				.then( SearchMethods.restoreIndexDocuments( Events.find().fetch(), 'event' ) )
+				SearchMethods.restoreIndexDocuments( Meteor.users.find(), 'user' )
+				.then( SearchMethods.restoreIndexDocuments( Communities.find(), 'community' ) )
+				.then( SearchMethods.restoreIndexDocuments( Places.find(), 'place' ) )
+				//.then( SearchMethods.restoreIndexDocuments( Events.find(), 'event' ) )
 				.then( function () {
 					console.log('Documents restoration complete');
 				});
@@ -947,187 +826,201 @@ Meteor.methods({
  * @param {Object} source - The complete document from which create the body
  * @return {Object} body - The body to insert into the ES index
  */
-SearchMethods.getIndexBody = function (type, source, callback) {
-	// Init the body object
-	var body = {};
+SearchMethods.getIndexBody = function (type, source) {
+	return new Promise(function (resolve, reject) {
+		// Init the body object
+		var body = {};
 
-	// Build a different body following the document type
-	switch (type) {
-		case 'user':
-			// Flatenize the skills as an array rather than an object
-			body.skills_suggest = { input: [] };
-			if (source.profile.skills) {
-				body.skills = [];
-				for (var y = 0; y < source.profile.skills.length; y++) {
-					body.skills.push(source.profile.skills[y].title);
+		// Build a different body following the document type
+		switch (type) {
+			case 'user':
+			//console.log(source.profile.fullname);
+				// Flatenize the skills as an array rather than an object
+				body.skills_suggest = { input: [] };
+				if (source.profile.skills) {
+					body.skills = [];
+					for (var y = 0; y < source.profile.skills.length; y++) {
+						body.skills.push(source.profile.skills[y].title);
+					}
+					body.skills_suggest.input = body.skills;
 				}
-				body.skills_suggest.input = body.skills;
-			}
 
-			if (source.profile.fullname) {
-				body.name = source.profile.fullname;
-				body.skills_suggest.input.push(source.profile.fullname);
-				body.fullname_suggest = { input: [source.profile.fullname] };
-			}
+				if (source.profile.fullname) {
+					body.name = source.profile.fullname;
+					body.skills_suggest.input.push(source.profile.fullname);
+					body.fullname_suggest = { input: [source.profile.fullname] };
+				}
 
-			if (source.profile.nicHandle) {
-				body.nicHandle = source.profile.nicHandle;
-			}
+				if (source.profile.nicHandle) {
+					body.nicHandle = source.profile.nicHandle;
+				}
 
-			if (source.profile.activity) {
-				body.skills_suggest.input.push(source.profile.activity);
-				body.activity = source.profile.activity;
-			}
+				if (source.profile.activity) {
+					body.skills_suggest.input.push(source.profile.activity);
+					body.activity = source.profile.activity;
+				}
 
-			if (source.profile.address.loc && source.profile.address.loc.lat && source.profile.address.loc.lon) {
-				body.loc = {lat: source.profile.address.loc.lat, lon: source.profile.address.loc.lon};
-			}
+				if (
+					source.profile.address &&
+					source.profile.address.loc &&
+					source.profile.address.loc.lat &&
+					source.profile.address.loc.lon
+				) {
+					body.loc = {lat: source.profile.address.loc.lat, lon: source.profile.address.loc.lon};
+				}
+				else {
+					body.loc = {lat: 0, lon: 0};
+				}
 
-			if (source.profile.address.countryCode) {
-				body.countryCode = source.profile.address.countryCode;
-			}
+				if (source.profile.address && source.profile.address.countryCode) {
+					body.countryCode = source.profile.address.countryCode;
+				}
 
-			if (source.profile.address.zipcode) {
-				body.zipcode = source.profile.address.zipcode;
-			}
+				if (source.profile.address && source.profile.address.zipcode) {
+					body.zipcode = source.profile.address.zipcode;
+				}
 
-			if (source.profile.address.city) {
-				body.city = source.profile.address.city;
-			}
+				if (source.profile.address && source.profile.address.city) {
+					body.city = source.profile.address.city;
+				}
 
-			if (source.profile.avatar && source.profile.avatar.url) {
-				body.avatar = {url: source.profile.avatar.url};
-			}
+				if (source.profile.avatar && source.profile.avatar.url) {
+					body.avatar = {url: source.profile.avatar.url};
+				}
 
-			if (source.profile.cover) {
-				body.cover = {
-					url: (source.profile.cover.url ? source.profile.cover.url : undefined)
-				};
-			}
-		break;
+				if (source.profile.cover) {
+					body.cover = {
+						url: (source.profile.cover.url ? source.profile.cover.url : undefined)
+					};
+				}
+			break;
 
-		case 'place':
-			let autocompleteFields = [];
-			if (source.name) {
-				body.name = source.name;
-				autocompleteFields.push(source.name);
-			}
+			case 'place':
+				let autocompleteFields = [];
+				if (source.name) {
+					body.name = source.name;
+					autocompleteFields.push(source.name);
+				}
 
-			if (source.nicHandle) {
-				body.nicHandle = source.nicHandle;
-			}
+				if (source.nicHandle) {
+					body.nicHandle = source.nicHandle;
+				}
 
-			if (source.types) {
-				body.types = source.types;
-				autocompleteFields = autocompleteFields.concat(source.types);
-			}
+				if (source.types) {
+					body.types = source.types;
+					autocompleteFields = autocompleteFields.concat(source.types);
+				}
 
-			if (source.specialities) {
-				body.specialities = source.specialities;
-				autocompleteFields = autocompleteFields.concat(source.specialities);
-			}
-			body.activities_suggest = {input: autocompleteFields};
+				if (source.specialities) {
+					body.specialities = source.specialities;
+					autocompleteFields = autocompleteFields.concat(source.specialities);
+				}
+				body.activities_suggest = {input: autocompleteFields};
 
-			if (source.formattedAddress) {
-				body.formattedAddress = source.formattedAddress;
-			}
+				if (source.formattedAddress) {
+					body.formattedAddress = source.formattedAddress;
+				}
 
-			if (source.loc) {
-				body.loc = {lat: source.loc.lat, lon: source.loc.lon};
-			}
+				if (source.loc) {
+					body.loc = {lat: source.loc.lat, lon: source.loc.lon};
+				}
 
-			if (source.avatar && source.avatar.url) {
-				body.avatar = {url: source.avatar.url};
-			}
+				if (source.avatar && source.avatar.url) {
+					body.avatar = {url: source.avatar.url};
+				}
 
-			if (source.cover) {
-				body.cover = {
-					url: (source.cover.url ? source.cover.url : undefined)
-				};
-			}
-		break;
+				if (source.cover) {
+					body.cover = {
+						url: (source.cover.url ? source.cover.url : undefined)
+					};
+				}
+			break;
 
-		case 'community':
-			//console.log('source', source);
-			body.suggester = { input: [] };
+			case 'community':
+				//console.log('source', source);
+				body.suggester = { input: [] };
 
-			if (source.name) {
-				body.suggester.input.push(source.name);
-				body.name = source.name;
-			}
+				if (source.name) {
+					body.suggester.input.push(source.name);
+					body.name = source.name;
+				}
 
-			if (source.nicHandle) {
-				body.suggester.input.push(source.nicHandle);
-			}
+				if (source.nicHandle) {
+					body.suggester.input.push(source.nicHandle);
+				}
 
-			if (source.avatar && source.avatar.url) {
-				body.avatar = { url: source.avatar.url };
-			}
+				if (source.avatar && source.avatar.url) {
+					body.avatar = { url: source.avatar.url };
+				}
 
-			if (source.cover) {
-				body.cover = { url: source.cover.url };
-			}
-			//console.log('community body', body);
-		break;
+				if (source.cover) {
+					body.cover = { url: source.cover.url };
+				}
+				//console.log('community body', body);
+			break;
 
-		case 'event':
-			console.log('Event source: ', source);
-			let suggesterFields = [];
+			case 'event':
+				//console.log('Event source: ', source);
+				let suggesterFields = [];
 
-			if (source.name) {
-				body.name = source.name;
-				suggesterFields.push(source.name);
-			}
+				if (source.name) {
+					body.name = source.name;
+					suggesterFields.push(source.name);
+				}
 
-			if (source.organizer) {
-				body.organizer = source.organizer;
-			}
+				if (source.organizer) {
+					body.organizer = source.organizer;
+				}
 
-			if (source.loc) {
-				body.loc = {lat: source.loc.lat, lon: source.loc.lon};
-			}
+				if (source.loc) {
+					body.loc = {lat: source.loc.lat, lon: source.loc.lon};
+				}
 
-			if (source.startDate) {
-				body.startDate = source.startDate;
-			}
+				if (source.startDate) {
+					body.startDate = source.startDate;
+				}
 
-			if (source.endDate) {
-				body.endDate = source.endDate;
-			}
+				if (source.endDate) {
+					body.endDate = source.endDate;
+				}
 
-			if (source.formattedAddress) {
-				body.formattedAddress = source.formattedAddress;
-			}
+				if (source.formattedAddress) {
+					body.formattedAddress = source.formattedAddress;
+				}
 
-			if (source.type) {
-				body.type = source.type;
+				if (source.type) {
+					body.type = source.type;
 
-				let eventType = Taxons.findOne({ _id: source.type }, { fields: { name: 1 } });
-				if (eventType) { suggesterFields.push( eventType.name ); }
-			}
+					let eventType = Taxons.findOne({ _id: source.type }, { fields: { name: 1 } });
+					if (eventType) { suggesterFields.push( eventType.name ); }
+				}
 
-			if (source.topic) {
-				body.topic = source.topic;
+				if (source.topic) {
+					body.topic = source.topic;
 
-				let eventTopic = Taxons.findOne({ _id: source.topic }, { fields: { name: 1 } });
-				if (eventTopic) { suggesterFields.push( eventTopic.name ); }
-			}
+					let eventTopic = Taxons.findOne({ _id: source.topic }, { fields: { name: 1 } });
+					if (eventTopic) { suggesterFields.push( eventTopic.name ); }
+				}
 
-			if (source.avatar && source.avatar.url) {
-				body.avatar = {url: source.avatar.url};
-			}
+				if (source.avatar && source.avatar.url) {
+					body.avatar = {url: source.avatar.url};
+				}
 
-			if (source.cover) {
-				body.cover = {
-					url: (source.cover.url ? source.cover.url : undefined)
-				};
-			}
+				if (source.cover) {
+					body.cover = {
+						url: (source.cover.url ? source.cover.url : undefined)
+					};
+				}
 
-			body.event_suggester = {input: suggesterFields};
-		break;
-	} // End of the switch on 'type'
+				body.event_suggester = {input: suggesterFields};
+			break;
 
-	callback(null, body);
+			default:
+				reject('Unknow type');
+		} // End of the switch on 'type'
+
+		resolve(body);
+	});
 };
 
 /**
@@ -1260,7 +1153,9 @@ SearchMethods.putMapping = function (index) {
 								type: "completion",
 								search_analyzer: "str_search_analyzer",
 								index_analyzer: "autocomplete",
-								payloads: false
+								payloads: false,
+								//max_token_length: 400,
+								max_input_length: 25
 							}
 						}
 					}
@@ -1337,42 +1232,42 @@ SearchMethods.putMapping = function (index) {
 			break;
 
 			case 'event':
-			body = {
-				// The resource object can be a place, a user or whatever
-				place:{
-					properties: {
-						id: { type: "string" },			// The MongoDB id
-						organizer: { id: "string", type: "String" },
-						loc: { type : "geo_point" }, 		// loc field
-						name: { type: "string", },
-						startDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
-						endDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
-						formattedAddress: { type: "string", index: "no" },
-						description: { type: "string" },
-						reservation: { type: "string" },
-						type: { type: "string" },
-						topic: { type: "string" },
-						cover: {
-							type: "object",
-							properties: {
-								url: { type: "string", index: "no" }
+				body = {
+					// The resource object can be a place, a user or whatever
+					place:{
+						properties: {
+							id: { type: "string" },			// The MongoDB id
+							organizer: { id: "string", type: "String" },
+							loc: { type : "geo_point" }, 		// loc field
+							name: { type: "string", },
+							startDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
+							endDate: { type: "date", format: "yyyy/MM/dd HH:mm:ss" },
+							formattedAddress: { type: "string", index: "no" },
+							description: { type: "string" },
+							reservation: { type: "string" },
+							type: { type: "string" },
+							topic: { type: "string" },
+							cover: {
+								type: "object",
+								properties: {
+									url: { type: "string", index: "no" }
+								}
+							},
+							avatar: {
+								type: "object",
+								properties: {
+									url: { type: "string", index: "no" }
+								}
+							},
+							event_suggester: {
+								type: "completion",
+								search_analyzer: "str_search_analyzer",
+								index_analyzer: "autocomplete",
+								payloads: false
 							}
-						},
-						avatar: {
-							type: "object",
-							properties: {
-								url: { type: "string", index: "no" }
-							}
-						},
-						event_suggester: {
-							type: "completion",
-							search_analyzer: "str_search_analyzer",
-							index_analyzer: "autocomplete",
-							payloads: false
 						}
 					}
-				}
-			};
+				};
 			break;
 
 			default:
@@ -1381,7 +1276,8 @@ SearchMethods.putMapping = function (index) {
 
 		Search.indices.putMapping({index: "resources", type: index, body: body}, function (error, response) {
 			if (error) {
-				resolve(error, index, body);
+				console.log('Error in Search.indices.putMapping for ' + index + ': ' + error);
+				resolve(error);
 			}
 			else {
 				resolve(response);
@@ -1394,39 +1290,65 @@ SearchMethods.putMapping = function (index) {
   * @description
 	* Restore every given documents in the index under the given type
 	*
-	* @param {Array} documents
+	* @param {Object} cursor - A pointer to the result set of a query
 	* @param {String} type - The specific type of the documents to restore.
 	* Can be 'user', 'place' or 'community'
 	*/
-SearchMethods.restoreIndexDocuments = function (documents, type) {
-	console.log('Got the ' + type + ' documents');
+SearchMethods.restoreIndexDocuments = function (cursor, type) {
 	return new Promise(function (resolve, reject) {
-		for (var i = 0; i < documents.length; i++) {
-			var id = documents[i]._id;
-			// Get the place data
-			var doc = documents[i];
 
-			// Format the body for the index query
-			var getIndexBody = Meteor.wrapAsync(SearchMethods.getIndexBody);
-			var body = getIndexBody(type, doc);
+		var count = cursor.count();
+		var iterator = 0;
 
-			// Index the resource
+		// For each documents
+		cursor.forEach(function (doc) {
+			// Index the document
+			SearchMethods.indexResource(type, doc).then(function (body) {
+
+				if ((count - 1) === iterator) {
+					resolve();
+				}
+
+				iterator++;
+
+			}, function(err) {
+			  console.log('Error for a "' + type + '" in SearchMethods.indexResource: ' + err);
+				reject(err);
+			});
+		});
+
+	});
+};
+
+/**
+ * @description
+ * Map the document data to match the related type index mapping and index it
+ *
+ * @param {String} type - The type of the document to index. Can be 'user',
+ * 'project', 'community', 'place' or 'event'
+ * @param {Object} doc - MongoDB document
+ */
+SearchMethods.indexResource = function (type, doc) {
+	return new Promise(function (resolve, reject) {
+
+		SearchMethods.getIndexBody(type, doc).then(function (body) {
 			Search.index({
 				index: 'resources',
 				type: type,
-				id: id, // Place id
+				id: doc._id, // MongoDB Document id
 				body: body
 			}, function (error, response) {
 				if (error) {
-					reject();
+					console.log('Error in Search.index for a "' + type + '" from SearchMethods.indexResource: ' + error);
+					reject(error);
 				}
 				else {
-					// Check if we have indexed every documents
-					if (documents.length === i) {
-						resolve();
-					}
+					resolve(response);
 				}
 			});
-		}
+		}, function(err) {
+			reject(err);
+		});
+
 	});
 };

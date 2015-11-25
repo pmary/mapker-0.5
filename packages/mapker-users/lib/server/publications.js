@@ -41,8 +41,33 @@ Meteor.publish('userCommunities', function (userId) {
 		for (var i = 0; i < user.profile.network.communities.length; i++) {
 			communities.push(user.profile.network.communities[i].id);
 		}
-		
+
     return Communities.find({_id: { $in: communities}}, { fields: {}, reactive: false});
+  }
+  else {
+    return;
+  }
+});
+
+Meteor.publish('userEvents', function (userId) {
+	check(userId, String);
+
+	var user = Meteor.users.findOne({_id: userId});
+
+	// If the user has, at least, an event
+  if (
+		user &&
+		user.profile &&
+		user.profile.events &&
+		user.profile.events.length
+	) {
+		// Get the ids of the user events
+		var events = [];
+		for (var i = 0; i < user.profile.events.length; i++) {
+			events.push(user.profile.events[i].id);
+		}
+
+    return Events.find({_id: { $in: events}}, { fields: {}, reactive: false});
   }
   else {
     return;

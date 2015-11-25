@@ -1,0 +1,133 @@
+#place-profile-page {
+	.validation-in-progess {
+		position: absolute;
+		top: 115px;
+    margin-left: 50%;
+    z-index: 2;
+    left: 65px;
+		width: 30px;
+		height: 30px;
+		background: #FB3975;
+		color: #fff;
+		font-size: 13px;
+		text-align: center;
+		line-height: 25px;
+		border-radius: 30px;
+		border: 3px solid #E42C63;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	.profile-avatar {
+		width: 180px;
+		height: 180px;
+		background-color: #eeeeee;
+		position: absolute;
+		top: 120px;
+		margin-left: 50%;
+		left: -90px;
+		border-radius: 15px;
+		text-align: center;
+		overflow: hidden;
+		text-align: center;
+		border: 2px solid #FAFAFC;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+		padding-right: 0px;
+		padding-left: 0px;
+
+		@media screen and (max-width: 1440px) {
+			top: 90px;
+		}
+
+		.edit-cover-icon {
+			top: 69px;
+		}
+	}
+
+	#resource-infos {
+		background-color: #ffffff;
+		padding-top: 35px;
+		padding-bottom: 30px;
+		border-bottom: 2px solid #efefef;
+
+		#resource-infos-identity {
+			.icon-place-dot {
+				display: inline-block;
+				float: left;
+				width: 35px;
+				height: 35px;
+				margin-right: 15px;
+			}
+
+			#identity {
+				display: inline-block;
+			}
+		}
+	}
+
+	#inner-nav {
+		background-color: #ffffff;
+		margin-bottom: 50px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+		.nav {
+			li {
+				&.active,
+				&:hover {
+					&:after {
+						content: " ";
+					  width: 100%;
+					  height: 4px;
+					  display: block;
+					  position: absolute;
+					  background-color: #FC3975;
+					  bottom: -5px;
+					}
+				}
+			}
+		}
+	}
+
+	#social-bar {
+		position: absolute;
+		height: 60px;
+		padding-top: 10px;
+		bottom: 0px;
+		width: 100%;
+		background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
+
+		.col-md-12 {
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+	}
+
+	.profile-cover {
+		background-size: cover;
+		background-image: url(/images/fond-cover-place.png);
+	}
+
+	.profile-avatar-image {
+		position: absolute;
+		left: 0;
+		top: 0;
+		margin: 0;
+		display: block;
+		width: auto;
+		height: auto;
+		min-width: 100%;
+		min-height: 100%;
+		max-height: none;
+		max-width: none;
+
+		@media screen and (max-width: 1440px) {
+			top: 100px;
+		}
+	}
+
+	.popover #submit-identity {
+		display: none;
+	}
+}

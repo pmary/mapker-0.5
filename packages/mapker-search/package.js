@@ -34,7 +34,11 @@ Package.onUse(function(api) {
     // Communities search
     'lib/client/template/search_communities/search_communities.html',
     'lib/client/template/search_communities/search_communities.scss',
-    'lib/client/template/search_communities/search_communities.js'
+    'lib/client/template/search_communities/search_communities.js',
+    // Event search
+    'lib/client/template/search_events/search_events.html',
+    'lib/client/template/search_events/search_events.scss',
+    'lib/client/template/search_events/search_events.js'
   ], ['client']);
 
   api.addFiles([

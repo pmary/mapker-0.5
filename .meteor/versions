@@ -77,6 +77,7 @@ mapker:search@0.1.0
 mapker:taxons@0.0.1
 mapker:third-party@0.1.0
 mapker:users@0.1.4
+matb33:collection-hooks@0.7.15
 meteor@1.1.10
 meteor-base@1.0.1
 meteorhacks:async@1.0.0

@@ -222,6 +222,38 @@ Router.route('/user/:_id/places', {
   }
 });
 
+Router.route('/user/:_id/events', {
+  name: 'userProfileEvents',
+  template: 'userProfileEvents',
+  layoutTemplate: 'UserProfileLayout',
+  yieldRegions: {
+    'userProfileEvents': {to: 'content'}
+  },
+  loadingTemplate: 'loader',
+  waitOn: function () {
+    return [
+      Meteor.subscribe('user', this.params._id),
+      Meteor.subscribe('countriesList'),
+      Meteor.subscribe('userEvents', this.params._id)
+    ];
+  },
+  data: function () {
+    templateData = {
+      user: Meteor.users.findOne({_id: this.params._id}),
+      events: Events.find()
+    };
+    return templateData;
+  },
+  after: function() {
+    // Send the pageview to GA
+    ga('send', 'pageview', '/user/'+this.params._id+'/events');
+
+    // Set the tab as active
+    $('.user-profile-page .nav li').removeClass('active');
+    $('.user-profile-page .nav li#nav-events').addClass('active');
+  }
+});
+
 Router.route('/user/:_id/network', {
   name: 'userProfileNetwork',
   template: 'userProfileNetwork',

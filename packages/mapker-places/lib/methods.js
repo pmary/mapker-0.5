@@ -111,11 +111,6 @@ Meteor.methods({
 							console.log(error);
 						}
 					});
-
-				// Update the place ElasticSearch document
-				// We doesn't insert the place in the ES index anymore because it must
-				// no be searchable until we haven't validate it
-				//Meteor.call('mapker:search/updatePlaceESDocument', placeId);
 		  }
 		});
 
@@ -191,9 +186,6 @@ Meteor.methods({
 					specialities: place.specialities,
 					types: place.types
 				} });
-
-				// Update the place ElasticSearch document
-				Meteor.call('mapker:search/updatePlaceESDocument', place.id);
 			}
 		}
 	},
@@ -228,9 +220,6 @@ Meteor.methods({
 					formattedAddress: place.formattedAddress,
 					loc: { lat: place.loc[0], lon: place.loc[1] }
 				} });
-
-				// Update the place ElasticSearch document
-				Meteor.call('mapker:search/updatePlaceESDocument', place.id);
 			}
 		}
 	},
@@ -258,9 +247,6 @@ Meteor.methods({
 						'links.twitter': placeSocialProfiles.twitter,
 						'links.website': placeSocialProfiles.website
 					} });
-
-					// Update the place ElasticSearch document
-					Meteor.call('mapker:search/updatePlaceESDocument', placeSocialProfiles.id);
 				});
 			}
 		}

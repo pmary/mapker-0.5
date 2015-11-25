@@ -30,18 +30,27 @@ Package.onUse(function(api) {
     'lib/client/templates/user_profile/user_profile_layout.html',
     'lib/client/templates/user_profile/user_profile_layout.scss',
     'lib/client/templates/user_profile/user_profile_layout.js',
+    // Bio
     'lib/client/templates/user_profile/user_profile_bio/user_profile_bio.html',
     'lib/client/templates/user_profile/user_profile_bio/user_profile_bio.css',
     'lib/client/templates/user_profile/user_profile_bio/user_profile_bio.js',
+    // Network
     'lib/client/templates/user_profile/user_profile_network/user_profile_network.html',
     'lib/client/templates/user_profile/user_profile_network/user_profile_network.scss',
     'lib/client/templates/user_profile/user_profile_network/user_profile_network.js',
+    // Places
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.html',
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.scss',
     'lib/client/templates/user_profile/user_profile_places/user_profile_places.js',
+    // Skills
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.html',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.scss',
     'lib/client/templates/user_profile/user_profile_skills/user_profile_skills.js',
+    // Events
+    'lib/client/templates/user_profile/user_profile_events/user_profile_events.html',
+    'lib/client/templates/user_profile/user_profile_events/user_profile_events.scss',
+    'lib/client/templates/user_profile/user_profile_events/user_profile_events.js',
+    // Communities
     'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.html',
     'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.scss',
     'lib/client/templates/user_profile/user_profile_communities/user_profile_communities.js',
@@ -69,7 +78,8 @@ Package.onUse(function(api) {
     'lib/namespace.js',
     'lib/methods.js',
     'lib/helpers.js',
-    'lib/routes.js'
+    'lib/routes.js',
+    'lib/collection_hooks.js'
   ], ['client', 'server']);
 
   api.addFiles([

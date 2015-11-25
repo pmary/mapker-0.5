@@ -63,9 +63,6 @@ Meteor.methods({
 			else if (img.role === "cover") {
 				Meteor.users.update({_id: img.resource.id}, { $set: {'profile.cover': image} });
 			}
-
-			// Update the user ElasticSearch document
-			Meteor.call('mapker:search/updateUserESDocument', Meteor.userId());
 		}
 		else if (img.resource.type === "place") {
 			if (img.role === "avatar") {
@@ -74,9 +71,6 @@ Meteor.methods({
 			else if (img.role === "cover") {
 				Places.update({_id: img.resource.id}, { $set: {'cover': image} });
 			}
-
-			// Update the user ElasticSearch document
-			Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
 		}
 		else if (img.resource.type === "community") {
 			if (img.role === "avatar") {
@@ -85,9 +79,6 @@ Meteor.methods({
 			else if (img.role === "cover") {
 				Communities.update({_id: img.resource.id}, { $set: {'cover': image} });
 			}
-
-			// Update the user ElasticSearch document
-			//Meteor.call('mapker:search/updatePlaceESDocument', img.resource.id);
 		}
 
 		return url;

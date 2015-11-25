@@ -233,6 +233,18 @@
 				}
 			}
 		}
+
+		li#menu-item-events:hover,
+		li.active#menu-item-events {
+			a {
+				color: #b727b3;
+
+				.resource-icon {
+					background-color: #b727b3;
+					border: 2px solid #951b81;
+				}
+			}
+		}
 	}
 }
 

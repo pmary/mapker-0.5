@@ -34,7 +34,8 @@ Package.onUse(function(api) {
     'lib/namespace.js',
     'lib/routes.js',
     'lib/helpers.js',
-    'lib/methods.js'
+    'lib/methods.js',
+    'lib/collection_hooks.js'
   ], ['client', 'server']);
 
   api.export('Events');

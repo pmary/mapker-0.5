@@ -26,8 +26,5 @@ Meteor.methods({
     var user = Meteor.user();
 
     var eventId = Events.insert( event );
-
-    // Add the even to the ES index
-    Meteor.call('mapker:search/updateEventESDocument', eventId);
   }
 });

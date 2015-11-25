@@ -63,6 +63,29 @@ Router.route('/search/communities', {
   }
 });
 
+Router.route('/search/events', {
+  name: 'searchEvents',
+  template: 'searchEvents',
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
+  waitOn: function () {
+  },
+  data: function () {
+  },
+  after: function () {
+    // Send the pageview to GA
+    ga('send', 'pageview', '/search/events');
+
+    // Make the body height to 100%
+    $('body, html').addClass('fullheight');
+  },
+  onStop: function () {
+    // Make sure that the fullheight class is remove when route change
+    $('body, html').removeClass('fullheight');
+  }
+});
+
 Router.route('/search/skills', {
   name: 'searchSkills',
   template: 'searchSkills',
