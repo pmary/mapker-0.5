@@ -187,6 +187,10 @@ Meteor.users.profileSchema = new SimpleSchema({
     type: Number,
     decimal: false,
     optional: true
+  },
+  events: {
+    type: [String],
+    optional: true
   }
 });
 

@@ -26,12 +26,14 @@ function debounce (fn, delay) {
  * }
  */
 var getUserIdentities = function (t) {
+  console.log('Enter in getUserIdentities');
   var user = Meteor.user(),
   fields = ['id', 'name', 'avatar'], // The fields in which we will process the search against the ES data
   ids = [],	// Will contain the identities id
   identities = []; // Will contains the identities details as objects
 
   if (user) {
+    console.log('Here is a user');
 		// First, push the user identity
 		var userIdentity = {
 			id: user._id,
@@ -41,6 +43,8 @@ var getUserIdentities = function (t) {
 			avatar: user.profile.avatar ? user.profile.avatar.url : Core.getDefaultAvatar('user')
 		};
 		identities.push(userIdentity);
+    t.identities.set( identities );
+    console.log('identities: ', identities);
 
     // Check if the user has places
     if (
@@ -77,7 +81,7 @@ var getUserIdentities = function (t) {
       }
     }
 
-    if (ids.length) {
+    if (ids.length > 1) {
       // Query the ES index to get the documents details
       Meteor.call('mapker:search/getDocumentById', ids, fields, function (err, res) {
         if (err) {
@@ -86,7 +90,7 @@ var getUserIdentities = function (t) {
 
 				if (res.hits && res.hits.hits) {
 					// Get the identities
-					for (var i = 0; i < res.hits.hits.length; i++) {
+					for (var i = 1; i < res.hits.hits.length; i++) {
 						var identity = {
 							id: res.hits.hits[i]._id,
 							name: res.hits.hits[i]._source.name,
@@ -95,6 +99,8 @@ var getUserIdentities = function (t) {
 						};
 						identities.push(identity);
 					}
+
+          console.log('identities: ', identities);
 
 					// Update the session variable
           t.identities.set( identities );
@@ -477,9 +483,7 @@ Template.modalCreateEvent.events({
             delete event.contributors[i].avatar;
           }
 
-          console.log('event: ', event);
-
-          Meteor.call('mapker:events/insert', event, function(err, res) {
+          Meteor.call('mapker:events/insert', event, function(err, eventId) {
             $('.modal-create-place #submit-place').removeClass('btn-loader');
 
             if (err) {
@@ -487,7 +491,7 @@ Template.modalCreateEvent.events({
             }
             else {
               // Redirect to the user places page
-  						Router.go('eventProfile', {_id: Meteor.user()._id});
+  						Router.go('eventProfile', {_id: eventId});
   						// Close the modal
   						Modal.hide();
             }

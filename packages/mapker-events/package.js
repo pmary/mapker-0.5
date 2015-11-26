@@ -32,6 +32,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'lib/namespace.js',
+    'lib/schema.js',
     'lib/routes.js',
     'lib/helpers.js',
     'lib/methods.js',

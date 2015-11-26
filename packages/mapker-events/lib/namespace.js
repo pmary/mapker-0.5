@@ -4,70 +4,57 @@
  */
 Events = new Meteor.Collection('events');
 
-var imageSchema = new SimpleSchema({
-  url: {
-    type: SimpleSchema.RegEx.Url
-  },
-  name: {
-    type: String
-  }
-});
+if (Meteor.isServer) {
+  /**
+   * @memberof Events
+   * @description
+   * Link an event to the resource for wich it has been created
+   *
+   * @param {String} eventId - The id of the event
+   * @param {String} members - The list of the event members
+   */
+  Events.linkEventToMembers = function (eventId, members) {
+    check(eventId, String);
+    check(members, Array);
 
-var addressSchema = new SimpleSchema({
-  city: {
-    type: String,
-    optional: true
-  },
-  countryCode: {
-    type: String,
-    regEx: /^[A-Z]{2}$/
-  },
-  formattedAddress: {
-    type: String,
-    optional: true
-  },
-  zipcode: {
-    type: String,
-    optional: true
-  },
-  loc: {
-    type: coordinatesSchema,
-    optional: true
-  }
-});
+    for (var i = 0; i < members.length; i++) {
+      switch (members[i].type) {
+        case 'user':
+          Meteor.users.update(
+            { _id: members[i].id },
+            {
+              $addToSet: {
+                'profile.events': eventId
+              }
+            }
+          );
+        break;
 
-var coordinatesSchema = new SimpleSchema({
-  lat: {
-    type: Number,
-    decimal: true
-  },
-  lon: {
-    type: Number,
-    decimal: true
-  }
-});
+        case 'place':
+          Places.update(
+            { _id: members[i].id },
+            {
+              $addToSet: {
+                events: eventId
+              }
+            }
+          );
+        break;
 
-Events.schema = new SimpleSchema({
-  name: {
-    type: String,
-    max: 50
-  },
-  avatar: {
-    type: imageSchema,
-    optional: true
-  },
-  cover: {
-    type: imageSchema,
-    optional: true
-  },
-  address: {
-    type: addressSchema,
-    optional: true
-  },
-  createdAt: {
-    type: Date
-  },
-  date: {
-    type: Date
-  },
-});
+        case 'community':
+          Communities.update(
+            { _id: members[i].id },
+            {
+              $addToSet: {
+                events: eventId
+              }
+            }
+          );
+        break;
+
+        default:
+
+      }
+    }
+  };
+}

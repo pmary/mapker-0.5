@@ -74,6 +74,10 @@ Communities.schema = new SimpleSchema({
     type: String,
     optional: true
   },
+  events: {
+    type: [String],
+    optional: true
+  },
   links: {
     type: linksSchema,
     optional: true
