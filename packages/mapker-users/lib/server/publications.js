@@ -61,13 +61,7 @@ Meteor.publish('userEvents', function (userId) {
 		user.profile.events &&
 		user.profile.events.length
 	) {
-		// Get the ids of the user events
-		var events = [];
-		for (var i = 0; i < user.profile.events.length; i++) {
-			events.push(user.profile.events[i].id);
-		}
-
-    return Events.find({_id: { $in: events}}, { fields: {}, reactive: false});
+    return Events.find({_id: { $in: user.profile.events}}, { fields: {}, reactive: false});
   }
   else {
     return;

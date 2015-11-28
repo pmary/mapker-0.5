@@ -1,10 +1,10 @@
 /////////////
 //  Hooks  //
 /////////////
-needToCreateProfile = function() {
+var needToCreateProfile = function() {
   var params = this.params;
   var id = params._id;
-  if (Meteor.user() && id == Meteor.user()._id) {
+  if (Meteor.user() && id === Meteor.user()._id) {
     var currentUser = Meteor.user();
     if (
       !currentUser.profile.activity ||
@@ -74,7 +74,7 @@ Router.route('/join/:token/:email/:firstname/:lastname', {
     $('body,html').scrollTop(0);
   },
   data: function () {
-    templateData = {
+    var templateData = {
       token: this.params.token,
       email: this.params.email,
       firstname: this.params.firstname,
@@ -145,7 +145,7 @@ Router.route('/user/:_id/bio', {
     ];
   },
   data: function () {
-    templateData = {
+    var templateData = {
       user: Meteor.users.findOne({_id: this.params._id})
     };
     return templateData;
@@ -175,7 +175,7 @@ Router.route('/user/:_id/skills', {
     ];
   },
   data: function () {
-    templateData = {
+    var templateData = {
       user: Meteor.users.findOne({_id: this.params._id})
     };
     return templateData;
@@ -206,7 +206,7 @@ Router.route('/user/:_id/places', {
     ];
   },
   data: function () {
-    templateData = {
+    var templateData = {
       user: Meteor.users.findOne({_id: this.params._id}),
       places: Places.find()
     };
@@ -238,9 +238,9 @@ Router.route('/user/:_id/events', {
     ];
   },
   data: function () {
-    templateData = {
+    var templateData = {
       user: Meteor.users.findOne({_id: this.params._id}),
-      events: Events.find()
+      userEvents: Events.find()
     };
     return templateData;
   },
@@ -277,7 +277,7 @@ Router.route('/user/:_id/network', {
       network = user.profile.network.users.connected;
     }
 
-    templateData = {
+    var templateData = {
       user: user,
       userNetwork: Meteor.users.find({_id: { $in: network}})
     };
@@ -309,7 +309,7 @@ Router.route('/user/:_id/communities', {
     ];
   },
   data: function () {
-    templateData = {
+    var templateData = {
       user: Meteor.users.findOne({_id: this.params._id}),
       communities: Communities.find()
     };

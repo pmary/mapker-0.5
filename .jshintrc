@@ -153,6 +153,7 @@
     "AWS": true,
     "Modal": true,
     "L": true,
+    "ga": true,
 
     // Mapker collections
     "Places": true,
