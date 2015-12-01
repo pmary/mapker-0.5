@@ -61,7 +61,16 @@ Meteor.publish('userEvents', function (userId) {
 		user.profile.events &&
 		user.profile.events.length
 	) {
-    return Events.find({_id: { $in: user.profile.events}}, { fields: {}, reactive: false});
+    var eventsCursor = Events.find({_id: { $in: user.profile.events}}, { fields: {}, reactive: false});
+		// Extract the topic id
+		var topicIds = eventsCursor.map(function(event) { return event.topic; });
+		var typeIds = eventsCursor.map(function(event) { return event.type; });
+		var taxonsIds = topicIds.concat(typeIds);
+
+		return [
+			eventsCursor,
+			Taxons.find({_id: {$in: taxonsIds}})
+		];
   }
   else {
     return;

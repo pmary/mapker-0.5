@@ -7,7 +7,10 @@ Template.userProfileEvents.rendered = function(){
 Template.userProfileEvents.helpers({
   hasEvents: function(field) {
 		return Events.find().count();
-	}
+	},
+  taxons: function() {
+    return Taxons.find().fetch();
+  }
 });
 
 Template.userProfileEvents.events({

@@ -39,8 +39,8 @@ Router.route('/events/:_id/about', {
     return Meteor.subscribe('event', this.params._id);
   },
   data: function () {
-    templateData = {
-      event: Places.findOne({_id: this.params._id})
+    var templateData = {
+      event: Events.findOne({_id: this.params._id})
     };
     return templateData;
   },

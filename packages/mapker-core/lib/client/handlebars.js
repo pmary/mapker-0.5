@@ -1,5 +1,7 @@
 /**
- * @summary Format a date to a specific format using moment.js
+ * @description
+ * Format a date to a specific format using moment.js
+ *
  * @param {String} date - ISO date, like 2015-08-31T12:12:32.710Z
  * @param {String} format - Date format, like "MM-DD-YYYY hh:mm:ss"
  * @see http://momentjs.com/docs/
@@ -12,7 +14,9 @@ UI.registerHelper('formatDate', function (date, format) {
 });
 
 /**
- * @summary Get the time between a given date and now
+ * @description
+ * Get the time between a given date and now
+ *
  * @param {String} date - ISO date, like 2015-08-31T12:12:32.710Zs"
  * @return {String} Like "18 days ago"
  * @see http://momentjs.com/docs/#/displaying/fromnow/
@@ -56,7 +60,10 @@ UI.registerHelper('splitByScoreAndLimit', function(activities, maxLength) {
 	return activities;
 });
 
-// Helper to user test equality
+/**
+ * @description
+ * Helper to user test equality
+ */
 UI.registerHelper('eq', function(v1, v2, options) {
 	var result;
 	if (v1 !== null) {
@@ -67,7 +74,7 @@ UI.registerHelper('eq', function(v1, v2, options) {
 			}
 		}
 		else {
-			if(v1 == v2){ result = true; }
+			if(v1 === v2){ result = true; }
 			else { result = false; }
 		}
 	}
@@ -75,7 +82,9 @@ UI.registerHelper('eq', function(v1, v2, options) {
 	return result;
 });
 
-// Check if a value exist in the given array
+/**
+ * @description Check if a value exist in the given array
+ */
 UI.registerHelper('inArray', function(value, array) {
 	if (value && array && array.constructor === Array) {
 		if (array.indexOf(value) > -1) {
@@ -91,7 +100,8 @@ UI.registerHelper('inArray', function(value, array) {
 });
 
 /**
- * @summary Check if the given user id is in the giver array of object
+ * @description
+ * Check if the given user id is in the giver array of object
  */
 UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObjects) {
 	if (! index || ! value || ! arrayOfObjects) return false;
@@ -104,7 +114,8 @@ UI.registerHelper('isValueInArrayOfObjects', function (index, value, arrayOfObje
 });
 
 /**
- * @summary Check if the given array is empty
+ * @description
+ * Check if the given array is empty
  */
 UI.registerHelper('isArrayEmpty', function (array) {
 	console.log('isArrayEmpty array', array);
@@ -129,7 +140,10 @@ UI.registerHelper('isArrayEmpty', function (array) {
 	return true;
 });
 
-// Check if the user have fill at least one social profile link
+/**
+ * @description
+ * Check if the user have fill at least one social profile link
+ */
 UI.registerHelper('hasSocialLink', function(links) {
 	var result = false;
 
@@ -142,10 +156,30 @@ UI.registerHelper('hasSocialLink', function(links) {
 	return result;
 });
 
-// replace \n and \r bu a <br> tag
+/**
+ * @description
+ * Replace \n and \r bu a <br> tag
+ */
 UI.registerHelper('htmlLineBreack', function(text) {
 	if (text !== null){
 		text = text.replace(/\r?\n/g, '<br>');
 	}
 	return text;
+});
+
+
+/**
+ * @description
+ * Return a taxon from a taxons array by it's id
+ * @see http://api.jquery.com/jQuery.grep/
+ */
+UI.registerHelper('getTaxonById', function(taxons, id) {
+	check(taxons, Array);
+	check(id, String);
+
+	for (let i = 0; i < taxons.length; i++) {
+		if (taxons[i]._id === id) {
+			return taxons[i].name;
+		}
+	}
 });

@@ -14,7 +14,7 @@ Meteor.methods({
 			city              : String,
 			contributors      : Array,
       countryCode       : String,
-      description       : String,
+      about     			  : String,
       endDate           : String,
       formattedAddress  : String,
       loc: {
@@ -33,6 +33,7 @@ Meteor.methods({
 
 		// Format the data to match the collection schema
 		var event = {
+			about: data.about,
 			address: {
 		    city: data.city,
 		    countryCode: data.countryCode,
@@ -55,7 +56,9 @@ Meteor.methods({
 		    }
 		  ],
 		  name: data.name,
-			start: data.endDate
+			start: data.endDate,
+			topic: data.topic,
+			type: data.type
 		};
 		// Add the collaborators
 		for (var i = 0; i < data.contributors.length; i++) {

@@ -13,8 +13,8 @@ Events.validateEventCreate = function (event) {
   var endDateError = Core.isValidDate(event.endDate);
   if (startDateError || endDateError) { errors.date = startDateError; }
 
-  var descriptionError = Core.isFilledValidation(event.descriptionText);
-	if (descriptionError) { errors.description = descriptionError; }
+  var aboutError = Core.isFilledValidation(event.aboutText);
+	if (aboutError) { errors.about = aboutError; }
 
   var contributorsError = Core.isArrayValidation(event.contributors);
 	if (contributorsError) { errors.contributors = contributorsError; }

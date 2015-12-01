@@ -6,8 +6,8 @@ Template.placeProfileLayout.helpers({
 	 * @return {Boolean}
 	 */
 	isAdmin: function () {
-		if (this.place && Meteor.user()) {
-			var isAdmin = Places.findOne({
+		if (this.event && Meteor.user()) {
+			var isAdmin = Events.findOne({
 				_id: this.place._id,
 				members: { $elemMatch: { id: Meteor.user()._id, admin: true } }
 			});

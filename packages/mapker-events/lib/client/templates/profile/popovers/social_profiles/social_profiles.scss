@@ -1,0 +1,117 @@
+#resource-infos-social-profiles {
+  padding-top: 15px;
+
+  &:hover #edit-social-profiles {
+  	display: block;
+  }
+
+  #social-profiles {
+    &:hover {
+      .edit-social-profiles {
+        display: block;
+      }
+    }
+
+    .edit-social-profiles {
+      &:hover {
+        display: block;
+      }
+
+      padding: 10px;
+      position: absolute;
+      right: -30px;
+      top: 0px;
+      text-decoration: none;
+      color: #1C1C1C;
+      cursor: pointer;
+      display: none;
+    }
+  }
+
+  .popover {
+  	width: 320px;
+
+    &.update-social-profile-popover {
+      right: 0px;
+      left: auto;
+      top: 40px;
+
+      &:before {
+        position: absolute;
+        content: "\e253";
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        top: -10px;
+        right: 7px;
+        color: #FAFAFC;
+        text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+
+    &.update-place-location-popover {
+      right: 0px;
+      left: auto;
+      top: 75px;
+      width: 307px;
+      max-width: 307px;
+
+      &:before {
+        position: absolute;
+        content: "\e253";
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        top: -10px;
+        right: 15px;
+        color: #FAFAFC;
+        text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+
+    .submit-place-location-form {
+      display: none;
+    }
+  }
+
+  .place-location-info {
+    position: relative;
+    display: block;
+    clear: both;
+
+    &:hover {
+      .edit-place-location {
+        display: block;
+      }
+    }
+
+    .open-update-place-location-popover {
+      cursor: pointer;
+    }
+
+    .edit-place-location {
+      &:hover {
+        display: block;
+      }
+
+      padding: 10px;
+      position: absolute;
+      right: -35px;
+      top: -5px;
+      text-decoration: none;
+      color: #1C1C1C;
+      cursor: pointer;
+      display: none;
+    }
+
+    #user-area {
+      clear: both;
+    }
+  }
+}

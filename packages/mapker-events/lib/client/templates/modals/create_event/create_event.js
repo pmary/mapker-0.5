@@ -26,14 +26,12 @@ function debounce (fn, delay) {
  * }
  */
 var getUserIdentities = function (t) {
-  console.log('Enter in getUserIdentities');
   var user = Meteor.user(),
   fields = ['id', 'name', 'avatar'], // The fields in which we will process the search against the ES data
   ids = [],	// Will contain the identities id
   identities = []; // Will contains the identities details as objects
 
   if (user) {
-    console.log('Here is a user');
 		// First, push the user identity
 		var userIdentity = {
 			id: user._id,
@@ -44,7 +42,6 @@ var getUserIdentities = function (t) {
 		};
 		identities.push(userIdentity);
     t.identities.set( identities );
-    console.log('identities: ', identities);
 
     // Check if the user has places
     if (
@@ -100,7 +97,7 @@ var getUserIdentities = function (t) {
 						identities.push(identity);
 					}
 
-          console.log('identities: ', identities);
+          //console.log('identities: ', identities);
 
 					// Update the session variable
           t.identities.set( identities );
@@ -441,8 +438,8 @@ Template.modalCreateEvent.events({
   		city: t.find('#input-city').value,
       startDate: dates.startDate.toISOString(),
       endDate: dates.endDate.toISOString(),
-      description: t.editor.getHTML(),
-      descriptionText: t.editor.getText(),
+      about: t.editor.getHTML(),
+      aboutText: t.editor.getText(),
       contributors: t.eventContributors.get(),
       reservation: t.find('#input-reservation').value,
       type: t.find('#select-type').value,
@@ -476,7 +473,7 @@ Template.modalCreateEvent.events({
           }
 
           // Clean the object
-          delete event.descriptionText;
+          delete event.aboutText;
           for (let i = 0; i < event.contributors.length; i++) {
             delete event.contributors[i].name;
             delete event.contributors[i].nicHandle;
