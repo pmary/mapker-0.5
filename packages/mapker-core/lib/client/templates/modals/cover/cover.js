@@ -1,15 +1,19 @@
-Template.modalChangeCover.rendered = function () {
-};
+Template.modalChangeCover.onCreated(function () {
+  // Initialization
+  var instance = this;
+  instance.modalResource       		= new ReactiveVar( null );
+  instance.modalChangeCoverErrors	= new ReactiveVar( {} );
+});
 
 Template.modalChangeCover.helpers({
 	modalResource: function () {
-		return Session.get('modalResource');
+		return Template.instance().modalResource.get();
 	},
 	errorMessage: function (field) {
-		return Session.get('modalChangeCoverErrors')[field];
+		return Template.instance().modalChangeCoverErrors.get()[field];
 	},
 	errorClass: function (field) {
-		return !!Session.get('modalChangeCoverErrors')[field] ? 'has-error' : '';
+		return !!Template.instance().modalChangeCoverErrors.get()[field] ? 'has-error' : '';
 	}
 });
 
@@ -29,11 +33,14 @@ Template.modalChangeCover.events({
 		// Once a file to upload is picked
 		var file = e.target.files[0];
 		// If our file is an image, display it in the cover
-		if (file && file.size >= 2097152)
-			return Session.set('modalChangeCoverErrors', {image: 'The weight of your image must be less than 2 MB'});
-		if (file && !file.type.match('image.*') && file.type !== "image/jpeg" && file.type !== "image/png")
-			return Session.set('modalChangeCoverErrors', {image: 'Only png and jpg images are authorized'});
-		Session.set('modalChangeCoverErrors', {});
+		if (file && file.size >= 2097152) {
+			t.instance().modalChangeCoverErrors.set({image: 'The weight of your image must be less than 2 MB'});
+			return;
+		}
+		if (file && !file.type.match('image.*') && file.type !== "image/jpeg" && file.type !== "image/png") {
+			t.instance().modalChangeCoverErrors.set({image: 'Only png and jpg images are authorized'});
+		}
+		t.instance().modalChangeCoverErrors.set({});
 
 		if (file) {
 			// Check for the various File API support.
@@ -99,7 +106,7 @@ Template.modalChangeCover.events({
 			reader.onloadend = function(e) {
 				// Set the uploaded file object
 				var uploadedFile = {
-					resource: Session.get('modalResource'), // Infos about the currently edited resource
+					resource: t.instance().modalResource.get(), // Infos about the currently edited resource
 					data: Core.imageMethods.compressFromCanvas(canvas, e.target.result, 100), // Compress the image
 					type: file.type, // Ex.: "image/jpeg"
 					role: "cover", // Can be cover or avatar

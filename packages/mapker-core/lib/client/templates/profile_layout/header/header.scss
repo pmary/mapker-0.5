@@ -1,0 +1,62 @@
+.profile-header {
+  height: 420px;
+
+  &__cover-container {
+    background-position: center;
+    background-size: cover;
+    background-image: url('https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/cover-1444644497233');
+    line-height: 420px;
+    position: relative;
+    text-align: center;
+    height: 100%;
+
+    &__edit-btn {
+      bottom: 15px;
+      display: none;
+      position: absolute;
+      left: 0;
+      margin: 0 auto;
+      right: 0;
+      text-align: center;
+      width: 150px;
+    }
+
+    &__avatar {
+      background-position: center;
+      background-size: cover;
+      background-image: url('https://mapker-main.s3.eu-central-1.amazonaws.com/i4FxWHYGyQr3LyN4x/avatar-1436282939049');
+      display: inline-block;
+      height: 140px;
+      line-height: 140px;
+      position: relative;
+      vertical-align: middle;
+      width: 140px;
+
+      &.user {
+        border: 2px solid #fff;
+        border-radius: 80px;
+      }
+
+      &__edit-icon {
+        display: none;
+        font-size: 5rem;
+        position: relative;
+        vertical-align: middle;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .profile-header__cover-container__avatar__edit-icon {
+          display: inline-block;
+        }
+      }
+    }
+
+    &:hover {
+      .profile-header__cover-container__edit-btn {
+        display: block;
+      }
+    }
+  }
+}

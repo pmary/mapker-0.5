@@ -1,6 +1,7 @@
 /**
  * Based on Foundation. Doc: http://foundation.zurb.com/docs/components/grid.html
  * Index
+ * 00 - Variables
  * 01 - Velocity UI
  * 02 - Form
  * 03 - Bootstrap tagsinput
@@ -40,19 +41,42 @@ body {
 }
 
 /**
- * 01 - Velocity UI
+ * 00 - Variables
  */
-/*#velocity-status-widget {
-	width: 70px;
-	height: 70px;
+$colorPlaceLight: #FC3975;
+$colorPlaceDark: #DE3366;
+
+$colorUserLight: #20DEC2;
+$colorUserDark: #1ABDA4;
+
+$colorCommunityLight: #fcea10;
+$colorCommunityDark: #efd90f;
+
+$colorEventLight: #b727b3;
+$colorEventDark: #951b81;
+
+$colorMachineLight: #3333ff;
+$colorMachineDark: #1919d8;
+
+.place-light-color {
+	color: $colorPlaceLight;
 }
 
-#velocity-status-widget .velocity-icon-status {
-	margin-left: -2px;
-	width: 20px;
-	height: 20px;
-	border: 4px solid #8abcef;
-}*/
+.skill-light-color {
+	color: $colorUserLight;
+}
+
+.community-light-color {
+	color: $colorCommunityLight;
+}
+
+.event-light-color {
+	color: $colorEventLight;
+}
+
+.machine-light-color {
+	color: $colorMachineLight;
+}
 
 /**
  * 02 - Form
@@ -484,8 +508,8 @@ form small.error {
 	width: 30px;
 	height: 30px;
 	display: inline-block;
-	background-color: #20DEC2;
-	border: 3px solid #1ABDA4;
+	background-color: $colorUserLight;
+	border: 3px solid $colorUserDark;
 	border-radius: 20px;
 }
 
@@ -495,8 +519,8 @@ form small.error {
 	width: 30px;
 	height: 30px;
 	display: inline-block;
-	background-color: #fc3975;
-	border: 3px solid #de3366;
+	background-color: $colorPlaceLight;
+	border: 3px solid $colorPlaceDark;
 	border-radius: 20px;
 }
 
@@ -506,8 +530,8 @@ form small.error {
 	width: 30px;
 	height: 30px;
 	display: inline-block;
-	background-color: #b727b3;
-	border: 3px solid #951b81;
+	background-color: $colorEventLight;
+	border: 3px solid $colorEventDark;
 	border-radius: 20px;
 }
 
@@ -517,8 +541,8 @@ form small.error {
 	width: 30px;
 	height: 30px;
 	display: inline-block;
-	background-color: #fcea10;
-	border: 3px solid #efd90f;
+	background-color: $colorCommunityLight;
+	border: 3px solid $colorCommunityDark;
 	border-radius: 20px;
 }
 

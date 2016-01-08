@@ -10,7 +10,12 @@
 </head>
 <body>
 	{{> sAlert}}
-	{{> primaryNavbar}}
 	{{> modal}}
 	{{> meteorErrors}}
 </body>
+
+<template name="CoreMainLayout">
+  {{> yield "nav"}}
+  {{> yield "content"}}
+  {{> yield "footer"}}
+</template>

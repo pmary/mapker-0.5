@@ -1,0 +1,24 @@
+<template name="coreProfileLayout">
+
+  {{> yield "nav"}}
+
+  <div class="profile-layout {{type}}">
+    <div class="row">
+      {{> coreProfileheader data=user type=type isAdmin=isAdmin}}
+    </div>
+
+    <div class="row profile-infos">
+      {{> yield "profileInfos"}}
+    </div>
+
+    <div class="row profile-nav">
+      {{> yield "profileNav"}}
+    </div>
+
+    <div class="row">
+      {{> yield "profileContent"}}
+    </div>
+    {{> yield "footer"}}
+  </div>
+
+</template>

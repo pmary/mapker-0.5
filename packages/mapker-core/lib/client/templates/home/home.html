@@ -1,67 +1,408 @@
 <template name="Home">
-	<div class="container-fluid" id="home-page">
-		<header class="row">
-			<div class="col-md-offset-2 col-md-8">
-				<h1>Welcome to the Makers world</h1>
-				<h2>Find the places and skills you need to bootstrap your projects</h2>
-			</div>
-		</header>
-		<section class="row section-1">
-			<div class="col-md-offset-2 col-md-8">
-				<div class="row">
-					<div class="headline col-md-4">
-						<h2>What are you looking for?</h2>
-					</div>
-					<div class="resource place col-xs-12 col-sm-6 col-md-4">
-						<a href="{{pathFor route='searchPlaces'}}">
-							<img src="/images/search-places-icon.png" alt="Places">
-						</a>
-					</div>
-					<div class="resource search col-xs-12 col-sm-6 col-md-4">
-						<a href="{{pathFor route='searchSkills'}}">
-							<img src="/images/search-skills-icon.png" alt="Skills">
-						</a>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section class="row section-2">
-			<div class="find-places col-md-12">
-				<div class="col-md-6">
-					<img src="/images/home/avatar-place-big.png">
-				</div>
-				<div class="col-md-6">
-					<p class="headline">With Mapker<br>
-					find the <span>Places</span><br>
-					for your project</p>
-					<a href="{{pathFor route='searchPlaces'}}">
-						<button class="btn btn-primary">Find the perfect place to make</button>
-					</a>
-				</div>
-			</div>
-			<div class="find-skills col-md-12">
-				<div class="col-md-6">
-					<p class="headline">With Mapker<br>
-					find peoples with the <span>Skills</span><br>
-					you need for your project</p>
-					<a href="{{pathFor route='searchSkills'}}">
-						<button class="btn btn-primary">Find your co-makers</button>
-					</a>
-				</div>
-				<div class="col-md-6">
-					<img src="/images/home/avatar-skill-big.png">
-				</div>
-			</div>
-		</section>
-		<section class="row section-3">
-			<div class="col-md-12">
-				<div class="link-facebook col-md-6">
-					<a class="" href="https://www.facebook.com/mapker.co" target="_blank">Facebook</a>
-				</div>
-				<div class="link-twitter col-md-6">
-					<a class="" href="https://twitter.com/_Mapker" target="_blank">Twitter</a>
-				</div>
-			</div>
-		</section>
+	<div class="home-page">
+
+    <!-- Hero Section
+    ================================================== -->
+
+    <header id="landioCarousel" class="carousel carousel-header carousel-fade slide" data-ride="carousel" data-interval="0" role="banner">
+      <div class="carousel-inner" role="listbox" style="background-image: url(images/home/bg-header-0.jpg);">
+        <div class="carousel-item item active" style="background-image: url(images/home/bg-header-1.jpg);">
+          <div class="carousel-caption">
+            <h1 class="display-3">WELCOME TO THE MAKER WORLD</h1>
+            <h2 class="m-b-3 hidden-sm-down">Find place, skills, communities and machines for you projects</h2>
+            <a class="btn btn-default m-b-2" href="http://tympanus.net/codrops/?p=25217" role="button">
+              Sign up
+            </a>
+          </div>
+        </div>
+        <div class="carousel-item item" style="background-color: rgba(252, 57, 117, 0.8);">
+          <div class="carousel-caption">
+            <h1 class="display-3">Find the <b>places</b> to work on <b>your projects</b></h1>
+          </div>
+        </div>
+        <div class="carousel-item item" style="background-color: rgba(32, 222, 194, 0.8);">
+          <div class="carousel-caption">
+            <h1 class="display-3">Find the <b>coworkers</b> with the skills <b>your projects</b> need</h1>
+          </div>
+        </div>
+        <div class="carousel-item item" style="background-color: rgba(252, 234, 16, 0.8);">
+          <div class="carousel-caption">
+            <h1 class="display-3">Find the <b>communities</b> to share <b>your projects</b></h1>
+          </div>
+        </div>
+        <div class="carousel-item item" style="background-color: rgba(51, 51, 255, 0.8);">
+          <div class="carousel-caption">
+            <h1 class="display-3">Find the <b>machines</b> to make <b>your projects</b> a reality</h1>
+          </div>
+        </div>
+        <ul class="nav nav-inline social-share">
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="#landioCarousel" data-slide-to="1">
+              <img src="images/home/picto-place.png" alt="Places">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="#landioCarousel" data-slide-to="2">
+              <img src="images/home/picto-skill.png" alt="Skills">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="#landioCarousel" data-slide-to="3">
+              <img src="images/home/picto-community.png" alt="Communities">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="#landioCarousel" data-slide-to="4">
+              <img src="images/home/picto-machines.png" alt="Machines">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Intro
+    ================================================== -->
+
+    <section class="section-intro bg-inverse text-xs-center">
+      <div class="container">
+        <h3 class="wp wp-1">DISCOVER <b>MAPKER</b></h3>
+        <p class="lead wp wp-2 text-justify">
+          Pour aboutir à la silhouette extraordinairement profilée de l’iPad Air
+          2, nous avons commencé par repenser l’écran Retina. Fusionner en une
+          même couche les trois épaisseurs qui le composent nous a permis de
+          créer un écran plus fin, mais surtout un meilleur écran. Le résultat
+          de l’iPad Air 2 Pour aboutir à la silhouette extraora permis de créer
+          un écran plus fin, mais surtout un meilleur écran.
+        </p>
+      </div>
+    </section>
+
+    <!-- Place feature
+    ================================================== -->
+
+    <header id="landioCarousel" class="section-place carousel-header carousel-fade slide" data-ride="carousel" data-interval="0" role="banner">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item item active feature-centered-container">
+          <div class="container feature-centered-content">
+            <div class="row p-y-3">
+              <div class="col-md-5">
+                <img class="wp wp-7" src="images/home/picto-large-place.png" alt="Places">
+              </div>
+              <div class="col-md-5 col-md-offset-2 text-left">
+                <h4 class="p-title">
+                  With Mapker,<br>
+                  find the <span class="color-place">Places</span><br>
+                  for your project
+                </h4>
+                <p class="wp wp-8 text-justify feature-infos">
+                  A posuere donec senectus suspendisse bibendum magna ridiculus
+                  a justo orci parturient suspendisse ad rhoncus cursus ut
+                  parturient viverra elit aliquam ultrices est sem. Tellus nam
+                  ad fermentum ac enim est duis facilisis congue.
+                </p>
+                <button class="wp wp-8 btn btn-default btn-xs">Find yours</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav nav-inline social-share">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 vertical-center-container-available-resources">
+                <span class="color-place inline-title text-left vertical-center-container-content">Les lieux déjà sur Mapker</span>
+              </div>
+              <div class="col-md-8 col-md-offset-1">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Skill feature
+    ================================================== -->
+
+    <header id="landioCarousel" class="section-skill carousel-header carousel-fade slide" data-ride="carousel" data-interval="0" role="banner">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item item active feature-centered-container">
+          <div class="container feature-centered-content">
+            <div class="row p-y-3">
+              <div class="col-md-5">
+                <img class="wp wp-7" src="images/home/picto-large-skill.png" alt="Places">
+              </div>
+              <div class="col-md-5 col-md-offset-2 text-left">
+                <h4 class="p-title">
+                  With Mapker,<br>
+                  find the <span class="color-skill">Skills</span><br>
+                  your project need
+                </h4>
+                <p class="wp wp-8 text-justify feature-infos">
+                  A posuere donec senectus suspendisse bibendum magna ridiculus
+                  a justo orci parturient suspendisse ad rhoncus cursus ut
+                  parturient viverra elit aliquam ultrices est sem. Tellus nam
+                  ad fermentum ac enim est duis facilisis congue.
+                </p>
+                <button class="wp wp-8 btn btn-default btn-xs">Find yours</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav nav-inline social-share">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 vertical-center-container-available-resources">
+                <span class="color-skill inline-title text-left vertical-center-container-content">Peoples already on Mapker</span>
+              </div>
+              <div class="col-md-8 col-md-offset-1">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Community feature
+    ================================================== -->
+
+    <header id="landioCarousel" class="section-community carousel-header carousel-fade slide" data-ride="carousel" data-interval="0" role="banner">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item item active feature-centered-container">
+          <div class="container feature-centered-content">
+            <div class="row p-y-3">
+              <div class="col-md-5">
+                <img class="wp wp-7" src="images/home/picto-large-community.png" alt="Places">
+              </div>
+              <div class="col-md-5 col-md-offset-2 text-left">
+                <h4 class="p-title">
+                  With Mapker,<br>
+                  find the <span class="color-community">Communities</span><br>
+                  to join
+                </h4>
+                <p class="wp wp-8 text-justify feature-infos">
+                  A posuere donec senectus suspendisse bibendum magna ridiculus
+                  a justo orci parturient suspendisse ad rhoncus cursus ut
+                  parturient viverra elit aliquam ultrices est sem. Tellus nam
+                  ad fermentum ac enim est duis facilisis congue.
+                </p>
+                <button class="wp wp-8 btn btn-default btn-xs">Find yours</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav nav-inline social-share">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 vertical-center-container-available-resources">
+                <span class="color-community inline-title text-left vertical-center-container-content">Communities already on Mapker</span>
+              </div>
+              <div class="col-md-8 col-md-offset-1">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Machine feature
+    ================================================== -->
+
+    <header id="landioCarousel" class="section-machine carousel-header carousel-fade slide" data-ride="carousel" data-interval="0" role="banner">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item item active feature-centered-container">
+          <div class="container feature-centered-content">
+            <div class="row p-y-3">
+              <div class="col-md-5">
+                <img class="wp wp-7" src="images/home/picto-large-machine.png" alt="Places">
+              </div>
+              <div class="col-md-5 col-md-offset-2 text-left">
+                <h4 class="p-title">
+                  With Mapker,<br>
+                  find the <span class="color-machine">Machines</span><br>
+                  you need
+                </h4>
+                <p class="wp wp-8 text-justify feature-infos">
+                  A posuere donec senectus suspendisse bibendum magna ridiculus
+                  a justo orci parturient suspendisse ad rhoncus cursus ut
+                  parturient viverra elit aliquam ultrices est sem. Tellus nam
+                  ad fermentum ac enim est duis facilisis congue.
+                </p>
+                <button class="wp wp-8 btn btn-default btn-xs">Find yours</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav nav-inline social-share">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 vertical-center-container-available-resources">
+                <span class="color-machine inline-title text-left vertical-center-container-content">Machines available on Mapker</span>
+              </div>
+              <div class="col-md-8 col-md-offset-1">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/mSxtrL7doRdpS2LND/avatar-1440776905312" alt="ICI Montreuil">
+                      <h5>ICI MONTREUIL</h5>
+                      <h6>Fablab</h6>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="featured-resource">
+                      <img src="https://mapker-main.s3.eu-central-1.amazonaws.com/yN8vhnqQXWBxpP3b9/avatar-1444644472394" alt="ICI Montreuil">
+                      <h5>Le Fabclub</h5>
+                      <h6>Coworking</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sign Up
+    ================================================== -->
+
+    <section class="section-signup bg-faded">
+      <div class="container">
+        <h1>Mapker</h1>
+        <h3 class="text-xs-center m-b-3">Join the movement</h3>
+        <button type="submit" class="btn btn-primary">Sign up!</button>
+      </div>
+    </section>
+
+    <!-- Footer
+    ================================================== -->
+
+    <footer class="section-footer bg-inverse" role="contentinfo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-5">
+            <div class="media">
+              <div class="media-left">
+                <span class="media-object icon-logo display-1"></span>
+              </div>
+              <small class="media-body media-bottom">
+                &copy; Mapker.co 2016. <br>
+                Designed by Axel Delbrayère, developed by Pierre Mary.
+                </small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-7">
+            <ul class="nav nav-inline">
+              <li class="nav-item active"><a class="nav-link" href="https://www.facebook.com/mapker.co" target="_blank">Facebook</a></li>
+              <li class="nav-item active"><a class="nav-link" href="https://twitter.com/_Mapker" target="_blank">Twitter</a></li>
+              <li class="nav-item"><a class="nav-link scroll-top" href="#">Back to top <span class="icon-caret-up"></span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
 	</div>
 </template>

@@ -1,6 +1,10 @@
 Router.route('/suggest-a-place', {
   name: 'suggestPlace',
-  template: 'suggestPlace',
+  yieldRegions: {
+		'suggestPlace': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -12,7 +16,11 @@ Router.route('/suggest-a-place', {
 
 Router.route('/create-a-place', {
   name: 'createPlace',
-  template: 'createPlace',
+  yieldRegions: {
+		'createPlace': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },

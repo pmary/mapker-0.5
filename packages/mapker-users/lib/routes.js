@@ -36,7 +36,12 @@ var needToCreateProfile = function() {
  */
 Router.route('/login', {
 	name: 'UserLogin',
-	template: 'UserLogin',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'UserLogin': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -48,6 +53,12 @@ Router.route('/login', {
 
 Router.route('/logout', {
   name: 'Logout',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'Logout': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     Meteor.logout();
     $('body,html').scrollTop(0);
@@ -57,7 +68,12 @@ Router.route('/logout', {
 
 Router.route('/join', {
  	name: 'userJoin',
-	template: 'userJoin',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'userJoin': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -69,7 +85,12 @@ Router.route('/join', {
 
 Router.route('/join/:token/:email/:firstname/:lastname', {
  	name: 'userJoinViaInvitation',
-	template: 'userJoin',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'userJoinViaInvitation': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -88,13 +109,27 @@ Router.route('/join/:token/:email/:firstname/:lastname', {
 	}
 });
 
-Router.route('/reset-password', function () {
-	this.render('UserForgotPassword');
+Router.route('/reset-password', {
+  name: 'UserForgotPassword',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'UserForgotPassword': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  }
 });
 
 Router.route('/reset-password/:resetToken', {
-  name: 'UserForgotPassword',
-  template: 'UserForgotPassword',
+  name: 'UserResetPassword',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'UserForgotPassword': {to: 'content'},
+    'primaryNavbar': {to: 'nav'},
+    'footer': {to: 'footer'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -113,10 +148,11 @@ Router.onAfterAction(needToCreateProfile, {only: ['userProfile', 'userProfileBio
 
 Router.route('/user/:_id', {
   name: 'userProfile',
-  template: 'UserProfileLayout',
-  yieldRegions: {
-    'UserProfileBio': {to: 'content'}
-  },
+  layoutTemplate: 'UserProfileLayout',
+	yieldRegions: {
+		'UserProfileBio': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -132,12 +168,15 @@ Router.route('/user/:_id', {
 
 Router.route('/user/:_id/bio', {
   name: 'userProfileBio',
-  template: 'UserProfileBio',
-  layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'UserProfileBio': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+  layoutTemplate: 'coreProfileLayout',
+	yieldRegions: {
+    'primaryNavbar': {to: 'nav'},
+    //'': {to: 'profilheader'},
+    //'': {to: 'profilInfos'},
+    //'': {to: 'profilNav'},
+		'UserProfileBio': {to: 'profilContent'},
+    'footer': {to: 'footer'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -146,7 +185,20 @@ Router.route('/user/:_id/bio', {
   },
   data: function () {
     var templateData = {
-      user: Meteor.users.findOne({_id: this.params._id})
+      type: 'user',
+      doc: Meteor.users.findOne(
+        {_id: this.params._id},
+        {
+          transform: function (doc) {
+            // Un-nest the profile values to flatenize the user document
+            // and uniformize the doc model accross collections (project, place...)
+            let formatedDoc = doc.profile;
+            formatedDoc._id = doc._id;
+
+            return formatedDoc;
+          }
+        }
+      )
     };
     return templateData;
   },
@@ -162,12 +214,11 @@ Router.route('/user/:_id/bio', {
 
 Router.route('/user/:_id/skills', {
   name: 'userProfileSkills',
-  template: 'UserProfileBio',
   layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'UserProfileSkills': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+	yieldRegions: {
+		'UserProfileSkills': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -192,12 +243,11 @@ Router.route('/user/:_id/skills', {
 
 Router.route('/user/:_id/places', {
   name: 'userProfilePlaces',
-  template: 'userProfilePlaces',
   layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'userProfilePlaces': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+	yieldRegions: {
+		'userProfilePlaces': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -224,12 +274,11 @@ Router.route('/user/:_id/places', {
 
 Router.route('/user/:_id/events', {
   name: 'userProfileEvents',
-  template: 'userProfileEvents',
   layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'userProfileEvents': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+	yieldRegions: {
+		'userProfileEvents': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -256,12 +305,11 @@ Router.route('/user/:_id/events', {
 
 Router.route('/user/:_id/network', {
   name: 'userProfileNetwork',
-  template: 'userProfileNetwork',
   layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'userProfileNetwork': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+	yieldRegions: {
+		'userProfileNetwork': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),
@@ -295,12 +343,11 @@ Router.route('/user/:_id/network', {
 
 Router.route('/user/:_id/communities', {
   name: 'userProfileCommunities',
-  template: 'userProfileCommunities',
   layoutTemplate: 'UserProfileLayout',
-  yieldRegions: {
-    'userProfileCommunities': {to: 'content'}
-  },
-  loadingTemplate: 'loader',
+	yieldRegions: {
+		'userProfileCommunities': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   waitOn: function () {
     return [
       Meteor.subscribe('user', this.params._id),

@@ -19,7 +19,6 @@ var IR_BeforeHooks = {
 setActiveMenuItem = function() {
    // Set the menu item as active
    $('#primary-navbar #main-menu li').removeClass('active');
-   $('#primary-navbar').removeClass('home-ui');
    switch(this.url) {
      case '/search/places':
      break;
@@ -37,7 +36,7 @@ setActiveMenuItem = function() {
 //////////////////////
 //  General routes  //
 //////////////////////
-Router.route('/', {
+/*Router.route('/', {
 	name: 'Home',
 	template: 'Home',
   onAfterAction: function () {
@@ -45,16 +44,38 @@ Router.route('/', {
   },
 	after: function(argument) {
 		// Set the menu UI
-	    $('#primary-navbar').addClass('home-ui');
 
 	    // Send the pageview to GA
+		ga('send', 'pageview', '/');
+	}
+});*/
+
+Router.route('/', {
+ 	name: 'Home',
+	layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'Home': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
+  onAfterAction: function () {
+    $('body,html').scrollTop(0);
+  },
+	after: function(argument) {
+		// Set the menu UI
+    $('html').addClass('home-ui');
+
+	  // Send the pageview to GA
 		ga('send', 'pageview', '/');
 	}
 });
 
 Router.route('/terms-of-service', {
-	name: 'termsOfService',
-	template: 'termsOfService',
+  name: 'termsOfService',
+	layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'termsOfService': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -66,7 +87,11 @@ Router.route('/terms-of-service', {
 
 Router.route('/dmca', {
 	name: 'dmca',
-	template: 'dmca',
+	layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'dmca': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -78,7 +103,11 @@ Router.route('/dmca', {
 
 Router.route('/privacy', {
 	name: 'privacyPolicy',
-	template: 'privacyPolicy',
+	layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'privacyPolicy': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -90,7 +119,11 @@ Router.route('/privacy', {
 
 Router.route('/create-a-community', {
   name: 'createCommunity',
-  template: 'createCommunity',
+  layoutTemplate: 'CoreMainLayout',
+	yieldRegions: {
+		'createCommunity': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },

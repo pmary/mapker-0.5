@@ -1,39 +1,41 @@
 <template name="modalChangeCover">
-	<div class="modal-dialog modal-change-cover">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel">Update your cover</h4>
-			</div>
-			<div class="modal-body">
-				<input type="file" id="input-cover">
-				{{#if errorMessage 'image'}}
-				<div class="alert alert-danger" role="alert">
-				  <strong>{{errorMessage 'image'}}</strong>
+	<div class="modal fade modal-change-cover">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Update your cover</h4>
 				</div>
-				{{/if}}
-
-				<em>Position and resize your photo</em>
-
-				<div id="first-upload" class="image-upload first-upload">Upload an image</div>
-
-				<div class="image-upload-container">
-					<div class="cropper-controls">
-						<button class="btn btn-info cropper-zoom-in"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
-						<button class="btn btn-info cropper-zoom-out"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+				<div class="modal-body">
+					<input type="file" id="input-cover">
+					{{#if errorMessage 'image'}}
+					<div class="alert alert-danger" role="alert">
+					  <strong>{{errorMessage 'image'}}</strong>
 					</div>
-					<div class="helper-tool">
-						<img id="cover-helper-tool-img" src="">
+					{{/if}}
+
+					<em>Position and resize your photo</em>
+
+					<div id="first-upload" class="image-upload first-upload">Upload an image</div>
+
+					<div class="image-upload-container">
+						<div class="cropper-controls">
+							<button class="btn btn-info cropper-zoom-in"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+							<button class="btn btn-info cropper-zoom-out"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+						</div>
+						<div class="helper-tool">
+							<img id="cover-helper-tool-img" src="">
+						</div>
+						<button class="btn btn-primary image-upload">Change your cover</button>
 					</div>
-					<button class="btn btn-primary image-upload">Change your cover</button>
+
 				</div>
-
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-default" id="cancel-modal-cover">Cancel</button>
-				<button class="btn btn-success" id="save-cover">
-					<span>Save</span>
-					{{> loader}}
-				</button>
+				<div class="modal-footer">
+					<button class="btn btn-default" id="cancel-modal-cover">Cancel</button>
+					<button class="btn btn-success" id="save-cover">
+						<span>Save</span>
+						{{> loader}}
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

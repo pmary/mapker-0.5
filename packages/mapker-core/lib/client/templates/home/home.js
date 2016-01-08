@@ -24,10 +24,6 @@ Template.Home.rendered = function(){
 		Router.go('reset-password.token', {resetToken: Accounts._resetPasswordToken});
 
 	this.autorun(function () {
-		// Set the menu UI
-	    $('#primary-navbar').addClass('home-ui');
-
-
 	    window.addEventListener('scroll', scrollListener);
 	});
 };

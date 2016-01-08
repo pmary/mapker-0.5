@@ -1,0 +1,13 @@
+<template name="uiKit">
+  <h1>Buttons</h1>
+  {{> uiKit_buttonLoading isLoading=isLoading}}
+  is loading (parent) ? {{isLoading}}
+</template>
+
+<template name="uiKit_buttonLoading">
+  is loading ? {{isLoading}}
+  <button type="button" class="btn btn-primary {{#if isLoading}}btn-loader{{/if}}">
+    <span>Primary</span>
+    {{> loader}}
+  </button>
+</template>
