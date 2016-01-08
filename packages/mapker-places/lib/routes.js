@@ -16,10 +16,10 @@ Router.route('/suggest-a-place', {
 
 Router.route('/create-a-place', {
   name: 'createPlace',
+  layoutTemplate: 'CoreMainLayout',
   yieldRegions: {
 		'createPlace': {to: 'content'},
-    'primaryNavbar': {to: 'nav'},
-    'footer': {to: 'footer'}
+    'primaryNavbar': {to: 'nav'}
 	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);

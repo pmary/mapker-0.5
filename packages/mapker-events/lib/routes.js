@@ -1,6 +1,10 @@
 Router.route('/create-an-event', {
   name: 'createEvent',
-  template: 'createEvent',
+  layoutTemplate: 'CoreMainLayout',
+  yieldRegions: {
+		'createEvent': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },

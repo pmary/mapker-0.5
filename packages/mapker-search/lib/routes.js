@@ -19,7 +19,11 @@ Router.route('/search', {
 
 Router.route('/search/places', {
   name: 'searchPlaces',
-  template: 'searchPlaces',
+  layoutTemplate: 'CoreMainLayout',
+  yieldRegions: {
+		'searchPlaces': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -42,7 +46,11 @@ Router.route('/search/places', {
 
 Router.route('/search/communities', {
   name: 'searchCommunities',
-  template: 'searchCommunities',
+  layoutTemplate: 'CoreMainLayout',
+  yieldRegions: {
+		'searchCommunities': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -65,7 +73,11 @@ Router.route('/search/communities', {
 
 Router.route('/search/events', {
   name: 'searchEvents',
-  template: 'searchEvents',
+  layoutTemplate: 'CoreMainLayout',
+  yieldRegions: {
+		'searchEvents': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },
@@ -88,7 +100,11 @@ Router.route('/search/events', {
 
 Router.route('/search/skills', {
   name: 'searchSkills',
-  template: 'searchSkills',
+  layoutTemplate: 'CoreMainLayout',
+  yieldRegions: {
+		'searchSkills': {to: 'content'},
+    'primaryNavbar': {to: 'nav'}
+	},
   onAfterAction: function () {
     $('body,html').scrollTop(0);
   },

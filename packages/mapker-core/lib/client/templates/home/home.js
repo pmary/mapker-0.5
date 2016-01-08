@@ -28,6 +28,11 @@ Template.Home.rendered = function(){
 	});
 };
 
+Template.Home.onDestroyed(function () {
+  // Remove the menu UI
+  $('html').removeClass('home-ui');
+});
+
 var scrollListener = function () {
 	var scroll = $(window).scrollTop();
 
